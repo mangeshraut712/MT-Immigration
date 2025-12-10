@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/next";
 
 import { DynamicChatBot } from "@/components/features/chatbot/DynamicChatBot";
 
@@ -52,6 +53,7 @@ export default function RootLayout({
         <BackToTop />
         <DynamicChatBot />
         <Toaster position="bottom-right" richColors closeButton />
+        <Analytics />
       </body>
     </html>
   );
