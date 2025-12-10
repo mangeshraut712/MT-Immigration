@@ -1,66 +1,32 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import dynamic from 'next/dynamic';
+import { HeroSection } from '@/components/sections/HeroSection';
+const StatsSection = dynamic(() => import('@/components/sections/StatsSection').then(mod => mod.StatsSection));
+
+// Dynamic imports for better performance (code splitting)
+const ProcessSection = dynamic(() => import('@/components/sections/ProcessSection').then(mod => mod.ProcessSection));
+const ServicesSection = dynamic(() => import('@/components/sections/ServicesSection').then(mod => mod.ServicesSection));
+const WhyChooseUsSection = dynamic(() => import('@/components/sections/WhyChooseUsSection').then(mod => mod.WhyChooseUsSection));
+const TestimonialsSection = dynamic(() => import('@/components/sections/TestimonialsSection').then(mod => mod.TestimonialsSection));
+const AboutSection = dynamic(() => import('@/components/sections/AboutSection').then(mod => mod.AboutSection));
+const PricingSection = dynamic(() => import('@/components/sections/PricingSection').then(mod => mod.PricingSection));
+const FAQSection = dynamic(() => import('@/components/sections/FAQSection').then(mod => mod.FAQSection));
+const CTASection = dynamic(() => import('@/components/sections/CTASection').then(mod => mod.CTASection));
+const ContactSection = dynamic(() => import('@/components/sections/ContactSection').then(mod => mod.ContactSection));
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="flex flex-col w-full">
+      <HeroSection />
+      <StatsSection />
+      <ProcessSection />
+      <ServicesSection />
+      <WhyChooseUsSection />
+      <TestimonialsSection />
+      <AboutSection />
+      <PricingSection />
+      <FAQSection />
+      <CTASection />
+      <ContactSection />
     </div>
   );
 }
