@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import Providers from "./providers";
 import { siteConfig, siteUrl } from "@/lib/site";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
@@ -79,6 +80,7 @@ export default function RootLayout({
           <DynamicChatBot />
           <Toaster position="bottom-right" richColors closeButton />
           <Analytics />
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
