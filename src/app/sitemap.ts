@@ -1,22 +1,24 @@
 import { MetadataRoute } from 'next';
+import { siteUrl } from '@/lib/site';
 
 export default function sitemap(): MetadataRoute.Sitemap {
+    const lastModified = new Date();
     return [
         {
-            url: 'https://mt-immigration.vercel.app',
-            lastModified: new Date(),
+            url: siteUrl.toString(),
+            lastModified,
             changeFrequency: 'yearly',
             priority: 1,
         },
         {
-            url: 'https://mt-immigration.vercel.app/#services',
-            lastModified: new Date(),
+            url: new URL('#services', siteUrl).toString(),
+            lastModified,
             changeFrequency: 'monthly',
             priority: 0.8,
         },
         {
-            url: 'https://mt-immigration.vercel.app/#contact',
-            lastModified: new Date(),
+            url: new URL('#contact', siteUrl).toString(),
+            lastModified,
             changeFrequency: 'monthly',
             priority: 0.8,
         },

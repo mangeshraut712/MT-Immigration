@@ -84,6 +84,10 @@ export default function Navbar() {
                     <motion.button
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setIsOpen(!isOpen)}
+                        type="button"
+                        aria-expanded={isOpen}
+                        aria-controls="mobile-menu"
+                        aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
                         className="md:hidden p-2 rounded-lg hover:bg-secondary transition-colors text-foreground"
                     >
                         <AnimatePresence mode="wait">
@@ -121,6 +125,8 @@ export default function Navbar() {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
+                        id="mobile-menu"
+                        aria-label="Mobile navigation"
                         className="md:hidden overflow-hidden bg-white/95 backdrop-blur-xl border-t border-border"
                     >
                         <div className="container-wide py-6 space-y-2">

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { Ear, FileEdit, UserCheck } from 'lucide-react';
+import { fadeUpVariants, staggerContainerVariants } from '@/lib/animations';
 
 const steps = [
     {
@@ -39,10 +40,10 @@ export function ProcessSection() {
             <div className="container-wide relative z-10">
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial="hidden"
+                    whileInView="visible"
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    variants={fadeUpVariants}
                     className="max-w-3xl mb-24 md:text-center md:mx-auto"
                 >
                     <div className="md:flex md:justify-center mb-6">
@@ -62,21 +63,24 @@ export function ProcessSection() {
                 </motion.div>
 
                 {/* Vertical Timeline */}
-                <div className="relative max-w-5xl mx-auto">
+                <motion.div
+                    variants={staggerContainerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    className="relative max-w-5xl mx-auto"
+                >
                     {/* Center Line */}
                     <div className="absolute left-[27px] md:left-1/2 top-0 bottom-0 w-px bg-zinc-200" />
 
                     {steps.map((step, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-100px" }}
-                            transition={{ duration: 0.7, delay: index * 0.2 }}
+                            variants={fadeUpVariants}
                             className={`relative flex flex-col md:flex-row gap-8 md:gap-16 mb-16 last:mb-0 ${index % 2 === 0 ? '' : 'md:flex-row-reverse'}`}
                         >
                             {/* Marker */}
-                            <div className="absolute left-0 md:left-1/2 w-14 h-14 -translate-x-0 md:-translate-x-1/2 flex items-center justify-center bg-white z-10 rounded-full border-4 border-zinc-100 shadow-sm">
+                            <div className="absolute left-0 md:left-1/2 w-14 h-14 -translate-x-0 md:-translate-x-1/2 flex items-center justify-center bg-white z-10 rounded-full border-4 border-zinc-100 shadow-sm group hover:scale-110 transition-transform duration-300">
                                 <div className="w-8 h-8 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
                                     <step.icon size={16} />
                                 </div>
@@ -108,7 +112,7 @@ export function ProcessSection() {
                             <div className="md:w-1/2" />
                         </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );

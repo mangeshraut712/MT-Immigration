@@ -45,9 +45,12 @@ export function StatsSection() {
     const [inView, setInView] = useState(false);
 
     return (
-        <section className="py-16 md:py-20 bg-black text-white relative overflow-hidden">
-            {/* Subtle pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(#ffffff10_1px,transparent_1px)] [background-size:20px_20px] opacity-30"></div>
+        <section className="py-16 md:py-20 bg-zinc-950 text-white relative overflow-hidden">
+            {/* Subtle premium gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-transparent pointer-events-none" />
+
+            {/* Dot pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:24px_24px] opacity-20"></div>
 
             <div className="container-wide relative z-10">
                 {/* Main Stats */}

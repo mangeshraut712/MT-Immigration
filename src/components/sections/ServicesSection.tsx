@@ -158,9 +158,12 @@ const services = [
 
 export function ServicesSection() {
     return (
-        <section id="services" className="section-padding bg-white relative overflow-hidden">
-            {/* Solid White Background */}
-            <div className="absolute inset-0 bg-white" />
+        <section id="services" className="section-padding bg-zinc-50 relative overflow-hidden">
+            {/* Subtle Gradient Background */}
+            <div className="absolute inset-0 bg-gradient-subtle" />
+
+            {/* Noise Texture Integration is global, but we add a specific light glow here */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-50/50 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="container-wide relative z-10">
                 {/* Header */}
@@ -178,7 +181,7 @@ export function ServicesSection() {
                         Comprehensive legal <br />
                         <span className="text-zinc-400 italic">solutions for you.</span>
                     </h2>
-                    <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl">
+                    <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl text-balance">
                         From simple visas to complex defense, we provide clear pathways and strategies tailored to your unique immigration journey.
                     </p>
                 </motion.div>

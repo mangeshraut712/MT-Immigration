@@ -91,13 +91,6 @@ export function ChatBot() {
         setIsTyping(false);
     };
 
-    const handleKeyPress = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
-        }
-    };
-
     // Parse markdown-style formatting
     const formatMessage = (content: string) => {
         return content

@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import { Star } from 'lucide-react';
+import { fadeUpVariants, staggerContainerVariants, scaleVariants } from '@/lib/animations';
 
 const testimonials = [
     {
@@ -34,37 +35,22 @@ const testimonials = [
     },
 ];
 
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.15 }
-    }
-};
-
-const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        transition: { type: "spring" as const, stiffness: 100, damping: 15 }
-    }
-};
-
 export function TestimonialsSection() {
     return (
-        <section id="testimonials" className="section-padding bg-white overflow-hidden relative">
-            {/* Solid White Background */}
-            <div className="absolute inset-0 bg-white" />
+        <section id="testimonials" className="section-padding bg-zinc-50 overflow-hidden relative">
+            {/* Texture */}
+            <div className="absolute inset-0 bg-white/50" />
+
+            {/* Gradient Blob */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-100/50 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="container-wide relative z-10">
                 {/* Header */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial="hidden"
+                    whileInView="visible"
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    variants={fadeUpVariants}
                     className="text-center mb-16 max-w-3xl mx-auto"
                 >
                     <div className="flex items-center justify-center gap-3 mb-6">
@@ -76,62 +62,56 @@ export function TestimonialsSection() {
                         Trusted by families <br />
                         <span className="text-zinc-400 italic">across the globe.</span>
                     </h2>
-                    <p className="text-xl text-zinc-500 leading-relaxed">
+                    <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto text-balance">
                         Real stories from real clients who found their path forward with us.
                     </p>
                 </motion.div>
 
                 {/* Testimonials Grid */}
                 <motion.div
-                    variants={containerVariants}
+                    variants={staggerContainerVariants}
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-50px" }}
                     className="grid md:grid-cols-2 gap-8"
                 >
                     {testimonials.map((testimonial, index) => (
-                        <motion.div key={index} variants={cardVariants}>
-                            <div className="h-full bg-white rounded-2xl border border-zinc-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 group hover:-translate-y-1 flex flex-col">
-                                {/* Quote Icon */}
-                                <div className="mb-6">
-                                    <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
-                                        <Quote className="w-6 h-6" />
-                                    </div>
+                        <motion.div key={index} variants={scaleVariants}>
+                            <div className="h-full bg-white rounded-2xl border border-zinc-100 shadow-sm hover:shadow-xl p-8 transition-all duration-300 group hover:-translate-y-1 flex flex-col relative overflow-hidden">
+                                {/* Decorative quote mark */}
+                                <div className="absolute top-4 right-8 text-9xl font-serif text-zinc-50 select-none opacity-50 z-0">
+                                    &rdquo;
                                 </div>
 
-                                {/* Quote Text */}
-                                <p className="text-lg leading-relaxed mb-8 text-zinc-600 italic flex-grow">
-                                    &quot;{testimonial.quote}&quot;
-                                </p>
+                                <div className="relative z-10 flex flex-col h-full">
+                                    {/* Quote Text */}
+                                    <p className="text-lg leading-relaxed mb-6 text-zinc-600 italic font-medium">
+                                        &quot;{testimonial.quote}&quot;
+                                    </p>
 
-                                {/* Footer */}
-                                <div className="flex items-center justify-between pt-6 border-t border-zinc-50 mt-auto">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center font-bold text-zinc-500 text-sm">
+                                    {/* Rating */}
+                                    <div className="flex mb-6">
+                                        {[...Array(testimonial.rating)].map((_, i) => (
+                                            <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400 mr-1" />
+                                        ))}
+                                    </div>
+
+                                    {/* Footer */}
+                                    <div className="flex items-center gap-4 mt-auto pt-6 border-t border-zinc-50">
+                                        <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center font-bold text-lg">
                                             {testimonial.name.charAt(0)}
                                         </div>
                                         <div>
-                                            <p className="font-serif font-medium text-foreground">{testimonial.name}</p>
-                                            <p className="text-xs text-zinc-400 uppercase tracking-wide">{testimonial.location}</p>
+                                            <p className="font-serif font-semibold text-foreground text-lg">{testimonial.name}</p>
+                                            <p className="text-sm text-zinc-400">{testimonial.location}</p>
+                                            <p className="text-xs font-medium text-blue-600 mt-0.5">{testimonial.case}</p>
                                         </div>
-                                    </div>
-                                    <div className="text-right">
-                                        <div className="flex gap-0.5 mb-1 justify-end">
-                                            {[...Array(testimonial.rating)].map((_, i) => (
-                                                <Star key={i} className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                                            ))}
-                                        </div>
-                                        <span className="text-xs font-medium bg-zinc-50 text-zinc-500 px-2 py-1 rounded-md">
-                                            {testimonial.case}
-                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </motion.div>
                     ))}
                 </motion.div>
-
-
             </div>
         </section>
     );

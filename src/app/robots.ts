@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { siteUrl } from '@/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
     return {
@@ -7,6 +8,7 @@ export default function robots(): MetadataRoute.Robots {
             allow: '/',
             disallow: '/private/',
         },
-        sitemap: 'https://mt-immigration.vercel.app/sitemap.xml',
+        sitemap: new URL('/sitemap.xml', siteUrl).toString(),
+        host: siteUrl.toString(),
     };
 }
