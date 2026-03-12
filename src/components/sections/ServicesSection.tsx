@@ -32,7 +32,7 @@ const services = [
             "Document checklist and strategy"
         ],
         requirements: ["Valid passport", "Ties to home country", "Financial ability"],
-        stat: "98% Approval Rate for Business Travelers"
+        stat: "Interview preparation built around your actual travel purpose"
     },
     {
         id: "student",
@@ -47,7 +47,7 @@ const services = [
             "Comprehensive Interview preparation"
         ],
         requirements: ["I-20 Form", "SEVIS receipt", "Financial docs", "Academic records"],
-        stat: "Helping students from 50+ countries"
+        stat: "Support from document review through consular interview prep"
     },
     {
         id: "marriage",
@@ -62,7 +62,7 @@ const services = [
             "Interview prep & evidence strategy"
         ],
         requirements: ["Valid Marriage", "Petitioner Citizenship/LPR", "Financial Support"],
-        stat: "Over 500 families reunited"
+        stat: "Evidence-first planning for bona fide marriage cases"
     },
     {
         id: "change-status",
@@ -77,7 +77,7 @@ const services = [
             "RFE response support"
         ],
         requirements: ["Valid current status", "No immigrant intent", "Financial solvency"],
-        stat: "Expert handling of complex transitions"
+        stat: "Risk analysis before filing a status change request"
     },
     {
         id: "work-permit",
@@ -92,7 +92,7 @@ const services = [
             "Application tracking"
         ],
         requirements: ["Underlying petition", "Eligibility category"],
-        stat: "Fast-tracked filing available"
+        stat: "Category review before submission to avoid preventable delays"
     },
     {
         id: "asylum",
@@ -107,7 +107,7 @@ const services = [
             "Interview preparation"
         ],
         requirements: ["Fear of persecution", "Physical presence in US"],
-        stat: "Compassionate, confidential support"
+        stat: "Confidential preparation for high-stakes humanitarian matters"
     },
     {
         id: "u-visa",
@@ -122,7 +122,7 @@ const services = [
             "Bona fide determination guidance"
         ],
         requirements: ["Victim of qualifying crime", "Helpfulness to police"],
-        stat: "Dedicated team for sensitive cases"
+        stat: "Sensitive handling for survivor-based filings"
     },
     {
         id: "advance-parole",
@@ -137,7 +137,7 @@ const services = [
             "Emergency handling if needed"
         ],
         requirements: ["Pending I-485", "DACA", "TPS"],
-        stat: "Secure your ability to re-enter"
+        stat: "Travel risk review before leaving the United States"
     },
     {
         id: "expedite",
@@ -152,7 +152,7 @@ const services = [
             "Strategy tailored to USCIS criteria"
         ],
         requirements: ["Severe financial loss", "Humanitarian emergency", "US Govt interest"],
-        stat: "High success with well-documented requests"
+        stat: "Requests built around documented urgency and agency criteria"
     },
 ];
 
@@ -178,11 +178,11 @@ export function ServicesSection() {
                         <span className="text-sm font-semibold tracking-widest uppercase text-primary">Our Expertise</span>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground mb-8 leading-[1.1]">
-                        Comprehensive legal <br />
-                        <span className="text-zinc-400 italic">solutions for you.</span>
+                        Focused immigration matters, <br />
+                        <span className="text-zinc-400 italic">handled with a clear filing plan.</span>
                     </h2>
                     <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl text-balance">
-                        From simple visas to complex defense, we provide clear pathways and strategies tailored to your unique immigration journey.
+                        From straightforward visa filings to urgent court-sensitive issues, the practice centers on preparation, candid risk assessment, and direct communication.
                     </p>
                 </motion.div>
 

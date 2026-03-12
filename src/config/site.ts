@@ -1,4 +1,5 @@
 import "server-only";
+import { firmConfig } from "@/config/firm";
 
 const FALLBACK_SITE_URL = "https://mt-immigration.vercel.app";
 
@@ -19,16 +20,16 @@ export function getSiteUrl(): string {
 export const siteUrl = new URL(getSiteUrl());
 
 export const siteConfig = {
-  name: "M&T Immigration Law Firm",
-  defaultTitle: "M&T Immigration Law Firm | Affordable Immigration Legal Services",
+  name: firmConfig.name,
+  defaultTitle: "M&T Immigration | Solo Immigration Counsel With Direct Attorney Access",
   description:
-    "Low-bono immigration support for visitor, student, marriage-based, and humanitarian cases. Honest guidance, affordable prices.",
+    "Boutique U.S. immigration representation for visitor, student, family, humanitarian, and urgent court-related matters. Clear strategy, transparent fees, and direct attorney communication.",
   keywords: [
     "immigration lawyer",
     "visa attorney",
     "green card",
     "asylum",
-    "low-bono legal services",
+    "solo immigration counsel",
+    "boutique immigration law firm",
   ],
 } as const;
-

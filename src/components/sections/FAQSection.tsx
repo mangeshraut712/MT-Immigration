@@ -19,11 +19,11 @@ const faqCategories = [
             },
             {
                 question: "Do you offer virtual consultations?",
-                answer: "Yes! We are a fully digital-first firm offering secure video consultations via Zoom or WhatsApp for clients nationwide and internationally. All consultations are confidential and conducted by licensed attorneys."
+                answer: "Yes. The practice is set up for remote consultations by phone or video, which makes it possible to review many immigration matters without an in-person visit."
             },
             {
                 question: "What languages do you support?",
-                answer: "We provide support in English, Spanish, Urdu, Punjabi, and French through our multilingual team and professional translation services. We can also arrange interpreters for other languages as needed."
+                answer: "English consultations are supported directly, and interpreter-friendly workflows can be arranged when a client is more comfortable in another language."
             },
         ]
     },
@@ -49,15 +49,15 @@ const faqCategories = [
         faqs: [
             {
                 question: "How fast can you file my application?",
-                answer: "Timelines depend on your cooperation in providing documents. Typically, we can prepare and file within 1-2 weeks of receiving all necessary information and documentation. Rush services are available for urgent cases."
+                answer: "Timelines depend on the case type, how quickly documents are collected, and whether there are urgent deadlines. Straightforward matters can often move quickly once the required evidence is in hand."
             },
             {
                 question: "Will you prepare me for my interview?",
-                answer: "Absolutely. We conduct thorough mock interviews to ensure you are confident and prepared for all types of questions immigration officers may ask. We provide detailed guidance on what to expect, what documents to bring, and how to present your case effectively."
+                answer: "Yes. Interview preparation is part of many immigration matters, especially where officer questions, credibility, or document organization can affect the result."
             },
             {
                 question: "How do I track my case status?",
-                answer: "We provide regular updates via email and text message. You'll also have access to our client portal where you can view case progress, upload documents, and communicate with your attorney 24/7."
+                answer: "Status updates are typically handled through email and scheduled follow-up. The exact communication workflow depends on the scope of representation and the needs of the case."
             },
         ]
     },
@@ -66,7 +66,7 @@ const faqCategories = [
         faqs: [
             {
                 question: "Do you guarantee results?",
-                answer: "No attorney can guarantee results in immigration cases as the final decision rests with USCIS or the Department of State. However, we guarantee diligent, expert, and honest representation to maximize your chances of success. We have a 95% approval rate across all case types."
+                answer: "No attorney can guarantee results in immigration matters because the final decision belongs to the government agency or immigration court handling the case. What you should expect is candid advice, disciplined preparation, and honest communication about risk."
             },
             {
                 question: "What if my case is denied?",
@@ -74,7 +74,7 @@ const faqCategories = [
             },
             {
                 question: "Are you licensed to practice immigration law?",
-                answer: "Yes, our lead attorney is fully licensed and a member of the American Immigration Lawyers Association (AILA). We maintain the highest ethical standards and stay current with all immigration law changes."
+                answer: "This website is built around an attorney-led immigration practice. Representation details, licensing, and engagement terms should always be confirmed during the consultation and in the written engagement agreement."
             },
         ]
     },

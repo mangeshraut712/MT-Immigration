@@ -1,3 +1,5 @@
+import { firmConfig } from '@/config/firm';
+
 export type IntentType =
     | 'greeting'
     | 'visa_b1b2'
@@ -27,7 +29,7 @@ export interface LegalResponse {
 
 export const LEGAL_KNOWLEDGE_BASE: Record<IntentType, LegalResponse> = {
     greeting: {
-        text: "Hello! I'm the M&T Immigration Legal Assistant. I can provide general information about immigration services, help you understand visa types, or assist you in scheduling a consultation with our attorneys.\n\n**Please note:** I am an AI, not a lawyer. My responses are for informational purposes only and do not constitute legal advice.",
+        text: "Hello! I'm the M&T Immigration Legal Assistant. I can provide general information about immigration services, help you understand visa types, or help you request a consultation with the attorney.\n\n**Please note:** I am an AI, not a lawyer. My responses are for informational purposes only and do not constitute legal advice.",
         suggestions: ["What services do you offer?", "How much is a consultation?", "I need a Green Card"]
     },
     visa_b1b2: {
@@ -87,11 +89,11 @@ export const LEGAL_KNOWLEDGE_BASE: Record<IntentType, LegalResponse> = {
         suggestions: ["Check my case status", "Expedite request?", "Talk to a lawyer"]
     },
     documents: {
-        text: "**General Document Checklist:**\n\nFor most cases, you will need:\n\n• Valid Passport\n• Birth Certificate (translated)\n• Marriage Certificate (if applicable)\n• Proof of Financial Support (Bank statements, Tax returns)\n• Passport-style Photos\n\n*We provide a secure client portal for easy document upload.*",
-        suggestions: ["How to translate documents?", "Upload portal login", "Consultation"]
+        text: "**General Document Checklist:**\n\nFor most cases, you will need:\n\n• Valid Passport\n• Birth Certificate (translated)\n• Marriage Certificate (if applicable)\n• Proof of Financial Support (Bank statements, Tax returns)\n• Passport-style Photos\n\n*Bring copies of any prior USCIS notices, denial letters, court papers, or interview notices if you have them.*",
+        suggestions: ["How to translate documents?", "What forms do I need?", "Consultation"]
     },
     contact: {
-        text: "**Contact M&T Immigration:**\n\n📍 **Office:** New York, NY (Virtual services globally)\n📞 **Phone:** (555) 123-4567\n📧 **Email:** help@mtimmigration.com\n\nBusiness Hours: Mon-Fri, 9AM - 6PM EST.",
+        text: `**Contact ${firmConfig.shortName}:**\n\n📍 **Office:** ${firmConfig.contact.city} (${firmConfig.contact.regionLabel})\n📞 **Phone:** ${firmConfig.contact.phoneDisplay}\n📧 **Email:** ${firmConfig.contact.email}\n\nBusiness Hours: ${firmConfig.contact.hours}.`,
         suggestions: ["Call Now", "Email Us", "Book Online"],
         action: { label: "Go to Contact Form", link: "#contact" }
     },

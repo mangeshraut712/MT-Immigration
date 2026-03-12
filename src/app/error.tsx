@@ -25,9 +25,9 @@ export default function Error({
                 Something went wrong
             </h1>
             <p className="text-xl text-zinc-500 max-w-md mx-auto mb-8">
-                We apologize for the inconvenience. Our team has been notified.
+                We apologize for the inconvenience. Please retry, or contact the office directly if the issue continues.
             </p>
-            <div className="flex gap-4 push-button">
+            <div className="flex gap-4">
                 <Button onClick={reset} size="lg" className="rounded-full">
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Try Again

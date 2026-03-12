@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import IntakeForm from "@/components/features/intake/IntakeForm";
 import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+import { firmConfig } from '@/config/firm';
 import {
     Tooltip,
     TooltipContent,
@@ -14,27 +15,27 @@ const contactInfo = [
     {
         icon: Phone,
         label: "Phone / WhatsApp",
-        value: "+1 (555) 123-4567",
+        value: firmConfig.contact.phoneDisplay,
         tooltip: "Click to call",
-        href: "tel:+15551234567"
+        href: firmConfig.contact.phoneHref
     },
     {
         icon: Mail,
         label: "Email",
-        value: "help@mtimmigration.com",
+        value: firmConfig.contact.email,
         tooltip: "Click to email",
-        href: "mailto:help@mtimmigration.com"
+        href: firmConfig.contact.emailHref
     },
     {
         icon: MapPin,
         label: "Office",
-        value: "New York, NY",
-        tooltip: "Virtual consultations nationwide"
+        value: firmConfig.contact.city,
+        tooltip: firmConfig.contact.regionLabel
     },
     {
         icon: Clock,
         label: "Response Time",
-        value: "24-48 hours",
+        value: firmConfig.contact.responseTime,
         tooltip: "Weekdays only"
     },
 ];
@@ -60,11 +61,11 @@ export function ContactSection() {
                         <div className="h-px w-12 bg-primary"></div>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
-                        Ready to begin <br />
-                        <span className="text-zinc-400 italic">your journey?</span>
+                        Ready to review <br />
+                        <span className="text-zinc-400 italic">your matter?</span>
                     </h2>
                     <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto">
-                        Schedule a consultation or fill out our intake form. We&apos;ll respond within 24–48 hours.
+                        Book a consultation or send a structured intake request. The office responds to new inquiries within {firmConfig.contact.responseTime}.
                     </p>
                 </motion.div>
 

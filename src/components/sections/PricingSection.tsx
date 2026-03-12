@@ -32,7 +32,7 @@ const benefits = [
     "Sliding-scale options available",
     "Flexible payment plans via Stripe",
     "No hidden fees",
-    "Free initial consultation",
+    "Consultation fees credited when applicable",
     "Income-based discounts"
 ];
 
@@ -59,8 +59,8 @@ export function PricingSection() {
                                     <span className="text-xs font-semibold tracking-widest uppercase text-zinc-500">Transparent Fees</span>
                                 </div>
                                 <h2 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-foreground mt-4 mb-6 leading-[1.1]">
-                                    Low-bono services <br />
-                                    <span className="text-zinc-400 italic">for everyone.</span>
+                                    Clear legal fees <br />
+                                    <span className="text-zinc-400 italic">for focused representation.</span>
                                 </h2>
                                 <p className="text-zinc-500 leading-relaxed text-lg">
                                     Based on complexity, urgency, and scope. All prices include consultations and filings.

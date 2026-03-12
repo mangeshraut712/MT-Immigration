@@ -2,7 +2,9 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { Scale, ArrowUpRight, Phone, Mail, MapPin } from 'lucide-react';
+import { ArrowUpRight, Phone, Mail, MapPin } from 'lucide-react';
+import { firmConfig } from '@/config/firm';
+import { SiteLogo } from '@/components/branding/SiteLogo';
 
 const footerLinks = {
     services: [
@@ -13,20 +15,21 @@ const footerLinks = {
         { name: "Work Permits (EAD)", href: "#services" },
     ],
     company: [
-        { name: "About Us", href: "#about" },
-        { name: "Our Process", href: "#services" },
-        { name: "Testimonials", href: "#testimonials" },
+        { name: "About the Practice", href: "#about" },
+        { name: "Our Process", href: "#process" },
+        { name: "Client Experience", href: "#testimonials" },
         { name: "Contact", href: "#contact" },
     ],
     support: [
         { name: "Pricing & Fees", href: "#pricing" },
         { name: "FAQ", href: "#faq" },
         { name: "Book Consultation", href: "#contact" },
+        { name: "Brief Break", href: "/brief-break" },
     ],
     legal: [
-        { name: "Privacy Policy", href: "#" },
-        { name: "Terms of Service", href: "#" },
-        { name: "Attorney Advertising", href: "#" },
+        { name: "Privacy Policy", href: "/privacy" },
+        { name: "Terms of Use", href: "/terms" },
+        { name: "Attorney Advertising", href: "/terms" },
     ],
 };
 
@@ -43,27 +46,27 @@ export default function Footer() {
                         viewport={{ once: true }}
                         className="col-span-2 md:col-span-1"
                     >
-                        <Link href="/" className="flex items-center gap-2 mb-5 group">
-                            <div className="p-2 bg-white text-black rounded-lg group-hover:scale-105 transition-transform">
-                                <Scale size={18} />
-                            </div>
-                            <span className="font-semibold text-base text-white">M&T Immigration</span>
+                        <Link href="/" className="flex items-center gap-3 mb-5 group">
+                            <SiteLogo
+                                imageClassName="border-white/10 shadow-md group-hover:scale-105 transition-transform"
+                                nameClassName="text-base text-white"
+                            />
                         </Link>
                         <p className="text-sm text-zinc-400 leading-relaxed mb-5">
-                            Affordable, honest, and compassionate legal services for your immigration journey.
+                            Boutique, attorney-led immigration representation with direct communication, transparent fees, and focused case strategy.
                         </p>
                         <div className="space-y-2">
-                            <a href="mailto:help@mtimmigration.com" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                            <a href={firmConfig.contact.emailHref} className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
                                 <Mail size={14} />
-                                help@mtimmigration.com
+                                {firmConfig.contact.email}
                             </a>
-                            <a href="tel:+15551234567" className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
+                            <a href={firmConfig.contact.phoneHref} className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors">
                                 <Phone size={14} />
-                                (555) 123-4567
+                                {firmConfig.contact.phoneDisplay}
                             </a>
                             <p className="flex items-center gap-2 text-sm text-zinc-400">
                                 <MapPin size={14} />
-                                New York, NY
+                                {firmConfig.contact.city}
                             </p>
                         </div>
                     </motion.div>
@@ -172,13 +175,13 @@ export default function Footer() {
 
                     {/* Copyright & Links */}
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[11px] text-zinc-500">
-                        <p>Copyright © {new Date().getFullYear()} M&T Immigration Law Firm. All rights reserved.</p>
+                        <p>Copyright © {new Date().getFullYear()} {firmConfig.name}. All rights reserved.</p>
                         <div className="flex items-center gap-4">
-                            <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+                            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
                             <span className="text-zinc-700">|</span>
-                            <Link href="#" className="hover:text-white transition-colors">Terms of Use</Link>
+                            <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
                             <span className="text-zinc-700">|</span>
-                            <Link href="#" className="hover:text-white transition-colors">Site Map</Link>
+                            <Link href="/sitemap.xml" className="hover:text-white transition-colors">Site Map</Link>
                         </div>
                     </div>
                 </div>

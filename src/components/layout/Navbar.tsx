@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
-import { Menu, X, Scale } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { SiteLogo } from '@/components/branding/SiteLogo';
 import clsx from 'clsx';
 
 const navItems = [
@@ -38,18 +39,17 @@ export default function Navbar() {
         >
             <div className="container-wide">
                 <div className="flex items-center justify-between h-12">
-                    {/* Logo */}
                     <Link href="/" className="flex items-center gap-3 group">
                         <motion.div
-                            whileHover={{ scale: 1.05, rotate: 5 }}
+                            whileHover={{ scale: 1.05 }}
                             transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                            className="bg-blue-600 text-white p-2 rounded-lg shadow-sm group-hover:shadow-md transition-all"
+                            className="group-hover:shadow-lg transition-all"
                         >
-                            <Scale size={18} />
+                            <SiteLogo
+                                imageClassName="border-black/5"
+                                nameClassName="hidden text-xl text-foreground sm:block"
+                            />
                         </motion.div>
-                        <span className="font-serif font-bold text-xl tracking-tight text-foreground hidden sm:block">
-                            M&T Immigration
-                        </span>
                     </Link>
 
                     {/* Desktop Navigation */}

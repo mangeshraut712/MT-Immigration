@@ -9,10 +9,12 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Providers from "./providers";
-import { siteConfig, siteUrl } from "@/lib/site";
+import { siteConfig, siteUrl } from "@/config/site";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 import { DynamicChatBot } from "@/components/features/chatbot/DynamicChatBot";
+
+const isVercelDeployment = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
 
 // SF Pro alternative - Inter is the closest Google Font
 const inter = Inter({
@@ -79,8 +81,8 @@ export default function RootLayout({
           <BackToTop />
           <DynamicChatBot />
           <Toaster position="bottom-right" richColors closeButton />
-          <Analytics />
-          <SpeedInsights />
+          {isVercelDeployment ? <Analytics /> : null}
+          {isVercelDeployment ? <SpeedInsights /> : null}
         </Providers>
       </body>
     </html>

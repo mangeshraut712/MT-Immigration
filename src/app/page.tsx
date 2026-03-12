@@ -12,6 +12,7 @@ const PricingSection = dynamic(() => import('@/components/sections/PricingSectio
 const FAQSection = dynamic(() => import('@/components/sections/FAQSection').then(mod => mod.FAQSection));
 const CTASection = dynamic(() => import('@/components/sections/CTASection').then(mod => mod.CTASection));
 const ContactSection = dynamic(() => import('@/components/sections/ContactSection').then(mod => mod.ContactSection));
+const BriefBreakSection = dynamic(() => import('@/components/sections/BriefBreakSection').then(mod => mod.BriefBreakSection));
 
 export default function Home() {
   return (
@@ -27,6 +28,7 @@ export default function Home() {
       <FAQSection />
       <CTASection />
       <ContactSection />
+      <BriefBreakSection />
     </div>
   );
 }

@@ -8,26 +8,26 @@ const steps = [
     {
         id: "01",
         title: "Listen & Assess",
-        description: "We start with a consultation to understand your goals, timeline, and eligibility.",
-        highlight: "AI-powered preliminary eligibility scan",
+        description: "Start with a paid consultation to identify the issue, deadlines, and the cleanest next step.",
+        highlight: "Attorney review of the facts you share",
         icon: Ear,
-        features: ["Free initial consultation", "Eligibility assessment", "Timeline estimation"]
+        features: ["Consultation with the attorney", "Initial document review", "Scope and risk discussion"]
     },
     {
         id: "02",
         title: "Prepare & File",
-        description: "We handle forms, supporting evidence, and submission—end-to-end.",
-        highlight: "Secure document upload portal",
+        description: "Build the filing strategy, assemble supporting evidence, and prepare the submission with care.",
+        highlight: "Tailored preparation for the filing that actually matters",
         icon: FileEdit,
-        features: ["Complete form preparation", "Evidence compilation", "Quality review"]
+        features: ["Form drafting and review", "Evidence checklist", "Final pre-filing quality check"]
     },
     {
         id: "03",
         title: "Guide You Through",
-        description: "We coach for interviews, monitor your case, and respond to requests.",
-        highlight: "Real-time case tracking dashboard",
+        description: "Stay prepared after filing with interview preparation, response strategy, and direct follow-up.",
+        highlight: "Focused support through interviews, RFEs, and case changes",
         icon: UserCheck,
-        features: ["Interview preparation", "Case monitoring", "24/7 support"]
+        features: ["Interview preparation", "RFE or deadline planning", "Email-based status updates"]
     }
 ];
 
@@ -54,11 +54,11 @@ export function ProcessSection() {
                         </div>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground mb-6 leading-[1.1]">
-                        Your journey, <br />
-                        <span className="text-zinc-400 italic">simplified.</span>
+                        A clear legal process, <br />
+                        <span className="text-zinc-400 italic">without the volume-firm confusion.</span>
                     </h2>
                     <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto mt-6">
-                        We&apos;ve streamlined the complex immigration process into a transparent, three-step path to success.
+                        The practice is built around one attorney owning the file, the strategy, and the communication from first consult through the next filing decision.
                     </p>
                 </motion.div>
 

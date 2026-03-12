@@ -1,294 +1,403 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Bot, User, Loader2, ArrowRight, ExternalLink } from 'lucide-react';
+import {
+  MessageCircle,
+  X,
+  Send,
+  Bot,
+  User,
+  Loader2,
+  ArrowRight,
+  ExternalLink,
+} from 'lucide-react';
+import Link from 'next/link';
+
+import { getFallbackAssistantReply } from '@/server/ai/chatbot';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { detectIntent, LEGAL_KNOWLEDGE_BASE } from '@/data/legalKnowledgeBase';
 
 interface Message {
-    id: string;
-    role: 'user' | 'assistant';
-    content: string;
-    timestamp: Date;
-    action?: {
-        label: string;
-        link: string;
-    };
-    suggestions?: string[];
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+  action?: {
+    label: string;
+    link: string;
+  };
+  suggestions?: string[];
+}
+
+type ChatResponse = {
+  content: string;
+  suggestions?: string[];
+  action?: {
+    label: string;
+    link: string;
+  };
+};
+
+function createMessageId() {
+  return crypto.randomUUID();
+}
+
+function renderInlineContent(content: string, keyPrefix: string) {
+  return content
+    .split(/(\*\*.*?\*\*|\*.*?\*)/g)
+    .filter(Boolean)
+    .map((segment, index) => {
+      if (segment.startsWith('**') && segment.endsWith('**')) {
+        return (
+          <strong key={`${keyPrefix}-bold-${index}`} className="font-semibold">
+            {segment.slice(2, -2)}
+          </strong>
+        );
+      }
+
+      if (
+        segment.startsWith('*') &&
+        segment.endsWith('*') &&
+        !segment.startsWith('**') &&
+        !segment.endsWith('**')
+      ) {
+        return (
+          <em key={`${keyPrefix}-italic-${index}`} className="italic">
+            {segment.slice(1, -1)}
+          </em>
+        );
+      }
+
+      return <span key={`${keyPrefix}-text-${index}`}>{segment}</span>;
+    });
+}
+
+function renderMessageContent(content: string) {
+  return content.split('\n\n').map((paragraph, paragraphIndex) => (
+    <div key={`paragraph-${paragraphIndex}`} className={paragraphIndex > 0 ? 'mt-4' : undefined}>
+      {paragraph.split('\n').map((line, lineIndex) => {
+        const trimmedLine = line.trim();
+        const isBullet = trimmedLine.startsWith('• ');
+        const bulletText = isBullet ? trimmedLine.slice(2) : trimmedLine;
+
+        return (
+          <div
+            key={`line-${paragraphIndex}-${lineIndex}`}
+            className={cn(
+              'leading-relaxed',
+              lineIndex > 0 ? 'mt-2' : undefined,
+              isBullet ? 'flex gap-2' : undefined,
+            )}
+          >
+            {isBullet ? <span aria-hidden>&bull;</span> : null}
+            <span>{renderInlineContent(bulletText, `${paragraphIndex}-${lineIndex}`)}</span>
+          </div>
+        );
+      })}
+    </div>
+  ));
 }
 
 export function ChatBot() {
-    const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState<Message[]>([]);
-    const [input, setInput] = useState('');
-    const [isTyping, setIsTyping] = useState(false);
-    const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
+
+  useEffect(() => {
+    const handleOpenChat = () => setIsOpen(true);
+    window.addEventListener('open-chat', handleOpenChat);
+    return () => window.removeEventListener('open-chat', handleOpenChat);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      const greeting = getFallbackAssistantReply('hello');
+      setMessages([
+        {
+          id: 'welcome',
+          role: 'assistant',
+          content: greeting.content,
+          suggestions: greeting.suggestions,
+          timestamp: new Date(),
+        },
+      ]);
+    }
+  }, [isOpen, messages.length]);
+
+  async function sendMessage(text = input) {
+    const trimmedText = text.trim();
+    if (!trimmedText || isTyping) {
+      return;
+    }
+
+    const userMessage: Message = {
+      id: createMessageId(),
+      role: 'user',
+      content: trimmedText,
+      timestamp: new Date(),
     };
 
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages, isTyping]);
+    const nextMessages = [...messages, userMessage];
+    setMessages(nextMessages);
+    setInput('');
+    setIsTyping(true);
 
-    // Send initial greeting when chat opens
-    useEffect(() => {
-        const handleOpenChat = () => setIsOpen(true);
-        window.addEventListener('open-chat', handleOpenChat);
-        return () => window.removeEventListener('open-chat', handleOpenChat);
-    }, []);
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: nextMessages.map((message) => ({
+            role: message.role,
+            content: message.content,
+          })),
+        }),
+      });
 
-    useEffect(() => {
-        if (isOpen && messages.length === 0) {
-            setMessages([{
-                id: 'welcome',
-                role: 'assistant',
-                content: LEGAL_KNOWLEDGE_BASE.greeting.text,
-                suggestions: LEGAL_KNOWLEDGE_BASE.greeting.suggestions,
-                timestamp: new Date()
-            }]);
-        }
-    }, [isOpen, messages.length]);
+      if (!response.ok) {
+        throw new Error(`Chat request failed with status ${response.status}`);
+      }
 
-    const sendMessage = async (text: string = input) => {
-        if (!text.trim()) return;
+      const data = (await response.json()) as ChatResponse;
 
-        const userMessage: Message = {
-            // eslint-disable-next-line react-hooks/purity
-            id: Math.random().toString(36).substring(7),
-            role: 'user',
-            content: text,
-            timestamp: new Date()
-        };
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        {
+          id: createMessageId(),
+          role: 'assistant',
+          content: data.content,
+          action: data.action,
+          suggestions: data.suggestions,
+          timestamp: new Date(),
+        },
+      ]);
+    } catch (error) {
+      console.error('Chat widget error:', error);
 
-        setMessages(prev => [...prev, userMessage]);
-        setInput('');
-        setIsTyping(true);
+      const fallback = getFallbackAssistantReply(trimmedText);
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        {
+          id: createMessageId(),
+          role: 'assistant',
+          content: fallback.content,
+          action: fallback.action,
+          suggestions: fallback.suggestions,
+          timestamp: new Date(),
+        },
+      ]);
+    } finally {
+      setIsTyping(false);
+    }
+  }
 
-        // Simulate typing delay for more natural feel
-        await new Promise(resolve => setTimeout(resolve, 600 + Math.random() * 500));
+  return (
+    <>
+      <AnimatePresence>
+        {!isOpen && (
+          <motion.button
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0, opacity: 0 }}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.96 }}
+            onClick={() => setIsOpen(true)}
+            className="fixed bottom-24 right-6 z-50 rounded-full bg-foreground p-4 text-background shadow-2xl transition-shadow hover:shadow-3xl"
+            aria-label="Open chat"
+          >
+            <MessageCircle size={28} />
+            <span className="absolute right-0 top-0 h-4 w-4 rounded-full border-2 border-background bg-green-500 animate-pulse" />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
-        // Get Intelligent Response
-        const intent = detectIntent(text);
-        const data = LEGAL_KNOWLEDGE_BASE[intent];
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.95 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            className="fixed bottom-24 right-6 z-50 flex h-[600px] max-h-[calc(100vh-8rem)] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl"
+          >
+            <div className="flex shrink-0 items-center justify-between bg-foreground p-4 text-background">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-background/20">
+                  <Bot size={22} />
+                </div>
+                <div>
+                  <h3 className="font-semibold">M&amp;T Immigration AI</h3>
+                  <p className="flex items-center gap-1 text-xs text-background/70">
+                    <span className="h-2 w-2 rounded-full bg-green-400" />
+                    Secure legal intake assistant
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="rounded-lg p-2 transition-colors hover:bg-background/10"
+                aria-label="Close chat"
+              >
+                <X size={20} />
+              </button>
+            </div>
 
-        const assistantMessage: Message = {
-            // eslint-disable-next-line react-hooks/purity
-            id: Math.random().toString(36).substring(7),
-            role: 'assistant',
-            content: data.text,
-            action: data.action,
-            suggestions: data.suggestions,
-            timestamp: new Date()
-        };
+            <div className="border-b border-border bg-secondary/50 p-2 text-center text-[10px] text-muted-foreground">
+              General information only. No attorney-client relationship is created in chat.
+            </div>
 
-        setMessages(prev => [...prev, assistantMessage]);
-        setIsTyping(false);
-    };
-
-    // Parse markdown-style formatting
-    const formatMessage = (content: string) => {
-        return content
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-            .replace(/•/g, '<br/>•')
-            .replace(/\n\n/g, '<br/><br/>')
-            .replace(/\n/g, '<br/>');
-    };
-
-    return (
-        <>
-            {/* Floating Chat Button */}
-            <AnimatePresence>
-                {!isOpen && (
-                    <motion.button
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0, opacity: 0 }}
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setIsOpen(true)}
-                        className="fixed bottom-24 right-6 z-50 bg-foreground text-background p-4 rounded-full shadow-2xl hover:shadow-3xl transition-shadow"
-                        aria-label="Open chat"
+            <div className="scrollbar-hide flex-1 space-y-6 overflow-y-auto bg-zinc-50/50 p-4">
+              {messages.map((message) => (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={cn(
+                    'flex flex-col gap-2',
+                    message.role === 'user' ? 'items-end' : 'items-start',
+                  )}
+                >
+                  <div
+                    className={cn(
+                      'flex max-w-[85%] gap-2',
+                      message.role === 'user' ? 'flex-row-reverse' : 'flex-row',
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        'mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full',
+                        message.role === 'assistant'
+                          ? 'bg-foreground text-background'
+                          : 'bg-blue-600 text-white',
+                      )}
                     >
-                        <MessageCircle size={28} />
-                        {/* Notification dot */}
-                        <span className="absolute top-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-background animate-pulse"></span>
-                    </motion.button>
-                )}
-            </AnimatePresence>
+                      {message.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
+                    </div>
 
-            {/* Chat Window */}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 20, scale: 0.95 }}
-                        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                        className="fixed bottom-24 right-6 z-50 w-[380px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[calc(100vh-8rem)] bg-background border border-border rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+                    <div
+                      className={cn(
+                        'rounded-2xl p-3.5 text-sm leading-relaxed shadow-sm',
+                        message.role === 'user'
+                          ? 'rounded-br-sm bg-blue-600 text-white'
+                          : 'rounded-bl-sm border border-border bg-white text-foreground',
+                      )}
                     >
-                        {/* Header */}
-                        <div className="bg-foreground text-background p-4 flex items-center justify-between shrink-0">
-                            <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-background/20 flex items-center justify-center">
-                                    <Bot size={22} />
-                                </div>
-                                <div>
-                                    <h3 className="font-semibold">M&T Immigration AI</h3>
-                                    <p className="text-xs text-background/70 flex items-center gap-1">
-                                        <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                                        Virtual Legal Assistant
-                                    </p>
-                                </div>
-                            </div>
-                            <button
-                                onClick={() => setIsOpen(false)}
-                                className="p-2 hover:bg-background/10 rounded-lg transition-colors"
-                                aria-label="Close chat"
-                            >
-                                <X size={20} />
-                            </button>
+                      {renderMessageContent(message.content)}
+
+                      {message.action ? (
+                        <div className="mt-3 border-t border-border/10 pt-3">
+                          <Button
+                            asChild
+                            size="sm"
+                            variant="secondary"
+                            className="h-8 w-full bg-foreground text-xs text-background hover:bg-foreground/90"
+                          >
+                            <Link href={message.action.link} onClick={() => setIsOpen(false)}>
+                              {message.action.label}{' '}
+                              <ExternalLink size={10} className="ml-2" />
+                            </Link>
+                          </Button>
                         </div>
+                      ) : null}
+                    </div>
+                  </div>
 
-                        {/* Legal Disclaimer Header */}
-                        <div className="bg-secondary/50 p-2 text-[10px] text-center text-muted-foreground border-b border-border">
-                            Not legal advice. For informational purposes only.
-                        </div>
+                  {message.role === 'assistant' && message.suggestions ? (
+                    <div className="ml-10 flex flex-wrap gap-2">
+                      {message.suggestions.map((suggestion) => (
+                        <button
+                          key={`${message.id}-${suggestion}`}
+                          onClick={() => sendMessage(suggestion)}
+                          className="rounded-full border border-border bg-white px-3 py-1.5 text-xs text-zinc-600 shadow-sm transition-all hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                </motion.div>
+              ))}
 
-                        {/* Messages */}
-                        <div className="flex-1 overflow-y-auto p-4 space-y-6 scrollbar-hide bg-zinc-50/50">
-                            {messages.map((message) => (
-                                <motion.div
-                                    key={message.id}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    className={cn(
-                                        "flex flex-col gap-2",
-                                        message.role === 'user' ? 'items-end' : 'items-start'
-                                    )}
-                                >
-                                    <div className={cn("flex gap-2 max-w-[85%]", message.role === 'user' ? 'flex-row-reverse' : 'flex-row')}>
-                                        {message.role === 'assistant' && (
-                                            <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center flex-shrink-0 mt-1">
-                                                <Bot size={14} />
-                                            </div>
-                                        )}
-                                        {message.role === 'user' && (
-                                            <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0 mt-1">
-                                                <User size={14} />
-                                            </div>
-                                        )}
+              {isTyping ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="flex items-center gap-2"
+                >
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-background">
+                    <Bot size={14} />
+                  </div>
+                  <div className="flex gap-1 rounded-2xl rounded-bl-sm border border-border bg-white p-3 shadow-sm">
+                    <span
+                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
+                      style={{ animationDelay: '0ms' }}
+                    />
+                    <span
+                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
+                      style={{ animationDelay: '150ms' }}
+                    />
+                    <span
+                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
+                      style={{ animationDelay: '300ms' }}
+                    />
+                  </div>
+                </motion.div>
+              ) : null}
 
-                                        <div
-                                            className={cn(
-                                                "p-3.5 rounded-2xl text-sm leading-relaxed shadow-sm",
-                                                message.role === 'user'
-                                                    ? 'bg-blue-600 text-white rounded-br-sm'
-                                                    : 'bg-white border border-border text-foreground rounded-bl-sm'
-                                            )}
-                                        >
-                                            <div
-                                                dangerouslySetInnerHTML={{ __html: formatMessage(message.content) }}
-                                            />
+              <div ref={messagesEndRef} />
+            </div>
 
-                                            {/* Action Button if present */}
-                                            {message.action && (
-                                                <div className="mt-3 pt-3 border-t border-border/10">
-                                                    <Button asChild size="sm" variant="secondary" className="w-full text-xs h-8 bg-foreground text-background hover:bg-foreground/90">
-                                                        <Link href={message.action.link} onClick={() => setIsOpen(false)}>
-                                                            {message.action.label} <ExternalLink size={10} className="ml-2" />
-                                                        </Link>
-                                                    </Button>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Smart Suggestions Chips */}
-                                    {message.role === 'assistant' && message.suggestions && (
-                                        <div className="flex flex-wrap gap-2 ml-10">
-                                            {message.suggestions.map((suggestion, i) => (
-                                                <button
-                                                    key={i}
-                                                    onClick={() => sendMessage(suggestion)}
-                                                    className="text-xs px-3 py-1.5 bg-white border border-border text-zinc-600 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 rounded-full transition-all shadow-sm"
-                                                >
-                                                    {suggestion}
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </motion.div>
-                            ))}
-
-                            {/* Typing indicator */}
-                            {isTyping && (
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="flex gap-2 items-center"
-                                >
-                                    <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center">
-                                        <Bot size={14} />
-                                    </div>
-                                    <div className="bg-white border border-border p-3 rounded-2xl rounded-bl-sm flex gap-1 shadow-sm">
-                                        <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                                        <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                                        <span className="w-1.5 h-1.5 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                                    </div>
-                                </motion.div>
-                            )}
-
-                            <div ref={messagesEndRef} />
-                        </div>
-
-                        {/* Input Area */}
-                        <div className="p-4 border-t border-border bg-white shrink-0">
-                            <form
-                                onSubmit={(e) => {
-                                    e.preventDefault();
-                                    sendMessage();
-                                }}
-                                className="flex gap-2"
-                            >
-                                <Input
-                                    value={input}
-                                    onChange={(e) => setInput(e.target.value)}
-                                    placeholder="Ask about visas, green cards..."
-                                    className="flex-1 bg-zinc-50 border-zinc-200 focus-visible:ring-blue-600"
-                                    disabled={isTyping}
-                                />
-                                <Button
-                                    type="submit"
-                                    disabled={!input.trim() || isTyping}
-                                    size="icon"
-                                    className="rounded-xl shadow-md bg-blue-600 hover:bg-blue-700 text-white shrink-0"
-                                >
-                                    {isTyping ? (
-                                        <Loader2 size={18} className="animate-spin" />
-                                    ) : (
-                                        <Send size={18} />
-                                    )}
-                                </Button>
-                            </form>
-                            <div className="mt-2 text-center">
-                                <Link
-                                    href="#contact"
-                                    onClick={() => setIsOpen(false)}
-                                    className="text-[10px] text-zinc-400 hover:text-blue-600 transition-colors inline-flex items-center gap-1"
-                                >
-                                    Ready to proceed? Book a Consultation <ArrowRight size={8} />
-                                </Link>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </>
-    );
+            <div className="shrink-0 border-t border-border bg-white p-4">
+              <form
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  void sendMessage();
+                }}
+                className="flex gap-2"
+              >
+                <Input
+                  value={input}
+                  onChange={(event) => setInput(event.target.value)}
+                  placeholder="Ask about visas, green cards, or urgent deadlines..."
+                  className="flex-1 border-zinc-200 bg-zinc-50 focus-visible:ring-blue-600"
+                  disabled={isTyping}
+                />
+                <Button
+                  type="submit"
+                  disabled={!input.trim() || isTyping}
+                  size="icon"
+                  className="shrink-0 rounded-xl bg-blue-600 text-white shadow-md hover:bg-blue-700"
+                >
+                  {isTyping ? (
+                    <Loader2 size={18} className="animate-spin" />
+                  ) : (
+                    <Send size={18} />
+                  )}
+                </Button>
+              </form>
+              <div className="mt-2 text-center">
+                <Link
+                  href="#contact"
+                  onClick={() => setIsOpen(false)}
+                  className="inline-flex items-center gap-1 text-[10px] text-zinc-400 transition-colors hover:text-blue-600"
+                >
+                  Ready to proceed? Request a case review <ArrowRight size={8} />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 }

@@ -1,362 +1,541 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { Check, ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent } from '@/components/ui/card';
+import { useLocalStorage } from '@/lib/hooks';
+import { defaultIntakeFormData, type IntakeFormData } from '@/server/schemas/intake';
 import { cn } from '@/lib/utils';
 
+type IntakeField = keyof IntakeFormData;
+type IntakeErrors = Partial<Record<IntakeField, string>>;
+
+const steps = [
+  { id: 1, title: 'Contact' },
+  { id: 2, title: 'Case Details' },
+  { id: 3, title: 'Review' },
+];
+
+const variants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 30 : -30,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 30 : -30,
+    opacity: 0,
+  }),
+};
+
+function getStepErrors(step: number, formData: IntakeFormData): IntakeErrors {
+  const errors: IntakeErrors = {};
+
+  if (step === 1) {
+    if (formData.name.trim().length < 2) {
+      errors.name = 'Enter the full name you want us to use.';
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+      errors.email = 'Enter a valid email address.';
+    }
+
+    if (formData.phone.trim().length < 7) {
+      errors.phone = 'Enter a phone number we can reach.';
+    }
+
+    if (!formData.language.trim()) {
+      errors.language = 'Choose the language you prefer.';
+    }
+  }
+
+  if (step === 2) {
+    if (!formData.caseType.trim()) {
+      errors.caseType = 'Choose the matter you want help with.';
+    }
+
+    if (formData.summary.trim().length < 30) {
+      errors.summary = 'Add a short summary with enough detail for a review.';
+    }
+  }
+
+  if (step === 3 && !formData.consent) {
+    errors.consent = 'You must confirm the intake disclosure before submitting.';
+  }
+
+  return errors;
+}
+
 export default function IntakeForm() {
-    const [step, setStep] = useState(1);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [direction, setDirection] = useState(0); // -1 for prev, 1 for next
-    const [formData, setFormData] = useState({
-        name: '', email: '', phone: '', language: '',
-        caseType: '', summary: '',
-        hasPassport: false, hasReceipts: false,
-        consent: false
-    });
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [direction, setDirection] = useState(0);
+  const [errors, setErrors] = useState<IntakeErrors>({});
+  const [formData, setFormData] = useLocalStorage<IntakeFormData>('mt-intake-form', {
+    ...defaultIntakeFormData,
+  });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleChange = (name: string, value: any) => {
-        setFormData(prev => ({ ...prev, [name]: value }));
-    };
+  function handleChange<K extends IntakeField>(name: K, value: IntakeFormData[K]) {
+    setFormData((currentFormData) => ({
+      ...currentFormData,
+      [name]: value,
+    }));
+    setErrors((currentErrors) => ({
+      ...currentErrors,
+      [name]: undefined,
+    }));
+  }
 
-    const nextStep = () => {
-        setDirection(1);
-        setStep(step + 1);
-    };
+  function nextStep() {
+    const stepErrors = getStepErrors(step, formData);
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
+      toast.error('Please complete the required fields before continuing.');
+      return;
+    }
 
-    const prevStep = () => {
-        setDirection(-1);
-        setStep(step - 1);
-    };
+    setDirection(1);
+    setStep((currentStep) => currentStep + 1);
+  }
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setIsSubmitting(true);
+  function prevStep() {
+    setDirection(-1);
+    setStep((currentStep) => currentStep - 1);
+  }
 
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
 
-        setIsSubmitting(false);
-        toast.success('Thank you! We will review your case and contact you within 24-48 hours.', {
-            description: 'Check your email for confirmation.',
-        });
+    const stepErrors = getStepErrors(3, formData);
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
+      toast.error('Please confirm the disclosure before submitting.');
+      return;
+    }
 
-        // Reset form
-        setStep(1);
-        setDirection(0);
-        setFormData({
-            name: '', email: '', phone: '', language: '',
-            caseType: '', summary: '',
-            hasPassport: false, hasReceipts: false,
-            consent: false
-        });
-    };
+    setIsSubmitting(true);
 
-    const steps = [
-        { id: 1, title: "Contact" },
-        { id: 2, title: "Case Details" },
-        { id: 3, title: "Review" }
-    ];
-
-    const variants = {
-        enter: (direction: number) => ({
-            x: direction > 0 ? 30 : -30,
-            opacity: 0
-        }),
-        center: {
-            x: 0,
-            opacity: 1
+    try {
+      const response = await fetch('/api/intake', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        exit: (direction: number) => ({
-            x: direction < 0 ? 30 : -30,
-            opacity: 0
-        })
-    };
+        body: JSON.stringify(formData),
+      });
 
-    return (
-        <div className="max-w-2xl mx-auto w-full">
-            {/* Step Indicator - Apple style */}
-            <div className="mb-10 relative">
-                <div className="absolute top-5 left-0 w-full h-0.5 bg-zinc-100 -z-10"></div>
-                <motion.div
-                    className="absolute top-5 left-0 h-0.5 bg-foreground -z-10"
-                    initial={{ width: "0%" }}
-                    animate={{ width: `${((step - 1) / (steps.length - 1)) * 100}%` }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                />
+      const data = (await response.json()) as { error?: string };
 
-                <div className="flex justify-between">
-                    {steps.map((s) => (
-                        <div key={s.id} className="flex flex-col items-center group cursor-default">
-                            <motion.div
-                                className={cn(
-                                    "w-10 h-10 rounded-full flex items-center justify-center font-semibold text-sm transition-all duration-300 mb-3 z-10 border-4",
-                                    step >= s.id
-                                        ? "bg-foreground text-background border-foreground shadow-lg"
-                                        : "bg-white text-zinc-400 border-zinc-100"
-                                )}
-                                animate={{
-                                    scale: step === s.id ? 1.1 : 1,
-                                    borderColor: step >= s.id ? "var(--foreground)" : "rgb(244 244 245)"
-                                }}
-                            >
-                                {step > s.id ? <Check className="w-5 h-5" /> : s.id}
-                            </motion.div>
-                            <span className={cn(
-                                "text-xs font-medium uppercase tracking-wider transition-colors duration-300",
-                                step >= s.id ? "text-foreground" : "text-zinc-400"
-                            )}>
-                                {s.title}
-                            </span>
-                        </div>
-                    ))}
-                </div>
+      if (!response.ok) {
+        throw new Error(data.error || 'We could not submit your request.');
+      }
+
+      toast.success('Consultation request received.', {
+        description: 'We will review your information and follow up using your preferred contact details.',
+      });
+
+      setStep(1);
+      setDirection(0);
+      setErrors({});
+      setFormData({ ...defaultIntakeFormData });
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : 'We could not submit your request.';
+      toast.error(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  function renderError(field: IntakeField) {
+    const error = errors[field];
+    if (!error) {
+      return null;
+    }
+
+    return <p className="text-sm text-red-600">{error}</p>;
+  }
+
+  return (
+    <div className="mx-auto w-full max-w-2xl">
+      <div className="relative mb-10">
+        <div className="absolute left-0 top-5 -z-10 h-0.5 w-full bg-zinc-100" />
+        <motion.div
+          className="absolute left-0 top-5 -z-10 h-0.5 bg-foreground"
+          initial={{ width: '0%' }}
+          animate={{ width: `${((step - 1) / (steps.length - 1)) * 100}%` }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+        />
+
+        <div className="flex justify-between">
+          {steps.map((currentStep) => (
+            <div key={currentStep.id} className="group flex cursor-default flex-col items-center">
+              <motion.div
+                className={cn(
+                  'z-10 mb-3 flex h-10 w-10 items-center justify-center rounded-full border-4 text-sm font-semibold transition-all duration-300',
+                  step >= currentStep.id
+                    ? 'border-foreground bg-foreground text-background shadow-lg'
+                    : 'border-zinc-100 bg-white text-zinc-400',
+                )}
+                animate={{
+                  scale: step === currentStep.id ? 1.1 : 1,
+                }}
+              >
+                {step > currentStep.id ? <Check className="h-5 w-5" /> : currentStep.id}
+              </motion.div>
+              <span
+                className={cn(
+                  'text-xs font-medium uppercase tracking-wider transition-colors duration-300',
+                  step >= currentStep.id ? 'text-foreground' : 'text-zinc-400',
+                )}
+              >
+                {currentStep.title}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Card className="overflow-hidden border-zinc-100 bg-white/80 shadow-2xl shadow-zinc-200/50 backdrop-blur-md">
+        <CardContent className="p-8 md:p-10">
+          <form onSubmit={(event) => void handleSubmit(event)}>
+            <div className="sr-only" aria-hidden="true">
+              <Label htmlFor="website">Website</Label>
+              <Input
+                id="website"
+                name="website"
+                autoComplete="off"
+                tabIndex={-1}
+                value={formData.website}
+                onChange={(event) => handleChange('website', event.target.value)}
+              />
             </div>
 
-            <Card className="shadow-2xl shadow-zinc-200/50 border-zinc-100 overflow-hidden bg-white/80 backdrop-blur-md">
-                <CardContent className="p-8 md:p-10">
-                    <form onSubmit={handleSubmit}>
-                        <AnimatePresence mode="wait" custom={direction}>
-                            {/* Step 1: Contact */}
-                            {step === 1 && (
-                                <motion.div
-                                    key="step1"
-                                    custom={direction}
-                                    variants={variants}
-                                    initial="enter"
-                                    animate="center"
-                                    exit="exit"
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    className="space-y-6"
-                                >
-                                    <div>
-                                        <h3 className="text-2xl font-bold mb-2">Contact Information</h3>
-                                        <p className="text-muted-foreground">Let&apos;s start with your contact details.</p>
-                                    </div>
+            <AnimatePresence mode="wait" custom={direction}>
+              {step === 1 ? (
+                <motion.div
+                  key="step1"
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="mb-2 text-2xl font-bold">Contact Information</h3>
+                    <p className="text-muted-foreground">
+                      Start with the best way for the attorney to reach you.
+                    </p>
+                  </div>
 
-                                    <div className="space-y-5">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="name">Full Name</Label>
-                                            <Input
-                                                id="name"
-                                                name="name"
-                                                autoComplete="name"
-                                                placeholder="John Doe"
-                                                value={formData.name}
-                                                onChange={(e) => handleChange("name", e.target.value)}
-                                                className="h-12 bg-white"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label htmlFor="email">Email Address</Label>
-                                            <Input
-                                                id="email"
-                                                name="email"
-                                                type="email"
-                                                autoComplete="email"
-                                                placeholder="john@example.com"
-                                                value={formData.email}
-                                                onChange={(e) => handleChange("email", e.target.value)}
-                                                className="h-12 bg-white"
-                                            />
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div className="space-y-2">
-                                                <Label htmlFor="phone">Phone</Label>
-                                                <Input
-                                                    id="phone"
-                                                    name="phone"
-                                                    autoComplete="tel"
-                                                    placeholder="+1 (555) 000-0000"
-                                                    value={formData.phone}
-                                                    onChange={(e) => handleChange("phone", e.target.value)}
-                                                    className="h-12 bg-white"
-                                                />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="language">Language</Label>
-                                                <Select name="language" onValueChange={(val) => handleChange("language", val)} value={formData.language}>
-                                                    <SelectTrigger id="language" className="h-12 bg-white">
-                                                        <SelectValue placeholder="Select" />
-                                                    </SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="English">English</SelectItem>
-                                                        <SelectItem value="Spanish">Spanish</SelectItem>
-                                                        <SelectItem value="Urdu">Urdu</SelectItem>
-                                                        <SelectItem value="French">French</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                        </div>
-                                    </div>
+                  <div className="space-y-5">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Full Name</Label>
+                      <Input
+                        id="name"
+                        name="name"
+                        autoComplete="name"
+                        placeholder="John Doe"
+                        value={formData.name}
+                        onChange={(event) => handleChange('name', event.target.value)}
+                        className="h-12 bg-white"
+                      />
+                      {renderError('name')}
+                    </div>
 
-                                    <div className="pt-4">
-                                        <Button type="button" onClick={nextStep} size="lg" className="w-full h-12 rounded-full font-semibold">
-                                            Continue <ChevronRight className="w-4 h-4 ml-2" />
-                                        </Button>
-                                    </div>
-                                </motion.div>
-                            )}
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={(event) => handleChange('email', event.target.value)}
+                        className="h-12 bg-white"
+                      />
+                      {renderError('email')}
+                    </div>
 
-                            {/* Step 2: Case Details */}
-                            {step === 2 && (
-                                <motion.div
-                                    key="step2"
-                                    custom={direction}
-                                    variants={variants}
-                                    initial="enter"
-                                    animate="center"
-                                    exit="exit"
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    className="space-y-6"
-                                >
-                                    <div>
-                                        <h3 className="text-2xl font-bold mb-2">Case Details</h3>
-                                        <p className="text-muted-foreground">Tell us about your immigration needs.</p>
-                                    </div>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      <div className="space-y-2">
+                        <Label htmlFor="phone">Phone</Label>
+                        <Input
+                          id="phone"
+                          name="phone"
+                          autoComplete="tel"
+                          placeholder="+1 (555) 000-0000"
+                          value={formData.phone}
+                          onChange={(event) => handleChange('phone', event.target.value)}
+                          className="h-12 bg-white"
+                        />
+                        {renderError('phone')}
+                      </div>
 
-                                    <div className="space-y-5">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="caseType">Case Type</Label>
-                                            <Select name="caseType" onValueChange={(val) => handleChange("caseType", val)} value={formData.caseType}>
-                                                <SelectTrigger id="caseType" className="h-12 bg-white">
-                                                    <SelectValue placeholder="Select service type" />
-                                                </SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="Visitor Visa">Visitor Visa (B1/B2)</SelectItem>
-                                                    <SelectItem value="Student Visa">Student Visa (F-1)</SelectItem>
-                                                    <SelectItem value="Change of Status">Change of Status</SelectItem>
-                                                    <SelectItem value="Marriage-Based">Marriage-Based Green Card</SelectItem>
-                                                    <SelectItem value="Work Permit">Work Permit (EAD)</SelectItem>
-                                                    <SelectItem value="Asylum">Asylum</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="language">Preferred Language</Label>
+                        <Select
+                          name="language"
+                          onValueChange={(value) => handleChange('language', value)}
+                          value={formData.language}
+                        >
+                          <SelectTrigger id="language" className="h-12 bg-white">
+                            <SelectValue placeholder="Select" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="English">English</SelectItem>
+                            <SelectItem value="Spanish">Spanish</SelectItem>
+                            <SelectItem value="Urdu">Urdu</SelectItem>
+                            <SelectItem value="Punjabi">Punjabi</SelectItem>
+                            <SelectItem value="French">French</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {renderError('language')}
+                      </div>
+                    </div>
+                  </div>
 
-                                        <div className="space-y-2">
-                                            <Label htmlFor="summary">Brief Summary</Label>
-                                            <Textarea
-                                                id="summary"
-                                                name="summary"
-                                                autoComplete="off"
-                                                placeholder="Describe your situation and what you need help with..."
-                                                rows={4}
-                                                value={formData.summary}
-                                                onChange={(e) => handleChange("summary", e.target.value)}
-                                                className="resize-none bg-white"
-                                            />
-                                        </div>
+                  <div className="pt-4">
+                    <Button
+                      type="button"
+                      onClick={nextStep}
+                      size="lg"
+                      className="h-12 w-full rounded-full font-semibold"
+                    >
+                      Continue <ChevronRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </motion.div>
+              ) : null}
 
-                                        <div className="space-y-3">
-                                            <Label>Documents Available</Label>
-                                            <div className="flex flex-wrap gap-6">
-                                                <div className="flex items-center space-x-3">
-                                                    <Checkbox name="hasPassport" id="hasPassport" checked={formData.hasPassport} onCheckedChange={(c) => handleChange("hasPassport", c)} />
-                                                    <Label htmlFor="hasPassport" className="font-normal cursor-pointer">Passport</Label>
-                                                </div>
-                                                <div className="flex items-center space-x-3">
-                                                    <Checkbox name="hasReceipts" id="hasReceipts" checked={formData.hasReceipts} onCheckedChange={(c) => handleChange("hasReceipts", c)} />
-                                                    <Label htmlFor="hasReceipts" className="font-normal cursor-pointer">USCIS Receipts</Label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+              {step === 2 ? (
+                <motion.div
+                  key="step2"
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="mb-2 text-2xl font-bold">Case Details</h3>
+                    <p className="text-muted-foreground">
+                      Tell us enough to evaluate the matter and the next step.
+                    </p>
+                  </div>
 
-                                    <div className="flex gap-4 pt-4">
-                                        <Button type="button" variant="outline" onClick={prevStep} size="lg" className="flex-1 h-12 rounded-full font-semibold">
-                                            <ChevronLeft className="w-4 h-4 mr-2" /> Back
-                                        </Button>
-                                        <Button type="button" onClick={nextStep} size="lg" className="flex-1 h-12 rounded-full font-semibold">
-                                            Continue <ChevronRight className="w-4 h-4 ml-2" />
-                                        </Button>
-                                    </div>
-                                </motion.div>
-                            )}
+                  <div className="space-y-5">
+                    <div className="space-y-2">
+                      <Label htmlFor="caseType">Case Type</Label>
+                      <Select
+                        name="caseType"
+                        onValueChange={(value) => handleChange('caseType', value)}
+                        value={formData.caseType}
+                      >
+                        <SelectTrigger id="caseType" className="h-12 bg-white">
+                          <SelectValue placeholder="Select service type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Visitor Visa">Visitor Visa (B1/B2)</SelectItem>
+                          <SelectItem value="Student Visa">Student Visa (F-1)</SelectItem>
+                          <SelectItem value="Change of Status">Change of Status</SelectItem>
+                          <SelectItem value="Marriage-Based">Marriage-Based Green Card</SelectItem>
+                          <SelectItem value="Work Permit">Work Permit (EAD)</SelectItem>
+                          <SelectItem value="Asylum">Asylum</SelectItem>
+                          <SelectItem value="Removal Defense">Removal / Court Matter</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {renderError('caseType')}
+                    </div>
 
-                            {/* Step 3: Review */}
-                            {step === 3 && (
-                                <motion.div
-                                    key="step3"
-                                    custom={direction}
-                                    variants={variants}
-                                    initial="enter"
-                                    animate="center"
-                                    exit="exit"
-                                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                                    className="space-y-6"
-                                >
-                                    <div>
-                                        <h3 className="text-2xl font-bold mb-2">Review & Submit</h3>
-                                        <p className="text-muted-foreground">Please verify your information.</p>
-                                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="summary">Brief Summary</Label>
+                      <Textarea
+                        id="summary"
+                        name="summary"
+                        autoComplete="off"
+                        placeholder="Describe your current status, deadlines, and the help you need."
+                        rows={5}
+                        value={formData.summary}
+                        onChange={(event) => handleChange('summary', event.target.value)}
+                        className="resize-none bg-white"
+                      />
+                      <div className="flex items-center justify-between text-sm text-zinc-500">
+                        <span>Include deadlines, prior filings, and any urgent hearing dates.</span>
+                        <span>{formData.summary.trim().length}/2000</span>
+                      </div>
+                      {renderError('summary')}
+                    </div>
 
-                                    <div className="bg-zinc-50 p-6 rounded-xl space-y-3 text-sm border border-zinc-100">
-                                        <div className="flex justify-between py-2 border-b border-border/50">
-                                            <span className="text-muted-foreground">Name</span>
-                                            <span className="font-medium">{formData.name || '—'}</span>
-                                        </div>
-                                        <div className="flex justify-between py-2 border-b border-border/50">
-                                            <span className="text-muted-foreground">Email</span>
-                                            <span className="font-medium">{formData.email || '—'}</span>
-                                        </div>
-                                        <div className="flex justify-between py-2 border-b border-border/50">
-                                            <span className="text-muted-foreground">Phone</span>
-                                            <span className="font-medium">{formData.phone || '—'}</span>
-                                        </div>
-                                        <div className="flex justify-between py-2">
-                                            <span className="text-muted-foreground">Case Type</span>
-                                            <span className="font-medium">{formData.caseType || '—'}</span>
-                                        </div>
-                                    </div>
+                    <div className="space-y-3">
+                      <Label>Documents Available</Label>
+                      <div className="flex flex-wrap gap-6">
+                        <div className="flex items-center space-x-3">
+                          <Checkbox
+                            name="hasPassport"
+                            id="hasPassport"
+                            checked={formData.hasPassport}
+                            onCheckedChange={(checked) => handleChange('hasPassport', checked === true)}
+                          />
+                          <Label htmlFor="hasPassport" className="cursor-pointer font-normal">
+                            Passport
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-3">
+                          <Checkbox
+                            name="hasReceipts"
+                            id="hasReceipts"
+                            checked={formData.hasReceipts}
+                            onCheckedChange={(checked) => handleChange('hasReceipts', checked === true)}
+                          />
+                          <Label htmlFor="hasReceipts" className="cursor-pointer font-normal">
+                            USCIS receipts or notices
+                          </Label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                                    <div className="flex items-start space-x-3 pt-2">
-                                        <Checkbox
-                                            id="consent"
-                                            name="consent"
-                                            checked={formData.consent}
-                                            onCheckedChange={(c) => handleChange("consent", c)}
-                                        />
-                                        <Label htmlFor="consent" className="text-sm font-normal text-muted-foreground leading-relaxed cursor-pointer">
-                                            I understand this form is for intake purposes only and does not create an attorney-client relationship. I agree to the Privacy Policy.
-                                        </Label>
-                                    </div>
+                  <div className="flex gap-4 pt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={prevStep}
+                      size="lg"
+                      className="h-12 flex-1 rounded-full font-semibold"
+                    >
+                      <ChevronLeft className="mr-2 h-4 w-4" /> Back
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={nextStep}
+                      size="lg"
+                      className="h-12 flex-1 rounded-full font-semibold"
+                    >
+                      Continue <ChevronRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
+                </motion.div>
+              ) : null}
 
-                                    <div className="flex gap-4 pt-4">
-                                        <Button type="button" variant="outline" onClick={prevStep} size="lg" className="flex-1 h-12 rounded-full font-semibold">
-                                            <ChevronLeft className="w-4 h-4 mr-2" /> Back
-                                        </Button>
-                                        <Button
-                                            type="submit"
-                                            size="lg"
-                                            className="flex-1 h-12 rounded-full font-semibold"
-                                            disabled={!formData.consent || isSubmitting}
-                                        >
-                                            {isSubmitting ? (
-                                                <>
-                                                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                                    Submitting...
-                                                </>
-                                            ) : (
-                                                'Submit Request'
-                                            )}
-                                        </Button>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-                    </form>
-                </CardContent>
-            </Card>
-        </div>
-    );
+              {step === 3 ? (
+                <motion.div
+                  key="step3"
+                  custom={direction}
+                  variants={variants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.3, ease: 'easeInOut' }}
+                  className="space-y-6"
+                >
+                  <div>
+                    <h3 className="mb-2 text-2xl font-bold">Review &amp; Submit</h3>
+                    <p className="text-muted-foreground">
+                      Confirm the intake details before sending them to the office.
+                    </p>
+                  </div>
+
+                  <div className="space-y-3 rounded-xl border border-zinc-100 bg-zinc-50 p-6 text-sm">
+                    <div className="flex justify-between border-b border-border/50 py-2">
+                      <span className="text-muted-foreground">Name</span>
+                      <span className="font-medium">{formData.name || '—'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-border/50 py-2">
+                      <span className="text-muted-foreground">Email</span>
+                      <span className="font-medium">{formData.email || '—'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-border/50 py-2">
+                      <span className="text-muted-foreground">Phone</span>
+                      <span className="font-medium">{formData.phone || '—'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-border/50 py-2">
+                      <span className="text-muted-foreground">Language</span>
+                      <span className="font-medium">{formData.language || '—'}</span>
+                    </div>
+                    <div className="flex justify-between border-b border-border/50 py-2">
+                      <span className="text-muted-foreground">Case Type</span>
+                      <span className="font-medium">{formData.caseType || '—'}</span>
+                    </div>
+                    <div className="py-2">
+                      <span className="text-muted-foreground">Summary</span>
+                      <p className="mt-2 rounded-lg bg-white p-4 leading-relaxed text-zinc-700">
+                        {formData.summary || '—'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3 pt-2">
+                    <Checkbox
+                      id="consent"
+                      name="consent"
+                      checked={formData.consent}
+                      onCheckedChange={(checked) => handleChange('consent', checked === true)}
+                    />
+                    <Label
+                      htmlFor="consent"
+                      className="cursor-pointer text-sm font-normal leading-relaxed text-muted-foreground"
+                    >
+                      I understand this form is for intake review only, does not create an
+                      attorney-client relationship, and is subject to the{' '}
+                      <Link href="/privacy" className="font-medium text-blue-600 hover:text-blue-700">
+                        Privacy Policy
+                      </Link>
+                      .
+                    </Label>
+                  </div>
+                  {renderError('consent')}
+
+                  <div className="flex gap-4 pt-4">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={prevStep}
+                      size="lg"
+                      className="h-12 flex-1 rounded-full font-semibold"
+                    >
+                      <ChevronLeft className="mr-2 h-4 w-4" /> Back
+                    </Button>
+                    <Button
+                      type="submit"
+                      size="lg"
+                      className="h-12 flex-1 rounded-full font-semibold"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        'Submit Request'
+                      )}
+                    </Button>
+                  </div>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
 }

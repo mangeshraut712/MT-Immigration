@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Badge } from "@/components/ui/badge";
 import { Quote, Award, Users, Globe, Scale } from 'lucide-react';
 
 export function AboutSection() {
@@ -34,7 +33,7 @@ export function AboutSection() {
                                     <div className="w-32 h-32 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 mx-auto mb-6 flex items-center justify-center shadow-xl">
                                         <span className="text-5xl font-bold text-white">M&T</span>
                                     </div>
-                                    <p className="text-zinc-400 text-sm font-medium">Attorney Photo</p>
+                                    <p className="text-zinc-400 text-sm font-medium">Solo attorney practice</p>
                                 </div>
                             </div>
 
@@ -46,8 +45,8 @@ export function AboutSection() {
                                 transition={{ delay: 0.3 }}
                                 className="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-2xl border border-zinc-100"
                             >
-                                <div className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">500+</div>
-                                <div className="text-sm text-zinc-600 font-medium">Cases Handled</div>
+                                <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">One strategy owner</div>
+                                <div className="text-sm text-zinc-600 font-medium">No handoffs once your matter begins</div>
                             </motion.div>
                         </div>
                     </motion.div>
@@ -66,20 +65,20 @@ export function AboutSection() {
                         </div>
 
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight leading-[1.1]">
-                            Meet the Attorney
+                            A boutique immigration practice
                             <br />
-                            <span className="text-zinc-400 italic font-light">Behind M&T</span>
+                            <span className="text-zinc-400 italic font-light">built for direct communication</span>
                         </h2>
 
                         <div className="relative">
                             <Quote className="absolute -top-4 -left-4 w-12 h-12 text-blue-100 rotate-180" />
                             <blockquote className="text-xl md:text-2xl font-serif font-light italic leading-relaxed pl-8 border-l-4 border-blue-500/30 text-zinc-700">
-                                "I've been in your shoes. I immigrated to the United States in 2015 on an F-1 student visa. I know the confusion and stress firsthand."
+                                &ldquo;Immigration cases are too important to disappear into a volume practice. You should know who is guiding the strategy, what the next filing is, and where the risks are.&rdquo;
                             </blockquote>
                         </div>
 
                         <p className="text-lg text-zinc-600 leading-relaxed">
-                            After navigating the process myself and working in immigration law, I founded M&T Immigration Law Firm to make reliable legal help accessible and affordable.
+                            M&amp;T is positioned as a focused solo practice for clients who want thoughtful preparation, straight answers, and direct access to the attorney handling the work.
                         </p>
 
                         {/* Credentials with icons */}
@@ -87,10 +86,10 @@ export function AboutSection() {
                             <h4 className="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-6">Credentials & Expertise</h4>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {[
-                                    { icon: Scale, text: "Licensed Attorney" },
-                                    { icon: Award, text: "10+ Years Experience" },
-                                    { icon: Users, text: "Pro Bono Volunteer" },
-                                    { icon: Globe, text: "Multilingual Support" }
+                                    { icon: Scale, text: "Attorney-led strategy" },
+                                    { icon: Award, text: "Clear filing roadmaps" },
+                                    { icon: Users, text: "Boutique caseload attention" },
+                                    { icon: Globe, text: "Virtual consultations nationwide" }
                                 ].map((cred, i) => (
                                     <motion.div
                                         key={i}

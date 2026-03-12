@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { Phone, ArrowRight, MessageCircle, Calendar } from 'lucide-react';
 import Link from "next/link";
+import { firmConfig } from '@/config/firm';
 
 export function CTASection() {
     return (
@@ -63,14 +64,14 @@ export function CTASection() {
                         transition={{ duration: 0.6, delay: 0.1 }}
                     >
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight mb-6 leading-[1.1]">
-                            Your Immigration Journey
+                            Your immigration strategy
                             <br />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400">
-                                Starts Here
+                                starts with a real case review
                             </span>
                         </h2>
                         <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-                            Don't navigate the complex immigration system alone. Get expert guidance from attorneys who understand your unique situation.
+                            Don&apos;t hand a high-stakes immigration matter to a generic intake funnel. Start with a focused consultation and a clear next step from an attorney-led practice.
                         </p>
                     </motion.div>
 
@@ -99,7 +100,7 @@ export function CTASection() {
                             size="lg"
                             className="h-14 px-8 text-lg rounded-full font-semibold border-2 border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-black transition-all hover:scale-105"
                         >
-                            <a href="tel:+15551234567" className="flex items-center gap-2">
+                            <a href={firmConfig.contact.phoneHref} className="flex items-center gap-2">
                                 <Phone size={18} />
                                 Call Now
                             </a>
@@ -115,9 +116,9 @@ export function CTASection() {
                         className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto"
                     >
                         {[
-                            { icon: MessageCircle, text: "Free Initial Call" },
-                            { icon: Calendar, text: "24-48hr Response" },
-                            { icon: Phone, text: "Multilingual Support" }
+                            { icon: MessageCircle, text: "Transparent consultation fees" },
+                            { icon: Calendar, text: "1-2 business day response" },
+                            { icon: Phone, text: "Virtual nationwide consultations" }
                         ].map((item, i) => (
                             <div
                                 key={i}

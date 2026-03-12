@@ -34,7 +34,7 @@ export function HeroSection() {
                 >
                     <Badge variant="secondary" className="px-5 py-2.5 text-sm font-medium glass rounded-full text-zinc-600 border-zinc-200/60 shadow-sm backdrop-blur-xl">
                         <Sparkles className="w-4 h-4 mr-2 text-blue-500 fill-blue-500/20" />
-                        Trusted by 1000+ Families Nationwide
+                        Solo attorney practice with direct case ownership
                     </Badge>
                 </motion.div>
 
@@ -46,13 +46,13 @@ export function HeroSection() {
                     className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif font-medium tracking-tight mb-8 leading-[1.05]"
                 >
                     <span className="text-foreground drop-shadow-sm">
-                        Affordable Legal Services
+                        Focused immigration counsel
                     </span>
                     <br />
                     <span className="text-zinc-400 italic font-light">
-                        Delivered with{' '}
+                        with{' '}
                         <span className="relative inline-block font-medium text-blue-600 not-italic">
-                            Care
+                            clear strategy
                             {/* Simple subtle underline */}
                             <motion.span
                                 aria-hidden
@@ -73,7 +73,7 @@ export function HeroSection() {
                     transition={{ duration: 0.6, delay: 0.25 }}
                     className="text-xl md:text-2xl text-zinc-500 max-w-3xl mx-auto leading-relaxed mb-12 text-balance"
                 >
-                    Low-bono support for <strong className="text-zinc-800 font-semibold">visitor</strong>, <strong className="text-zinc-800 font-semibold">student</strong>, <strong className="text-zinc-800 font-semibold">marriage-based</strong>, and <strong className="text-zinc-800 font-semibold">humanitarian</strong> immigration cases.
+                    Boutique support for <strong className="text-zinc-800 font-semibold">visitor</strong>, <strong className="text-zinc-800 font-semibold">student</strong>, <strong className="text-zinc-800 font-semibold">family-based</strong>, <strong className="text-zinc-800 font-semibold">humanitarian</strong>, and <strong className="text-zinc-800 font-semibold">urgent removal</strong> matters, with direct attorney communication from intake through filing.
                 </motion.p>
 
                 {/* CTA Buttons */}
@@ -114,15 +114,15 @@ export function HeroSection() {
                 >
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full glass bg-white/40">
                         <Phone size={16} className="text-emerald-500" />
-                        <span>Free Initial Call</span>
+                        <span>Direct attorney access</span>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full glass bg-white/40">
                         <Clock size={16} className="text-blue-500" />
-                        <span>24-48hr Response</span>
+                        <span>1-2 business day response</span>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full glass bg-white/40">
                         <FileText size={16} className="text-indigo-500" />
-                        <span>95% Approval Rate</span>
+                        <span>Transparent consult fees</span>
                     </div>
                 </motion.div>
             </motion.div>

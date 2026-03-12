@@ -7,7 +7,20 @@ on:
     branches: [main]
 
 jobs:
+  secrets-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan for committed secrets
+        uses: gitleaks/gitleaks-action@v2
+
   lint-and-build:
+    needs: secrets-scan
     runs-on: ubuntu-latest
     
     strategy:
@@ -29,7 +42,6 @@ jobs:
       
       - name: Run linter
         run: npm run lint
-        continue-on-error: true
       
       - name: Build project
         run: npm run build
