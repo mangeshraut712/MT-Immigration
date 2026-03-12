@@ -1,0 +1,13 @@
+{
+  "source_directories": [
+    "api"
+  ],
+  "site_roots": [
+    ".venv/lib/python3.12/site-packages"
+  ],
+  "site_package_search_strategy": "all",
+  "exclude": [
+    ".*/\\.venv/.*",
+    ".*/__pycache__/.*"
+  ]
+}

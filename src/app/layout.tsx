@@ -1,58 +1,110 @@
-import type { Metadata } from "next";
-import { Inter, DM_Serif_Display } from "next/font/google";
-import "./globals.css";
-import clsx from "clsx";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import { BackToTop } from "@/components/layout/BackToTop";
-import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/next";
+import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import Providers from "./providers";
-import { siteConfig, siteUrl } from "@/lib/site";
-import { ScrollProgress } from "@/components/ui/scroll-progress";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
+import "@fontsource/geist/400.css";
+import "@fontsource/geist/500.css";
+import "@fontsource/geist/600.css";
+import "@fontsource/geist/700.css";
+import "@fontsource/geist-mono/400.css";
+import "@fontsource/geist-mono/500.css";
+import "@fontsource/cormorant-garamond/500.css";
+import "@fontsource/cormorant-garamond/600.css";
+import "@fontsource/cormorant-garamond/700.css";
+import "./globals.css";
 
-import { DynamicChatBot } from "@/components/features/chatbot/DynamicChatBot";
+// Viewport configuration - separated in Next.js 14+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+};
 
-// SF Pro alternative - Inter is the closest Google Font
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-// Elegant Serif for headings - Apple-like premium feel
-const dmSerif = DM_Serif_Display({
-  variable: "--font-serif",
-  weight: ["400"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
+// Comprehensive SEO metadata
 export const metadata: Metadata = {
-  metadataBase: siteUrl,
   title: {
-    default: siteConfig.defaultTitle,
-    template: "%s | M&T Immigration Law Firm",
+    default: "Vidya Raut | Energy Technology & Market Analyst",
+    template: "%s | Vidya Raut Portfolio",
   },
-  description: siteConfig.description,
-  keywords: [...siteConfig.keywords],
-  authors: [{ name: siteConfig.name }],
+  description:
+    "Professional portfolio of Vidya Raut - Energy Technology Analyst specializing in market research, data analysis, and energy storage systems. 4+ years of experience driving insights in the energy sector.",
+  applicationName: "Vidya Raut Portfolio",
+  keywords: [
+    "Energy Technology Analyst",
+    "Market Research",
+    "Data Analysis",
+    "Energy Storage Systems",
+    "Battery Testing",
+    "Power BI",
+    "Excel Analytics",
+    "Vidya Raut",
+    "Portfolio",
+    "Pune",
+    "India",
+    "ESS",
+    "Energy Sector",
+  ],
+  authors: [{ name: "Vidya Raut", url: "https://vidyaraut.vercel.app" }],
+  creator: "Vidya Raut",
+  publisher: "Vidya Raut",
+  metadataBase: new URL("https://vidyaraut.vercel.app"),
   alternates: {
-    canonical: siteUrl,
+    canonical: "/",
+    languages: {
+      "en": "/en",
+      "hi": "/hi",
+      "mr": "/mr",
+    },
   },
   openGraph: {
-    title: siteConfig.defaultTitle,
-    description: siteConfig.description,
-    url: siteUrl,
-    siteName: siteConfig.name,
+    title: "Vidya Raut | Energy Technology & Market Analyst",
+    description:
+      "Professional portfolio of Vidya Raut - Energy Technology Analyst specializing in market research, data analysis, and energy storage systems.",
+    url: "https://vidyaraut.vercel.app",
+    siteName: "Vidya Raut Portfolio",
+    locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Vidya Raut - Energy Technology Analyst",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.defaultTitle,
-    description: siteConfig.description,
+    title: "Vidya Raut | Energy Technology & Market Analyst",
+    description:
+      "Energy Technology Analyst specializing in market research, data analysis, and energy storage systems.",
+    images: ["/og-image.png"],
+    creator: "@vidyaraut",
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  icons: {
+    icon: [
+      { url: "/logo.png", sizes: "32x32", type: "image/png" },
+      { url: "/logo.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [{ url: "/logo.png", sizes: "180x180", type: "image/png" }],
+  },
+  manifest: "/manifest.json",
+  category: "portfolio",
 };
 
 export default function RootLayout({
@@ -60,28 +112,91 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const enableVercelTelemetry = Boolean(process.env.VERCEL);
+
   return (
-    <html lang="en" className={clsx(inter.variable, dmSerif.variable, "scroll-smooth")} suppressHydrationWarning>
-      <body className="antialiased bg-background text-foreground font-sans" suppressHydrationWarning>
-        <Providers>
-          <ScrollProgress />
-          <a
-            href="#main-content"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-md focus-ring"
-          >
-            Skip to content
-          </a>
-          <Navbar />
-          <main id="main-content" className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
-          <BackToTop />
-          <DynamicChatBot />
-          <Toaster position="bottom-right" richColors closeButton />
-          <Analytics />
-          <SpeedInsights />
-        </Providers>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth" className="scroll-smooth scroll-pt-24">
+      <head>
+        {/* Preconnect for performance */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* DNS Prefetch for external resources */}
+        <link rel="dns-prefetch" href="https://vercel.live" />
+
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Vidya Raut",
+              "jobTitle": "Energy Technology Analyst",
+              "description": "Energy Technology Analyst specializing in market research, data analysis, and energy storage systems with 4+ years of experience.",
+              "url": "https://vidyaraut.vercel.app",
+              "image": "https://vidyaraut.vercel.app/home picture.jpeg",
+              "sameAs": [
+                "https://www.linkedin.com/in/vidyaraut17/"
+              ],
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Pune",
+                "addressRegion": "Maharashtra",
+                "addressCountry": "India"
+              },
+              "alumniOf": [
+                {
+                  "@type": "EducationalOrganization",
+                  "name": "Savitribai Phule Pune University",
+                  "description": "M.Tech in Energy Technology (Currently pursuing)"
+                },
+                {
+                  "@type": "EducationalOrganization",
+                  "name": "H.V.Desai Senior College",
+                  "description": "M.Sc in Physics"
+                }
+              ],
+              "hasOccupation": {
+                "@type": "Occupation",
+                "name": "Energy Technology Analyst",
+                "occupationLocation": {
+                  "@type": "City",
+                  "name": "Pune",
+                  "addressCountry": "India"
+                },
+                "skills": [
+                  "Market Research",
+                  "Data Analysis",
+                  "Excel (Advanced)",
+                  "Power BI",
+                  "Energy Storage Systems",
+                  "Battery Testing",
+                  "Report Writing"
+                ]
+              },
+              "knowsAbout": [
+                "Energy Storage Systems",
+                "Market Research",
+                "Data Analysis",
+                "Battery Technology",
+                "Renewable Energy",
+                "Power BI",
+                "Excel Analytics"
+              ]
+            })
+          }}
+        />
+      </head>
+      <body
+        className="font-geist antialiased bg-background text-foreground"
+        suppressHydrationWarning
+      >
+        <ErrorBoundary>
+          {children}
+        </ErrorBoundary>
+        {enableVercelTelemetry ? <Analytics /> : null}
+        {enableVercelTelemetry ? <SpeedInsights /> : null}
       </body>
     </html>
   );

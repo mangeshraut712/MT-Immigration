@@ -1,19 +1,37 @@
 "use client";
 
-import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
+import { useState } from "react";
+import { NextIntlClientProvider } from "next-intl";
+import { ThemeProvider } from "next-themes";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import type { Locale } from "@/i18n/config";
 
-export default function Providers({ children }: { children: ReactNode }) {
+// Global timezone configuration
+const TIME_ZONE = "Asia/Kolkata";
+
+type AppProvidersProps = {
+  children: ReactNode;
+  locale: Locale;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  messages: Record<string, any>;
+};
+
+export function AppProviders({ children, locale, messages }: AppProvidersProps) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      enableColorScheme
-      disableTransitionOnChange
+    <NextIntlClientProvider
+      locale={locale}
+      messages={messages}
+      timeZone={TIME_ZONE}
     >
-      {children}
-    </ThemeProvider>
+      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      </ThemeProvider>
+    </NextIntlClientProvider>
   );
 }
-

@@ -1,202 +1,250 @@
-# M&T Immigration Law Firm Website
+# Vidya Raut Portfolio
 
-A state-of-the-art, AI-powered specialized immigration law firm website built with **Next.js 16**, **React 19**, and a premium "Apple-style" black & white design system.
+Portfolio website for Vidya Raut built with Next.js 16, React 19, TypeScript, Tailwind CSS, `next-intl`, and an optional FastAPI-backed multi-agent chatbot.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.0.8-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.1-blue?logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
+## Overview
 
-## 🚀 Key Features
+This project is a multilingual portfolio with:
 
-### 🧠 **AI Legal Assistant**
-- **Specialized Knowledge Base**: Powered by a custom `legalKnowledgeBase.ts` engine that understands specific intents like *B1/B2 Visas*, *Asylum*, *Deportation Defense*, and *Citizenship*.
-- **Intent Detection**: Analyzes user messages to accurately map them to legal topics.
-- **Actionable Responses**: Provides structured answers with bullet points, bold text, smart suggestion chips, and direct action buttons (e.g., "Book Consultation").
-- **Safety First**: Includes clear legal disclaimers and triage for urgent cases.
+- a homepage-driven navigation flow
+- dedicated subpages for `skills`, `projects`, and `certifications`
+- an inline game section on the homepage below contact
+- a multi-agent chatbot for portfolio, market, opportunity, and puzzle-help flows
+- optional FastAPI support for chat proxying and backend deployment
 
-### 🎨 **Premium "Apple-Style" Design**
-- **Aesthetic**: Minimalist monochromatic theme (Black/White/Grayscale) with strategic "Blue" accents (`hsl 211 100% 50%`).
-- **Typography**: `Inter` (Sans) for clean UI text and `DM Serif Display` for elegant, trustworthy headings.
-- **Animations**: Powered by **Framer Motion**, featuring smooth scroll reveals, stagger effects, and interactive hover states.
-- **Floating Decorative Elements**: Subtle animated gradient blobs for visual depth.
-- **Trust Indicators**: Highlighted stats and badges for credibility.
+## Stack
 
-### ⚡ **Performance & Architecture**
-- **Next.js 16**: Utilizing the latest App Router and React Server Components (RSC).
-- **React 19**: Leveraging the newest React features for concurrent rendering.
-- **React Compiler**: Enabled for automatic optimizations.
-- **Component Architecture**: Highly organized codebase with clear separation of concerns:
-  - `components/layout`: Core structural frame (Navbar, Footer, BackToTop).
-  - `components/features`: Complex interactive modules (Chatbot, Intake Form).
-  - `components/sections`: Marketing landing page sections.
-  - `components/ui`: Shadcn/UI component library.
-- **Dynamic Loading**: Critical sections and the Chatbot are properly code-split using `next/dynamic` for optimal Core Web Vitals.
-- **Custom Hooks Library**: Reusable hooks for localStorage, viewport detection, debouncing, and more.
-- **Animation Library**: Centralized Framer Motion variants for consistent animations.
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- `next-intl`
+- FastAPI + `httpx` (optional backend)
 
-### 📝 **Smart Intake System**
-- **Accessibility**: Integrated `aria` labels, keyboard navigation, and semantic HTML5.
-- **Multi-step Wizard**: A frictionless "Contact -> Case Details -> Review" flow.
-- **Real-time Validation**: Ensures data integrity before submission.
-- **Form State Persistence**: Users don't lose progress.
+## Routes
 
-### 🔒 **Security & SEO**
-- **Security Headers**: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection via `vercel.json`.
-- **Asset Caching**: Optimized cache headers for fonts and images.
-- **robots.txt & sitemap.xml**: Auto-generated for search engine crawling.
-- **Open Graph & Twitter Cards**: Social media preview optimization.
-- **Skip to Content**: Accessibility link for keyboard users.
+- `/[locale]`
+- `/[locale]/skills`
+- `/[locale]/projects`
+- `/[locale]/certifications`
+- `/[locale]/game`
+  This redirects to `/{locale}#game`
+- `/api/chat`
 
----
+Supported locales:
 
-## 🛠️ Tech Stack
+- `en`
+- `hi`
+- `mr`
 
-| Category | Technology | Version |
-|----------|------------|---------|
-| **Framework** | Next.js (Turbo) | 16.0.8 |
-| **Core** | React | 19.2.1 |
-| **Language** | TypeScript | 5.x |
-| **Styling** | Tailwind CSS | 3.4+ |
-| **UI Library** | Shadcn/UI | Latest |
-| **Motion** | Framer Motion | 12.x |
-| **Icons** | Lucide React | 0.556 |
-| **Toast** | Sonner | 2.0 |
-| **Forms** | React Hook Form + Zod | Latest |
+## Active Project Structure
 
----
-
-## 📁 Project Structure
-
-```bash
+```text
 src/
-├── app/                      # Next.js App Router
-│   ├── layout.tsx            # Root layout with providers
-│   ├── page.tsx              # Homepage composition
-│   ├── globals.css           # Tailwind & CSS Variables
-│   ├── providers.tsx         # Theme and other providers
-│   ├── robots.ts             # SEO robots configuration
-│   └── sitemap.ts            # SEO sitemap generation
-├── components/
-│   ├── features/             # Complex interactive modules
-│   │   ├── chatbot/          # AI Assistant (ChatBot.tsx)
-│   │   └── intake/           # Multi-step Intake Form
-│   ├── layout/               # Structural components
-│   │   ├── Navbar.tsx        # Navigation with scroll effects
-│   │   ├── Footer.tsx        # Footer with links
-│   │   └── BackToTop.tsx     # Scroll to top button
-│   ├── sections/             # Landing page sections
-│   │   ├── HeroSection.tsx   # Hero with floating elements
-│   │   ├── StatsSection.tsx  # Animated counters
-│   │   ├── ServicesSection.tsx # Service cards with dialogs
-│   │   └── ...               # Other sections
-│   └── ui/                   # Shadcn/UI atoms
-│       ├── button.tsx
-│       ├── loading.tsx       # Loading states
-│       ├── scroll-progress.tsx # Reading progress
-│       └── ...
-├── data/
-│   └── legalKnowledgeBase.ts # AI Brain & Intent Logic
-└── lib/
-    ├── utils.ts              # cn() helper
-    ├── site.ts               # Site configuration
-    ├── hooks.ts              # Custom React hooks
-    └── animations.ts         # Framer Motion variants
+  app/
+    [locale]/
+      page.tsx
+      skills/page.tsx
+      projects/page.tsx
+      certifications/page.tsx
+      game/page.tsx
+    api/chat/route.ts
+    globals.css
+    layout.tsx
+    page.tsx
+    providers.tsx
+  components/
+    AIChatbot.tsx
+    Footer.tsx
+    Game.tsx
+    GlobalLayout.tsx
+    Navigation.tsx
+    PageBackButton.tsx
+    ScrollToTop.tsx
+    SectionIntro.tsx
+    Timeline.tsx
+    ui/
+  i18n/
+  lib/
+    assistant-agents.ts
+    collection-utils.ts
+    data.ts
+    legacy-data.ts
+    openrouter.ts
 ```
 
----
-
-## 🚦 Getting Started
+## Installation
 
 ### Prerequisites
 
-- Node.js 18+ (Recommended: 20 LTS)
-- npm or pnpm
+- Node.js 20+
+- npm
+- Python 3.11+ if you want the FastAPI backend
 
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/mangeshraut712/MT-Immigration.git
-    cd MT-Immigration
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-
-    Open [http://localhost:3000](http://localhost:3000) with your browser.
-
-### Build for Production
+### Frontend setup
 
 ```bash
-npm run build
-npm start
+npm install
+cp .env.example .env.local
+npm run dev
 ```
 
----
+Open:
 
-## 🧪 Developer Commands
+- `http://localhost:3000/en`
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with Turbopack |
-| `npm run build` | Create optimized production build |
-| `npm run start` | Start production server |
-| `npm run lint` | Check for TypeScript and ESLint errors |
+### Optional FastAPI backend
 
----
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn fastapi_backend.main:app --reload --port 8000
+```
 
-## 📱 Page Sections
+Open:
 
-1.  **Hero Section**: High-impact introduction with animated floating elements and trust indicators.
-2.  **Stats**: Animated counters showing success metrics.
-3.  **Process**: Visual timeline of the client journey.
-4.  **Services**: Interactive cards with modal details for each practice area.
-5.  **Why Us**: Value proposition with feature highlights.
-6.  **Testimonials**: Client reviews with ratings.
-7.  **About**: Attorney profile and firm story.
-8.  **Pricing**: Transparent "Low-bono" fee structure.
-9.  **FAQ**: Accordion-style Q&A.
-10. **CTA Banner**: Final call to action.
-11. **Contact**: Multi-step intake form with contact information.
+- `http://127.0.0.1:8000/health`
 
----
+## Environment Variables
 
-## 🎯 Recent Improvements
+Copy `.env.example` to `.env.local` and set only what you need.
 
-- ✅ Enhanced Hero Section with floating gradient elements and animated text highlights
-- ✅ Added trust indicators (Free Call, 24-48hr Response, 95% Approval Rate)
-- ✅ Created centralized animation library (`src/lib/animations.ts`)
-- ✅ Added custom React hooks library (`src/lib/hooks.ts`)
-- ✅ Added Loading and Skeleton components for better UX
-- ✅ Added scroll progress indicator component
-- ✅ Enhanced CSS with custom scrollbar, selection colors, and more utilities
-- ✅ Improved accessibility with skip-to-content link and focus states
-- ✅ Organized project structure for scalability
+```env
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_NAME=Vidya Raut Portfolio
 
----
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-5.4
 
-## 🚀 Deployment
+OPENROUTER_API_KEY=
+OPENROUTER_MODEL=openai/gpt-3.5-turbo
 
-### Vercel (Recommended)
+FASTAPI_URL=
+FASTAPI_INTERNAL_TOKEN=
 
-1. Push to GitHub
-2. Import project in Vercel Dashboard
-3. Auto-detected as Next.js - click Deploy
+CHAT_UPSTREAM_URL=
+FASTAPI_DEV_REWRITE=
+```
 
-The `vercel.json` includes security headers and caching configuration.
+### Configuration Notes
 
----
+- `OPENAI_API_KEY` and `OPENROUTER_API_KEY` are optional.
+- `FASTAPI_URL` is optional. If set, the Next.js route proxies to FastAPI first.
+- `CHAT_UPSTREAM_URL` is optional. In non-production, both the Next.js route and the FastAPI backend can proxy to an upstream chat API when no local AI keys are configured.
+- `FASTAPI_DEV_REWRITE=true` is only for direct local rewrite testing. It is off by default so dev and production behave consistently.
 
-## 📄 License
+## Chatbot Architecture
 
-© 2025 M&T Immigration Law Firm. All rights reserved.
+Supported agents:
 
-**Attorney Advertising**: Prior results do not guarantee a similar outcome.
+- `portfolio`
+- `market`
+- `opportunity`
+- `puzzle`
+
+### Next.js `/api/chat` resolution order
+
+1. Proxy to `FASTAPI_URL` if configured
+2. Use local OpenAI / OpenRouter keys if present
+3. In non-production, proxy to `CHAT_UPSTREAM_URL` or the default dev upstream
+4. Fall back to deterministic local responses
+
+### FastAPI backend behavior
+
+The optional FastAPI backend:
+
+- mirrors the same four-agent model
+- supports OpenAI Responses API
+- supports OpenRouter fallback
+- supports remote upstream proxying when no local AI keys are configured
+
+## Usage Examples
+
+### Health checks
+
+```bash
+curl http://localhost:3000/api/chat
+curl http://127.0.0.1:8000/health
+```
+
+### Chat request
+
+```bash
+curl -X POST http://localhost:3000/api/chat \
+  -H "content-type: application/json" \
+  --data '{
+    "agent": "portfolio",
+    "messages": [
+      { "role": "user", "content": "Give me a concise summary of Vidya Raut''s profile." }
+    ]
+  }'
+```
+
+### Puzzle helper request
+
+```bash
+curl -X POST http://localhost:3000/api/chat \
+  -H "content-type: application/json" \
+  --data '{
+    "agent": "puzzle",
+    "messages": [
+      { "role": "user", "content": "Give me a hint for this crossword clue: storage market" }
+    ]
+  }'
+```
+
+## Quality Checks
+
+```bash
+npm run lint
+npm run type-check
+npm run build
+npm audit --audit-level=moderate
+./.venv/bin/python -m py_compile api/index.py fastapi_backend/main.py
+```
+
+## Recent Changes
+
+- consolidated the homepage as the primary product surface
+- moved the game into the homepage flow below contact
+- redirected `/[locale]/game` to `#game`
+- improved chatbot shell stability across agent switches
+- aligned heading behavior across homepage and subpages
+- cleaned the footer layout and removed the footer `Game` link
+- added `puzzle` support to the FastAPI backend
+- added remote-upstream fallback support to FastAPI health/chat
+- removed unused legacy components and generated cache artifacts
+- refreshed README to match the current architecture
+
+## Known Limitations
+
+- the crossword iframe depends on a third-party source:
+  `https://marathigames.in/Crossword/crossword.html`
+- local chat remains fallback-only unless provider keys or a remote upstream are configured
+- chat rate limiting is in-memory in both the Next.js route and the FastAPI backend
+
+## Contribution Guidelines
+
+1. Create a feature branch from `main`.
+2. Keep changes small and consistent with the existing design system.
+3. Run:
+   - `npm run lint`
+   - `npm run type-check`
+   - `npm run build`
+4. If you touch the backend, also run:
+   - `./.venv/bin/python -m py_compile api/index.py fastapi_backend/main.py`
+5. Update docs when behavior, routes, or configuration change.
+6. Open a pull request with a concise summary and verification notes.
+
+## Release Checklist
+
+- homepage loads at `/en`
+- solid white/light and solid black/dark theme backgrounds remain intact
+- chatbot opens, switches agents, and sends messages
+- `GET /api/chat` works
+- `POST /api/chat` works
+- `/[locale]/game` redirects to `#game`
+- footer links and CTA are correct
+- lint, type-check, build, and audit pass

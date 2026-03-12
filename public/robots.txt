@@ -1,0 +1,23 @@
+# Robots.txt for Vidya Raut Portfolio
+# https://vidyaraut.vercel.app
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://vidyaraut.vercel.app/sitemap.xml
+
+# Disallow admin and API routes
+Disallow: /api/
+Disallow: /_next/
+Disallow: /static/
+
+# Allow specific crawlers full access
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /

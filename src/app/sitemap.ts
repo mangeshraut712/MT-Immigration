@@ -1,26 +1,51 @@
-import { MetadataRoute } from 'next';
-import { siteUrl } from '@/lib/site';
+import type { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const lastModified = new Date();
-    return [
+    const baseUrl = 'https://vidyaraut.vercel.app'
+    const locales = ['en', 'hi', 'mr']
+    const lastModified = new Date()
+
+    // Generate sitemap entries for each locale
+    const localizedEntries = locales.flatMap((locale) => [
         {
-            url: siteUrl.toString(),
+            url: `${baseUrl}/${locale}`,
             lastModified,
-            changeFrequency: 'yearly',
+            changeFrequency: 'weekly' as const,
             priority: 1,
         },
         {
-            url: new URL('#services', siteUrl).toString(),
+            url: `${baseUrl}/${locale}#skills`,
             lastModified,
-            changeFrequency: 'monthly',
+            changeFrequency: 'monthly' as const,
             priority: 0.8,
         },
         {
-            url: new URL('#contact', siteUrl).toString(),
+            url: `${baseUrl}/${locale}#projects`,
             lastModified,
-            changeFrequency: 'monthly',
+            changeFrequency: 'monthly' as const,
             priority: 0.8,
         },
-    ];
+        {
+            url: `${baseUrl}/${locale}#experience`,
+            lastModified,
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        },
+        {
+            url: `${baseUrl}/${locale}#contact`,
+            lastModified,
+            changeFrequency: 'monthly' as const,
+            priority: 0.7,
+        },
+    ])
+
+    return [
+        {
+            url: baseUrl,
+            lastModified,
+            changeFrequency: 'weekly',
+            priority: 1,
+        },
+        ...localizedEntries,
+    ]
 }
