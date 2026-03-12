@@ -1,7 +1,13 @@
 import { NextResponse } from 'next/server';
 
-import { buildChatInstructions, getFallbackAssistantReply } from '@/server/ai/chatbot';
 import {
+  buildBenchReviewInstructions,
+  buildChatInstructions,
+  getFallbackAssistantReply,
+} from '@/server/ai/chatbot';
+import { benchReviewer } from '@/content/chatAgents';
+import {
+  getAIProvider,
   getOpenAIClient,
   getOpenAIModel,
   getOpenAIReasoningEffort,
@@ -79,7 +85,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'A user message is required.' }, { status: 400 });
   }
 
-  const fallback = getFallbackAssistantReply(latestUserMessage.content);
+  const fallback = getFallbackAssistantReply(latestUserMessage.content, parsed.data.agent);
 
   if (FASTAPI_AGENTS_ENABLED) {
     try {
@@ -90,6 +96,7 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify({
           messages: parsed.data.messages,
+          agent: parsed.data.agent,
         }),
         cache: 'no-store',
       });
@@ -101,6 +108,9 @@ export async function POST(request: Request) {
           action?: { label: string; link: string };
           source?: string;
           agent?: string;
+          agentTitle?: string;
+          agentDescription?: string;
+          reviewedBy?: string;
           model?: string;
         };
 
@@ -109,7 +119,10 @@ export async function POST(request: Request) {
           suggestions: data.suggestions || fallback.suggestions,
           action: data.action || fallback.action,
           source: data.source || 'fastapi',
-          agent: data.agent,
+          agent: data.agent || fallback.agent,
+          agentTitle: data.agentTitle || fallback.agentCard.title,
+          agentDescription: data.agentDescription || fallback.agentCard.description,
+          reviewedBy: data.reviewedBy,
           model: data.model,
         });
       }
@@ -126,13 +139,17 @@ export async function POST(request: Request) {
       suggestions: fallback.suggestions,
       action: fallback.action,
       source: 'fallback',
+      agent: fallback.agent,
+      agentTitle: fallback.agentCard.title,
+      agentDescription: fallback.agentCard.description,
+      reviewedBy: benchReviewer.title,
     });
   }
 
   try {
-    const response = await client.responses.create({
+    const specialistResponse = await client.responses.create({
       model: getOpenAIModel(),
-      instructions: buildChatInstructions(fallback.content),
+      instructions: buildChatInstructions(fallback.content, fallback.agent),
       input: parsed.data.messages.map((message) => ({
         role: message.role,
         content: [{ type: 'input_text' as const, text: message.content }],
@@ -144,14 +161,31 @@ export async function POST(request: Request) {
       store: false,
     });
 
-    const content = response.output_text.trim() || fallback.content;
+    const specialistDraft = specialistResponse.output_text.trim() || fallback.content;
+
+    const benchReview = await client.responses.create({
+      model: getOpenAIModel(),
+      instructions: buildBenchReviewInstructions(fallback.agent),
+      input: specialistDraft,
+      max_output_tokens: 500,
+      reasoning: {
+        effort: 'minimal',
+      },
+      store: false,
+    });
+
+    const content = benchReview.output_text.trim() || specialistDraft;
 
     return NextResponse.json({
       content,
       suggestions: fallback.suggestions,
       action: fallback.action,
-      source: 'openai',
-      model: response.model,
+      source: getAIProvider() || 'openai',
+      agent: fallback.agent,
+      agentTitle: fallback.agentCard.title,
+      agentDescription: fallback.agentCard.description,
+      reviewedBy: benchReviewer.title,
+      model: specialistResponse.model,
     });
   } catch (error) {
     console.error('Chat API error:', error);
@@ -161,6 +195,10 @@ export async function POST(request: Request) {
       suggestions: fallback.suggestions,
       action: fallback.action,
       source: 'fallback',
+      agent: fallback.agent,
+      agentTitle: fallback.agentCard.title,
+      agentDescription: fallback.agentCard.description,
+      reviewedBy: benchReviewer.title,
     });
   }
 }

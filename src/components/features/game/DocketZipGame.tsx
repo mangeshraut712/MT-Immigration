@@ -10,6 +10,7 @@ import {
   Trophy,
   Clock3,
   Copy,
+  MoveRight,
 } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
@@ -230,6 +231,7 @@ export function DocketZipGame() {
   const [isSolved, setIsSolved] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [startedAt, setStartedAt] = useState<number | null>(null);
+  const [isTracing, setIsTracing] = useState(false);
   const { copied, copy } = useCopyToClipboard();
 
   const visitedOrder = useMemo(
@@ -266,6 +268,7 @@ export function DocketZipGame() {
     setIsSolved(false);
     setElapsedSeconds(0);
     setStartedAt(null);
+    setIsTracing(false);
   }
 
   function undoMove() {
@@ -283,6 +286,7 @@ export function DocketZipGame() {
     );
     setFeedback(null);
     setHintCell(null);
+    setIsTracing(false);
     if (path.length <= 2) {
       setElapsedSeconds(0);
       setStartedAt(null);
@@ -335,6 +339,11 @@ export function DocketZipGame() {
 
     const currentIndex = path[path.length - 1];
     const previousIndex = path[path.length - 2];
+
+    if (targetIndex === currentIndex) {
+      setFeedback('You are already on the active fact. Keep tracing the brief.');
+      return;
+    }
 
     if (targetIndex === previousIndex) {
       undoMove();
@@ -408,6 +417,44 @@ export function DocketZipGame() {
     await copy(buildShareText(model.puzzle, elapsedSeconds, stats.streak));
   }
 
+  function beginTrace(targetIndex: number, moveTimestamp: number) {
+    if (isSolved) {
+      return;
+    }
+
+    const currentIndex = path[path.length - 1];
+
+    if (targetIndex === currentIndex) {
+      setIsTracing(true);
+      setFeedback('Trace forward from the highlighted fact.');
+      return;
+    }
+
+    if (isAdjacent(model, currentIndex, targetIndex) || targetIndex === path[path.length - 2]) {
+      setIsTracing(true);
+      handleCellClick(targetIndex, moveTimestamp);
+    }
+  }
+
+  function extendTrace(targetIndex: number, moveTimestamp: number) {
+    if (!isTracing || isSolved) {
+      return;
+    }
+
+    const currentIndex = path[path.length - 1];
+    if (targetIndex === currentIndex) {
+      return;
+    }
+
+    if (isAdjacent(model, currentIndex, targetIndex) || targetIndex === path[path.length - 2]) {
+      handleCellClick(targetIndex, moveTimestamp);
+    }
+  }
+
+  function endTrace() {
+    setIsTracing(false);
+  }
+
   return (
     <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
       <div className="rounded-[2rem] border border-black/5 bg-white/80 p-5 shadow-soft backdrop-blur-sm md:p-8">
@@ -432,8 +479,10 @@ export function DocketZipGame() {
 
         <div className="rounded-[2rem] bg-[#f7f3ec] p-4 md:p-6">
           <div
-            className="relative mx-auto grid w-full max-w-[32rem] gap-2"
+            className="relative mx-auto grid w-full max-w-[32rem] gap-2 touch-none select-none"
             style={{ gridTemplateColumns: `repeat(${model.puzzle.size}, minmax(0, 1fr))` }}
+            onPointerUp={endTrace}
+            onPointerLeave={endTrace}
           >
             {Array.from({ length: model.puzzle.size * model.puzzle.size }).map((_, cellIndex) => {
               const row = Math.floor(cellIndex / model.puzzle.size);
@@ -485,9 +534,13 @@ export function DocketZipGame() {
                   key={key}
                   type="button"
                   onClick={(event) => handleCellClick(openCell.openIndex, event.timeStamp)}
+                  onPointerDown={(event) => beginTrace(openCell.openIndex, event.timeStamp)}
+                  onPointerEnter={(event) => extendTrace(openCell.openIndex, event.timeStamp)}
                   className={cn(
                     'relative aspect-square rounded-2xl border border-black/5 bg-white text-left transition-all',
-                    active ? 'shadow-lg shadow-blue-500/10' : 'shadow-sm hover:border-blue-200',
+                    active
+                      ? 'shadow-lg shadow-blue-500/10 ring-2 ring-blue-200'
+                      : 'shadow-sm hover:border-blue-200',
                   )}
                   aria-label={clue ? `Cell ${clue}` : `Grid cell ${row + 1}, ${col + 1}`}
                 >
@@ -529,6 +582,15 @@ export function DocketZipGame() {
                       layoutId="hint-cell"
                       className="absolute inset-2 rounded-2xl border-2 border-blue-500"
                       transition={{ duration: 0.25 }}
+                    />
+                  ) : null}
+
+                  {path.length === 1 && active ? (
+                    <motion.div
+                      className="absolute inset-1 rounded-2xl border border-blue-400/80"
+                      initial={{ opacity: 0.45, scale: 0.96 }}
+                      animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.96, 1, 0.96] }}
+                      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
                     />
                   ) : null}
 
@@ -604,6 +666,26 @@ export function DocketZipGame() {
                 'Connect the numbered facts in order, cover every open cell, and avoid the redacted blocks.'}
           </motion.div>
         </AnimatePresence>
+
+        <div className="mt-6 rounded-[2rem] border border-black/5 bg-white p-5">
+          <div className="flex items-center gap-3">
+            <MoveRight className="h-5 w-5 text-blue-600" />
+            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+              Play it like a court-ready Zip
+            </h3>
+          </div>
+          <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-3">
+            <div className="rounded-2xl bg-zinc-50 p-4">
+              Fact 1 is already selected for you. Start tracing from that highlighted cell.
+            </div>
+            <div className="rounded-2xl bg-zinc-50 p-4">
+              Click or press and drag across adjacent cells to build the route in one motion.
+            </div>
+            <div className="rounded-2xl bg-zinc-50 p-4">
+              If you trap the path, undo the last turn or ask the clerk for a hint.
+            </div>
+          </div>
+        </div>
 
         {isSolved ? (
           <motion.div

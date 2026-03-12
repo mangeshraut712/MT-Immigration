@@ -35,22 +35,22 @@ export const LEGAL_KNOWLEDGE_BASE: Record<IntentType, LegalResponse> = {
     visa_b1b2: {
         text: "**B1/B2 Visitor Visa Information:**\n\nThis visa is for temporary travel to the U.S. for business (B1) or tourism/medical purposes (B2).\n\n• **Key Requirement:** You must prove \"non-immigrant intent\" (strong ties to your home country).\n• **Our Service:** We help draft invitation letters, review your DS-160 application, and provide a 1-hour mock interview session to prepare you for consular questions.\n• **Legal Fee:** Starting at $350.",
         suggestions: ["Book a consultation", "What documents do I need?", "Check B1/B2 Timeline"],
-        action: { label: "Book B1/B2 Consult", link: "#contact" }
+        action: { label: "Book B1/B2 Consult", link: "/#contact" }
     },
     visa_f1: {
         text: "**F-1 Student Visa Guide:**\n\nFor international students admitted to a U.S. school.\n\n• **Process:** Accepted by school -> Receive Form I-20 -> Pay SEVIS Fee -> Apply for F-1 Visa -> Interview.\n• **Common Issues:** Proving financial ability and intent to return home.\n• **How We Help:** We review your financial evidence and prepare you for the \"intent\" questions at the embassy.",
         suggestions: ["Can I work on F-1?", "What is OPT?", "Book Student Consulation"],
-        action: { label: "Student Visa Help", link: "#contact" }
+        action: { label: "Student Visa Help", link: "/#contact" }
     },
     visa_h1b: {
         text: "**H-1B Specialty Occupation Visa:**\n\nFor professionals in specialty fields (tech, engineering, medicine, etc.).\n\n• **The Lottery:** Most applicants typically go through a lottery system in March.\n• **Requirements:** Bachelor's degree or higher and a valid job offer.\n• **Status:** We assist employers with registration and petition filing.",
         suggestions: ["When is the H-1B lottery?", "H-1B Cap Exempt?", "Contact an Attorney"],
-        action: { label: "Contact for H-1B", link: "#contact" }
+        action: { label: "Contact for H-1B", link: "/#contact" }
     },
     green_card_marriage: {
         text: "**Marriage-Based Green Card:**\n\nOne of the most common paths to permanent residency. Process differs if you are inside (Adjustment of Status) or outside (Consular Processing) the US.\n\n• **Key Form:** I-130 (Petition for Alien Relative).\n• **Critical Element:** Proving a \"bona fide\" (real) marriage through evidence like joint bank accounts, photos, and leases.\n• **Our Fee:** $1,800 - $3,500 depending on complexity.",
         suggestions: ["What evidence is needed?", "How long does it take?", "Schedule Marriage Consult"],
-        action: { label: "Start Marriage Case", link: "#contact" }
+        action: { label: "Start Marriage Case", link: "/#contact" }
     },
     green_card_family: {
         text: "**Family-Based Immigration:**\n\nUS Citizens can petition for: Spouses, Children, Parents, and Siblings.\nGreen Card holders can petition for: Spouses and Unmarried Children.\n\n• **Priority Dates:** Immediate relatives of citizens have no wait for a visa number. Others must wait for their \"Priority Date\" to become current in the Visa Bulletin.",
@@ -63,7 +63,7 @@ export const LEGAL_KNOWLEDGE_BASE: Record<IntentType, LegalResponse> = {
     asylum: {
         text: "**Asylum & Refugee Status:**\n\nProtection for those unable to return to their home country due to persecution based on race, religion, nationality, membership in a particular social group, or political opinion.\n\n• **Deadline:** Must generally apply within 1 year of arriving in the US.\n• **Process:** Affirmative (with USCIS) or Defensive (in Immigration Court).\n• **Support:** We help craft your personal statement and prepare comprehensive country condition packages.",
         suggestions: ["What forms do I file?", "Can I work while waiting?", "Urgent Consultation"],
-        action: { label: "Get Asylum Help", link: "#contact" }
+        action: { label: "Get Asylum Help", link: "/#contact" }
     },
     citizenship: {
         text: "**Naturalization (Citizenship):**\n\nThe final step for Green Card holders!\n\n• **Requirements:** 5 years as extensive resident (3 years if married to US Citizen), good moral character, pass English/Civics test.\n• **Benefits:** Vote, US Passport, No deportation risk.\n• **Our Fee:** Flat rate $950 for straightforward cases.",
@@ -72,17 +72,17 @@ export const LEGAL_KNOWLEDGE_BASE: Record<IntentType, LegalResponse> = {
     deportation: {
         text: "**Deportation Defense:**\n\nIf you are facing removal proceedings, **timing is critical**.\n\n• **You have rights:** You have the right to an attorney (though the government won't pay for one).\n• **Possible Defenses:** Cancellation of Removal, Asylum, Waivers, or Adjustment of Status.\n\n*Please schedule an urgent consultation immediately.*",
         suggestions: ["Urgent Consultation", "Call Attorney Now", "What are my rights?"],
-        action: { label: "EMERGENCY CONSULT", link: "#contact" }
+        action: { label: "EMERGENCY CONSULT", link: "/#contact" }
     },
     pricing: {
         text: "**Transparent Low-Bono Pricing:**\n\nWe believe in affordable justice. Examples of our legal fees:\n\n• **Consultation:** $20 (15m) / $40 (30m) - *Credited to your case!*\n• **Visitor Visa:** $350+\n• **Work Permit:** $250+\n• **Fiancé Visa:** $950+\n• **Marriage Green Card:** $1,800+\n\n*Does not include USCIS government filing fees.* Payment plans available via Stripe.",
         suggestions: ["Book Consultation", "Do you take payment plans?", "USCIS Fee questions"],
-        action: { label: "View All Pricing", link: "#pricing" }
+        action: { label: "View All Pricing", link: "/#pricing" }
     },
     consultation: {
         text: "**Book a Consultation:**\n\nSpeak with a licensed attorney to analyze your case.\n\n1. **Select Duration:** 15 min ($20) or 30 min ($40).\n2. **Choose Method:** Zoom, WhatsApp, or Phone.\n3. **Get Advice:** We'll review your documents and propose a clear legal strategy.\n\n*The consultation fee is deducted from your total legal bill if you hire us.*",
         suggestions: ["Schedule Now", "Call Office", "Available times"],
-        action: { label: "Book Appointment", link: "#contact" }
+        action: { label: "Book Appointment", link: "/#contact" }
     },
     timeline: {
         text: "**Processing Timelines:**\n\nTimelines vary significantly by case type and service center.\n\n• **Visitor Visa:** 2-6 weeks (interview wait times vary).\n• **Work Permit:** 3-7 months.\n• **Marriage Green Card:** 10-24 months.\n• **Asylum:** 2-5+ years (backlogged).\n\nWe provide real-time tracking for all our clients.",
@@ -95,12 +95,12 @@ export const LEGAL_KNOWLEDGE_BASE: Record<IntentType, LegalResponse> = {
     contact: {
         text: `**Contact ${firmConfig.shortName}:**\n\n📍 **Office:** ${firmConfig.contact.city} (${firmConfig.contact.regionLabel})\n📞 **Phone:** ${firmConfig.contact.phoneDisplay}\n📧 **Email:** ${firmConfig.contact.email}\n\nBusiness Hours: ${firmConfig.contact.hours}.`,
         suggestions: ["Call Now", "Email Us", "Book Online"],
-        action: { label: "Go to Contact Form", link: "#contact" }
+        action: { label: "Go to Contact Form", link: "/#contact" }
     },
     unknown: {
         text: "I am specifically trained in US Immigration Law, but I'm not sure I understand that specific question.\n\nCould you rephrase it? You can ask about **Visas**, **Green Cards**, **Asylum**, **Pricing**, or **Citizenship**.\n\nOr, would you like to speak to a human attorney?",
         suggestions: ["Speak to Attorney", "Show Services", "Pricing"],
-        action: { label: "Book Consultation", link: "#contact" }
+        action: { label: "Book Consultation", link: "/#contact" }
     }
 };
 
@@ -108,7 +108,7 @@ export function detectIntent(message: string): IntentType {
     const msg = message.toLowerCase();
 
     // Urgent / Defense
-    if (msg.includes('deport') || msg.includes('remove') || msg.includes('court') || msg.includes('police') || msg.includes('arrest') || msg.includes('judge')) return 'deportation';
+    if (msg.includes('deport') || msg.includes('remove') || msg.includes('court') || msg.includes('police') || msg.includes('arrest') || msg.includes('judge') || msg.includes('hearing') || msg.includes('deadline') || msg.includes('interview notice')) return 'deportation';
     if (msg.includes('asylum') || msg.includes('refugee') || msg.includes('fear') || msg.includes('torture') || msg.includes('persecut')) return 'asylum';
 
     // Green Cards
@@ -127,8 +127,8 @@ export function detectIntent(message: string): IntentType {
 
     // Logistics
     if (msg.includes('price') || msg.includes('cost') || msg.includes('fee') || msg.includes('money') || msg.includes('pay') || msg.includes('rate')) return 'pricing';
-    if (msg.includes('time') || msg.includes('long') || msg.includes('wait') || msg.includes('month') || msg.includes('year') || msg.includes('clock') || msg.includes('status')) return 'timeline';
-    if (msg.includes('document') || msg.includes('form') || msg.includes('paper') || msg.includes('certificate') || msg.includes('evidence')) return 'documents';
+    if (msg.includes('time') || msg.includes('long') || msg.includes('wait') || msg.includes('month') || msg.includes('year') || msg.includes('clock') || msg.includes('status') || msg.includes('processing')) return 'timeline';
+    if (msg.includes('document') || msg.includes('form') || msg.includes('paper') || msg.includes('certificate') || msg.includes('evidence') || msg.includes('receipt') || msg.includes('notice') || msg.includes('translation')) return 'documents';
     if (msg.includes('contact') || msg.includes('email') || msg.includes('phone') || msg.includes('call') || msg.includes('address') || msg.includes('office') || msg.includes('locate')) return 'contact';
     if (msg.includes('consult') || msg.includes('appoint') || msg.includes('sched') || msg.includes('meet') || msg.includes('book') || msg.includes('speak')) return 'consultation';
 

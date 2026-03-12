@@ -2,7 +2,7 @@
  * Custom React hooks for the M&T Immigration website
  */
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useMemo, useRef, useSyncExternalStore } from 'react';
 
 /**
  * Hook for managing local storage with SSR safety
@@ -19,22 +19,55 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T 
         }
     }, [key, initialValue]);
 
-    const [storedValue, setStoredValue] = useState<T>(readValue);
+    const readSnapshot = useCallback((): string => {
+        if (typeof window === 'undefined') {
+            return JSON.stringify(initialValue);
+        }
 
-    useEffect(() => {
-        const handleStorage = () => {
-            setStoredValue(readValue());
+        const stored = window.localStorage.getItem(key);
+        return stored ?? JSON.stringify(initialValue);
+    }, [initialValue, key]);
+
+    const subscribe = useCallback((onStoreChange: () => void) => {
+        if (typeof window === 'undefined') {
+            return () => undefined;
+        }
+
+        const handleStorage = (event: Event) => {
+            if (event instanceof StorageEvent && event.key && event.key !== key) {
+                return;
+            }
+            onStoreChange();
         };
+
         window.addEventListener('storage', handleStorage);
-        return () => window.removeEventListener('storage', handleStorage);
-    }, [readValue]);
+        window.addEventListener('local-storage', handleStorage);
+        return () => {
+            window.removeEventListener('storage', handleStorage);
+            window.removeEventListener('local-storage', handleStorage);
+        };
+    }, [key]);
+
+    const storedValueSnapshot = useSyncExternalStore(
+        subscribe,
+        readSnapshot,
+        () => JSON.stringify(initialValue),
+    );
+
+    const storedValue = useMemo(() => {
+        try {
+            return JSON.parse(storedValueSnapshot) as T;
+        } catch {
+            return initialValue;
+        }
+    }, [initialValue, storedValueSnapshot]);
 
     const setValue = useCallback((value: T | ((val: T) => T)) => {
         try {
             const valueToStore = value instanceof Function ? value(readValue()) : value;
-            setStoredValue(valueToStore);
             if (typeof window !== 'undefined') {
                 window.localStorage.setItem(key, JSON.stringify(valueToStore));
+                window.dispatchEvent(new Event('local-storage'));
             }
         } catch (error) {
             console.warn(`Error setting localStorage key "${key}":`, error);

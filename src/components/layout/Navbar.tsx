@@ -9,11 +9,11 @@ import { SiteLogo } from '@/components/branding/SiteLogo';
 import clsx from 'clsx';
 
 const navItems = [
-    { name: 'Home', href: '#' },
-    { name: 'Services', href: '#services' },
-    { name: 'About', href: '#about' },
-    { name: 'Pricing', href: '#pricing' },
-    { name: 'FAQ', href: '#faq' },
+    { name: 'Home', href: '/' },
+    { name: 'Services', href: '/#services' },
+    { name: 'About', href: '/#about' },
+    { name: 'Pricing', href: '/#pricing' },
+    { name: 'FAQ', href: '/#faq' },
 ];
 
 export default function Navbar() {
@@ -74,7 +74,7 @@ export default function Navbar() {
                     {/* CTA Button (Desktop) */}
                     <div className="hidden md:flex items-center gap-4">
                         <Button asChild size="sm" className="rounded-full font-semibold bg-black text-white hover:bg-zinc-800 shadow-lg hover:shadow-xl transition-all h-10 px-6">
-                            <Link href="#contact">
+                            <Link href="/#contact">
                                 Book Consultation
                             </Link>
                         </Button>
@@ -148,7 +148,7 @@ export default function Navbar() {
                             ))}
                             <div className="pt-4 mt-4 border-t border-zinc-100">
                                 <Button asChild className="w-full rounded-xl bg-blue-600 text-white hover:bg-blue-700">
-                                    <Link href="#contact" onClick={() => setIsOpen(false)}>
+                                    <Link href="/#contact" onClick={() => setIsOpen(false)}>
                                         Book Consultation
                                     </Link>
                                 </Button>

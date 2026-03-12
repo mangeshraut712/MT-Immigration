@@ -1,6 +1,6 @@
 # M&T Immigration Law Firm Website
 
-A boutique immigration law-firm website built with **Next.js 16**, **React 19**, and a restrained monochrome design system with direct-attorney positioning, server-side AI intake, and a branded stress-relief puzzle page.
+A boutique immigration law-firm website built with **Next.js 16**, **React 19**, and a restrained monochrome design system with direct-attorney positioning, server-side AI intake, OpenRouter-backed specialist agents, and a branded stress-relief puzzle page.
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2.1-blue?logo=react)](https://react.dev/)
@@ -11,7 +11,8 @@ A boutique immigration law-firm website built with **Next.js 16**, **React 19**,
 
 ### 🧠 **Server-Side AI Intake**
 - **Next.js chat route**: The website chat runs through a server-side `/api/chat` route instead of a client-exposed model key.
-- **FastAPI specialist agents**: Optional Python-powered agents handle screening, documents, deadlines, and strategy through `api/agents.py`.
+- **FastAPI specialist agents**: Python-powered agents handle screening, documents, deadlines, and strategy through `api/agents.py`.
+- **OpenRouter SDK integration**: The FastAPI agents use the official OpenRouter Python SDK with server-side environment variables only.
 - **Fallback safety**: The site still works without a live model key, using curated immigration responses for common matters.
 - **Legal guardrails**: Responses stay informational, avoid legal-advice claims, and escalate urgent matters toward consultation.
 
@@ -43,7 +44,7 @@ A boutique immigration law-firm website built with **Next.js 16**, **React 19**,
 
 | Category | Technology | Version |
 |----------|------------|---------|
-| **Framework** | Next.js (Turbo) | 16.0.8 |
+| **Framework** | Next.js (Turbo) | 16.1.6 |
 | **Core** | React | 19.2.1 |
 | **Language** | TypeScript | 5.x |
 | **Styling** | Tailwind CSS | 3.4+ |
@@ -52,7 +53,7 @@ A boutique immigration law-firm website built with **Next.js 16**, **React 19**,
 | **Icons** | Lucide React | 0.556 |
 | **Toast** | Sonner | 2.0 |
 | **Forms** | React Hook Form + Zod | Latest |
-| **AI API** | OpenAI Responses API | Latest |
+| **AI Provider** | OpenRouter (OpenAI-compatible API) | Latest |
 | **Optional Python Backend** | FastAPI + Uvicorn | Latest |
 
 ---
@@ -78,9 +79,9 @@ src/
 ├── components/
 │   ├── branding/             # Shared branding primitives (logo, marks)
 │   ├── features/             # Complex interactive modules
-│   │   ├── chatbot/          # AI Assistant (ChatBot.tsx)
-│   │   └── intake/           # Multi-step Intake Form
-│   │   └── game/             # Brief Break puzzle experience
+│   │   ├── chatbot/          # AI assistant with specialist routing
+│   │   ├── game/             # Brief Break puzzle experience
+│   │   └── intake/           # Multi-step intake form
 │   ├── layout/               # Structural components
 │   │   ├── Navbar.tsx        # Navigation with scroll effects
 │   │   ├── Footer.tsx        # Footer with links
@@ -99,6 +100,7 @@ src/
 │   ├── firm.ts               # Firm identity, contact details, and brand asset paths
 │   └── site.ts               # Site metadata and canonical URL helpers
 ├── content/
+│   ├── chatAgents.ts         # Shared agent catalog for UI + server
 │   └── legalKnowledgeBase.ts # Immigration copy and fallback chatbot knowledge base
 ├── lib/
     ├── utils.ts              # cn() helper
@@ -138,15 +140,18 @@ src/
     ```
 
     Required values:
-    - `OPENAI_API_KEY`: server-side key for the AI assistant
-    - `OPENAI_MODEL`: defaults to `gpt-5.4`
+    - `OPENROUTER_API_KEY`: server-side key for the FastAPI agents backend
+    - `OPENROUTER_MODEL`: OpenRouter model slug, defaults to `openai/gpt-4.1-mini`
 
     Optional values:
     - `INTAKE_WEBHOOK_URL`: forwards validated intake submissions to your CRM or automation tool
     - `USE_FASTAPI_AGENTS`: set to `true` to proxy the chat route through the FastAPI agents service
     - `FASTAPI_AGENT_BASE_URL`: optional external FastAPI base URL; leave blank on Vercel if the Python function is deployed in the same project
+    - `OPENROUTER_BASE_URL`: defaults to `https://openrouter.ai/api/v1`
+    - `OPENROUTER_APP_NAME`: optional attribution title sent to OpenRouter
+    - `OPENROUTER_SITE_URL`: optional attribution URL sent to OpenRouter
 
-    Do not expose model keys in `NEXT_PUBLIC_*` variables.
+    Do not expose provider keys in `NEXT_PUBLIC_*` variables.
 
 4.  **Run the development server:**
     ```bash
@@ -194,8 +199,9 @@ npm start
 
 ## 🎯 Recent Improvements
 
-- ✅ Moved AI chat behind server-side routes with OpenAI Responses support
+- ✅ Moved AI chat behind server-side routes with OpenRouter-backed specialist agents
 - ✅ Added optional FastAPI specialist agents for intake and triage
+- ✅ Added shared legal-team roles: Intake Clerk, Document Counsel, Hearing Clerk, Lead Counsel, and Bench Review
 - ✅ Added privacy and terms pages
 - ✅ Added a reusable shared logo component with a single canonical brand asset
 - ✅ Reorganized the codebase into clearer `config`, `content`, and `server` folders
@@ -215,13 +221,14 @@ npm start
 
 The `vercel.json` includes security headers and caching configuration.
 
-This project can also deploy a Vercel Python function for the optional FastAPI agents backend alongside the Next.js app.
+This project can also deploy a Vercel Python function for the FastAPI agents backend alongside the Next.js app.
 
 ## 🔐 Secret Handling
 
-- The chat assistant now calls the OpenAI Responses API from a server route using `OPENAI_API_KEY`.
+- The FastAPI agents backend calls OpenRouter using `OPENROUTER_API_KEY`.
+- The Python dependency for the agents service is the official `openrouter` SDK.
 - Intake submissions now go through a validated server route with rate limiting.
-- The repo now includes a FastAPI agents service in [api/agents.py](./api/agents.py) that reads the same Vercel environment variables as the Next.js app.
+- The repo includes a FastAPI agents service in [api/agents.py](./api/agents.py) that reads OpenRouter environment variables from Vercel.
 - If an OpenRouter key was previously exposed anywhere outside this working tree, revoke it in the provider dashboard and remove it from GitHub, Vercel, and any local shell history.
 - CI now runs a committed-secret scan to catch future leaks earlier.
 
@@ -231,8 +238,15 @@ This project can also deploy a Vercel Python function for the optional FastAPI a
   - `GET /api/agents/health`
   - `GET /api/agents/catalog`
   - `POST /api/agents/chat`
+- The agent roles are:
+  - `screening` -> Intake Clerk
+  - `documents` -> Document Counsel
+  - `deadlines` -> Hearing Clerk
+  - `strategy` -> Lead Counsel
+- Responses can include a final `Bench Review` pass and fallback safely when no valid provider response is available.
 - The current Next.js chat route can proxy to that FastAPI service when `USE_FASTAPI_AGENTS=true`.
 - If `FASTAPI_AGENT_BASE_URL` is unset, the Next route assumes the FastAPI service is deployed in the same Vercel project at `/api/agents`.
+- The FastAPI service is configured through the OpenRouter SDK and can send optional attribution headers (`HTTP-Referer` and `X-Title`) when configured.
 
 ### Local FastAPI run
 
@@ -240,6 +254,8 @@ This project can also deploy a Vercel Python function for the optional FastAPI a
 python3 -m venv .venv
 . .venv/bin/activate
 pip install -r requirements.txt
+export OPENROUTER_API_KEY=your_key_here
+export OPENROUTER_MODEL=openai/gpt-4.1-mini
 python3 -m uvicorn api.agents:app --reload --port 8000
 ```
 
@@ -248,15 +264,17 @@ If you want the Next.js chat widget to use the local FastAPI service during deve
 ```bash
 USE_FASTAPI_AGENTS=true
 FASTAPI_AGENT_BASE_URL=http://127.0.0.1:8000
+OPENROUTER_API_KEY=your_key_here
+OPENROUTER_MODEL=openai/gpt-4.1-mini
 ```
 
 ## 🧾 Production Checklist
 
 - Replace the placeholder firm contact details in [firm.ts](./src/config/firm.ts) before going live.
-- Decide whether the optional FastAPI agents backend should be enabled in production.
-- Set `OPENAI_API_KEY` in your deployment environment instead of hardcoding any provider token.
+- Keep the FastAPI agents backend enabled in production with `USE_FASTAPI_AGENTS=true`.
+- Set `OPENROUTER_API_KEY` in your deployment environment instead of hardcoding any provider token.
+- Set `OPENROUTER_MODEL` to the OpenRouter model you want the agents to use.
 - Set `INTAKE_WEBHOOK_URL` if you want consultation requests forwarded to a CRM or automation tool.
-- If you want the Next.js chat route to proxy to FastAPI, set `USE_FASTAPI_AGENTS=true`.
 - If FastAPI is deployed separately, set `FASTAPI_AGENT_BASE_URL`.
 
 ---

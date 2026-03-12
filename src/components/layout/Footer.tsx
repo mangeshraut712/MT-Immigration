@@ -8,22 +8,22 @@ import { SiteLogo } from '@/components/branding/SiteLogo';
 
 const footerLinks = {
     services: [
-        { name: "Visitor Visas (B1/B2)", href: "#services" },
-        { name: "Student Visas (F-1)", href: "#services" },
-        { name: "Marriage-Based", href: "#services" },
-        { name: "Asylum & U-Visa", href: "#services" },
-        { name: "Work Permits (EAD)", href: "#services" },
+        { name: "Visitor Visas (B1/B2)", href: "/#services" },
+        { name: "Student Visas (F-1)", href: "/#services" },
+        { name: "Marriage-Based", href: "/#services" },
+        { name: "Asylum & U-Visa", href: "/#services" },
+        { name: "Work Permits (EAD)", href: "/#services" },
     ],
     company: [
-        { name: "About the Practice", href: "#about" },
-        { name: "Our Process", href: "#process" },
-        { name: "Client Experience", href: "#testimonials" },
-        { name: "Contact", href: "#contact" },
+        { name: "About the Practice", href: "/#about" },
+        { name: "Our Process", href: "/#process" },
+        { name: "Client Experience", href: "/#testimonials" },
+        { name: "Contact", href: "/#contact" },
     ],
     support: [
-        { name: "Pricing & Fees", href: "#pricing" },
-        { name: "FAQ", href: "#faq" },
-        { name: "Book Consultation", href: "#contact" },
+        { name: "Pricing & Fees", href: "/#pricing" },
+        { name: "FAQ", href: "/#faq" },
+        { name: "Book Consultation", href: "/#contact" },
         { name: "Brief Break", href: "/brief-break" },
     ],
     legal: [

@@ -5,9 +5,9 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 try:
-    from openai import OpenAI
+    from openrouter import OpenRouter
 except Exception:  # pragma: no cover - allows syntax checks without deps installed
-    OpenAI = None
+    OpenRouter = None
 
 
 AgentName = Literal["screening", "documents", "deadlines", "strategy"]
@@ -27,29 +27,39 @@ class AgentCard(BaseModel):
     key: AgentName
     title: str
     description: str
+    system_prompt: str
 
 
 AGENT_CATALOG: dict[AgentName, AgentCard] = {
     "screening": AgentCard(
         key="screening",
-        title="Case Screening Agent",
-        description="Handles general intake, matter scoping, and first-step recommendations.",
+        title="Intake Clerk",
+        description="Best for first-step questions, consultation prep, and identifying what kind of matter is involved.",
+        system_prompt="Act like an experienced intake clerk. Focus on matter spotting, first-step recommendations, consultation readiness, and clarifying what the attorney needs first.",
     ),
     "documents": AgentCard(
         key="documents",
-        title="Document Review Agent",
-        description="Focuses on evidence checklists, missing documents, translations, and filing prep.",
+        title="Document Counsel",
+        description="Best for evidence checklists, translations, USCIS notices, and organizing filing materials.",
+        system_prompt="Act like a lawyer focused on evidence and filings. Focus on evidence checklists, translations, USCIS notices, filing materials, and how to organize a clean case file.",
     ),
     "deadlines": AgentCard(
         key="deadlines",
-        title="Urgent Deadline Agent",
-        description="Prioritizes removal, court, detention, interview notices, and filing deadlines.",
+        title="Hearing Clerk",
+        description="Best for court dates, removal issues, detention, interview notices, and urgent deadlines.",
+        system_prompt="Act like a court-focused clerk. Focus on court dates, RFEs, removal risk, detention, interview notices, and any time-sensitive action items.",
     ),
     "strategy": AgentCard(
         key="strategy",
-        title="Immigration Strategy Agent",
-        description="Handles visa, green card, humanitarian, and citizenship pathway questions.",
+        title="Lead Counsel",
+        description="Best for visa options, green card pathways, humanitarian relief, and citizenship questions.",
+        system_prompt="Act like lead counsel. Focus on pathway-level educational guidance for visas, green cards, humanitarian relief, work authorization, and citizenship.",
     ),
+}
+
+BENCH_REVIEWER = {
+    "title": "Bench Review",
+    "description": "A final safety and clarity pass that checks whether the draft is cautious, clear, and appropriate for a law-firm website.",
 }
 
 FALLBACK_RESPONSES: dict[AgentName, dict[str, object]] = {
@@ -66,7 +76,7 @@ FALLBACK_RESPONSES: dict[AgentName, dict[str, object]] = {
             "How do I know if my issue is urgent?",
             "What case types do you handle?",
         ],
-        "action": {"label": "Request Case Review", "link": "#contact"},
+        "action": {"label": "Request Case Review", "link": "/#contact"},
     },
     "documents": {
         "content": (
@@ -80,22 +90,22 @@ FALLBACK_RESPONSES: dict[AgentName, dict[str, object]] = {
             "Do I need originals or copies?",
             "Which prior USCIS notices matter most?",
         ],
-        "action": {"label": "Prepare Documents", "link": "#contact"},
+        "action": {"label": "Prepare Documents", "link": "/#contact"},
     },
     "deadlines": {
         "content": (
             "If your matter involves a hearing date, removal issue, detention, arrest, or a government deadline, "
             "timing matters.\n\n"
             "• Do not rely on general website content alone for urgent matters.\n"
-            "• Gather every notice, charging document, or interview letter you have.\n"
+            "• Gather every notice, charging document, RFE, or interview letter you have.\n"
             "• Request an urgent consultation so the attorney can assess deadlines and available options."
         ),
         "suggestions": [
             "I have an immigration court date",
             "I received a deadline from USCIS",
-            "Someone is detained or at risk of removal",
+            "I have an interview notice next week",
         ],
-        "action": {"label": "Urgent Consultation", "link": "#contact"},
+        "action": {"label": "Urgent Consultation", "link": "/#contact"},
     },
     "strategy": {
         "content": (
@@ -109,7 +119,7 @@ FALLBACK_RESPONSES: dict[AgentName, dict[str, object]] = {
             "How do consultations work?",
             "What affects filing strategy most?",
         ],
-        "action": {"label": "Book Strategy Consult", "link": "#contact"},
+        "action": {"label": "Book Strategy Consult", "link": "/#contact"},
     },
 }
 
@@ -121,19 +131,31 @@ app = FastAPI(
 )
 
 
-def get_openai_client():
-    api_key = os.environ.get("OPENAI_API_KEY", "").strip()
-    if not api_key or OpenAI is None:
+def get_openrouter_client():
+    api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+    if not api_key or OpenRouter is None:
         return None
-    return OpenAI(api_key=api_key)
+    return OpenRouter(
+        api_key=api_key,
+        http_referer=os.environ.get("OPENROUTER_SITE_URL", "").strip() or None,
+        x_title=os.environ.get("OPENROUTER_APP_NAME", "").strip() or None,
+        server_url=os.environ.get("OPENROUTER_BASE_URL", "").strip() or None,
+    )
 
 
 def get_model() -> str:
-    return os.environ.get("OPENAI_MODEL", "gpt-5.4").strip() or "gpt-5.4"
+    return (
+        os.environ.get("OPENROUTER_MODEL", "").strip()
+        or os.environ.get("OPENAI_MODEL", "").strip()
+        or "openai/gpt-4.1-mini"
+    )
 
 
 def get_reasoning_effort() -> str:
-    value = os.environ.get("OPENAI_REASONING_EFFORT", "low").strip().lower()
+    value = (
+        os.environ.get("OPENROUTER_REASONING_EFFORT", "").strip().lower()
+        or os.environ.get("OPENAI_REASONING_EFFORT", "low").strip().lower()
+    )
     if value in {"none", "minimal", "low", "medium", "high", "xhigh"}:
         return value
     return "low"
@@ -158,6 +180,7 @@ def pick_agent(message: str, preferred: AgentName | None) -> AgentName:
             "urgent",
             "arrest",
             "judge",
+            "interview",
         )
     ):
         return "deadlines"
@@ -174,6 +197,8 @@ def pick_agent(message: str, preferred: AgentName | None) -> AgentName:
             "marriage certificate",
             "rfe",
             "notice",
+            "affidavit",
+            "supporting documents",
         )
     ):
         return "documents"
@@ -192,6 +217,9 @@ def pick_agent(message: str, preferred: AgentName | None) -> AgentName:
             "marriage",
             "work permit",
             "status",
+            "pathway",
+            "option",
+            "eligible",
         )
     ):
         return "strategy"
@@ -209,34 +237,37 @@ def build_instructions(agent_key: AgentName) -> str:
         "If the matter sounds urgent, tell the user to request a consultation immediately."
     )
 
-    agent_instructions = {
-        "screening": (
-            "You are the Case Screening Agent. Focus on clarifying the type of matter, the likely next step, "
-            "and what the attorney will need to review."
-        ),
-        "documents": (
-            "You are the Document Review Agent. Focus on checklists, missing evidence, translations, and how "
-            "to organize filing materials."
-        ),
-        "deadlines": (
-            "You are the Urgent Deadline Agent. Focus on court dates, removal risk, detention, interview notices, "
-            "and any time-sensitive filing deadlines."
-        ),
-        "strategy": (
-            "You are the Immigration Strategy Agent. Focus on pathway-level educational guidance for visas, "
-            "family-based cases, humanitarian relief, work authorization, and citizenship."
-        ),
-    }
-
-    return f"{shared}\n\n{agent_instructions[agent_key]}\n\nFormat replies in short paragraphs and bullets when useful. End with one concrete next step."
+    agent_card = AGENT_CATALOG[agent_key]
+    return (
+        f"{shared}\n\n"
+        f"Active specialist: {agent_card.title}.\n"
+        f"{agent_card.system_prompt}\n\n"
+        "Format replies in short paragraphs and bullets when useful. End with one concrete next step."
+    )
 
 
 def fallback_payload(agent_key: AgentName) -> dict[str, object]:
+    agent_card = AGENT_CATALOG[agent_key]
     return {
         **FALLBACK_RESPONSES[agent_key],
         "agent": agent_key,
+        "agentTitle": agent_card.title,
+        "agentDescription": agent_card.description,
+        "reviewedBy": BENCH_REVIEWER["title"],
         "source": "fallback",
     }
+
+
+def build_bench_review_instructions(agent_key: AgentName) -> str:
+    agent_card = AGENT_CATALOG[agent_key]
+    return (
+        "You are the final bench reviewer for a solo U.S. immigration law practice website.\n\n"
+        f"You are reviewing a draft prepared by {agent_card.title}.\n"
+        "Keep the answer cautious, clear, concise, and appropriate for a law-firm website.\n"
+        "Do not allow the draft to become legal advice, overpromise outcomes, or omit urgency when deadlines, detention, removal, or court risk are involved.\n"
+        "Revise the draft directly and return only the improved final answer.\n"
+        f"Final reviewer name: {BENCH_REVIEWER['title']}."
+    )
 
 
 @app.get("/")
@@ -252,9 +283,11 @@ def root() -> dict[str, object]:
 def health() -> dict[str, object]:
     return {
         "ok": True,
-        "configured": bool(os.environ.get("OPENAI_API_KEY", "").strip()),
+        "configured": bool(os.environ.get("OPENROUTER_API_KEY", "").strip()),
+        "provider": "openrouter",
         "model": get_model(),
-        "agents": list(AGENT_CATALOG),
+        "agents": [card.model_dump() for card in AGENT_CATALOG.values()],
+        "reviewedBy": BENCH_REVIEWER,
     }
 
 
@@ -276,25 +309,25 @@ def chat(payload: AgentChatRequest) -> dict[str, object]:
         raise HTTPException(status_code=400, detail="A user message is required.")
 
     agent_key = pick_agent(latest_user_message.content, payload.agent)
-    client = get_openai_client()
+    client = get_openrouter_client()
 
     if client is None:
         return fallback_payload(agent_key)
 
     try:
-        response = client.responses.create(
+        specialist_response = client.chat.send(
             model=get_model(),
-            instructions=build_instructions(agent_key),
-            input=[
-                {
-                    "role": message.role,
-                    "content": [{"type": "input_text", "text": message.content}],
-                }
-                for message in payload.messages
+            messages=[
+                {"role": "system", "content": build_instructions(agent_key)},
+                *[
+                    {
+                        "role": message.role,
+                        "content": message.content,
+                    }
+                    for message in payload.messages
+                ],
             ],
-            max_output_tokens=600,
             reasoning={"effort": get_reasoning_effort()},
-            store=False,
         )
     except Exception as error:  # pragma: no cover - external API failures
         return {
@@ -302,9 +335,26 @@ def chat(payload: AgentChatRequest) -> dict[str, object]:
             "error": str(error),
         }
 
-    content = (getattr(response, "output_text", "") or "").strip()
-    if not content:
+    draft = (specialist_response.choices[0].message.content or "").strip()
+    if not draft:
         return fallback_payload(agent_key)
+
+    try:
+        bench_review = client.chat.send(
+            model=get_model(),
+            messages=[
+                {"role": "system", "content": build_bench_review_instructions(agent_key)},
+                {"role": "user", "content": draft},
+            ],
+            reasoning={"effort": "minimal"},
+        )
+    except Exception as error:  # pragma: no cover
+        return {
+            **fallback_payload(agent_key),
+            "error": str(error),
+        }
+
+    content = (bench_review.choices[0].message.content or "").strip() or draft
 
     fallback = FALLBACK_RESPONSES[agent_key]
     return {
@@ -312,6 +362,9 @@ def chat(payload: AgentChatRequest) -> dict[str, object]:
         "suggestions": fallback["suggestions"],
         "action": fallback["action"],
         "agent": agent_key,
-        "source": "openai",
-        "model": getattr(response, "model", get_model()),
+        "agentTitle": AGENT_CATALOG[agent_key].title,
+        "agentDescription": AGENT_CATALOG[agent_key].description,
+        "reviewedBy": BENCH_REVIEWER["title"],
+        "source": "openrouter",
+        "model": get_model(),
     }

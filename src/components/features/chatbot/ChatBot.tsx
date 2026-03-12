@@ -13,17 +13,26 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
+import type { ChatAgentKey } from '@/server/schemas/chat';
 
 import { getFallbackAssistantReply } from '@/server/ai/chatbot';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
+import { chatAgentCards, chatAgentOrder } from '@/content/chatAgents';
+import { benchReviewer } from '@/content/chatAgents';
 
 interface Message {
   id: string;
   role: 'user' | 'assistant';
   content: string;
   timestamp: Date;
+  agent?: {
+    key: ChatAgentKey;
+    title: string;
+    description: string;
+  };
+  reviewedBy?: string;
   action?: {
     label: string;
     link: string;
@@ -33,12 +42,20 @@ interface Message {
 
 type ChatResponse = {
   content: string;
+  agent?: ChatAgentKey;
+  agentTitle?: string;
+  agentDescription?: string;
+  reviewedBy?: string;
+  source?: string;
+  model?: string;
   suggestions?: string[];
   action?: {
     label: string;
     link: string;
   };
 };
+
+type AgentMode = 'auto' | ChatAgentKey;
 
 function createMessageId() {
   return crypto.randomUUID();
@@ -105,6 +122,7 @@ export function ChatBot() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [activeAgent, setActiveAgent] = useState<AgentMode>('auto');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -125,6 +143,12 @@ export function ChatBot() {
           id: 'welcome',
           role: 'assistant',
           content: greeting.content,
+          agent: {
+            key: greeting.agent,
+            title: greeting.agentCard.title,
+            description: greeting.agentCard.description,
+          },
+          reviewedBy: benchReviewer.title,
           suggestions: greeting.suggestions,
           timestamp: new Date(),
         },
@@ -161,6 +185,7 @@ export function ChatBot() {
             role: message.role,
             content: message.content,
           })),
+          agent: activeAgent === 'auto' ? undefined : activeAgent,
         }),
       });
 
@@ -176,6 +201,15 @@ export function ChatBot() {
           id: createMessageId(),
           role: 'assistant',
           content: data.content,
+          agent:
+            data.agent && data.agentTitle && data.agentDescription
+              ? {
+                  key: data.agent,
+                  title: data.agentTitle,
+                  description: data.agentDescription,
+                }
+              : undefined,
+          reviewedBy: data.reviewedBy,
           action: data.action,
           suggestions: data.suggestions,
           timestamp: new Date(),
@@ -191,6 +225,12 @@ export function ChatBot() {
           id: createMessageId(),
           role: 'assistant',
           content: fallback.content,
+          agent: {
+            key: fallback.agent,
+            title: fallback.agentCard.title,
+            description: fallback.agentCard.description,
+          },
+          reviewedBy: benchReviewer.title,
           action: fallback.action,
           suggestions: fallback.suggestions,
           timestamp: new Date(),
@@ -239,7 +279,7 @@ export function ChatBot() {
                   <h3 className="font-semibold">M&amp;T Immigration AI</h3>
                   <p className="flex items-center gap-1 text-xs text-background/70">
                     <span className="h-2 w-2 rounded-full bg-green-400" />
-                    Secure legal intake assistant
+                    Counsel + bench review
                   </p>
                 </div>
               </div>
@@ -254,6 +294,48 @@ export function ChatBot() {
 
             <div className="border-b border-border bg-secondary/50 p-2 text-center text-[10px] text-muted-foreground">
               General information only. No attorney-client relationship is created in chat.
+            </div>
+
+            <div className="shrink-0 border-b border-border bg-white px-3 py-3">
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                  Route To
+                </p>
+                <p className="text-[11px] text-zinc-400">
+                  {activeAgent === 'auto'
+                    ? 'Auto-routing by issue'
+                    : chatAgentCards[activeAgent].description}
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveAgent('auto')}
+                  className={cn(
+                    'rounded-full border px-3 py-1.5 text-xs transition-all',
+                    activeAgent === 'auto'
+                      ? 'border-zinc-900 bg-zinc-900 text-white'
+                      : 'border-zinc-200 bg-white text-zinc-600 hover:border-blue-200 hover:text-blue-700',
+                  )}
+                >
+                  Auto
+                </button>
+                {chatAgentOrder.map((agentKey) => (
+                  <button
+                    key={agentKey}
+                    type="button"
+                    onClick={() => setActiveAgent(agentKey)}
+                    className={cn(
+                      'rounded-full border px-3 py-1.5 text-xs transition-all',
+                      activeAgent === agentKey
+                        ? 'border-zinc-900 bg-zinc-900 text-white'
+                        : 'border-zinc-200 bg-white text-zinc-600 hover:border-blue-200 hover:text-blue-700',
+                    )}
+                  >
+                    {chatAgentCards[agentKey].shortTitle}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="scrollbar-hide flex-1 space-y-6 overflow-y-auto bg-zinc-50/50 p-4">
@@ -292,6 +374,19 @@ export function ChatBot() {
                           : 'rounded-bl-sm border border-border bg-white text-foreground',
                       )}
                     >
+                      {message.role === 'assistant' && message.agent ? (
+                        <div className="mb-2 flex flex-wrap items-center gap-2">
+                          <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-700">
+                            {message.agent.title}
+                          </span>
+                          {message.reviewedBy ? (
+                            <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-600">
+                              {message.reviewedBy}
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : null}
+
                       {renderMessageContent(message.content)}
 
                       {message.action ? (
@@ -337,19 +432,26 @@ export function ChatBot() {
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-background">
                     <Bot size={14} />
                   </div>
-                  <div className="flex gap-1 rounded-2xl rounded-bl-sm border border-border bg-white p-3 shadow-sm">
-                    <span
-                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
-                      style={{ animationDelay: '0ms' }}
-                    />
-                    <span
-                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
-                      style={{ animationDelay: '150ms' }}
-                    />
-                    <span
-                      className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
-                      style={{ animationDelay: '300ms' }}
-                    />
+                  <div className="rounded-2xl rounded-bl-sm border border-border bg-white p-3 shadow-sm">
+                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                      {activeAgent === 'auto'
+                        ? `Routing to the best specialist, then ${benchReviewer.title}`
+                        : `${chatAgentCards[activeAgent].title} responding`}
+                    </div>
+                    <div className="flex gap-1">
+                      <span
+                        className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
+                        style={{ animationDelay: '0ms' }}
+                      />
+                      <span
+                        className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
+                        style={{ animationDelay: '150ms' }}
+                      />
+                      <span
+                        className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
+                        style={{ animationDelay: '300ms' }}
+                      />
+                    </div>
                   </div>
                 </motion.div>
               ) : null}
@@ -387,7 +489,7 @@ export function ChatBot() {
               </form>
               <div className="mt-2 text-center">
                 <Link
-                  href="#contact"
+                  href="/#contact"
                   onClick={() => setIsOpen(false)}
                   className="inline-flex items-center gap-1 text-[10px] text-zinc-400 transition-colors hover:text-blue-600"
                 >
