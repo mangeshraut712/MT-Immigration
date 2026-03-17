@@ -191,12 +191,13 @@ export function ServicesSection() {
                     {services.map((service, index) => (
                         <Dialog key={service.id}>
                             <DialogTrigger asChild>
-                                <motion.div
+                                <motion.button
+                                    type="button"
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.05 }}
-                                    className="group relative bg-white rounded-2xl p-8 border border-zinc-100 hover:border-zinc-200 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer text-left h-full flex flex-col"
+                                    className="group relative flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-8 text-left shadow-sm transition-all duration-300 hover:border-zinc-200 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                                 >
                                     <div className="mb-6 inline-flex p-3 rounded-xl bg-zinc-50 text-zinc-900 group-hover:scale-110 group-hover:bg-black group-hover:text-white transition-all duration-300">
                                         <service.icon size={28} strokeWidth={1.5} />
@@ -218,7 +219,7 @@ export function ServicesSection() {
                                             Details <ChevronRight size={16} className="ml-1" />
                                         </div>
                                     </div>
-                                </motion.div>
+                                </motion.button>
                             </DialogTrigger>
 
                             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto sm:max-h-none">

@@ -35,15 +35,15 @@ export function BackToTop() {
                     initial={{ opacity: 0, scale: 0.8, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                    className="fixed bottom-8 right-8 z-50"
+                    className="fixed bottom-20 right-4 z-50 sm:bottom-8 sm:right-8"
                 >
                     <Button
                         onClick={scrollToTop}
                         size="icon"
-                        className="h-12 w-12 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110"
+                        className="h-10 w-10 rounded-full shadow-lg transition-all hover:scale-110 hover:shadow-xl sm:h-12 sm:w-12"
                         aria-label="Back to top"
                     >
-                        <ArrowUp className="h-5 w-5" />
+                        <ArrowUp className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                 </motion.div>
             )}

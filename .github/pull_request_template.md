@@ -14,10 +14,13 @@ Please delete options that are not relevant.
 - [ ] Documentation update
 
 ## How Has This Been Tested?
-Please describe the tests that you ran to verify your changes.
+Please describe the checks you ran locally.
 
-- [ ] Test A
-- [ ] Test B
+- [ ] `npm run lint`
+- [ ] `npm run typecheck`
+- [ ] `npm run build`
+- [ ] `npm run check:ai-config` when AI/config/deploy changes are involved
+- [ ] `python3 -m py_compile api/agents.py` when FastAPI/agent code changes are involved
 
 ## Checklist:
 - [ ] My code follows the style guidelines of this project
@@ -25,8 +28,8 @@ Please describe the tests that you ran to verify your changes.
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] I have made corresponding changes to the documentation
 - [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix is effective or that my feature works
-- [ ] New and existing unit tests pass locally with my changes
+- [ ] I have added or updated verification steps when runtime behavior changed
+- [ ] I have noted any required env or deployment changes
 
 ## Screenshots (if applicable):
 Add screenshots to help explain your changes.

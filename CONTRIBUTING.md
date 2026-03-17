@@ -15,12 +15,18 @@ Thank you for your interest in contributing! This document provides guidelines f
    npm install
    ```
 
-3. **Run the development server**
+3. **Create your local environment**
+   ```bash
+   cp .env.example .env.local
+   npm run check:ai-config
+   ```
+
+4. **Run the development server**
    ```bash
    npm run dev
    ```
 
-4. **Open your browser**
+5. **Open your browser**
    Navigate to `http://localhost:3000`
 
 ## Development Workflow
@@ -35,10 +41,17 @@ Thank you for your interest in contributing! This document provides guidelines f
    - Write clear, descriptive commit messages
    - Test your changes thoroughly
 
-3. **Run linting and build**
+3. **Run verification**
    ```bash
    npm run lint
+   npm run typecheck
    npm run build
+   ```
+
+   If you touch AI, API, deploy, or Python agent code, also run:
+   ```bash
+   npm run check:ai-config
+   python3 -m py_compile api/agents.py
    ```
 
 4. **Commit your changes**
@@ -106,7 +119,3 @@ Use the feature request template. Include:
 ## Questions?
 
 Feel free to open an issue with the question label or reach out to the maintainers.
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the same license as the project.

@@ -14,8 +14,8 @@ const faqCategories = [
         category: "Getting Started",
         faqs: [
             {
-                question: "What does 'low-bono' mean?",
-                answer: "Low-bono means we offer legal services at a reduced rate compared to standard market prices, specifically to help low-to-moderate income individuals access justice. Our fees are typically 30-50% lower than traditional firms while maintaining the same high-quality representation."
+                question: "How do consultations work?",
+                answer: "Consultations are the first step for most matters. They are used to identify the issue, spot deadlines, review available documents, and decide whether the next move is a filing, further evidence gathering, or a more urgent strategy session."
             },
             {
                 question: "Do you offer virtual consultations?",
@@ -36,11 +36,11 @@ const faqCategories = [
             },
             {
                 question: "How do payment plans work?",
-                answer: "We offer flexible installments via Stripe. Depending on the case type, you can spread your legal fee payments over 3-6 months with no interest charges. We require a small retainer to begin work, with the balance divided into equal monthly payments."
+                answer: "Installment options may be available depending on the scope of work and urgency of the matter. Payment structure is discussed during the consultation so the client understands what is due before work begins and what can be spread out."
             },
             {
                 question: "Do you offer sliding-scale pricing?",
-                answer: "Yes, we offer income-based sliding-scale fees for eligible clients. This may require documentation of household income. Our goal is to make quality legal representation accessible to everyone, regardless of financial situation."
+                answer: "Reduced-fee arrangements may be considered in limited matters. If affordability is a concern, raise it during the consultation so the office can explain what options are realistically available."
             },
         ]
     },

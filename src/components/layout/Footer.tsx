@@ -169,14 +169,14 @@ export default function Footer() {
             <div className="border-t border-zinc-800">
                 <div className="container-wide py-6">
                     {/* Disclaimer */}
-                    <p className="text-[11px] text-zinc-500 leading-relaxed mb-4">
+                    <p className="text-xs text-zinc-500 leading-relaxed mb-4">
                         ATTORNEY ADVERTISING. The information on this website is for general information purposes only. Nothing on this site should be taken as legal advice for any individual case or situation. This information is not intended to create, and receipt or viewing does not constitute, an attorney-client relationship. Prior results do not guarantee a similar outcome.
                     </p>
 
                     {/* Copyright & Links */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 text-[11px] text-zinc-500">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs text-zinc-500">
                         <p>Copyright © {new Date().getFullYear()} {firmConfig.name}. All rights reserved.</p>
-                        <div className="flex items-center gap-4">
+                        <div className="flex flex-wrap items-center gap-3">
                             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
                             <span className="text-zinc-700">|</span>
                             <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>

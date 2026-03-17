@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 export default function BriefBreakPage() {
   return (
     <div className="min-h-screen bg-[#f6efe7]">
-      <div className="container-wide py-28 md:py-32">
+      <div className="container-wide py-20 md:py-28">
         <div className="mx-auto max-w-4xl text-center">
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-600">
             Brief Break
           </p>
-          <h1 className="mt-6 font-serif text-5xl leading-[0.98] tracking-tight text-zinc-950 md:text-7xl">
+          <h1 className="mt-6 font-serif text-4xl leading-[0.98] tracking-tight text-zinc-950 md:text-7xl">
             Reset your head,
             <br />
             not your standards.

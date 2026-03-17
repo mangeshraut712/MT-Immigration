@@ -138,7 +138,7 @@ export function WhyChooseUsSection() {
               <Button
                 asChild
                 size="lg"
-                className="h-14 w-full rounded-full bg-white text-lg font-semibold text-zinc-950 shadow-lg transition-all hover:bg-white/90 hover:shadow-xl"
+                className="group h-14 w-full rounded-full bg-white text-lg font-semibold text-zinc-950 shadow-lg transition-all hover:bg-white/90 hover:shadow-xl"
               >
                 <Link href="#contact" className="flex items-center justify-center">
                   Request a Case Review

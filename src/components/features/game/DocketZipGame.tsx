@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   RotateCcw,
@@ -131,14 +131,30 @@ const puzzleModels = docketZipPuzzles.map((puzzle) => {
 
 function getTodayPuzzleIndex() {
   const now = new Date();
-  const yearStart = new Date(now.getFullYear(), 0, 0);
-  const diff = now.getTime() - yearStart.getTime();
-  const day = Math.floor(diff / 86_400_000);
+  const day = Math.floor(
+    (Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) -
+      Date.UTC(now.getFullYear(), 0, 0)) /
+      86_400_000,
+  );
   return day % puzzleModels.length;
 }
 
-function getDateKey() {
-  return new Date().toISOString().slice(0, 10);
+function getLocalDateKey(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function getPreviousLocalDateKey(dateKey: string) {
+  const [year, month, day] = dateKey.split('-').map(Number);
+  if (!year || !month || !day) {
+    return null;
+  }
+
+  const previousDate = new Date(year, month - 1, day);
+  previousDate.setDate(previousDate.getDate() - 1);
+  return getLocalDateKey(previousDate);
 }
 
 function formatTime(totalSeconds: number) {
@@ -232,7 +248,9 @@ export function DocketZipGame() {
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [startedAt, setStartedAt] = useState<number | null>(null);
   const [isTracing, setIsTracing] = useState(false);
+  const [solvedStreak, setSolvedStreak] = useState<number | null>(null);
   const { copied, copy } = useCopyToClipboard();
+  const suppressNextClickRef = useRef<number | null>(null);
 
   const visitedOrder = useMemo(
     () => new Map(path.map((openIndex, order) => [openIndex, order])),
@@ -269,6 +287,8 @@ export function DocketZipGame() {
     setElapsedSeconds(0);
     setStartedAt(null);
     setIsTracing(false);
+    setSolvedStreak(null);
+    suppressNextClickRef.current = null;
   }
 
   function undoMove() {
@@ -294,25 +314,23 @@ export function DocketZipGame() {
   }
 
   function markSolved(finalElapsedSeconds: number) {
-    const today = getDateKey();
+    const today = getLocalDateKey();
     setIsSolved(true);
 
     setStats((currentStats) => {
       const alreadySolvedToday = currentStats.solvedDates.includes(today);
-      const previousDate = currentStats.lastSolvedDate
-        ? new Date(currentStats.lastSolvedDate)
-        : null;
-      const yesterday = new Date(today);
-      yesterday.setDate(yesterday.getDate() - 1);
+      const yesterday = getPreviousLocalDateKey(today);
       const isConsecutive =
-        previousDate !== null &&
-        previousDate.toISOString().slice(0, 10) === yesterday.toISOString().slice(0, 10);
+        currentStats.lastSolvedDate !== null &&
+        yesterday !== null &&
+        currentStats.lastSolvedDate === yesterday;
 
       const nextStreak = alreadySolvedToday
         ? currentStats.streak
         : isConsecutive
           ? currentStats.streak + 1
           : 1;
+      setSolvedStreak(nextStreak);
 
       const previousBest = currentStats.bestTimes[model.puzzle.id];
       return {
@@ -414,7 +432,7 @@ export function DocketZipGame() {
   }
 
   async function copyScore() {
-    await copy(buildShareText(model.puzzle, elapsedSeconds, stats.streak));
+    await copy(buildShareText(model.puzzle, elapsedSeconds, solvedStreak ?? stats.streak));
   }
 
   function beginTrace(targetIndex: number, moveTimestamp: number) {
@@ -427,11 +445,13 @@ export function DocketZipGame() {
     if (targetIndex === currentIndex) {
       setIsTracing(true);
       setFeedback('Trace forward from the highlighted fact.');
+      suppressNextClickRef.current = targetIndex;
       return;
     }
 
     if (isAdjacent(model, currentIndex, targetIndex) || targetIndex === path[path.length - 2]) {
       setIsTracing(true);
+      suppressNextClickRef.current = targetIndex;
       handleCellClick(targetIndex, moveTimestamp);
     }
   }
@@ -483,6 +503,7 @@ export function DocketZipGame() {
             style={{ gridTemplateColumns: `repeat(${model.puzzle.size}, minmax(0, 1fr))` }}
             onPointerUp={endTrace}
             onPointerLeave={endTrace}
+            onPointerCancel={endTrace}
           >
             {Array.from({ length: model.puzzle.size * model.puzzle.size }).map((_, cellIndex) => {
               const row = Math.floor(cellIndex / model.puzzle.size);
@@ -508,6 +529,13 @@ export function DocketZipGame() {
               const nextCell = nextIndex !== null ? model.openCells[nextIndex] : null;
               const active = path[path.length - 1] === openCell.openIndex;
               const clue = openCell.clue;
+              const cellLabel = [
+                clue ? `Fact ${clue}` : `Grid cell ${row + 1}, ${col + 1}`,
+                active ? 'active' : order !== undefined ? `visited step ${order + 1}` : 'not visited',
+                hintCell === openCell.openIndex ? 'hinted next move' : null,
+              ]
+                .filter(Boolean)
+                .join(', ');
 
               const connections = {
                 up:
@@ -533,7 +561,14 @@ export function DocketZipGame() {
                 <button
                   key={key}
                   type="button"
-                  onClick={(event) => handleCellClick(openCell.openIndex, event.timeStamp)}
+                  onClick={(event) => {
+                    if (suppressNextClickRef.current === openCell.openIndex) {
+                      suppressNextClickRef.current = null;
+                      return;
+                    }
+
+                    handleCellClick(openCell.openIndex, event.timeStamp);
+                  }}
                   onPointerDown={(event) => beginTrace(openCell.openIndex, event.timeStamp)}
                   onPointerEnter={(event) => extendTrace(openCell.openIndex, event.timeStamp)}
                   className={cn(
@@ -542,7 +577,8 @@ export function DocketZipGame() {
                       ? 'shadow-lg shadow-blue-500/10 ring-2 ring-blue-200'
                       : 'shadow-sm hover:border-blue-200',
                   )}
-                  aria-label={clue ? `Cell ${clue}` : `Grid cell ${row + 1}, ${col + 1}`}
+                  aria-label={cellLabel}
+                  aria-pressed={active}
                 >
                   {order !== undefined ? (
                     <>
@@ -651,6 +687,7 @@ export function DocketZipGame() {
             key={feedback ?? (isSolved ? 'solved' : 'ready')}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
+            aria-live="polite"
             className={cn(
               'mt-4 rounded-2xl border px-4 py-3 text-sm leading-relaxed',
               isSolved
@@ -716,7 +753,7 @@ export function DocketZipGame() {
               </div>
               <div className="rounded-2xl bg-white/5 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Streak</p>
-                <p className="mt-2 text-2xl font-semibold">{stats.streak}</p>
+                <p className="mt-2 text-2xl font-semibold">{solvedStreak ?? stats.streak}</p>
               </div>
               <div className="rounded-2xl bg-white/5 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">Best</p>

@@ -25,6 +25,10 @@ If applicable, add screenshots to help explain your problem.
 - OS: [e.g. macOS, Windows, Linux]
 - Browser: [e.g. Chrome, Safari, Firefox]
 - Version: [e.g. 22]
+- Branch / commit:
+- Were `npm run lint`, `npm run build`, and `npm run check:ai-config` run?
+- If relevant, was `python3 -m py_compile api/agents.py` run?
+- Sanitized env context: [e.g. direct AI path, FastAPI agents enabled, intake webhook configured]
 
 ## Additional Context
 Add any other context about the problem here.

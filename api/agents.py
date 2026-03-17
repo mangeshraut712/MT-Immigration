@@ -1,7 +1,8 @@
+import hmac
 import os
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from pydantic import BaseModel, Field
 
 try:
@@ -131,6 +132,33 @@ app = FastAPI(
 )
 
 
+def get_agent_shared_secret() -> str:
+    return os.environ.get("FASTAPI_AGENT_SHARED_SECRET", "").strip()
+
+
+def require_agent_secret(provided_secret: str | None) -> None:
+    expected_secret = get_agent_shared_secret()
+    if not expected_secret:
+        raise HTTPException(
+            status_code=503,
+            detail="Agents service unavailable: shared secret not configured.",
+        )
+
+    if not provided_secret or not hmac.compare_digest(provided_secret, expected_secret):
+        raise HTTPException(status_code=401, detail="Unauthorized agent request.")
+
+
+def get_public_agent_catalog() -> list[dict[str, str]]:
+    return [
+        {
+            "key": card.key,
+            "title": card.title,
+            "description": card.description,
+        }
+        for card in AGENT_CATALOG.values()
+    ]
+
+
 def get_openrouter_client():
     api_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
     if not api_key or OpenRouter is None:
@@ -143,12 +171,16 @@ def get_openrouter_client():
     )
 
 
-def get_model() -> str:
-    return (
-        os.environ.get("OPENROUTER_MODEL", "").strip()
-        or os.environ.get("OPENAI_MODEL", "").strip()
-        or "openai/gpt-4.1-mini"
+def is_chat_ready() -> bool:
+    return bool(
+        os.environ.get("OPENROUTER_API_KEY", "").strip()
+        and get_agent_shared_secret()
+        and OpenRouter is not None
     )
+
+
+def get_model() -> str:
+    return os.environ.get("OPENROUTER_MODEL", "").strip() or "openai/gpt-4.1-mini"
 
 
 def get_reasoning_effort() -> str:
@@ -255,6 +287,7 @@ def fallback_payload(agent_key: AgentName) -> dict[str, object]:
         "agentDescription": agent_card.description,
         "reviewedBy": BENCH_REVIEWER["title"],
         "source": "fallback",
+        "degraded": True,
     }
 
 
@@ -268,6 +301,70 @@ def build_bench_review_instructions(agent_key: AgentName) -> str:
         "Revise the draft directly and return only the improved final answer.\n"
         f"Final reviewer name: {BENCH_REVIEWER['title']}."
     )
+
+
+def extract_response_text(response: object) -> str:
+    choices = getattr(response, "choices", None) or []
+    if not choices:
+        return ""
+
+    message = getattr(choices[0], "message", None)
+    content = getattr(message, "content", "")
+
+    if isinstance(content, str):
+        return content.strip()
+
+    if isinstance(content, list):
+        parts: list[str] = []
+        for item in content:
+            if isinstance(item, str) and item.strip():
+                parts.append(item.strip())
+                continue
+
+            text = getattr(item, "text", None)
+            if isinstance(text, str) and text.strip():
+                parts.append(text.strip())
+                continue
+
+            if isinstance(item, dict):
+                item_text = item.get("text")
+                if isinstance(item_text, str) and item_text.strip():
+                    parts.append(item_text.strip())
+
+        return "\n".join(parts).strip()
+
+    return ""
+
+
+def response_model_name(response: object) -> str:
+    model = getattr(response, "model", None)
+    return model if isinstance(model, str) and model.strip() else get_model()
+
+
+def success_payload(
+    agent_key: AgentName,
+    content: str,
+    *,
+    model: str,
+    reviewed_by: str | None = BENCH_REVIEWER["title"],
+) -> dict[str, object]:
+    fallback = FALLBACK_RESPONSES[agent_key]
+    payload: dict[str, object] = {
+        "content": content,
+        "suggestions": fallback["suggestions"],
+        "action": fallback["action"],
+        "agent": agent_key,
+        "agentTitle": AGENT_CATALOG[agent_key].title,
+        "agentDescription": AGENT_CATALOG[agent_key].description,
+        "source": "openrouter",
+        "degraded": False,
+        "model": model,
+    }
+
+    if reviewed_by:
+        payload["reviewedBy"] = reviewed_by
+
+    return payload
 
 
 @app.get("/")
@@ -284,22 +381,33 @@ def health() -> dict[str, object]:
     return {
         "ok": True,
         "configured": bool(os.environ.get("OPENROUTER_API_KEY", "").strip()),
-        "provider": "openrouter",
+        "agentAuthConfigured": bool(get_agent_shared_secret()),
+        "providerAvailable": OpenRouter is not None,
+        "ready": is_chat_ready(),
         "model": get_model(),
-        "agents": [card.model_dump() for card in AGENT_CATALOG.values()],
-        "reviewedBy": BENCH_REVIEWER,
+        "agents": get_public_agent_catalog(),
+        "reviewedBy": BENCH_REVIEWER["title"],
     }
 
 
 @app.get("/catalog")
 def catalog() -> dict[str, object]:
     return {
-        "agents": [card.model_dump() for card in AGENT_CATALOG.values()],
+        "agents": get_public_agent_catalog(),
+        "reviewedBy": BENCH_REVIEWER["title"],
     }
 
 
 @app.post("/chat")
-def chat(payload: AgentChatRequest) -> dict[str, object]:
+def chat(
+    payload: AgentChatRequest,
+    x_agent_shared_secret: str | None = Header(
+        default=None,
+        alias="x-agent-shared-secret",
+    ),
+) -> dict[str, object]:
+    require_agent_secret(x_agent_shared_secret)
+
     latest_user_message = next(
         (message for message in reversed(payload.messages) if message.role == "user"),
         None,
@@ -335,7 +443,7 @@ def chat(payload: AgentChatRequest) -> dict[str, object]:
             "error": str(error),
         }
 
-    draft = (specialist_response.choices[0].message.content or "").strip()
+    draft = extract_response_text(specialist_response)
     if not draft:
         return fallback_payload(agent_key)
 
@@ -349,22 +457,17 @@ def chat(payload: AgentChatRequest) -> dict[str, object]:
             reasoning={"effort": "minimal"},
         )
     except Exception as error:  # pragma: no cover
-        return {
-            **fallback_payload(agent_key),
-            "error": str(error),
-        }
+        return success_payload(
+            agent_key,
+            draft,
+            model=response_model_name(specialist_response),
+            reviewed_by=None,
+        )
 
-    content = (bench_review.choices[0].message.content or "").strip() or draft
+    content = extract_response_text(bench_review) or draft
 
-    fallback = FALLBACK_RESPONSES[agent_key]
-    return {
-        "content": content,
-        "suggestions": fallback["suggestions"],
-        "action": fallback["action"],
-        "agent": agent_key,
-        "agentTitle": AGENT_CATALOG[agent_key].title,
-        "agentDescription": AGENT_CATALOG[agent_key].description,
-        "reviewedBy": BENCH_REVIEWER["title"],
-        "source": "openrouter",
-        "model": get_model(),
-    }
+    return success_payload(
+        agent_key,
+        content,
+        model=response_model_name(bench_review),
+    )

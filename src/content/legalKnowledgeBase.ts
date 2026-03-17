@@ -112,7 +112,7 @@ export function detectIntent(message: string): IntentType {
     if (msg.includes('asylum') || msg.includes('refugee') || msg.includes('fear') || msg.includes('torture') || msg.includes('persecut')) return 'asylum';
 
     // Green Cards
-    if (msg.includes('marriage') || msg.includes('spouse') || msg.includes('husband') || msg.includes('wife') || msg.includes('finance') || msg.includes('couple')) return 'green_card_marriage';
+    if (msg.includes('marriage') || msg.includes('spouse') || msg.includes('husband') || msg.includes('wife') || msg.includes('fiance') || msg.includes('couple')) return 'green_card_marriage';
     if (msg.includes('brother') || msg.includes('sister') || msg.includes('parent') || msg.includes('child') || msg.includes('relative') || msg.includes('family')) return 'green_card_family';
     if (msg.includes('investor') || msg.includes('niw') || msg.includes('extraordinary') || msg.includes('perm') || msg.includes('labor') || msg.includes('eb-')) return 'green_card_employment';
     if (msg.includes('green card') || msg.includes('permanent residen') || msg.includes('adjustment')) return 'green_card_marriage'; // Default to marriage if vague

@@ -85,36 +85,59 @@ export function ContactSection() {
                             <TooltipProvider>
                                 <div className="space-y-6">
                                     {contactInfo.map((item, index) => (
-                                        <Tooltip key={index}>
-                                            <TooltipTrigger asChild>
-                                                <motion.a
-                                                    href={item.href}
-                                                    initial={{ opacity: 0, y: 10 }}
-                                                    whileInView={{ opacity: 1, y: 0 }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ delay: index * 0.1 }}
-                                                    className="flex items-start gap-4 cursor-pointer group"
-                                                >
-                                                    <motion.div
-                                                        whileHover={{ scale: 1.1, rotate: 5 }}
-                                                        className="p-3 rounded-xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300"
+                                        item.href ? (
+                                            <Tooltip key={index}>
+                                                <TooltipTrigger asChild>
+                                                    <motion.a
+                                                        href={item.href}
+                                                        initial={{ opacity: 0, y: 10 }}
+                                                        whileInView={{ opacity: 1, y: 0 }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ delay: index * 0.1 }}
+                                                        className="group flex items-start gap-4"
                                                     >
-                                                        <item.icon size={20} strokeWidth={1.5} />
-                                                    </motion.div>
-                                                    <div>
-                                                        <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
-                                                            {item.label}
-                                                        </p>
-                                                        <p className="font-medium text-zinc-900 text-lg group-hover:text-blue-600 transition-colors">
-                                                            {item.value}
-                                                        </p>
-                                                    </div>
-                                                </motion.a>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>{item.tooltip}</p>
-                                            </TooltipContent>
-                                        </Tooltip>
+                                                        <motion.div
+                                                            whileHover={{ scale: 1.1, rotate: 5 }}
+                                                            className="p-3 rounded-xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300"
+                                                        >
+                                                            <item.icon size={20} strokeWidth={1.5} />
+                                                        </motion.div>
+                                                        <div>
+                                                            <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
+                                                                {item.label}
+                                                            </p>
+                                                            <p className="font-medium text-zinc-900 text-lg group-hover:text-blue-600 transition-colors">
+                                                                {item.value}
+                                                            </p>
+                                                        </div>
+                                                    </motion.a>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>{item.tooltip}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        ) : (
+                                            <motion.div
+                                                key={index}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: index * 0.1 }}
+                                                className="flex items-start gap-4"
+                                            >
+                                                <div className="p-3 rounded-xl bg-blue-50 text-blue-600">
+                                                    <item.icon size={20} strokeWidth={1.5} />
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
+                                                        {item.label}
+                                                    </p>
+                                                    <p className="font-medium text-zinc-900 text-lg">
+                                                        {item.value}
+                                                    </p>
+                                                </div>
+                                            </motion.div>
+                                        )
                                     ))}
                                 </div>
                             </TooltipProvider>

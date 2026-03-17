@@ -7,6 +7,19 @@ A boutique immigration law-firm website built with **Next.js 16**, **React 19**,
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
 
+## Quick Start
+
+```bash
+git clone https://github.com/mangeshraut712/MT-Immigration.git
+cd MT-Immigration
+npm install
+cp .env.example .env.local
+npm run check:ai-config
+npm run dev
+```
+
+Use `USE_FASTAPI_AGENTS=false` for the default local setup. The FastAPI path is optional and should only be enabled when you are running the Python service separately or using a same-project Vercel deployment.
+
 ## 🚀 Key Features
 
 ### 🧠 **Server-Side AI Intake**
@@ -118,8 +131,10 @@ src/
 
 ### Prerequisites
 
-- Node.js 18+ (Recommended: 20 LTS)
-- npm or pnpm
+- Node.js 20 LTS recommended
+- npm
+- Python 3.10+ only if you plan to run the optional FastAPI agents locally
+- Vercel CLI optional if you want local parity with the Python function route via `vercel dev`
 
 ### Installation
 
@@ -140,16 +155,20 @@ src/
     ```
 
     Required values:
-    - `OPENROUTER_API_KEY`: server-side key for the FastAPI agents backend
+    - `OPENROUTER_API_KEY`: server-side key for the default direct AI path
     - `OPENROUTER_MODEL`: OpenRouter model slug, defaults to `openai/gpt-4.1-mini`
 
     Optional values:
-    - `INTAKE_WEBHOOK_URL`: forwards validated intake submissions to your CRM or automation tool
-    - `USE_FASTAPI_AGENTS`: set to `true` to proxy the chat route through the FastAPI agents service
-    - `FASTAPI_AGENT_BASE_URL`: optional external FastAPI base URL; leave blank on Vercel if the Python function is deployed in the same project
+    - `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`: required in production for shared API rate limiting across serverless instances
+    - `INTAKE_WEBHOOK_URL`: webhook target for validated intake submissions (required in production if you want the intake form to accept and forward submissions)
+    - `USE_FASTAPI_AGENTS`: defaults to `false` for local `npm run dev`; set to `true` only when the FastAPI agents service is reachable
+    - `FASTAPI_AGENT_BASE_URL`: required for local FastAPI development; leave blank only on Vercel if the Python function is deployed in the same project
+    - `FASTAPI_AGENT_SHARED_SECRET`: required only when `USE_FASTAPI_AGENTS=true`
     - `OPENROUTER_BASE_URL`: defaults to `https://openrouter.ai/api/v1`
     - `OPENROUTER_APP_NAME`: optional attribution title sent to OpenRouter
     - `OPENROUTER_SITE_URL`: optional attribution URL sent to OpenRouter
+    - `OPENAI_API_KEY` and `OPENAI_MODEL`: optional direct OpenAI fallback for the Next.js chat route when FastAPI agents are disabled or not used
+    - `AI_BENCH_REVIEW_ENABLED`: optional override for the second AI review pass; defaults to off locally and on in production
 
     Do not expose provider keys in `NEXT_PUBLIC_*` variables.
 
@@ -176,7 +195,13 @@ npm start
 | `npm run dev` | Start development server with Turbopack |
 | `npm run build` | Create optimized production build |
 | `npm run start` | Start production server |
-| `npm run lint` | Check for TypeScript and ESLint errors |
+| `npm run lint` | Run ESLint across the repo |
+| `npm run typecheck` | Run TypeScript without emitting files |
+| `npm run verify` | Run lint, typecheck, and production build together |
+| `npm run check:ai-config` | Validate env assumptions before running or deploying |
+| `npm run smoke:release` | Probe the built app’s critical routes against a running server |
+
+`npm run check:ai-config` is a preflight check only. It verifies env wiring, not downstream provider access, webhook readiness, or full deploy health.
 
 ---
 
@@ -223,11 +248,37 @@ The `vercel.json` includes security headers and caching configuration.
 
 This project can also deploy a Vercel Python function for the FastAPI agents backend alongside the Next.js app.
 
+### Deploy Modes
+
+Use one of these two production modes:
+
+1. Direct Next.js AI path
+   - `USE_FASTAPI_AGENTS=false`
+   - `OPENROUTER_API_KEY` or `OPENAI_API_KEY`
+2. Same-project FastAPI agents path
+   - `USE_FASTAPI_AGENTS=true`
+   - `OPENROUTER_API_KEY`
+   - `FASTAPI_AGENT_SHARED_SECRET`
+   - Leave `FASTAPI_AGENT_BASE_URL` blank on Vercel when the Python function is deployed in the same project
+
+### Required Vercel Environment Variables
+
+| Area | Variables |
+|------|-----------|
+| Minimum site | `NEXT_PUBLIC_SITE_URL` |
+| Direct AI chat | `OPENROUTER_API_KEY` and optional `OPENROUTER_MODEL`, or `OPENAI_API_KEY` and optional `OPENAI_MODEL` |
+| Intake forwarding | `INTAKE_WEBHOOK_URL` |
+| Shared rate limiting | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` |
+| FastAPI agents | `USE_FASTAPI_AGENTS=true`, `OPENROUTER_API_KEY`, `FASTAPI_AGENT_SHARED_SECRET` |
+| External FastAPI agents | `FASTAPI_AGENT_BASE_URL` only when FastAPI is deployed outside the same Vercel project |
+| Optional AI behavior | `AI_BENCH_REVIEW_ENABLED`, `OPENROUTER_BASE_URL`, `OPENROUTER_APP_NAME`, `OPENROUTER_SITE_URL`, `OPENROUTER_REASONING_EFFORT` |
+
 ## 🔐 Secret Handling
 
 - The FastAPI agents backend calls OpenRouter using `OPENROUTER_API_KEY`.
+- FastAPI chat requests require `FASTAPI_AGENT_SHARED_SECRET` and a matching `x-agent-shared-secret` header from the trusted caller.
 - The Python dependency for the agents service is the official `openrouter` SDK.
-- Intake submissions now go through a validated server route with rate limiting.
+- Intake submissions go through a validated server route with shared rate limiting and must be wired to `INTAKE_WEBHOOK_URL` in production.
 - The repo includes a FastAPI agents service in [api/agents.py](./api/agents.py) that reads OpenRouter environment variables from Vercel.
 - If an OpenRouter key was previously exposed anywhere outside this working tree, revoke it in the provider dashboard and remove it from GitHub, Vercel, and any local shell history.
 - CI now runs a committed-secret scan to catch future leaks earlier.
@@ -246,7 +297,10 @@ This project can also deploy a Vercel Python function for the FastAPI agents bac
 - Responses can include a final `Bench Review` pass and fallback safely when no valid provider response is available.
 - The current Next.js chat route can proxy to that FastAPI service when `USE_FASTAPI_AGENTS=true`.
 - If `FASTAPI_AGENT_BASE_URL` is unset, the Next route assumes the FastAPI service is deployed in the same Vercel project at `/api/agents`.
+- Under plain local `npm run dev`, leave `USE_FASTAPI_AGENTS=false` unless you are running FastAPI separately and set `FASTAPI_AGENT_BASE_URL`.
+- The `POST /api/agents/chat` route rejects requests unless `x-agent-shared-secret` matches `FASTAPI_AGENT_SHARED_SECRET`.
 - The FastAPI service is configured through the OpenRouter SDK and can send optional attribution headers (`HTTP-Referer` and `X-Title`) when configured.
+- Public metadata routes expose only non-sensitive catalog metadata (no system prompts or provider/model internals).
 
 ### Local FastAPI run
 
@@ -256,17 +310,31 @@ python3 -m venv .venv
 pip install -r requirements.txt
 export OPENROUTER_API_KEY=your_key_here
 export OPENROUTER_MODEL=openai/gpt-4.1-mini
+export FASTAPI_AGENT_SHARED_SECRET=replace_with_a_long_random_secret
 python3 -m uvicorn api.agents:app --reload --port 8000
 ```
 
 If you want the Next.js chat widget to use the local FastAPI service during development:
 
 ```bash
-USE_FASTAPI_AGENTS=true
-FASTAPI_AGENT_BASE_URL=http://127.0.0.1:8000
-OPENROUTER_API_KEY=your_key_here
-OPENROUTER_MODEL=openai/gpt-4.1-mini
+export USE_FASTAPI_AGENTS=true
+export FASTAPI_AGENT_BASE_URL=http://127.0.0.1:8000
+export OPENROUTER_API_KEY=your_key_here
+export OPENROUTER_MODEL=openai/gpt-4.1-mini
+export FASTAPI_AGENT_SHARED_SECRET=replace_with_a_long_random_secret
+export UPSTASH_REDIS_REST_URL=your_upstash_rest_url
+export UPSTASH_REDIS_REST_TOKEN=your_upstash_rest_token
 ```
+
+### Vercel-Style Local Development
+
+`npm run dev` only starts the Next.js app. It does not emulate the Vercel Python function route. If you want local parity with the same-project `/api/agents/*` deployment model, use:
+
+```bash
+vercel dev
+```
+
+If you stay on `npm run dev`, keep `USE_FASTAPI_AGENTS=false` unless you are running the FastAPI service separately and setting `FASTAPI_AGENT_BASE_URL`.
 
 ## 🧾 Production Checklist
 
@@ -274,8 +342,46 @@ OPENROUTER_MODEL=openai/gpt-4.1-mini
 - Keep the FastAPI agents backend enabled in production with `USE_FASTAPI_AGENTS=true`.
 - Set `OPENROUTER_API_KEY` in your deployment environment instead of hardcoding any provider token.
 - Set `OPENROUTER_MODEL` to the OpenRouter model you want the agents to use.
-- Set `INTAKE_WEBHOOK_URL` if you want consultation requests forwarded to a CRM or automation tool.
+- Set `FASTAPI_AGENT_SHARED_SECRET` in both Next.js and FastAPI environments so internal chat proxy calls are authenticated.
+- Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` so chat and intake rate limits are shared across production instances.
+- Set `INTAKE_WEBHOOK_URL` in production so intake submissions are accepted and forwarded to your CRM or automation tool.
 - If FastAPI is deployed separately, set `FASTAPI_AGENT_BASE_URL`.
+
+## ✅ Post-Deploy Verification
+
+Run these checks after GitHub merge and Vercel deploy:
+
+1. Homepage
+```bash
+curl -I https://your-deployment-url.vercel.app/
+```
+Expected: `200`
+
+2. Chat readiness
+```bash
+curl https://your-deployment-url.vercel.app/api/chat
+```
+Expected: JSON with `ok: true`
+
+3. Chat request
+```bash
+curl -sS https://your-deployment-url.vercel.app/api/chat \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"Hello"}],"agent":"screening"}'
+```
+Expected: `200` JSON with `content` and `source`
+
+4. Intake readiness
+```bash
+curl https://your-deployment-url.vercel.app/api/intake
+```
+Expected: JSON with `ok: true` and `configured: true` before go-live
+
+5. FastAPI agents health
+```bash
+curl https://your-deployment-url.vercel.app/api/agents/health
+```
+Expected when FastAPI agents are enabled: JSON with `ready: true` and `agentAuthConfigured: true`
 
 ---
 

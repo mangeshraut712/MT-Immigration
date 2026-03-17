@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { Check, ChevronRight, ChevronLeft, Loader2 } from 'lucide-react';
 
@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useLocalStorage } from '@/lib/hooks';
 import { defaultIntakeFormData, type IntakeFormData } from '@/server/schemas/intake';
 import { cn } from '@/lib/utils';
 
@@ -79,14 +78,32 @@ function getStepErrors(step: number, formData: IntakeFormData): IntakeErrors {
   return errors;
 }
 
+function getErrorId(field: IntakeField) {
+  return `${field}-error`;
+}
+
 export default function IntakeForm() {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [direction, setDirection] = useState(0);
   const [errors, setErrors] = useState<IntakeErrors>({});
-  const [formData, setFormData] = useLocalStorage<IntakeFormData>('mt-intake-form', {
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [retryAfterSeconds, setRetryAfterSeconds] = useState(0);
+  const [formData, setFormData] = useState<IntakeFormData>({
     ...defaultIntakeFormData,
   });
+
+  useEffect(() => {
+    if (retryAfterSeconds <= 0) {
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      setRetryAfterSeconds((currentValue) => Math.max(currentValue - 1, 0));
+    }, 1000);
+
+    return () => window.clearTimeout(timeout);
+  }, [retryAfterSeconds]);
 
   function handleChange<K extends IntakeField>(name: K, value: IntakeFormData[K]) {
     setFormData((currentFormData) => ({
@@ -97,6 +114,7 @@ export default function IntakeForm() {
       ...currentErrors,
       [name]: undefined,
     }));
+    setServerError(null);
   }
 
   function nextStep() {
@@ -127,6 +145,7 @@ export default function IntakeForm() {
     }
 
     setIsSubmitting(true);
+    setServerError(null);
 
     try {
       const response = await fetch('/api/intake', {
@@ -140,7 +159,15 @@ export default function IntakeForm() {
       const data = (await response.json()) as { error?: string };
 
       if (!response.ok) {
-        throw new Error(data.error || 'We could not submit your request.');
+        const retryAfter = Number(response.headers.get('Retry-After') ?? '0');
+        if (response.status === 429 && Number.isFinite(retryAfter) && retryAfter > 0) {
+          setRetryAfterSeconds(retryAfter);
+        }
+
+        const message = data.error || 'We could not submit your request.';
+        setServerError(message);
+        toast.error(message);
+        return;
       }
 
       toast.success('Consultation request received.', {
@@ -150,10 +177,13 @@ export default function IntakeForm() {
       setStep(1);
       setDirection(0);
       setErrors({});
+      setServerError(null);
+      setRetryAfterSeconds(0);
       setFormData({ ...defaultIntakeFormData });
     } catch (error) {
       const message =
         error instanceof Error ? error.message : 'We could not submit your request.';
+      setServerError(message);
       toast.error(message);
     } finally {
       setIsSubmitting(false);
@@ -166,7 +196,11 @@ export default function IntakeForm() {
       return null;
     }
 
-    return <p className="text-sm text-red-600">{error}</p>;
+    return (
+      <p id={getErrorId(field)} role="alert" className="text-sm text-red-600">
+        {error}
+      </p>
+    );
   }
 
   return (
@@ -253,6 +287,8 @@ export default function IntakeForm() {
                         placeholder="John Doe"
                         value={formData.name}
                         onChange={(event) => handleChange('name', event.target.value)}
+                        aria-invalid={Boolean(errors.name)}
+                        aria-describedby={errors.name ? getErrorId('name') : undefined}
                         className="h-12 bg-white"
                       />
                       {renderError('name')}
@@ -268,6 +304,8 @@ export default function IntakeForm() {
                         placeholder="john@example.com"
                         value={formData.email}
                         onChange={(event) => handleChange('email', event.target.value)}
+                        aria-invalid={Boolean(errors.email)}
+                        aria-describedby={errors.email ? getErrorId('email') : undefined}
                         className="h-12 bg-white"
                       />
                       {renderError('email')}
@@ -283,6 +321,8 @@ export default function IntakeForm() {
                           placeholder="+1 (555) 000-0000"
                           value={formData.phone}
                           onChange={(event) => handleChange('phone', event.target.value)}
+                          aria-invalid={Boolean(errors.phone)}
+                          aria-describedby={errors.phone ? getErrorId('phone') : undefined}
                           className="h-12 bg-white"
                         />
                         {renderError('phone')}
@@ -295,7 +335,12 @@ export default function IntakeForm() {
                           onValueChange={(value) => handleChange('language', value)}
                           value={formData.language}
                         >
-                          <SelectTrigger id="language" className="h-12 bg-white">
+                          <SelectTrigger
+                            id="language"
+                            aria-invalid={Boolean(errors.language)}
+                            aria-describedby={errors.language ? getErrorId('language') : undefined}
+                            className="h-12 bg-white"
+                          >
                             <SelectValue placeholder="Select" />
                           </SelectTrigger>
                           <SelectContent>
@@ -350,7 +395,12 @@ export default function IntakeForm() {
                         onValueChange={(value) => handleChange('caseType', value)}
                         value={formData.caseType}
                       >
-                        <SelectTrigger id="caseType" className="h-12 bg-white">
+                        <SelectTrigger
+                          id="caseType"
+                          aria-invalid={Boolean(errors.caseType)}
+                          aria-describedby={errors.caseType ? getErrorId('caseType') : undefined}
+                          className="h-12 bg-white"
+                        >
                           <SelectValue placeholder="Select service type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -376,6 +426,8 @@ export default function IntakeForm() {
                         rows={5}
                         value={formData.summary}
                         onChange={(event) => handleChange('summary', event.target.value)}
+                        aria-invalid={Boolean(errors.summary)}
+                        aria-describedby={errors.summary ? getErrorId('summary') : undefined}
                         className="resize-none bg-white"
                       />
                       <div className="flex items-center justify-between text-sm text-zinc-500">
@@ -489,6 +541,8 @@ export default function IntakeForm() {
                       name="consent"
                       checked={formData.consent}
                       onCheckedChange={(checked) => handleChange('consent', checked === true)}
+                      aria-invalid={Boolean(errors.consent)}
+                      aria-describedby={errors.consent ? getErrorId('consent') : undefined}
                     />
                     <Label
                       htmlFor="consent"
@@ -504,6 +558,18 @@ export default function IntakeForm() {
                   </div>
                   {renderError('consent')}
 
+                  {serverError ? (
+                    <div
+                      className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                      role="alert"
+                    >
+                      {serverError}
+                      {retryAfterSeconds > 0
+                        ? ` Please wait about ${retryAfterSeconds} seconds before trying again.`
+                        : ''}
+                    </div>
+                  ) : null}
+
                   <div className="flex gap-4 pt-4">
                     <Button
                       type="button"
@@ -518,13 +584,15 @@ export default function IntakeForm() {
                       type="submit"
                       size="lg"
                       className="h-12 flex-1 rounded-full font-semibold"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || retryAfterSeconds > 0}
                     >
                       {isSubmitting ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                           Submitting...
                         </>
+                      ) : retryAfterSeconds > 0 ? (
+                        `Please wait ${retryAfterSeconds}s`
                       ) : (
                         'Submit Request'
                       )}

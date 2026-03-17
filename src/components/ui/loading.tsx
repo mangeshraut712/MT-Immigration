@@ -23,7 +23,12 @@ export function Loading({ size = 'md', fullScreen = false, text }: LoadingProps)
     };
 
     const content = (
-        <div className="flex flex-col items-center justify-center gap-4">
+        <div
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+            className="flex flex-col items-center justify-center gap-4"
+        >
             <motion.div
                 className={`${sizeClasses[size]} bg-foreground text-background rounded-xl flex items-center justify-center`}
                 animate={{
@@ -47,12 +52,16 @@ export function Loading({ size = 'md', fullScreen = false, text }: LoadingProps)
                     {text}
                 </motion.p>
             )}
+            {!text ? <span className="sr-only">Loading content</span> : null}
         </div>
     );
 
     if (fullScreen) {
         return (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm">
+            <div
+                aria-busy="true"
+                className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+            >
                 {content}
             </div>
         );

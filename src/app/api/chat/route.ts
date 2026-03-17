@@ -16,19 +16,36 @@ import { takeRateLimitHit } from '@/server/rate-limit';
 import { chatRequestSchema } from '@/server/schemas/chat';
 
 export const runtime = 'nodejs';
+export const maxDuration = 20;
 
 const CHAT_LIMIT = 12;
 const CHAT_WINDOW_MS = 60_000;
 const FASTAPI_AGENTS_ENABLED = process.env.USE_FASTAPI_AGENTS === 'true';
+const IS_VERCEL_DEPLOYMENT = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
+const FASTAPI_AGENT_TIMEOUT_MS = 10_000;
+const FASTAPI_AGENT_SECRET_HEADER = 'x-agent-shared-secret';
+const BENCH_REVIEW_ENABLED =
+  process.env.AI_BENCH_REVIEW_ENABLED?.trim() === 'true' ||
+  (!process.env.AI_BENCH_REVIEW_ENABLED?.trim() && process.env.NODE_ENV === 'production');
+let hasWarnedNoFastApiTarget = false;
+let hasWarnedMissingFastApiSecret = false;
 
 function getFastApiAgentUrl(request: Request) {
   const configuredBaseUrl = process.env.FASTAPI_AGENT_BASE_URL?.trim();
 
   if (configuredBaseUrl) {
-    return new URL('/chat', configuredBaseUrl).toString();
+    const url = new URL(configuredBaseUrl);
+    if (!url.pathname.endsWith('/chat')) {
+      url.pathname = `${url.pathname.replace(/\/$/, '')}/chat`;
+    }
+    return url.toString();
   }
 
-  return new URL('/api/agents/chat', request.url).toString();
+  if (IS_VERCEL_DEPLOYMENT) {
+    return new URL('/api/agents/chat', request.url).toString();
+  }
+
+  return null;
 }
 
 function getClientKey(request: Request) {
@@ -38,6 +55,16 @@ function getClientKey(request: Request) {
   }
 
   return request.headers.get('x-real-ip') || 'unknown';
+}
+
+export async function GET(request: Request) {
+  return NextResponse.json({
+    ok: true,
+    provider: getAIProvider() || 'fallback',
+    fastApiAgentsEnabled: FASTAPI_AGENTS_ENABLED,
+    fastApiTargetConfigured: Boolean(getFastApiAgentUrl(request)),
+    benchReviewEnabled: BENCH_REVIEW_ENABLED,
+  });
 }
 
 export async function POST(request: Request) {
@@ -54,12 +81,19 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid chat payload.' }, { status: 400 });
   }
 
-  const rateLimit = takeRateLimitHit({
+  const rateLimit = await takeRateLimitHit({
     scope: 'chat',
     key: getClientKey(request),
     limit: CHAT_LIMIT,
     windowMs: CHAT_WINDOW_MS,
   });
+
+  if (rateLimit.reason) {
+    return NextResponse.json(
+      { error: 'Chat is temporarily unavailable. Please try again later.' },
+      { status: 503 },
+    );
+  }
 
   if (!rateLimit.ok) {
     return NextResponse.json(
@@ -88,46 +122,79 @@ export async function POST(request: Request) {
   const fallback = getFallbackAssistantReply(latestUserMessage.content, parsed.data.agent);
 
   if (FASTAPI_AGENTS_ENABLED) {
-    try {
-      const fastApiResponse = await fetch(getFastApiAgentUrl(request), {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: parsed.data.messages,
-          agent: parsed.data.agent,
-        }),
-        cache: 'no-store',
-      });
+    const fastApiAgentUrl = getFastApiAgentUrl(request);
+    const fastApiSharedSecret = process.env.FASTAPI_AGENT_SHARED_SECRET?.trim();
 
-      if (fastApiResponse.ok) {
-        const data = (await fastApiResponse.json()) as {
-          content: string;
-          suggestions?: string[];
-          action?: { label: string; link: string };
-          source?: string;
-          agent?: string;
-          agentTitle?: string;
-          agentDescription?: string;
-          reviewedBy?: string;
-          model?: string;
-        };
-
-        return NextResponse.json({
-          content: data.content || fallback.content,
-          suggestions: data.suggestions || fallback.suggestions,
-          action: data.action || fallback.action,
-          source: data.source || 'fastapi',
-          agent: data.agent || fallback.agent,
-          agentTitle: data.agentTitle || fallback.agentCard.title,
-          agentDescription: data.agentDescription || fallback.agentCard.description,
-          reviewedBy: data.reviewedBy,
-          model: data.model,
-        });
+    if (!fastApiAgentUrl) {
+      if (!hasWarnedNoFastApiTarget) {
+        hasWarnedNoFastApiTarget = true;
+        console.warn(
+          'FastAPI agents are enabled, but no FastAPI target is reachable in this environment. Using direct AI path.',
+        );
       }
-    } catch (error) {
-      console.error('FastAPI agent proxy error:', error);
+    } else if (!fastApiSharedSecret) {
+      if (!hasWarnedMissingFastApiSecret) {
+        hasWarnedMissingFastApiSecret = true;
+        console.error(
+          'FastAPI agents are enabled, but FASTAPI_AGENT_SHARED_SECRET is not configured.',
+        );
+      }
+    } else {
+      try {
+        const fastApiResponse = await fetch(fastApiAgentUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            [FASTAPI_AGENT_SECRET_HEADER]: fastApiSharedSecret,
+          },
+          body: JSON.stringify({
+            messages: parsed.data.messages,
+            agent: parsed.data.agent,
+          }),
+          signal: AbortSignal.timeout(FASTAPI_AGENT_TIMEOUT_MS),
+          cache: 'no-store',
+        });
+
+        if (fastApiResponse.ok) {
+          const data = (await fastApiResponse.json()) as {
+            content: string;
+            suggestions?: string[];
+            action?: { label: string; link: string };
+            source?: string;
+            degraded?: boolean;
+            agent?: string;
+            agentTitle?: string;
+            agentDescription?: string;
+            reviewedBy?: string;
+            model?: string;
+          };
+
+          if (!data.degraded) {
+            return NextResponse.json({
+              content: data.content || fallback.content,
+              suggestions: data.suggestions || fallback.suggestions,
+              action: data.action || fallback.action,
+              source: data.source || 'fastapi',
+              degraded: false,
+              agent: data.agent || fallback.agent,
+              agentTitle: data.agentTitle || fallback.agentCard.title,
+              agentDescription: data.agentDescription || fallback.agentCard.description,
+              reviewedBy: data.reviewedBy,
+              model: data.model,
+            });
+          }
+
+          console.warn('FastAPI agent returned degraded fallback; using direct AI path.');
+        } else {
+          const responseSnippet = (await fastApiResponse.text()).slice(0, 240);
+          console.error('FastAPI agent proxy returned non-OK response:', {
+            status: fastApiResponse.status,
+            body: responseSnippet,
+          });
+        }
+      } catch (error) {
+        console.error('FastAPI agent proxy error:', error);
+      }
     }
   }
 
@@ -139,6 +206,7 @@ export async function POST(request: Request) {
       suggestions: fallback.suggestions,
       action: fallback.action,
       source: 'fallback',
+      degraded: true,
       agent: fallback.agent,
       agentTitle: fallback.agentCard.title,
       agentDescription: fallback.agentCard.description,
@@ -162,31 +230,61 @@ export async function POST(request: Request) {
     });
 
     const specialistDraft = specialistResponse.output_text.trim() || fallback.content;
+    if (!BENCH_REVIEW_ENABLED) {
+      return NextResponse.json({
+        content: specialistDraft,
+        suggestions: fallback.suggestions,
+        action: fallback.action,
+        source: getAIProvider() || 'openai',
+        degraded: false,
+        agent: fallback.agent,
+        agentTitle: fallback.agentCard.title,
+        agentDescription: fallback.agentCard.description,
+        model: specialistResponse.model,
+      });
+    }
 
-    const benchReview = await client.responses.create({
-      model: getOpenAIModel(),
-      instructions: buildBenchReviewInstructions(fallback.agent),
-      input: specialistDraft,
-      max_output_tokens: 500,
-      reasoning: {
-        effort: 'minimal',
-      },
-      store: false,
-    });
+    try {
+      const benchReview = await client.responses.create({
+        model: getOpenAIModel(),
+        instructions: buildBenchReviewInstructions(fallback.agent),
+        input: specialistDraft,
+        max_output_tokens: 500,
+        reasoning: {
+          effort: 'minimal',
+        },
+        store: false,
+      });
 
-    const content = benchReview.output_text.trim() || specialistDraft;
+      const content = benchReview.output_text.trim() || specialistDraft;
 
-    return NextResponse.json({
-      content,
-      suggestions: fallback.suggestions,
-      action: fallback.action,
-      source: getAIProvider() || 'openai',
-      agent: fallback.agent,
-      agentTitle: fallback.agentCard.title,
-      agentDescription: fallback.agentCard.description,
-      reviewedBy: benchReviewer.title,
-      model: specialistResponse.model,
-    });
+      return NextResponse.json({
+        content,
+        suggestions: fallback.suggestions,
+        action: fallback.action,
+        source: getAIProvider() || 'openai',
+        degraded: false,
+        agent: fallback.agent,
+        agentTitle: fallback.agentCard.title,
+        agentDescription: fallback.agentCard.description,
+        reviewedBy: benchReviewer.title,
+        model: specialistResponse.model,
+      });
+    } catch (error) {
+      console.error('Bench review error:', error);
+
+      return NextResponse.json({
+        content: specialistDraft,
+        suggestions: fallback.suggestions,
+        action: fallback.action,
+        source: getAIProvider() || 'openai',
+        degraded: false,
+        agent: fallback.agent,
+        agentTitle: fallback.agentCard.title,
+        agentDescription: fallback.agentCard.description,
+        model: specialistResponse.model,
+      });
+    }
   } catch (error) {
     console.error('Chat API error:', error);
 
@@ -195,6 +293,7 @@ export async function POST(request: Request) {
       suggestions: fallback.suggestions,
       action: fallback.action,
       source: 'fallback',
+      degraded: true,
       agent: fallback.agent,
       agentTitle: fallback.agentCard.title,
       agentDescription: fallback.agentCard.description,

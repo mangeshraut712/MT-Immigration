@@ -1,4 +1,11 @@
 {
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "functions": {
+        "api/**/*.py": {
+            "maxDuration": 20,
+            "excludeFiles": "{node_modules,.next,.git,.venv}/**"
+        }
+    },
     "headers": [
         {
             "source": "/(.*)",
@@ -18,7 +25,7 @@
             ]
         },
         {
-            "source": "/(fonts|images)/(.*)",
+            "source": "/(fonts|images|brand)/(.*)",
             "headers": [
                 {
                     "key": "Cache-Control",

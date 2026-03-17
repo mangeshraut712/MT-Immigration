@@ -39,18 +39,27 @@ jobs:
       
       - name: Install dependencies
         run: npm ci
+
+      - name: Check AI configuration wiring
+        run: npm run check:ai-config
+
+      - name: Verify FastAPI syntax
+        run: python3 -m py_compile api/agents.py
       
       - name: Run linter
         run: npm run lint
+
+      - name: Run typecheck
+        run: npm run typecheck
       
       - name: Build project
         run: npm run build
       
-      - name: Check build output
+      - name: Smoke test built app
+        env:
+          PORT: 3000
         run: |
-          if [ -d ".next" ]; then
-            echo "✅ Build successful - .next directory exists"
-          else
-            echo "❌ Build failed - .next directory not found"
-            exit 1
-          fi
+          npm run start > /tmp/mt-immigration-next.log 2>&1 &
+          APP_PID=$!
+          trap 'kill $APP_PID || true' EXIT
+          node scripts/smoke-release.mjs http://127.0.0.1:3000

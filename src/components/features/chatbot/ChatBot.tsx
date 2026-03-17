@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils';
 import { chatAgentCards, chatAgentOrder } from '@/content/chatAgents';
 import { benchReviewer } from '@/content/chatAgents';
 
+const CHAT_REQUEST_TIMEOUT_MS = 20_000;
+
 interface Message {
   id: string;
   role: 'user' | 'assistant';
@@ -38,6 +40,9 @@ interface Message {
     link: string;
   };
   suggestions?: string[];
+  source?: string;
+  model?: string;
+  degraded?: boolean;
 }
 
 type ChatResponse = {
@@ -48,11 +53,13 @@ type ChatResponse = {
   reviewedBy?: string;
   source?: string;
   model?: string;
+  degraded?: boolean;
   suggestions?: string[];
   action?: {
     label: string;
     link: string;
   };
+  error?: string;
 };
 
 type AgentMode = 'auto' | ChatAgentKey;
@@ -123,6 +130,7 @@ export function ChatBot() {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [activeAgent, setActiveAgent] = useState<AgentMode>('auto');
+  const [chatError, setChatError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -150,6 +158,8 @@ export function ChatBot() {
           },
           reviewedBy: benchReviewer.title,
           suggestions: greeting.suggestions,
+          source: 'fallback',
+          degraded: true,
           timestamp: new Date(),
         },
       ]);
@@ -173,13 +183,17 @@ export function ChatBot() {
     setMessages(nextMessages);
     setInput('');
     setIsTyping(true);
+    setChatError(null);
 
     try {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), CHAT_REQUEST_TIMEOUT_MS);
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        signal: controller.signal,
         body: JSON.stringify({
           messages: nextMessages.map((message) => ({
             role: message.role,
@@ -188,12 +202,21 @@ export function ChatBot() {
           agent: activeAgent === 'auto' ? undefined : activeAgent,
         }),
       });
+      window.clearTimeout(timeout);
+
+      const data = (await response.json().catch(() => null)) as ChatResponse | null;
 
       if (!response.ok) {
-        throw new Error(`Chat request failed with status ${response.status}`);
+        const retryAfter = response.headers.get('Retry-After');
+        const message = data?.error || `Chat request failed with status ${response.status}.`;
+        throw new Error(
+          retryAfter ? `${message} Please wait about ${retryAfter} seconds and try again.` : message,
+        );
       }
 
-      const data = (await response.json()) as ChatResponse;
+      if (!data) {
+        throw new Error('The assistant returned an empty response.');
+      }
 
       setMessages((currentMessages) => [
         ...currentMessages,
@@ -212,30 +235,25 @@ export function ChatBot() {
           reviewedBy: data.reviewedBy,
           action: data.action,
           suggestions: data.suggestions,
+          source: data.source,
+          model: data.model,
+          degraded: data.degraded,
           timestamp: new Date(),
         },
       ]);
+
+      if (data.degraded || data.source === 'fallback') {
+        setChatError('AI is temporarily unavailable. Showing general guidance only.');
+      }
     } catch (error) {
       console.error('Chat widget error:', error);
-
-      const fallback = getFallbackAssistantReply(trimmedText);
-      setMessages((currentMessages) => [
-        ...currentMessages,
-        {
-          id: createMessageId(),
-          role: 'assistant',
-          content: fallback.content,
-          agent: {
-            key: fallback.agent,
-            title: fallback.agentCard.title,
-            description: fallback.agentCard.description,
-          },
-          reviewedBy: benchReviewer.title,
-          action: fallback.action,
-          suggestions: fallback.suggestions,
-          timestamp: new Date(),
-        },
-      ]);
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        setChatError('The assistant took too long to respond. Please try again.');
+      } else {
+        setChatError(
+          error instanceof Error ? error.message : 'We could not complete the chat request.',
+        );
+      }
     } finally {
       setIsTyping(false);
     }
@@ -252,7 +270,7 @@ export function ChatBot() {
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.96 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-24 right-6 z-50 rounded-full bg-foreground p-4 text-background shadow-2xl transition-shadow hover:shadow-3xl"
+            className="fixed bottom-5 right-4 z-50 rounded-full bg-foreground p-3.5 text-background shadow-2xl transition-shadow hover:shadow-3xl sm:bottom-24 sm:right-6 sm:p-4"
             aria-label="Open chat"
           >
             <MessageCircle size={28} />
@@ -268,7 +286,7 @@ export function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-            className="fixed bottom-24 right-6 z-50 flex h-[600px] max-h-[calc(100vh-8rem)] w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl"
+            className="fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]"
           >
             <div className="flex shrink-0 items-center justify-between bg-foreground p-4 text-background">
               <div className="flex items-center gap-3">
@@ -279,7 +297,7 @@ export function ChatBot() {
                   <h3 className="font-semibold">M&amp;T Immigration AI</h3>
                   <p className="flex items-center gap-1 text-xs text-background/70">
                     <span className="h-2 w-2 rounded-full bg-green-400" />
-                    Counsel + bench review
+                    Specialist routing + review
                   </p>
                 </div>
               </div>
@@ -338,7 +356,7 @@ export function ChatBot() {
               </div>
             </div>
 
-            <div className="scrollbar-hide flex-1 space-y-6 overflow-y-auto bg-zinc-50/50 p-4">
+            <div className="scrollbar-hide flex-1 space-y-5 overflow-y-auto bg-zinc-50/50 p-3 sm:space-y-6 sm:p-4">
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
@@ -384,10 +402,30 @@ export function ChatBot() {
                               {message.reviewedBy}
                             </span>
                           ) : null}
+                          {message.degraded ? (
+                            <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-800">
+                              General guidance only
+                            </span>
+                          ) : null}
                         </div>
                       ) : null}
 
                       {renderMessageContent(message.content)}
+
+                      {message.role === 'assistant' && (message.source || message.model) ? (
+                        <div className="mt-3 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-zinc-400">
+                          {message.source ? (
+                            <span className="rounded-full bg-zinc-100 px-2 py-1">
+                              {message.source}
+                            </span>
+                          ) : null}
+                          {message.model ? (
+                            <span className="rounded-full bg-zinc-100 px-2 py-1">
+                              {message.model}
+                            </span>
+                          ) : null}
+                        </div>
+                      ) : null}
 
                       {message.action ? (
                         <div className="mt-3 border-t border-border/10 pt-3">
@@ -460,6 +498,15 @@ export function ChatBot() {
             </div>
 
             <div className="shrink-0 border-t border-border bg-white p-4">
+              {chatError ? (
+                <div
+                  className="mb-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {chatError}
+                </div>
+              ) : null}
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
@@ -467,7 +514,11 @@ export function ChatBot() {
                 }}
                 className="flex gap-2"
               >
+                <label htmlFor="chat-composer" className="sr-only">
+                  Ask an immigration question
+                </label>
                 <Input
+                  id="chat-composer"
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
                   placeholder="Ask about visas, green cards, or urgent deadlines..."
@@ -478,6 +529,7 @@ export function ChatBot() {
                   type="submit"
                   disabled={!input.trim() || isTyping}
                   size="icon"
+                  aria-label="Send message"
                   className="shrink-0 rounded-xl bg-blue-600 text-white shadow-md hover:bg-blue-700"
                 >
                   {isTyping ? (

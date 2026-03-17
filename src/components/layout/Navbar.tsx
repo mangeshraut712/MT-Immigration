@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -20,6 +20,27 @@ export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const { scrollY } = useScroll();
+
+    useEffect(() => {
+        if (!isOpen) {
+            return;
+        }
+
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                setIsOpen(false);
+            }
+        };
+
+        window.addEventListener('keydown', handleEscape);
+        return () => {
+            document.body.style.overflow = previousOverflow;
+            window.removeEventListener('keydown', handleEscape);
+        };
+    }, [isOpen]);
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         setIsScrolled(latest > 20);
@@ -127,6 +148,7 @@ export default function Navbar() {
                         transition={{ duration: 0.3, ease: "easeInOut" }}
                         id="mobile-menu"
                         aria-label="Mobile navigation"
+                        aria-modal="true"
                         className="md:hidden overflow-hidden bg-white/95 backdrop-blur-xl border-t border-border"
                     >
                         <div className="container-wide py-6 space-y-2">

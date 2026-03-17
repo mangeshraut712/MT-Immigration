@@ -109,7 +109,7 @@ export function PricingSection() {
                         className="lg:col-span-2"
                     >
                         <div className="bg-white rounded-3xl border border-zinc-200 shadow-xl shadow-zinc-200/50 hover:shadow-2xl transition-shadow duration-500 overflow-hidden">
-                            <Table>
+                            <Table className="min-w-[42rem]">
                                 <TableHeader>
                                     <TableRow className="bg-zinc-50/50 hover:bg-zinc-50/50 border-b border-zinc-100">
                                         <TableHead className="w-[40%] font-serif font-bold text-zinc-900 py-6 text-lg pl-8">Service</TableHead>
