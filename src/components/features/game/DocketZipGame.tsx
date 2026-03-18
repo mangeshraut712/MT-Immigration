@@ -480,7 +480,7 @@ export function DocketZipGame() {
       <div className="rounded-[2rem] border border-black/5 bg-white/80 p-5 shadow-soft backdrop-blur-sm md:p-8">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-600">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
               {model.puzzle.docket}
             </p>
             <h2 className="mt-2 font-serif text-3xl tracking-tight text-zinc-950">
@@ -492,7 +492,7 @@ export function DocketZipGame() {
           </div>
 
           <div className="flex items-center gap-3 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm">
-            <Clock3 className="h-4 w-4 text-blue-600" />
+            <Clock3 className="h-4 w-4 text-zinc-900" />
             {formatTime(elapsedSeconds)}
           </div>
         </div>
@@ -554,7 +554,7 @@ export function DocketZipGame() {
 
               const pathGradient = {
                 background:
-                  'linear-gradient(135deg, rgba(15,23,42,0.96) 0%, rgba(37,99,235,0.96) 58%, rgba(96,165,250,0.96) 100%)',
+                  'linear-gradient(135deg, rgba(20,20,20,0.96) 0%, rgba(80,80,80,0.96) 58%, rgba(120,120,120,0.96) 100%)',
               };
 
               return (
@@ -574,8 +574,8 @@ export function DocketZipGame() {
                   className={cn(
                     'relative aspect-square rounded-2xl border border-black/5 bg-white text-left transition-all',
                     active
-                      ? 'shadow-lg shadow-blue-500/10 ring-2 ring-blue-200'
-                      : 'shadow-sm hover:border-blue-200',
+                      ? 'shadow-lg shadow-zinc-500/10 ring-2 ring-zinc-300'
+                      : 'shadow-sm hover:border-zinc-400',
                   )}
                   aria-label={cellLabel}
                   aria-pressed={active}
@@ -616,14 +616,14 @@ export function DocketZipGame() {
                   {hintCell === openCell.openIndex ? (
                     <motion.div
                       layoutId="hint-cell"
-                      className="absolute inset-2 rounded-2xl border-2 border-blue-500"
+                      className="absolute inset-2 rounded-2xl border-2 border-zinc-500"
                       transition={{ duration: 0.25 }}
                     />
                   ) : null}
 
                   {path.length === 1 && active ? (
                     <motion.div
-                      className="absolute inset-1 rounded-2xl border border-blue-400/80"
+                      className="absolute inset-1 rounded-2xl border border-zinc-400/80"
                       initial={{ opacity: 0.45, scale: 0.96 }}
                       animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.96, 1, 0.96] }}
                       transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
@@ -637,7 +637,7 @@ export function DocketZipGame() {
                         order !== undefined
                           ? 'bg-black text-white ring-4 ring-white/30'
                           : active
-                            ? 'bg-blue-600 text-white ring-4 ring-blue-100'
+                            ? 'bg-black text-white ring-4 ring-zinc-200'
                             : 'bg-black text-white',
                       )}
                     >
@@ -706,7 +706,7 @@ export function DocketZipGame() {
 
         <div className="mt-6 rounded-[2rem] border border-black/5 bg-white p-5">
           <div className="flex items-center gap-3">
-            <MoveRight className="h-5 w-5 text-blue-600" />
+            <MoveRight className="h-5 w-5 text-zinc-900" />
             <h3 className="font-serif text-xl tracking-tight text-zinc-950">
               Play it like a court-ready Zip
             </h3>
@@ -732,7 +732,7 @@ export function DocketZipGame() {
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-300">
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-300">
                   Docket Closed
                 </p>
                 <h3 className="mt-3 font-serif text-3xl tracking-tight">
@@ -743,7 +743,7 @@ export function DocketZipGame() {
                 </p>
               </div>
 
-              <Scale className="h-8 w-8 text-blue-300" />
+              <Scale className="h-8 w-8 text-zinc-300" />
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -789,7 +789,7 @@ export function DocketZipGame() {
 
       <div className="space-y-4">
         <div className="rounded-[2rem] border border-black/5 bg-white/80 p-6 shadow-soft backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-600">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
             Chamber Notes
           </p>
           <h3 className="mt-3 font-serif text-2xl tracking-tight text-zinc-950">
@@ -820,7 +820,7 @@ export function DocketZipGame() {
 
         <div className="rounded-[2rem] border border-black/5 bg-white/80 p-6 shadow-soft backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <Trophy className="h-5 w-5 text-blue-600" />
+            <Trophy className="h-5 w-5 text-zinc-900" />
             <h3 className="font-serif text-xl tracking-tight text-zinc-950">How to play</h3>
           </div>
           <ul className="mt-4 space-y-3 text-sm leading-relaxed text-zinc-600">

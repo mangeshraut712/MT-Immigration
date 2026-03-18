@@ -1,11 +1,20 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 import { DocketZipGame } from '@/components/features/game/DocketZipGame';
+import { buildCanonicalUrl, getLanguageAlternates } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'Brief Break',
   description:
     'A playful law-themed puzzle room for moments of reset between serious immigration work.',
+  alternates: getLanguageAlternates('/brief-break'),
+  openGraph: {
+    title: 'Brief Break',
+    description:
+      'A playful law-themed puzzle room for moments of reset between serious immigration work.',
+    url: buildCanonicalUrl('/brief-break'),
+  },
 };
 
 export default function BriefBreakPage() {
@@ -13,6 +22,13 @@ export default function BriefBreakPage() {
     <div className="min-h-screen bg-[#f6efe7]">
       <div className="container-wide py-20 md:py-28">
         <div className="mx-auto max-w-4xl text-center">
+          <div className="mb-6 flex flex-wrap justify-center gap-3 text-sm text-zinc-500">
+            <Link href="/" className="transition-colors hover:text-blue-700">Home</Link>
+            <span>/</span>
+            <Link href="/insights" className="transition-colors hover:text-blue-700">Insights</Link>
+            <span>/</span>
+            <Link href="/#contact" className="transition-colors hover:text-blue-700">Contact</Link>
+          </div>
           <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-600">
             Brief Break
           </p>

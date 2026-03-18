@@ -6,6 +6,7 @@ A boutique immigration law-firm website built with **Next.js 16**, **React 19**,
 [![React](https://img.shields.io/badge/React-19.2.1-blue?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
+[![ESLint](https://img.shields.io/badge/ESLint-9.39.4-4b32c3?logo=eslint)](https://eslint.org/)
 
 ## Quick Start
 
@@ -39,10 +40,15 @@ Use `USE_FASTAPI_AGENTS=false` for the default local setup. The FastAPI path is 
 - **On-theme design**: The page keeps the same typography, motion style, spacing, and monochrome palette as the main site.
 - **Daily challenge feel**: Includes a docket ID, timer, streak tracking, hints, reset/undo controls, and share-ready result copy.
 
+### 📊 **Legal Insights & Journal**
+- **Dynamic insights feed**: AI-generated legal analysis and editorial content served through `/insights` and individual article pages.
+- **Fallback content system**: Static editorial content ensures the insights page always loads, even without AI connectivity.
+- **Structured data**: Schema.org markup for better SEO on legal content pages.
+
 ### 🔒 **Security, Intake, and Reliability**
 - **Validated intake API**: Consultation requests go through a server-side intake route with schema validation and rate limiting.
 - **Security headers**: Vercel headers are configured in `vercel.json`.
-- **Production-safe telemetry behavior**: Analytics and Speed Insights only mount on real Vercel deployments.
+- **Production-safe telemetry behavior**: Vercel Analytics v2 and Speed Insights only mount on real Vercel deployments.
 - **Secret scanning**: CI includes a committed-secret scan before lint/build.
 
 ### ⚡ **Architecture**
@@ -60,13 +66,14 @@ Use `USE_FASTAPI_AGENTS=false` for the default local setup. The FastAPI path is 
 | **Framework** | Next.js (Turbo) | 16.1.6 |
 | **Core** | React | 19.2.1 |
 | **Language** | TypeScript | 5.x |
-| **Styling** | Tailwind CSS | 3.4+ |
+| **Styling** | Tailwind CSS | 3.4.18 |
 | **UI Library** | Shadcn/UI | Latest |
-| **Motion** | Framer Motion | 12.x |
-| **Icons** | Lucide React | 0.556 |
-| **Toast** | Sonner | 2.0 |
-| **Forms** | React Hook Form + Zod | Latest |
-| **AI Provider** | OpenRouter (OpenAI-compatible API) | Latest |
+| **Motion** | Framer Motion | 12.23.25 |
+| **Icons** | Lucide React | 0.556.0 |
+| **Toast** | Sonner | 2.0.7 |
+| **Forms** | React Hook Form + Zod | 7.68.0 + 4.1.13 |
+| **AI Provider** | OpenRouter (OpenAI-compatible API) | 6.27.0 |
+| **Analytics** | Vercel Analytics | 2.0.1 |
 | **Optional Python Backend** | FastAPI + Uvicorn | Latest |
 
 ---
@@ -86,7 +93,9 @@ src/
 │   ├── globals.css           # Tailwind & CSS Variables
 │   ├── providers.tsx         # Theme and other providers
 │   ├── api/                  # Next.js route handlers
+│   │   └── insights/         # AI-generated legal insights API
 │   ├── brief-break/          # Stress-relief puzzle page
+│   ├── insights/             # Legal insights and journal pages
 │   ├── robots.ts             # SEO robots configuration
 │   └── sitemap.ts            # SEO sitemap generation
 ├── components/
@@ -94,6 +103,7 @@ src/
 │   ├── features/             # Complex interactive modules
 │   │   ├── chatbot/          # AI assistant with specialist routing
 │   │   ├── game/             # Brief Break puzzle experience
+│   │   ├── insights/         # Legal insights feed and article pages
 │   │   └── intake/           # Multi-step intake form
 │   ├── layout/               # Structural components
 │   │   ├── Navbar.tsx        # Navigation with scroll effects
@@ -111,10 +121,13 @@ src/
 │       └── ...
 ├── config/
 │   ├── firm.ts               # Firm identity, contact details, and brand asset paths
+│   ├── payments.ts           # Payment configuration and methods
 │   └── site.ts               # Site metadata and canonical URL helpers
 ├── content/
 │   ├── chatAgents.ts         # Shared agent catalog for UI + server
-│   └── legalKnowledgeBase.ts # Immigration copy and fallback chatbot knowledge base
+│   ├── legalInsights.ts      # Static legal insights and editorial content
+│   ├── legalKnowledgeBase.ts # Immigration copy and fallback chatbot knowledge base
+│   └── docketZipPuzzles.ts   # Puzzle data for Brief Break game
 ├── lib/
     ├── utils.ts              # cn() helper
     ├── hooks.ts              # Custom React hooks
@@ -219,6 +232,7 @@ npm start
 10. **CTA Banner**: Final consultation call to action.
 11. **Contact**: Multi-step intake form with validated submission flow.
 12. **Brief Break**: A separate puzzle page for stress relief and playful brand interaction.
+13. **Insights**: Legal insights and journal page with editorial content and AI-generated analysis.
 
 ---
 
@@ -231,6 +245,11 @@ npm start
 - ✅ Added a reusable shared logo component with a single canonical brand asset
 - ✅ Reorganized the codebase into clearer `config`, `content`, and `server` folders
 - ✅ Added the `/brief-break` law-themed puzzle page and homepage teaser section
+- ✅ Added legal insights and journal feature with AI-generated content and fallback editorial system
+- ✅ Updated all dependencies to latest compatible versions for security and performance
+- ✅ Upgraded to Vercel Analytics v2 and Speed Insights v2
+- ✅ Fixed all linting warnings and improved code organization
+- ✅ Enhanced error logging and code cleanup throughout the application
 - ✅ Cleaned up stale placeholder assets and unused barrel files
 - ✅ Verified lint, build, Python syntax, and audit status
 

@@ -13,7 +13,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { defaultIntakeFormData, type IntakeFormData } from '@/server/schemas/intake';
+import { defaultIntakeFormData, intakeSchema, type IntakeFormData } from '@/server/schemas/intake';
+import {
+  sanitizeEmail,
+  sanitizeMultilineText,
+  sanitizePhone,
+  sanitizeSingleLineText,
+} from '@/lib/sanitize';
 import { cn } from '@/lib/utils';
 
 type IntakeField = keyof IntakeFormData;
@@ -42,31 +48,37 @@ const variants = {
 
 function getStepErrors(step: number, formData: IntakeFormData): IntakeErrors {
   const errors: IntakeErrors = {};
+  const normalizedName = sanitizeSingleLineText(formData.name);
+  const normalizedEmail = sanitizeEmail(formData.email);
+  const normalizedPhone = sanitizePhone(formData.phone);
+  const normalizedLanguage = sanitizeSingleLineText(formData.language);
+  const normalizedCaseType = sanitizeSingleLineText(formData.caseType);
+  const normalizedSummary = sanitizeMultilineText(formData.summary);
 
   if (step === 1) {
-    if (formData.name.trim().length < 2) {
+    if (normalizedName.length < 2) {
       errors.name = 'Enter the full name you want us to use.';
     }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim())) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
       errors.email = 'Enter a valid email address.';
     }
 
-    if (formData.phone.trim().length < 7) {
+    if (normalizedPhone.length < 7) {
       errors.phone = 'Enter a phone number we can reach.';
     }
 
-    if (!formData.language.trim()) {
+    if (!normalizedLanguage) {
       errors.language = 'Choose the language you prefer.';
     }
   }
 
   if (step === 2) {
-    if (!formData.caseType.trim()) {
+    if (!normalizedCaseType) {
       errors.caseType = 'Choose the matter you want help with.';
     }
 
-    if (formData.summary.trim().length < 30) {
+    if (normalizedSummary.length < 30) {
       errors.summary = 'Add a short summary with enough detail for a review.';
     }
   }
@@ -105,10 +117,27 @@ export default function IntakeForm() {
     return () => window.clearTimeout(timeout);
   }, [retryAfterSeconds]);
 
+  function sanitizeFieldValue<K extends IntakeField>(name: K, value: IntakeFormData[K]) {
+    if (typeof value !== 'string') {
+      return value;
+    }
+
+    switch (name) {
+      case 'email':
+        return sanitizeEmail(value, { trim: false }) as IntakeFormData[K];
+      case 'phone':
+        return sanitizePhone(value, { trim: false }) as IntakeFormData[K];
+      case 'summary':
+        return sanitizeMultilineText(value, { trim: false }) as IntakeFormData[K];
+      default:
+        return sanitizeSingleLineText(value, { trim: false }) as IntakeFormData[K];
+    }
+  }
+
   function handleChange<K extends IntakeField>(name: K, value: IntakeFormData[K]) {
     setFormData((currentFormData) => ({
       ...currentFormData,
-      [name]: value,
+      [name]: sanitizeFieldValue(name, value),
     }));
     setErrors((currentErrors) => ({
       ...currentErrors,
@@ -148,12 +177,31 @@ export default function IntakeForm() {
     setServerError(null);
 
     try {
+      const parsedPayload = intakeSchema.safeParse(formData);
+      if (!parsedPayload.success) {
+        const flattenedErrors = parsedPayload.error.flatten().fieldErrors;
+        setErrors({
+          name: flattenedErrors.name?.[0],
+          email: flattenedErrors.email?.[0],
+          phone: flattenedErrors.phone?.[0],
+          language: flattenedErrors.language?.[0],
+          caseType: flattenedErrors.caseType?.[0],
+          summary: flattenedErrors.summary?.[0],
+          consent: flattenedErrors.consent?.[0],
+          website: flattenedErrors.website?.[0],
+        });
+        toast.error('Please review the highlighted intake fields and try again.');
+        return;
+      }
+
+      setFormData(parsedPayload.data);
+
       const response = await fetch('/api/intake', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(parsedPayload.data),
       });
 
       const data = (await response.json()) as { error?: string };
@@ -253,6 +301,7 @@ export default function IntakeForm() {
                 name="website"
                 autoComplete="off"
                 tabIndex={-1}
+                maxLength={0}
                 value={formData.website}
                 onChange={(event) => handleChange('website', event.target.value)}
               />
@@ -285,6 +334,7 @@ export default function IntakeForm() {
                         name="name"
                         autoComplete="name"
                         placeholder="John Doe"
+                        maxLength={120}
                         value={formData.name}
                         onChange={(event) => handleChange('name', event.target.value)}
                         aria-invalid={Boolean(errors.name)}
@@ -302,6 +352,7 @@ export default function IntakeForm() {
                         type="email"
                         autoComplete="email"
                         placeholder="john@example.com"
+                        maxLength={160}
                         value={formData.email}
                         onChange={(event) => handleChange('email', event.target.value)}
                         aria-invalid={Boolean(errors.email)}
@@ -319,6 +370,7 @@ export default function IntakeForm() {
                           name="phone"
                           autoComplete="tel"
                           placeholder="+1 (555) 000-0000"
+                          maxLength={40}
                           value={formData.phone}
                           onChange={(event) => handleChange('phone', event.target.value)}
                           aria-invalid={Boolean(errors.phone)}
@@ -424,6 +476,7 @@ export default function IntakeForm() {
                         autoComplete="off"
                         placeholder="Describe your current status, deadlines, and the help you need."
                         rows={5}
+                        maxLength={2000}
                         value={formData.summary}
                         onChange={(event) => handleChange('summary', event.target.value)}
                         aria-invalid={Boolean(errors.summary)}
@@ -550,7 +603,7 @@ export default function IntakeForm() {
                     >
                       I understand this form is for intake review only, does not create an
                       attorney-client relationship, and is subject to the{' '}
-                      <Link href="/privacy" className="font-medium text-blue-600 hover:text-blue-700">
+                      <Link href="/privacy" className="font-medium text-zinc-900 underline hover:text-black">
                         Privacy Policy
                       </Link>
                       .

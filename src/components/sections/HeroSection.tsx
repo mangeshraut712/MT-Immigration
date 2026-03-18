@@ -16,7 +16,7 @@ export function HeroSection() {
     return (
         <section className="relative flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden bg-white md:min-h-[90vh]">
             {/* Simple, Clean Background */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(59,130,246,0.05),transparent_50%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.03),transparent_50%)]" />
 
             {/* Subtle Grid Pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.01)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,black_40%,transparent_100%)]" />
@@ -33,7 +33,7 @@ export function HeroSection() {
                     className="inline-flex mb-8"
                 >
                     <Badge variant="secondary" className="px-5 py-2.5 text-sm font-medium glass rounded-full text-zinc-600 border-zinc-200/60 shadow-sm backdrop-blur-xl">
-                        <Sparkles className="w-4 h-4 mr-2 text-blue-500 fill-blue-500/20" />
+                        <Sparkles className="w-4 h-4 mr-2 text-zinc-900 fill-zinc-900/20" />
                         Solo attorney practice with direct case ownership
                     </Badge>
                 </motion.div>
@@ -51,12 +51,12 @@ export function HeroSection() {
                     <br />
                     <span className="text-zinc-400 italic font-light">
                         with{' '}
-                        <span className="relative inline-block font-medium text-blue-600 not-italic">
+                        <span className="relative inline-block font-medium text-zinc-900 not-italic">
                             clear strategy
                             {/* Simple subtle underline */}
                             <motion.span
                                 aria-hidden
-                                className="absolute -bottom-1 left-0 right-0 h-[2px] bg-blue-500/40 origin-left"
+                                className="absolute -bottom-1 left-0 right-0 h-[2px] bg-zinc-300 origin-left"
                                 initial={{ scaleX: 0 }}
                                 animate={{ scaleX: 1 }}
                                 transition={{ delay: 0.8, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
@@ -112,15 +112,15 @@ export function HeroSection() {
                     className="flex flex-col items-center justify-center gap-3 text-sm font-medium text-zinc-500 sm:flex-row sm:flex-wrap sm:gap-x-8 sm:gap-y-4"
                 >
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full glass bg-white/40">
-                        <Phone size={16} className="text-emerald-500" />
+                        <Phone size={16} className="text-zinc-900" />
                         <span>Direct attorney access</span>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full glass bg-white/40">
-                        <Clock size={16} className="text-blue-500" />
+                        <Clock size={16} className="text-zinc-900" />
                         <span>1-2 business day response</span>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full glass bg-white/40">
-                        <FileText size={16} className="text-indigo-500" />
+                        <FileText size={16} className="text-zinc-900" />
                         <span>Transparent consult fees</span>
                     </div>
                 </motion.div>

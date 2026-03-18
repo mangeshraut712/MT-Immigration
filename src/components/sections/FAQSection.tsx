@@ -96,9 +96,9 @@ export function FAQSection() {
                     className="text-center mb-16 max-w-3xl mx-auto"
                 >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                        <div className="h-px w-12 bg-primary"></div>
-                        <span className="text-sm font-semibold tracking-widest uppercase text-primary">Common Questions</span>
-                        <div className="h-px w-12 bg-primary"></div>
+                        <div className="h-px w-12 bg-zinc-300"></div>
+                        <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">Common Questions</span>
+                        <div className="h-px w-12 bg-zinc-300"></div>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
                         Frequently Asked <br />
@@ -121,8 +121,8 @@ export function FAQSection() {
                         >
                             {/* Category Header */}
                             <div className="flex items-center gap-3 mb-6">
-                                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-                                    <HelpCircle className="w-5 h-5 text-blue-600" />
+                                <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center">
+                                    <HelpCircle className="w-5 h-5 text-zinc-900" />
                                 </div>
                                 <h3 className="text-2xl font-serif font-medium text-foreground">{category.category}</h3>
                             </div>
@@ -139,9 +139,9 @@ export function FAQSection() {
                                     >
                                         <AccordionItem
                                             value={`${categoryIndex}-${faqIndex}`}
-                                            className="bg-white border border-zinc-100 rounded-2xl px-6 shadow-sm hover:border-zinc-200 transition-all duration-300 data-[state=open]:border-blue-100 data-[state=open]:shadow-md data-[state=open]:bg-blue-50/10"
+                                            className="bg-white border border-zinc-100 rounded-2xl px-6 shadow-sm hover:border-zinc-200 transition-all duration-300 data-[state=open]:border-zinc-300 data-[state=open]:shadow-md data-[state=open]:bg-zinc-50"
                                         >
-                                            <AccordionTrigger className="text-left text-base md:text-lg font-semibold hover:text-primary transition-colors py-6 hover:no-underline">
+                                            <AccordionTrigger className="text-left text-base md:text-lg font-semibold hover:text-black transition-colors py-6 hover:no-underline">
                                                 {faq.question}
                                             </AccordionTrigger>
                                             <AccordionContent className="text-muted-foreground leading-relaxed pb-6 text-base">

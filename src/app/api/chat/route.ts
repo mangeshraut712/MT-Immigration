@@ -12,6 +12,11 @@ import {
   getOpenAIModel,
   getOpenAIReasoningEffort,
 } from '@/server/ai/openai';
+import {
+  getClientKey,
+  rejectUnexpectedSearchParams,
+  rejectUntrustedOrigin,
+} from '@/server/request-guards';
 import { takeRateLimitHit } from '@/server/rate-limit';
 import { chatRequestSchema } from '@/server/schemas/chat';
 
@@ -20,6 +25,7 @@ export const maxDuration = 20;
 
 const CHAT_LIMIT = 12;
 const CHAT_WINDOW_MS = 60_000;
+const CHAT_STATUS_LIMIT = 30;
 const FASTAPI_AGENTS_ENABLED = process.env.USE_FASTAPI_AGENTS === 'true';
 const IS_VERCEL_DEPLOYMENT = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
 const FASTAPI_AGENT_TIMEOUT_MS = 10_000;
@@ -29,6 +35,16 @@ const BENCH_REVIEW_ENABLED =
   (!process.env.AI_BENCH_REVIEW_ENABLED?.trim() && process.env.NODE_ENV === 'production');
 let hasWarnedNoFastApiTarget = false;
 let hasWarnedMissingFastApiSecret = false;
+
+function jsonNoStore(body: unknown, init?: (ResponseInit & { headers?: HeadersInit }) | undefined) {
+  return NextResponse.json(body, {
+    ...init,
+    headers: {
+      'Cache-Control': 'no-store',
+      ...(init?.headers ?? {}),
+    },
+  });
+}
 
 function getFastApiAgentUrl(request: Request) {
   const configuredBaseUrl = process.env.FASTAPI_AGENT_BASE_URL?.trim();
@@ -48,17 +64,41 @@ function getFastApiAgentUrl(request: Request) {
   return null;
 }
 
-function getClientKey(request: Request) {
-  const forwardedFor = request.headers.get('x-forwarded-for');
-  if (forwardedFor) {
-    return forwardedFor.split(',')[0]?.trim() || 'unknown';
+export async function GET(request: Request) {
+  const queryError = rejectUnexpectedSearchParams(request);
+  if (queryError) {
+    return queryError;
   }
 
-  return request.headers.get('x-real-ip') || 'unknown';
-}
+  const rateLimit = await takeRateLimitHit({
+    scope: 'chat-status',
+    key: getClientKey(request),
+    limit: CHAT_STATUS_LIMIT,
+    windowMs: CHAT_WINDOW_MS,
+  });
 
-export async function GET(request: Request) {
-  return NextResponse.json({
+  if (rateLimit.reason) {
+    return jsonNoStore(
+      { error: 'Chat status is temporarily unavailable. Please try again later.' },
+      { status: 503 },
+    );
+  }
+
+  if (!rateLimit.ok) {
+    return jsonNoStore(
+      { error: 'Too many status checks. Please wait a minute and try again.' },
+      {
+        status: 429,
+        headers: {
+          'Retry-After': String(
+            Math.max(Math.ceil((rateLimit.resetAt - Date.now()) / 1_000), 1),
+          ),
+        },
+      },
+    );
+  }
+
+  return jsonNoStore({
     ok: true,
     provider: getAIProvider() || 'fallback',
     fastApiAgentsEnabled: FASTAPI_AGENTS_ENABLED,
@@ -68,17 +108,27 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
+  const queryError = rejectUnexpectedSearchParams(request);
+  if (queryError) {
+    return queryError;
+  }
+
+  const originError = rejectUntrustedOrigin(request);
+  if (originError) {
+    return originError;
+  }
+
   let payload: unknown;
 
   try {
     payload = await request.json();
   } catch {
-    return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
+    return jsonNoStore({ error: 'Invalid request body.' }, { status: 400 });
   }
 
   const parsed = chatRequestSchema.safeParse(payload);
   if (!parsed.success) {
-    return NextResponse.json({ error: 'Invalid chat payload.' }, { status: 400 });
+    return jsonNoStore({ error: 'Invalid chat payload.' }, { status: 400 });
   }
 
   const rateLimit = await takeRateLimitHit({
@@ -89,14 +139,14 @@ export async function POST(request: Request) {
   });
 
   if (rateLimit.reason) {
-    return NextResponse.json(
+    return jsonNoStore(
       { error: 'Chat is temporarily unavailable. Please try again later.' },
       { status: 503 },
     );
   }
 
   if (!rateLimit.ok) {
-    return NextResponse.json(
+    return jsonNoStore(
       {
         error: 'Too many chat messages. Please wait a minute and try again.',
       },
@@ -116,7 +166,7 @@ export async function POST(request: Request) {
     .find((message) => message.role === 'user');
 
   if (!latestUserMessage) {
-    return NextResponse.json({ error: 'A user message is required.' }, { status: 400 });
+    return jsonNoStore({ error: 'A user message is required.' }, { status: 400 });
   }
 
   const fallback = getFallbackAssistantReply(latestUserMessage.content, parsed.data.agent);
@@ -170,7 +220,7 @@ export async function POST(request: Request) {
           };
 
           if (!data.degraded) {
-            return NextResponse.json({
+            return jsonNoStore({
               content: data.content || fallback.content,
               suggestions: data.suggestions || fallback.suggestions,
               action: data.action || fallback.action,
@@ -201,7 +251,7 @@ export async function POST(request: Request) {
   const client = getOpenAIClient();
 
   if (!client) {
-    return NextResponse.json({
+    return jsonNoStore({
       content: fallback.content,
       suggestions: fallback.suggestions,
       action: fallback.action,
@@ -231,7 +281,7 @@ export async function POST(request: Request) {
 
     const specialistDraft = specialistResponse.output_text.trim() || fallback.content;
     if (!BENCH_REVIEW_ENABLED) {
-      return NextResponse.json({
+      return jsonNoStore({
         content: specialistDraft,
         suggestions: fallback.suggestions,
         action: fallback.action,
@@ -258,7 +308,7 @@ export async function POST(request: Request) {
 
       const content = benchReview.output_text.trim() || specialistDraft;
 
-      return NextResponse.json({
+      return jsonNoStore({
         content,
         suggestions: fallback.suggestions,
         action: fallback.action,
@@ -273,7 +323,7 @@ export async function POST(request: Request) {
     } catch (error) {
       console.error('Bench review error:', error);
 
-      return NextResponse.json({
+      return jsonNoStore({
         content: specialistDraft,
         suggestions: fallback.suggestions,
         action: fallback.action,
@@ -288,7 +338,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Chat API error:', error);
 
-    return NextResponse.json({
+    return jsonNoStore({
       content: fallback.content,
       suggestions: fallback.suggestions,
       action: fallback.action,

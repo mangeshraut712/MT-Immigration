@@ -48,9 +48,9 @@ export function ProcessSection() {
                 >
                     <div className="md:flex md:justify-center mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="h-px w-12 bg-primary"></div>
-                            <span className="text-sm font-semibold tracking-widest uppercase text-primary">How We Work</span>
-                            <div className="hidden md:block h-px w-12 bg-primary"></div>
+                            <div className="h-px w-12 bg-zinc-300"></div>
+                            <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">How We Work</span>
+                            <div className="hidden md:block h-px w-12 bg-zinc-300"></div>
                         </div>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground mb-6 leading-[1.1]">
@@ -81,7 +81,7 @@ export function ProcessSection() {
                         >
                             {/* Marker */}
                             <div className="absolute left-0 md:left-1/2 w-14 h-14 -translate-x-0 md:-translate-x-1/2 flex items-center justify-center bg-white z-10 rounded-full border-4 border-zinc-100 shadow-sm group hover:scale-110 transition-transform duration-300">
-                                <div className="w-8 h-8 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
+                                <div className="w-8 h-8 bg-zinc-100 text-zinc-900 rounded-full flex items-center justify-center">
                                     <step.icon size={16} />
                                 </div>
                             </div>
@@ -92,15 +92,15 @@ export function ProcessSection() {
                                     {/* Connecting Line (Mobile) */}
                                     <div className="md:hidden absolute top-7 -left-6 w-6 h-px bg-zinc-200" />
 
-                                    <div className="mb-4 text-5xl font-serif text-zinc-100 font-bold select-none group-hover:text-blue-50 transition-colors">{step.id}</div>
-                                    <h3 className="text-2xl font-serif font-medium mb-3 group-hover:text-blue-600 transition-colors">{step.title}</h3>
+                                    <div className="mb-4 text-5xl font-serif text-zinc-100 font-bold select-none group-hover:text-zinc-200 transition-colors">{step.id}</div>
+                                    <h3 className="text-2xl font-serif font-medium mb-3 group-hover:text-black transition-colors">{step.title}</h3>
                                     <p className="text-zinc-500 leading-relaxed mb-6">
                                         {step.description}
                                     </p>
                                     <ul className="space-y-3">
                                         {step.features.map((feature, i) => (
                                             <li key={i} className="flex items-center gap-3 text-sm text-zinc-600 font-medium">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-blue-400 shrink-0" />
+                                                <span className="w-1.5 h-1.5 rounded-full bg-zinc-400 shrink-0" />
                                                 <span>{feature}</span>
                                             </li>
                                         ))}

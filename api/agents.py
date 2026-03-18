@@ -380,13 +380,7 @@ def root() -> dict[str, object]:
 def health() -> dict[str, object]:
     return {
         "ok": True,
-        "configured": bool(os.environ.get("OPENROUTER_API_KEY", "").strip()),
-        "agentAuthConfigured": bool(get_agent_shared_secret()),
-        "providerAvailable": OpenRouter is not None,
-        "ready": is_chat_ready(),
-        "model": get_model(),
-        "agents": get_public_agent_catalog(),
-        "reviewedBy": BENCH_REVIEWER["title"],
+        "service": "agents",
     }
 
 
@@ -438,10 +432,9 @@ def chat(
             reasoning={"effort": get_reasoning_effort()},
         )
     except Exception as error:  # pragma: no cover - external API failures
-        return {
-            **fallback_payload(agent_key),
-            "error": str(error),
-        }
+        import logging
+        logging.error("Agent specialist call failed: %s", error)
+        return fallback_payload(agent_key)
 
     draft = extract_response_text(specialist_response)
     if not draft:

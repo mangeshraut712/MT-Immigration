@@ -9,6 +9,7 @@ const WhyChooseUsSection = dynamic(() => import('@/components/sections/WhyChoose
 const TestimonialsSection = dynamic(() => import('@/components/sections/TestimonialsSection').then(mod => mod.TestimonialsSection));
 const AboutSection = dynamic(() => import('@/components/sections/AboutSection').then(mod => mod.AboutSection));
 const PricingSection = dynamic(() => import('@/components/sections/PricingSection').then(mod => mod.PricingSection));
+const PaymentSection = dynamic(() => import('@/components/sections/PaymentSection').then(mod => mod.PaymentSection));
 const FAQSection = dynamic(() => import('@/components/sections/FAQSection').then(mod => mod.FAQSection));
 const CTASection = dynamic(() => import('@/components/sections/CTASection').then(mod => mod.CTASection));
 const ContactSection = dynamic(() => import('@/components/sections/ContactSection').then(mod => mod.ContactSection));
@@ -25,6 +26,7 @@ export default function Home() {
       <TestimonialsSection />
       <AboutSection />
       <PricingSection />
+      <PaymentSection />
       <FAQSection />
       <CTASection />
       <ContactSection />

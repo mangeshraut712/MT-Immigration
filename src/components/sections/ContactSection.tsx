@@ -56,9 +56,9 @@ export function ContactSection() {
                     className="text-center mb-16 max-w-3xl mx-auto"
                 >
                     <div className="flex items-center justify-center gap-3 mb-6">
-                        <div className="h-px w-12 bg-primary"></div>
-                        <span className="text-sm font-semibold tracking-widest uppercase text-primary">Get Started</span>
-                        <div className="h-px w-12 bg-primary"></div>
+                        <div className="h-px w-12 bg-zinc-300"></div>
+                        <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">Get Started</span>
+                        <div className="h-px w-12 bg-zinc-300"></div>
                     </div>
                     <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
                         Ready to review <br />
@@ -98,7 +98,7 @@ export function ContactSection() {
                                                     >
                                                         <motion.div
                                                             whileHover={{ scale: 1.1, rotate: 5 }}
-                                                            className="p-3 rounded-xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300"
+                                                            className="p-3 rounded-xl bg-zinc-100 text-zinc-600 group-hover:bg-black group-hover:text-white transition-all duration-300"
                                                         >
                                                             <item.icon size={20} strokeWidth={1.5} />
                                                         </motion.div>
@@ -106,7 +106,7 @@ export function ContactSection() {
                                                             <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
                                                                 {item.label}
                                                             </p>
-                                                            <p className="font-medium text-zinc-900 text-lg group-hover:text-blue-600 transition-colors">
+                                                            <p className="font-medium text-zinc-900 text-lg group-hover:text-black transition-colors">
                                                                 {item.value}
                                                             </p>
                                                         </div>
@@ -125,7 +125,7 @@ export function ContactSection() {
                                                 transition={{ delay: index * 0.1 }}
                                                 className="flex items-start gap-4"
                                             >
-                                                <div className="p-3 rounded-xl bg-blue-50 text-blue-600">
+                                                <div className="p-3 rounded-xl bg-zinc-100 text-zinc-600">
                                                     <item.icon size={20} strokeWidth={1.5} />
                                                 </div>
                                                 <div>

@@ -8,36 +8,7 @@ import { firmConfig } from '@/config/firm';
 
 export function CTASection() {
     return (
-        <section className="relative bg-gradient-to-br from-zinc-900 via-zinc-950 to-black text-white py-24 md:py-32 overflow-hidden">
-            {/* Animated gradient orbs */}
-            <div className="absolute inset-0 overflow-hidden">
-                <motion.div
-                    className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[128px]"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{
-                        duration: 8,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                />
-                <motion.div
-                    className="absolute bottom-0 right-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[128px]"
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.5, 0.3, 0.5],
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                        delay: 1
-                    }}
-                />
-            </div>
-
+        <section className="relative bg-black text-white py-24 md:py-32 overflow-hidden">
             {/* Grid pattern overlay */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
@@ -51,8 +22,8 @@ export function CTASection() {
                         transition={{ duration: 0.5 }}
                         className="inline-flex mb-8"
                     >
-                        <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-sm font-medium">
-                            <span className="text-blue-400">✨</span> Ready to Start?
+                        <div className="px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-xs uppercase tracking-widest font-semibold text-zinc-300">
+                            Ready to Start?
                         </div>
                     </motion.div>
 
@@ -66,11 +37,11 @@ export function CTASection() {
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight mb-6 leading-[1.1]">
                             Your immigration strategy
                             <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-blue-400">
-                                starts with a real case review
+                            <span className="text-zinc-400 italic font-light">
+                                starts with a real case review.
                             </span>
                         </h2>
-                        <p className="text-xl md:text-2xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
+                        <p className="text-lg md:text-xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
                             Don&apos;t hand a high-stakes immigration matter to a generic intake funnel. Start with a focused consultation and a clear next step from an attorney-led practice.
                         </p>
                     </motion.div>
@@ -86,7 +57,7 @@ export function CTASection() {
                         <Button
                             asChild
                             size="lg"
-                            className="h-14 px-8 text-lg rounded-full font-semibold bg-white text-black hover:bg-zinc-100 shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all hover:scale-105 group"
+                            className="h-14 px-8 text-lg rounded-full font-semibold bg-white text-black hover:bg-zinc-200 shadow-xl shadow-white/10 hover:shadow-2xl hover:shadow-white/20 transition-all hover:scale-105 group"
                         >
                             <Link href="#contact" className="flex items-center">
                                 <Calendar className="mr-2 h-5 w-5" />
@@ -98,7 +69,7 @@ export function CTASection() {
                             asChild
                             variant="outline"
                             size="lg"
-                            className="h-14 px-8 text-lg rounded-full font-semibold border-2 border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-black transition-all hover:scale-105"
+                            className="h-14 px-8 text-lg rounded-full font-semibold border border-white/20 text-white bg-white/5 backdrop-blur-sm hover:bg-white hover:text-black transition-all hover:scale-105"
                         >
                             <a href={firmConfig.contact.phoneHref} className="flex items-center gap-2">
                                 <Phone size={18} />
@@ -124,7 +95,7 @@ export function CTASection() {
                                 key={i}
                                 className="flex items-center justify-center gap-3 p-4 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10"
                             >
-                                <item.icon className="w-5 h-5 text-blue-400" />
+                                <item.icon className="w-5 h-5 text-zinc-400" />
                                 <span className="text-sm font-medium text-zinc-300">{item.text}</span>
                             </div>
                         ))}

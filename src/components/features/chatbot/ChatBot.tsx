@@ -13,11 +13,16 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import Link from 'next/link';
-import type { ChatAgentKey } from '@/server/schemas/chat';
+import {
+  CHAT_MESSAGE_MAX_LENGTH,
+  chatMessageSchema,
+  type ChatAgentKey,
+} from '@/server/schemas/chat';
 
 import { getFallbackAssistantReply } from '@/server/ai/chatbot';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { sanitizeSingleLineText } from '@/lib/sanitize';
 import { cn } from '@/lib/utils';
 import { chatAgentCards, chatAgentOrder } from '@/content/chatAgents';
 import { benchReviewer } from '@/content/chatAgents';
@@ -66,6 +71,10 @@ type AgentMode = 'auto' | ChatAgentKey;
 
 function createMessageId() {
   return crypto.randomUUID();
+}
+
+function sanitizeChatDraft(value: string) {
+  return sanitizeSingleLineText(value, { trim: false });
 }
 
 function renderInlineContent(content: string, keyPrefix: string) {
@@ -167,15 +176,26 @@ export function ChatBot() {
   }, [isOpen, messages.length]);
 
   async function sendMessage(text = input) {
-    const trimmedText = text.trim();
-    if (!trimmedText || isTyping) {
+    if (isTyping) {
       return;
     }
+
+    const parsedMessage = chatMessageSchema.safeParse({
+      role: 'user',
+      content: text,
+    });
+
+    if (!parsedMessage.success) {
+      setChatError(`Messages must be between 1 and ${CHAT_MESSAGE_MAX_LENGTH} characters.`);
+      return;
+    }
+
+    const sanitizedText = parsedMessage.data.content;
 
     const userMessage: Message = {
       id: createMessageId(),
       role: 'user',
-      content: trimmedText,
+      content: sanitizedText,
       timestamp: new Date(),
     };
 
@@ -333,7 +353,7 @@ export function ChatBot() {
                     'rounded-full border px-3 py-1.5 text-xs transition-all',
                     activeAgent === 'auto'
                       ? 'border-zinc-900 bg-zinc-900 text-white'
-                      : 'border-zinc-200 bg-white text-zinc-600 hover:border-blue-200 hover:text-blue-700',
+                      : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-black',
                   )}
                 >
                   Auto
@@ -347,7 +367,7 @@ export function ChatBot() {
                       'rounded-full border px-3 py-1.5 text-xs transition-all',
                       activeAgent === agentKey
                         ? 'border-zinc-900 bg-zinc-900 text-white'
-                        : 'border-zinc-200 bg-white text-zinc-600 hover:border-blue-200 hover:text-blue-700',
+                        : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-black',
                     )}
                   >
                     {chatAgentCards[agentKey].shortTitle}
@@ -378,7 +398,7 @@ export function ChatBot() {
                         'mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full',
                         message.role === 'assistant'
                           ? 'bg-foreground text-background'
-                          : 'bg-blue-600 text-white',
+                          : 'bg-black text-white',
                       )}
                     >
                       {message.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
@@ -388,13 +408,13 @@ export function ChatBot() {
                       className={cn(
                         'rounded-2xl p-3.5 text-sm leading-relaxed shadow-sm',
                         message.role === 'user'
-                          ? 'rounded-br-sm bg-blue-600 text-white'
+                          ? 'rounded-br-sm bg-black text-white'
                           : 'rounded-bl-sm border border-border bg-white text-foreground',
                       )}
                     >
                       {message.role === 'assistant' && message.agent ? (
                         <div className="mb-2 flex flex-wrap items-center gap-2">
-                          <span className="rounded-full bg-blue-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-blue-700">
+                          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-900">
                             {message.agent.title}
                           </span>
                           {message.reviewedBy ? (
@@ -451,7 +471,7 @@ export function ChatBot() {
                         <button
                           key={`${message.id}-${suggestion}`}
                           onClick={() => sendMessage(suggestion)}
-                          className="rounded-full border border-border bg-white px-3 py-1.5 text-xs text-zinc-600 shadow-sm transition-all hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
+                          className="rounded-full border border-border bg-white px-3 py-1.5 text-xs text-zinc-600 shadow-sm transition-all hover:border-zinc-400 hover:bg-zinc-100 hover:text-black"
                         >
                           {suggestion}
                         </button>
@@ -520,9 +540,10 @@ export function ChatBot() {
                 <Input
                   id="chat-composer"
                   value={input}
-                  onChange={(event) => setInput(event.target.value)}
+                  onChange={(event) => setInput(sanitizeChatDraft(event.target.value))}
+                  maxLength={CHAT_MESSAGE_MAX_LENGTH}
                   placeholder="Ask about visas, green cards, or urgent deadlines..."
-                  className="flex-1 border-zinc-200 bg-zinc-50 focus-visible:ring-blue-600"
+                  className="flex-1 border-zinc-200 bg-zinc-50 focus-visible:ring-zinc-600"
                   disabled={isTyping}
                 />
                 <Button
@@ -530,7 +551,7 @@ export function ChatBot() {
                   disabled={!input.trim() || isTyping}
                   size="icon"
                   aria-label="Send message"
-                  className="shrink-0 rounded-xl bg-blue-600 text-white shadow-md hover:bg-blue-700"
+                  className="shrink-0 rounded-xl bg-black text-white shadow-md hover:bg-zinc-800"
                 >
                   {isTyping ? (
                     <Loader2 size={18} className="animate-spin" />
@@ -543,7 +564,7 @@ export function ChatBot() {
                 <Link
                   href="/#contact"
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex items-center gap-1 text-[10px] text-zinc-400 transition-colors hover:text-blue-600"
+                  className="inline-flex items-center gap-1 text-[10px] text-zinc-400 transition-colors hover:text-black"
                 >
                   Ready to proceed? Request a case review <ArrowRight size={8} />
                 </Link>

@@ -19,8 +19,8 @@ export function BriefBreakSection() {
       <div className="container-wide grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center">
         <div>
           <div className="mb-6 flex items-center gap-3">
-            <div className="h-px w-12 bg-blue-600" />
-            <span className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-600">
+            <div className="h-px w-12 bg-zinc-600" />
+            <span className="text-sm font-semibold uppercase tracking-[0.25em] text-zinc-600">
               Brief Break
             </span>
           </div>
@@ -42,7 +42,7 @@ export function BriefBreakSection() {
               </Link>
             </Button>
             <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-zinc-700">
-              <Sparkles className="h-4 w-4 text-blue-600" />
+              <Sparkles className="h-4 w-4 text-zinc-600" />
               Daily chamber puzzle with streaks, hints, and zero legal pressure
             </div>
           </div>
@@ -56,7 +56,7 @@ export function BriefBreakSection() {
         >
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-blue-600">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
                 Docket Zip
               </p>
               <p className="mt-2 text-sm text-zinc-500">Connect the facts. Fill the record.</p>

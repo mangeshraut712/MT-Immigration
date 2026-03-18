@@ -163,7 +163,7 @@ export function ServicesSection() {
             <div className="absolute inset-0 bg-gradient-subtle" />
 
             {/* Noise Texture Integration is global, but we add a specific light glow here */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-50/50 rounded-full blur-[100px] pointer-events-none" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-zinc-100 rounded-full blur-[100px] pointer-events-none" />
 
             <div className="container-wide relative z-10">
                 {/* Header */}
@@ -197,13 +197,13 @@ export function ServicesSection() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.05 }}
-                                    className="group relative flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-8 text-left shadow-sm transition-all duration-300 hover:border-zinc-200 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                                    className="group relative flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-8 text-left shadow-sm transition-all duration-300 hover:border-zinc-200 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-500 focus-visible:ring-offset-2"
                                 >
                                     <div className="mb-6 inline-flex p-3 rounded-xl bg-zinc-50 text-zinc-900 group-hover:scale-110 group-hover:bg-black group-hover:text-white transition-all duration-300">
                                         <service.icon size={28} strokeWidth={1.5} />
                                     </div>
 
-                                    <h3 className="text-2xl font-serif font-medium mb-3 group-hover:text-blue-600 transition-colors">
+                                    <h3 className="text-2xl font-serif font-medium mb-3 group-hover:text-black transition-colors">
                                         {service.title}
                                     </h3>
 
@@ -215,7 +215,7 @@ export function ServicesSection() {
                                         <Badge variant="secondary" className="bg-zinc-100 text-zinc-600 font-normal">
                                             {service.timeline}
                                         </Badge>
-                                        <div className="flex items-center text-sm font-semibold text-blue-600 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                        <div className="flex items-center text-sm font-semibold text-zinc-900 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                                             Details <ChevronRight size={16} className="ml-1" />
                                         </div>
                                     </div>
@@ -225,7 +225,7 @@ export function ServicesSection() {
                             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto sm:max-h-none">
                                 <DialogHeader>
                                     <div className="flex items-center gap-4 mb-4">
-                                        <div className="p-3 rounded-xl bg-blue-50 text-blue-600">
+                                        <div className="p-3 rounded-xl bg-zinc-100 text-zinc-900">
                                             <service.icon size={32} />
                                         </div>
                                         <div>
@@ -241,7 +241,7 @@ export function ServicesSection() {
                                     {/* Features */}
                                     <div className="space-y-4">
                                         <h4 className="font-semibold text-foreground flex items-center gap-2">
-                                            <CheckCircle2 size={18} className="text-green-500" />
+                                            <CheckCircle2 size={18} className="text-zinc-600" />
                                             What We Handle
                                         </h4>
                                         <ul className="space-y-3">
@@ -258,7 +258,7 @@ export function ServicesSection() {
                                     <div className="space-y-6">
                                         <div>
                                             <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                                                <FileText size={18} className="text-blue-500" />
+                                                <FileText size={18} className="text-zinc-600" />
                                                 Key Requirements
                                             </h4>
                                             <ul className="space-y-2">
@@ -279,7 +279,7 @@ export function ServicesSection() {
                                             </div>
                                             <div className="h-px bg-zinc-200 my-3" />
                                             <div className="flex items-center gap-2 text-sm text-zinc-600">
-                                                <Star size={14} className="text-yellow-500 fill-yellow-500" />
+                                                <Star size={14} className="text-zinc-600 fill-zinc-600" />
                                                 <span className="italic">{service.stat}</span>
                                             </div>
                                         </div>

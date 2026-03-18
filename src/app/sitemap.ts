@@ -28,5 +28,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'weekly',
             priority: 0.4,
         },
+        {
+            url: new URL('/insights', siteUrl).toString(),
+            lastModified,
+            changeFrequency: 'weekly',
+            priority: 0.6,
+        },
+        {
+            url: new URL('/llms.txt', siteUrl).toString(),
+            lastModified,
+            changeFrequency: 'monthly',
+            priority: 0.2,
+        },
+        {
+            url: new URL('/openapi.json', siteUrl).toString(),
+            lastModified,
+            changeFrequency: 'monthly',
+            priority: 0.2,
+        },
     ];
 }

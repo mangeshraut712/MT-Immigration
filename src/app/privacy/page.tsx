@@ -1,8 +1,16 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { buildCanonicalUrl, getLanguageAlternates } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
   description: 'Privacy practices for the M&T Immigration website and intake tools.',
+  alternates: getLanguageAlternates('/privacy'),
+  openGraph: {
+    title: 'Privacy Policy',
+    description: 'Privacy practices for the M&T Immigration website and intake tools.',
+    url: buildCanonicalUrl('/privacy'),
+  },
 };
 
 export default function PrivacyPage() {
@@ -10,6 +18,13 @@ export default function PrivacyPage() {
     <div className="bg-white">
       <div className="container-wide py-24 md:py-32 max-w-4xl">
         <div className="mb-10">
+          <div className="mb-6 flex flex-wrap gap-3 text-sm text-zinc-500">
+            <Link href="/" className="transition-colors hover:text-blue-700">Home</Link>
+            <span>/</span>
+            <Link href="/insights" className="transition-colors hover:text-blue-700">Insights</Link>
+            <span>/</span>
+            <Link href="/#contact" className="transition-colors hover:text-blue-700">Contact</Link>
+          </div>
           <p className="text-sm font-semibold tracking-[0.2em] uppercase text-blue-600">
             Privacy Policy
           </p>

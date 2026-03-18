@@ -40,7 +40,7 @@ export function PricingSection() {
     return (
         <section id="pricing" className="section-padding bg-zinc-50 relative overflow-hidden">
             {/* Gradient Background */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.05),transparent_50%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.03),transparent_50%)]" />
 
             <div className="container-wide relative z-10">
                 <div className="grid lg:grid-cols-3 gap-16">
@@ -85,7 +85,7 @@ export function PricingSection() {
                                             variants={staggerItemVariants}
                                             className="flex items-center gap-3 text-sm text-zinc-600"
                                         >
-                                            <div className="w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0">
+                                            <div className="w-5 h-5 rounded-full bg-zinc-100 text-zinc-900 flex items-center justify-center flex-shrink-0">
                                                 <Check className="w-3 h-3" />
                                             </div>
                                             {item}
@@ -125,9 +125,9 @@ export function PricingSection() {
                                             whileInView={{ opacity: 1, y: 0 }}
                                             viewport={{ once: true }}
                                             transition={{ delay: index * 0.05 }}
-                                            className="hover:bg-blue-50/30 transition-colors duration-200 border-b border-zinc-50 last:border-0 group cursor-default"
+                                            className="hover:bg-zinc-50/80 transition-colors duration-200 border-b border-zinc-50 last:border-0 group cursor-default"
                                         >
-                                            <TableCell className="font-medium py-6 pl-8 text-zinc-700 group-hover:text-blue-700 transition-colors">{item.service}</TableCell>
+                                            <TableCell className="font-medium py-6 pl-8 text-zinc-700 group-hover:text-black transition-colors">{item.service}</TableCell>
                                             <TableCell className="text-zinc-900 font-medium font-sans">{item.price}</TableCell>
                                             <TableCell className="text-zinc-500 pr-8">{item.includes}</TableCell>
                                         </motion.tr>

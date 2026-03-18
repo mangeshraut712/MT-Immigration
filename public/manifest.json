@@ -1,0 +1,32 @@
+{
+    "name": "M&T Immigration Law Firm",
+    "short_name": "M&T Immigration",
+    "description": "Boutique immigration law firm specializing in personalized legal services",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#000000",
+    "orientation": "portrait-primary",
+    "categories": [
+        "business",
+        "legal",
+        "productivity"
+    ],
+    "lang": "en-US",
+    "icons": [
+        {
+            "src": "/brand/mtlogo.png",
+            "sizes": "any",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/brand/mtlogo.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide"
+        }
+    ]
+}

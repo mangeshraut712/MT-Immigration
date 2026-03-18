@@ -82,8 +82,8 @@ const itemVariants = {
 export function WhyChooseUsSection() {
   return (
     <section className="relative overflow-hidden bg-zinc-950 text-zinc-50 section-padding">
-      <div className="pointer-events-none absolute -left-1/4 top-0 h-full w-1/2 rounded-full bg-blue-500/5 blur-[100px]" />
-      <div className="pointer-events-none absolute -right-1/4 bottom-0 h-full w-1/2 rounded-full bg-indigo-500/5 blur-[100px]" />
+      <div className="pointer-events-none absolute -left-1/4 top-0 h-full w-1/2 rounded-full bg-zinc-900/5 blur-[100px]" />
+      <div className="pointer-events-none absolute -right-1/4 bottom-0 h-full w-1/2 rounded-full bg-white/5 blur-[100px]" />
 
       <div className="container-wide relative z-10">
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-24">
@@ -191,11 +191,11 @@ export function WhyChooseUsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="mt-6 rounded-3xl bg-gradient-to-br from-blue-600 to-blue-800 p-10 text-white shadow-2xl"
+              className="mt-6 rounded-3xl bg-zinc-900 border border-white/10 p-10 text-white shadow-xl"
             >
-              <p className="max-w-xl text-3xl font-serif font-medium leading-tight">
+              <p className="max-w-xl text-3xl font-serif font-medium leading-tight text-white">
                 A boutique practice works best when the lawyer stays close to the file,
-                communicates early, and tells clients the hard parts before the filing goes out.
+                communicates <span className="text-zinc-400 italic font-light">early</span>, and tells clients the hard parts before the filing goes out.
               </p>
             </motion.div>
           </motion.div>

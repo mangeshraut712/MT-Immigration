@@ -18,10 +18,12 @@ const footerLinks = {
         { name: "About the Practice", href: "/#about" },
         { name: "Our Process", href: "/#process" },
         { name: "Client Experience", href: "/#testimonials" },
+        { name: "Insights Journal", href: "/insights" },
         { name: "Contact", href: "/#contact" },
     ],
     support: [
         { name: "Pricing & Fees", href: "/#pricing" },
+        { name: "Secure Payments", href: "/#payments" },
         { name: "FAQ", href: "/#faq" },
         { name: "Book Consultation", href: "/#contact" },
         { name: "Brief Break", href: "/brief-break" },
@@ -180,6 +182,8 @@ export default function Footer() {
                             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
                             <span className="text-zinc-700">|</span>
                             <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+                            <span className="text-zinc-700">|</span>
+                            <Link href="/insights" className="hover:text-white transition-colors">Insights</Link>
                             <span className="text-zinc-700">|</span>
                             <Link href="/sitemap.xml" className="hover:text-white transition-colors">Site Map</Link>
                         </div>
