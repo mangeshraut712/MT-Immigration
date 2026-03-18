@@ -1,7 +1,6 @@
-import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-function getCanonicalHost(): string | null {
+function getCanonicalHost() {
   // On non-production Vercel deploys, skip canonical-host enforcement
   // so preview URLs remain usable for QA.
   if (process.env.VERCEL && process.env.VERCEL_ENV !== 'production') {
@@ -27,7 +26,7 @@ function getCanonicalHost(): string | null {
   }
 }
 
-export function middleware(request: NextRequest) {
+export function middleware(request) {
   const host = request.headers.get('host') || request.nextUrl.host;
   const protocol = request.headers.get('x-forwarded-proto') || request.nextUrl.protocol.replace(':', '');
   const canonicalHost = getCanonicalHost();
