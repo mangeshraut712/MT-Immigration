@@ -1,159 +1,110 @@
-/**
- * Custom React hooks for the M&T Immigration website
- */
+// PWA and Service Worker Hook
+import { useEffect, useState } from 'react';
 
-import { useState, useEffect, useCallback, useMemo, useRef, useSyncExternalStore } from 'react';
+export function usePWA() {
+    const [isInstallable, setIsInstallable] = useState(false);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+    const [isOffline, setIsOffline] = useState(() => typeof navigator !== 'undefined' ? !navigator.onLine : false);
 
-/**
- * Hook for managing local storage with SSR safety
- */
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T | ((val: T) => T)) => void] {
-    const readValue = useCallback((): T => {
-        if (typeof window === 'undefined') return initialValue;
-        try {
-            const item = window.localStorage.getItem(key);
-            return item ? (JSON.parse(item) as T) : initialValue;
-        } catch (error) {
-            console.warn(`Error reading localStorage key "${key}":`, error);
-            return initialValue;
-        }
-    }, [key, initialValue]);
-
-    const readSnapshot = useCallback((): string => {
-        if (typeof window === 'undefined') {
-            return JSON.stringify(initialValue);
+    useEffect(() => {
+        // Register service worker
+        if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+            navigator.serviceWorker
+                .register('/sw.js')
+                .then((registration) => {
+                    console.log('SW registered: ', registration);
+                })
+                .catch((registrationError) => {
+                    console.log('SW registration failed: ', registrationError);
+                });
         }
 
-        const stored = window.localStorage.getItem(key);
-        return stored ?? JSON.stringify(initialValue);
-    }, [initialValue, key]);
-
-    const subscribe = useCallback((onStoreChange: () => void) => {
-        if (typeof window === 'undefined') {
-            return () => undefined;
-        }
-
-        const handleStorage = (event: Event) => {
-            if (event instanceof StorageEvent && event.key && event.key !== key) {
-                return;
-            }
-            onStoreChange();
+        // Handle install prompt
+        const handleBeforeInstallPrompt = (e: Event) => {
+            e.preventDefault();
+            setDeferredPrompt(e);
+            setIsInstallable(true);
         };
 
-        window.addEventListener('storage', handleStorage);
-        window.addEventListener('local-storage', handleStorage);
+        // Handle app installed
+        const handleAppInstalled = () => {
+            setIsInstallable(false);
+            setDeferredPrompt(null);
+        };
+
+        // Handle online/offline status
+        const handleOnline = () => setIsOffline(false);
+        const handleOffline = () => setIsOffline(true);
+
+        window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.addEventListener('appinstalled', handleAppInstalled);
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
         return () => {
-            window.removeEventListener('storage', handleStorage);
-            window.removeEventListener('local-storage', handleStorage);
+            window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+            window.removeEventListener('appinstalled', handleAppInstalled);
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
         };
-    }, [key]);
+    }, []);
 
-    const storedValueSnapshot = useSyncExternalStore(
-        subscribe,
-        readSnapshot,
-        () => JSON.stringify(initialValue),
-    );
+    const installPWA = async () => {
+        if (!deferredPrompt) return;
 
-    const storedValue = useMemo(() => {
-        try {
-            return JSON.parse(storedValueSnapshot) as T;
-        } catch {
-            return initialValue;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+
+        if (outcome === 'accepted') {
+            setDeferredPrompt(null);
+            setIsInstallable(false);
         }
-    }, [initialValue, storedValueSnapshot]);
+    };
 
-    const setValue = useCallback((value: T | ((val: T) => T)) => {
-        try {
-            const valueToStore = value instanceof Function ? value(readValue()) : value;
-            if (typeof window !== 'undefined') {
-                window.localStorage.setItem(key, JSON.stringify(valueToStore));
-                window.dispatchEvent(new Event('local-storage'));
-            }
-        } catch (error) {
-            console.warn(`Error setting localStorage key "${key}":`, error);
+    return {
+        isInstallable,
+        isOffline,
+        installPWA
+    };
+}
+
+// Enhanced error boundary hook
+import { useCallback } from 'react';
+import type { ErrorInfo } from 'react';
+
+export function useErrorHandler() {
+    const [error, setError] = useState<Error | null>(null);
+    const [errorInfo, setErrorInfo] = useState<ErrorInfo | null>(null);
+
+    const handleError = useCallback((error: Error, errorInfo?: ErrorInfo) => {
+        setError(error);
+        setErrorInfo(errorInfo || null);
+
+        // Log to external service in production
+        if (process.env.NODE_ENV === 'production') {
+            console.error('Application Error:', error, errorInfo);
+
+            // Could integrate with error tracking service like Sentry
+            // Sentry.captureException(error, { contexts: { react: errorInfo } });
         }
-    }, [key, readValue]);
+    }, []);
 
-    return [storedValue, setValue];
+    const clearError = useCallback(() => {
+        setError(null);
+        setErrorInfo(null);
+    }, []);
+
+    return {
+        error,
+        errorInfo,
+        handleError,
+        clearError,
+        hasError: error !== null
+    };
 }
 
-/**
- * Hook for detecting if an element is in viewport
- */
-export function useInView(options?: IntersectionObserverInit) {
-    const ref = useRef<HTMLElement | null>(null);
-    const [isInView, setIsInView] = useState(false);
-
-    useEffect(() => {
-        const element = ref.current;
-        if (!element) return;
-
-        const observer = new IntersectionObserver(([entry]) => {
-            setIsInView(entry.isIntersecting);
-        }, { threshold: 0.1, ...options });
-
-        observer.observe(element);
-        return () => observer.disconnect();
-    }, [options]);
-
-    return { ref, isInView };
-}
-
-/**
- * Hook for debouncing values
- */
-export function useDebounce<T>(value: T, delay: number): T {
-    const [debouncedValue, setDebouncedValue] = useState<T>(value);
-
-    useEffect(() => {
-        const timer = setTimeout(() => setDebouncedValue(value), delay);
-        return () => clearTimeout(timer);
-    }, [value, delay]);
-
-    return debouncedValue;
-}
-
-/**
- * Hook for detecting mobile viewport
- */
-export function useIsMobile(breakpoint = 768) {
-    const [isMobile, setIsMobile] = useState(false);
-
-    useEffect(() => {
-        const checkMobile = () => setIsMobile(window.innerWidth < breakpoint);
-        checkMobile();
-        window.addEventListener('resize', checkMobile);
-        return () => window.removeEventListener('resize', checkMobile);
-    }, [breakpoint]);
-
-    return isMobile;
-}
-
-/**
- * Hook for keyboard shortcuts
- */
-export function useKeyboardShortcut(key: string, callback: () => void, modifiers?: { ctrl?: boolean; alt?: boolean; shift?: boolean }) {
-    useEffect(() => {
-        const handler = (e: KeyboardEvent) => {
-            if (
-                e.key.toLowerCase() === key.toLowerCase() &&
-                (!modifiers?.ctrl || e.ctrlKey || e.metaKey) &&
-                (!modifiers?.alt || e.altKey) &&
-                (!modifiers?.shift || e.shiftKey)
-            ) {
-                e.preventDefault();
-                callback();
-            }
-        };
-
-        window.addEventListener('keydown', handler);
-        return () => window.removeEventListener('keydown', handler);
-    }, [key, callback, modifiers]);
-}
-
-/**
- * Hook for copying text to clipboard
- */
+// Copy to clipboard hook
 export function useCopyToClipboard() {
     const [copied, setCopied] = useState(false);
 
@@ -163,31 +114,74 @@ export function useCopyToClipboard() {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
             return true;
-        } catch {
-            console.error('Failed to copy to clipboard');
+        } catch (err) {
+            console.error('Failed to copy text: ', err);
             return false;
         }
     }, []);
 
-    return { copied, copy };
+    return { copy, copied };
 }
 
-/**
- * Hook for tracking scroll progress
- */
-export function useScrollProgress() {
-    const [progress, setProgress] = useState(0);
+// Local storage hook with SSR safety
+export function useLocalStorage<T>(key: string, initialValue: T) {
+    const [storedValue, setStoredValue] = useState<T>(() => {
+        if (typeof window === 'undefined') {
+            return initialValue;
+        }
+        try {
+            const item = window.localStorage.getItem(key);
+            return item ? JSON.parse(item) : initialValue;
+        } catch (error) {
+            console.error(`Error reading localStorage key "${key}":`, error);
+            return initialValue;
+        }
+    });
+
+    const setValue = useCallback((value: T | ((val: T) => T)) => {
+        try {
+            const valueToStore = value instanceof Function ? value(storedValue) : value;
+            setStoredValue(valueToStore);
+            if (typeof window !== 'undefined') {
+                window.localStorage.setItem(key, JSON.stringify(valueToStore));
+            }
+        } catch (error) {
+            console.error(`Error setting localStorage key "${key}":`, error);
+        }
+    }, [key, storedValue]);
+
+    return [storedValue, setValue] as const;
+}
+
+// Keyboard shortcut hook
+export function useKeyboardShortcut(
+    key: string,
+    callback: () => void,
+    options: { ctrl?: boolean; shift?: boolean; alt?: boolean; meta?: boolean } = {}
+) {
+    const { ctrl = false, shift = false, alt = false, meta = false } = options;
 
     useEffect(() => {
-        const updateProgress = () => {
-            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrolled = (window.scrollY / scrollHeight) * 100;
-            setProgress(Math.min(100, Math.max(0, scrolled)));
+        const handleKeyDown = (event: KeyboardEvent) => {
+            const isCtrlPressed = ctrl ? event.ctrlKey : !event.ctrlKey;
+            const isShiftPressed = shift ? event.shiftKey : !event.shiftKey;
+            const isAltPressed = alt ? event.altKey : !event.altKey;
+            const isMetaPressed = meta ? event.metaKey : !event.metaKey;
+
+            if (
+                event.key.toLowerCase() === key.toLowerCase() &&
+                isCtrlPressed &&
+                isShiftPressed &&
+                isAltPressed &&
+                isMetaPressed &&
+                !event.repeat
+            ) {
+                event.preventDefault();
+                callback();
+            }
         };
 
-        window.addEventListener('scroll', updateProgress, { passive: true });
-        return () => window.removeEventListener('scroll', updateProgress);
-    }, []);
-
-    return progress;
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [key, callback, ctrl, shift, alt, meta]);
 }

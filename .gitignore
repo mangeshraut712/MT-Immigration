@@ -48,3 +48,14 @@ __pycache__/
 
 # typescript
 *.tsbuildinfo
+.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

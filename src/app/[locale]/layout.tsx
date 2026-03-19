@@ -1,11 +1,13 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { routing } from "@/i18n/routing";
-import "../globals.css";
+import { Inter, DM_Serif_Display } from "next/font/google";
 import clsx from "clsx";
 
+import { routing } from "@/i18n/routing";
+import "../globals.css";
 
+import Providers from "../providers";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { BackToTop } from "@/components/layout/BackToTop";
@@ -13,13 +15,10 @@ import { ErrorBoundary } from "@/components/ui/error-boundary";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { Toaster } from "@/components/ui/sonner";
 import { WebVitals } from "@/components/ui/web-vitals";
+import { Analytics } from "@/components/ui/analytics";
+import { ServiceWorker } from "@/components/ui/service-worker";
 import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
-
-import Providers from "../providers";
-
 import { DynamicChatBot } from "@/components/features/chatbot/DynamicChatBot";
-import { Inter, DM_Serif_Display } from "next/font/google";
-
 
 // SF Pro alternative - Inter is the closest Google Font
 const inter = Inter({
@@ -110,6 +109,8 @@ export default async function LocaleLayout({
                     <Providers>
                         <SiteStructuredData />
                         <WebVitals />
+                        <Analytics />
+                        <ServiceWorker />
                         <ScrollProgress />
                         <a
                             href="#main-content"
