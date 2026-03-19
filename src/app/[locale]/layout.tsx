@@ -5,8 +5,6 @@ import { routing } from "@/i18n/routing";
 import "../globals.css";
 import clsx from "clsx";
 
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
 
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -17,18 +15,11 @@ import { Toaster } from "@/components/ui/sonner";
 import { WebVitals } from "@/components/ui/web-vitals";
 import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
 
-import { isProductionIndexable, siteConfig, siteUrl } from "@/config/site";
-
 import Providers from "../providers";
 
 import { DynamicChatBot } from "@/components/features/chatbot/DynamicChatBot";
 import { Inter, DM_Serif_Display } from "next/font/google";
-import type { Metadata } from "next";
 
-const isVercelDeployment = Boolean(
-    process.env.VERCEL || process.env.VERCEL_ENV,
-);
-const isIndexable = isProductionIndexable();
 
 // SF Pro alternative - Inter is the closest Google Font
 const inter = Inter({
@@ -46,63 +37,6 @@ const dmSerif = DM_Serif_Display({
     display: "optional",
     preload: false,
 });
-
-export const metadata: Metadata = {
-    metadataBase: siteUrl,
-    title: {
-        default: siteConfig.defaultTitle,
-        template: "%s | M&T Immigration Law Firm",
-    },
-    description: siteConfig.description,
-    keywords: [...siteConfig.keywords],
-    authors: [{ name: siteConfig.name }],
-    alternates: {
-        canonical: siteUrl,
-        languages: {
-            "en-US": siteUrl.toString(),
-            "es-ES": `${siteUrl.toString()}/es`,
-            "x-default": siteUrl.toString(),
-        },
-    },
-    robots: isIndexable
-        ? {
-            index: true,
-            follow: true,
-        }
-        : {
-            index: false,
-            follow: false,
-            nocache: true,
-            googleBot: {
-                index: false,
-                follow: false,
-                noimageindex: true,
-            },
-        },
-    openGraph: {
-        title: siteConfig.defaultTitle,
-        description: siteConfig.description,
-        url: siteUrl,
-        siteName: siteConfig.name,
-        type: "website",
-        locale: "en_US",
-    },
-    twitter: {
-        card: "summary_large_image",
-        title: siteConfig.defaultTitle,
-        description: siteConfig.description,
-    },
-    verification: {
-        google:
-            process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() || undefined,
-        other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION?.trim()
-            ? {
-                "msvalidate.01":
-                    process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION.trim(),
-            }
-            : undefined,
-    },
-};
 
 // Ensure static params for all locales
 export function generateStaticParams() {
@@ -191,8 +125,6 @@ export default async function LocaleLayout({
                         <BackToTop />
                         <DynamicChatBot />
                         <Toaster position="bottom-right" richColors closeButton />
-                        {isVercelDeployment ? <Analytics /> : null}
-                        {isVercelDeployment ? <SpeedInsights /> : null}
                     </Providers>
                 </NextIntlClientProvider>
             </body>

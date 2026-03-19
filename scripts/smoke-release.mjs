@@ -14,10 +14,11 @@ async function waitForBaseUrl(url) {
   while (Date.now() - startedAt < waitTimeoutMs) {
     try {
       const response = await fetch(url, { redirect: 'manual' });
-      if (response.ok) {
+      // Accept 200 (OK), 301/302/307/308 (redirects), or any 2xx/3xx status
+      if (response.ok || (response.status >= 200 && response.status < 400)) {
         return;
       }
-    } catch {}
+    } catch { }
 
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
@@ -25,18 +26,46 @@ async function waitForBaseUrl(url) {
   throw new Error(`Timed out waiting for ${url}`);
 }
 
-async function expectHtml(pathname, expectedText) {
-  const response = await fetch(`${baseUrl}${pathname}`);
-  if (!response.ok) {
-    throw new Error(`${pathname} returned HTTP ${response.status}`);
+async function expectHtml(pathname, expectedText, options = {}) {
+  const { allowRedirect = false, maxRedirects = 5 } = options;
+  let currentPath = pathname;
+  let redirectsFollowed = 0;
+
+  while (redirectsFollowed <= maxRedirects) {
+    const response = await fetch(`${baseUrl}${currentPath}`, { redirect: 'manual' });
+
+    // Handle redirects
+    if (response.status === 301 || response.status === 302 || response.status === 307 || response.status === 308) {
+      if (!allowRedirect) {
+        throw new Error(`${pathname} returned HTTP ${response.status} (redirect not allowed)`);
+      }
+
+      const location = response.headers.get('location');
+      if (!location) {
+        throw new Error(`${pathname} returned redirect without Location header`);
+      }
+
+      // Handle absolute or relative redirects
+      const redirectUrl = new URL(location, baseUrl);
+      currentPath = redirectUrl.pathname + redirectUrl.search;
+      redirectsFollowed++;
+      continue;
+    }
+
+    if (!response.ok) {
+      throw new Error(`${pathname} returned HTTP ${response.status}`);
+    }
+
+    const html = await response.text();
+    if (!html.includes(expectedText)) {
+      throw new Error(`${pathname} did not include expected text: ${expectedText}`);
+    }
+
+    console.log(`OK ${currentPath} -> ${response.status}`);
+    return;
   }
 
-  const html = await response.text();
-  if (!html.includes(expectedText)) {
-    throw new Error(`${pathname} did not include expected text: ${expectedText}`);
-  }
-
-  console.log(`OK ${pathname} -> ${response.status}`);
+  throw new Error(`${pathname} exceeded maximum redirects (${maxRedirects})`);
 }
 
 async function expectJson(pathname, validate) {
@@ -93,7 +122,7 @@ async function expectFastApiHealth(url) {
 }
 
 await waitForBaseUrl(baseUrl);
-await expectHtml('/', 'M&amp;T Immigration');
+await expectHtml('/', 'M&amp;T Immigration', { allowRedirect: true });
 await expectJson('/api/chat', (data) => {
   if (typeof data.ok !== 'boolean' || typeof data.provider !== 'string') {
     throw new Error('/api/chat readiness payload is invalid');

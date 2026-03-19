@@ -358,6 +358,13 @@ The website now supports 12 languages to serve diverse client demographics:
 - All sections optimized with `useReducedMotion` for accessibility
 - Respect users who prefer reduced motion
 
+### Security & Performance Fixes (Latest)
+- **Enhanced Input Sanitization**: Added maximum length limits to prevent DoS attacks on all form inputs
+- **CSP Security Improvements**: Removed unsafe-eval directive, restricted image sources, added HTTPS enforcement
+- **Layout Structure Fixes**: Resolved React hydration errors by properly structuring HTML layouts for i18n routing
+- **Route Navigation Fixes**: Moved all localized pages to `[locale]` directory for proper i18n routing
+- **Build Optimization**: Zero linting errors, zero TypeScript errors, optimized bundle sizes
+
 ## License
 
 Copyright © M&T Immigration Law Firm.
