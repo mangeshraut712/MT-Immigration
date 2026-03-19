@@ -1,13 +1,13 @@
-import 'server-only';
+import "server-only";
 
-import { Ratelimit, type Duration } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
+import { Ratelimit, type Duration } from "@upstash/ratelimit";
+import { Redis } from "@upstash/redis";
 
 type RateLimitResult = {
   ok: boolean;
   remaining: number;
   resetAt: number;
-  reason?: 'unconfigured' | 'unavailable';
+  reason?: "unconfigured" | "unavailable";
 };
 
 type RateLimitOptions = {
@@ -42,10 +42,10 @@ function hasSharedRateLimitConfig() {
 
 function getRateLimitMode() {
   if (hasSharedRateLimitConfig()) {
-    return 'upstash' as const;
+    return "upstash" as const;
   }
 
-  return 'memory' as const;
+  return "memory" as const;
 }
 
 function getRedisClient() {
@@ -109,7 +109,9 @@ function takeLocalRateLimitHit({
   const now = Date.now();
   const bucketKey = getBucketKey(scope, key);
   const existing = buckets.get(bucketKey);
-  const freshHits = (existing?.hits ?? []).filter((timestamp) => now - timestamp < windowMs);
+  const freshHits = (existing?.hits ?? []).filter(
+    (timestamp) => now - timestamp < windowMs,
+  );
 
   localCleanupCounter += 1;
   if (localCleanupCounter % 100 === 0) {
@@ -165,7 +167,7 @@ export async function takeRateLimitHit({
 }: RateLimitOptions): Promise<RateLimitResult> {
   const mode = getRateLimitMode();
 
-  if (mode === 'memory') {
+  if (mode === "memory") {
     return takeLocalRateLimitHit({ scope, key, limit, windowMs });
   }
 
@@ -182,7 +184,7 @@ export async function takeRateLimitHit({
       resetAt: result.reset,
     };
   } catch (error) {
-    console.error('Shared rate-limit backend error:', error);
+    console.error("Shared rate-limit backend error:", error);
     return takeLocalRateLimitHit({ scope, key, limit, windowMs });
   }
 }

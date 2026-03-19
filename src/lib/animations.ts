@@ -221,3 +221,90 @@ export const drawerVariants: Variants = {
         transition: { duration: timing.fast }
     }
 };
+
+// Quick fade up for fast loading
+export const quickFadeUp: Variants = {
+    hidden: { opacity: 0, y: 16 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.25, ease: "easeOut" }
+    }
+};
+
+// Pop in animation for badges/small elements
+export const popIn: Variants = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: { type: "spring" as const, stiffness: 400, damping: 15 }
+    }
+};
+
+// Slide in from right (for alternating layouts)
+export const slideInRight: Variants = {
+    hidden: { opacity: 0, x: 30 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.4, ease: "easeOut" }
+    }
+};
+
+// Slide in from left (for alternating layouts)
+export const slideInLeft: Variants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: { duration: 0.4, ease: "easeOut" }
+    }
+};
+
+// Float animation for decorative elements
+export const floatAnimation = {
+    animate: {
+        y: [0, -8, 0],
+        transition: {
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+        }
+    }
+};
+
+// Pulse glow for CTA buttons
+export const pulseGlow = {
+    animate: {
+        boxShadow: [
+            "0 0 0 0 rgba(0, 0, 0, 0)",
+            "0 0 20px 0 rgba(0, 0, 0, 0.1)",
+            "0 0 0 0 rgba(0, 0, 0, 0)"
+        ],
+        transition: {
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+        }
+    }
+};
+
+// Shimmer effect for loading states
+export const shimmer = {
+    animate: {
+        backgroundPosition: ["200% 0", "-200% 0"],
+        transition: {
+            duration: 1.5,
+            repeat: Infinity,
+            ease: "linear"
+        }
+    }
+};
+
+// Viewport settings with reduced motion support
+export const getViewportSettings = (shouldReduceMotion: boolean) => ({
+    once: true,
+    margin: "-50px",
+    ...(shouldReduceMotion && { type: "tween" as const })
+});

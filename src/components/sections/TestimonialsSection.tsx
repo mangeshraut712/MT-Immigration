@@ -1,49 +1,58 @@
-'use client';
+"use client";
 
-import { motion } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
+import { motion, useReducedMotion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
 
-import { fadeUpVariants, scaleVariants, staggerContainerVariants } from '@/lib/animations';
+import {
+  fadeUpVariants,
+  scaleVariants,
+  staggerContainerVariants,
+} from "@/lib/animations";
 
 const clientExpectations = [
   {
-    title: 'Direct communication',
+    title: "Direct communication",
     description:
-      'Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.',
-    label: 'No handoff model',
+      "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
+    label: "No handoff model",
   },
   {
-    title: 'Prepared submissions',
+    title: "Prepared submissions",
     description:
-      'A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.',
-    label: 'Evidence-first work',
+      "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
+    label: "Evidence-first work",
   },
   {
-    title: 'Calm guidance in urgent matters',
+    title: "Calm guidance in urgent matters",
     description:
-      'Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.',
-    label: 'Urgent matters prioritized',
+      "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
+    label: "Urgent matters prioritized",
   },
   {
-    title: 'Straight answers on price and scope',
+    title: "Straight answers on price and scope",
     description:
-      'A solo practice should tell people what is included, what is not, and when a consultation is the right first step.',
-    label: 'Transparent fees',
+      "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
+    label: "Transparent fees",
   },
 ];
 
 export function TestimonialsSection() {
+  const shouldReduceMotion = useReducedMotion();
+
   return (
-    <section id="testimonials" className="relative overflow-hidden bg-zinc-50 section-padding">
+    <section
+      id="testimonials"
+      className="relative overflow-hidden bg-zinc-50 section-padding"
+    >
       <div className="absolute inset-0 bg-white/50" />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-zinc-100 blur-[100px]" />
 
       <div className="container-wide relative z-10">
         <motion.div
-          initial="hidden"
+          initial={shouldReduceMotion ? "visible" : "hidden"}
           whileInView="visible"
           viewport={{ once: true }}
-          variants={fadeUpVariants}
+          variants={shouldReduceMotion ? {} : fadeUpVariants}
           className="mx-auto mb-16 max-w-3xl text-center"
         >
           <div className="mb-6 flex items-center justify-center gap-3">
@@ -53,26 +62,27 @@ export function TestimonialsSection() {
             </span>
             <div className="h-px w-12 bg-zinc-300" />
           </div>
-          <h2 className="mb-6 text-4xl font-serif font-medium leading-[1.1] text-foreground md:text-5xl lg:text-6xl">
+          <h2 className="mb-6 text-3xl md:text-5xl lg:text-6xl font-serif font-medium leading-[1.1] text-foreground">
             What a strong solo practice <br />
             <span className="italic text-zinc-400">should deliver.</span>
           </h2>
           <p className="mx-auto max-w-2xl text-xl leading-relaxed text-zinc-500 text-balance">
-            Instead of unverifiable testimonials, the site now focuses on the standards
-            clients should reasonably expect from a boutique immigration practice.
+            Instead of unverifiable testimonials, the site now focuses on the
+            standards clients should reasonably expect from a boutique
+            immigration practice.
           </p>
         </motion.div>
 
         <motion.div
-          variants={staggerContainerVariants}
-          initial="hidden"
+          variants={shouldReduceMotion ? {} : staggerContainerVariants}
+          initial={shouldReduceMotion ? "visible" : "hidden"}
           whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
+          viewport={{ once: true, margin: "-50px" }}
           className="grid gap-8 md:grid-cols-2"
         >
           {clientExpectations.map((item) => (
             <motion.div key={item.title} variants={scaleVariants}>
-              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white p-6 md:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 text-zinc-900">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>

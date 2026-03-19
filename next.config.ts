@@ -1,15 +1,19 @@
+import createNextIntlPlugin from 'next-intl/plugin';
 import type { NextConfig } from "next";
+
+const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
   poweredByHeader: false,
+  allowedDevOrigins: ["192.168.1.6", "localhost", "127.0.0.1"],
 
   // Performance optimizations
   compress: true,
 
   // Image optimization
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
@@ -17,7 +21,7 @@ const nextConfig: NextConfig = {
 
   // Bundle optimization
   experimental: {
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
     optimizeCss: true,
     scrollRestoration: true,
   },
@@ -26,46 +30,40 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
-        source: '/(.*)',
+        source: "/(.*)",
         headers: [
           {
-            key: 'X-Frame-Options',
-            value: 'DENY',
+            key: "X-Frame-Options",
+            value: "DENY",
           },
           {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
+            key: "X-Content-Type-Options",
+            value: "nosniff",
           },
           {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), payment=(self)",
+          },
+          {
+            key: "Cross-Origin-Opener-Policy",
+            value: "same-origin",
+          },
+          {
+            key: "Cross-Origin-Resource-Policy",
+            value: "same-site",
           },
         ],
       },
       {
-        source: '/api/(.*)',
+        source: "/brand/(.*)",
         headers: [
           {
-            key: 'Cache-Control',
-            value: 'public, max-age=300, s-maxage=600, stale-while-revalidate=86400',
-          },
-        ],
-      },
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/brand/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
           },
         ],
       },
@@ -73,4 +71,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

@@ -8,12 +8,21 @@ type SanitizeOptions = {
   trim?: boolean;
   multiline?: boolean;
   lowercase?: boolean;
+  maxLength?: number;
 };
 
 function sanitizeText(value: string, options: SanitizeOptions = {}) {
-  const { trim = true, multiline = false, lowercase = false } = options;
+  const { trim = true, multiline = false, lowercase = false, maxLength } = options;
 
-  let nextValue = value
+  // Early return for empty values
+  if (!value || typeof value !== 'string') {
+    return '';
+  }
+
+  // Enforce maximum length to prevent DoS
+  const truncatedValue = maxLength ? value.slice(0, maxLength) : value;
+
+  let nextValue = truncatedValue
     .replace(/\r\n?/g, '\n')
     .replace(CONTROL_CHAR_PATTERN, '')
     .replace(ANGLE_BRACKET_PATTERN, '')
@@ -32,19 +41,43 @@ function sanitizeText(value: string, options: SanitizeOptions = {}) {
   return trim ? nextValue.trim() : nextValue;
 }
 
-export function sanitizeSingleLineText(value: string, options?: Omit<SanitizeOptions, 'multiline'>) {
-  return sanitizeText(value, { ...options, multiline: false });
+// Default maximum lengths for different input types
+const DEFAULT_MAX_LENGTHS = {
+  singleLine: 200,
+  multiline: 2000,
+  email: 254, // RFC 5321
+  phone: 20,
+} as const;
+
+export function sanitizeSingleLineText(
+  value: string,
+  options?: Omit<SanitizeOptions, 'multiline'> & { maxLength?: number }
+) {
+  const maxLength = options?.maxLength ?? DEFAULT_MAX_LENGTHS.singleLine;
+  return sanitizeText(value, { ...options, multiline: false, maxLength });
 }
 
-export function sanitizeMultilineText(value: string, options?: Omit<SanitizeOptions, 'multiline'>) {
-  return sanitizeText(value, { ...options, multiline: true });
+export function sanitizeMultilineText(
+  value: string,
+  options?: Omit<SanitizeOptions, 'multiline'> & { maxLength?: number }
+) {
+  const maxLength = options?.maxLength ?? DEFAULT_MAX_LENGTHS.multiline;
+  return sanitizeText(value, { ...options, multiline: true, maxLength });
 }
 
-export function sanitizeEmail(value: string, options?: Omit<SanitizeOptions, 'multiline'>) {
-  return sanitizeText(value, { ...options, multiline: false, lowercase: true });
+export function sanitizeEmail(
+  value: string,
+  options?: Omit<SanitizeOptions, 'multiline'> & { maxLength?: number }
+) {
+  const maxLength = options?.maxLength ?? DEFAULT_MAX_LENGTHS.email;
+  return sanitizeText(value, { ...options, multiline: false, lowercase: true, maxLength });
 }
 
-export function sanitizePhone(value: string, options?: Omit<SanitizeOptions, 'multiline' | 'lowercase'>) {
-  const sanitized = sanitizeText(value, { ...options, multiline: false, lowercase: false });
+export function sanitizePhone(
+  value: string,
+  options?: Omit<SanitizeOptions, 'multiline' | 'lowercase'> & { maxLength?: number }
+) {
+  const maxLength = options?.maxLength ?? DEFAULT_MAX_LENGTHS.phone;
+  const sanitized = sanitizeText(value, { ...options, multiline: false, lowercase: false, maxLength });
   return sanitized.replace(PHONE_ALLOWED_PATTERN, '');
 }

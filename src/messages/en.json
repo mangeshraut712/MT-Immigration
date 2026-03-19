@@ -1,0 +1,181 @@
+{
+    "common": {
+        "siteName": "M&T Immigration Law Firm",
+        "tagline": "Solo Immigration Counsel With Direct Attorney Access",
+        "description": "Boutique U.S. immigration representation for visitor, student, family, humanitarian, and urgent court-related matters. Clear strategy, transparent fees, and direct attorney communication.",
+        "bookConsultation": "Book a Consultation",
+        "exploreServices": "Explore Services",
+        "learnMore": "Learn More",
+        "contactUs": "Contact Us",
+        "getStarted": "Get Started",
+        "viewAll": "View All",
+        "submit": "Submit",
+        "next": "Next",
+        "previous": "Previous",
+        "back": "Back",
+        "close": "Close",
+        "loading": "Loading..."
+    },
+    "nav": {
+        "services": "Services",
+        "reviews": "Reviews",
+        "about": "About",
+        "fees": "Fees",
+        "insights": "Insights",
+        "faq": "FAQ",
+        "contact": "Contact"
+    },
+    "hero": {
+        "badge": "Solo attorney practice with direct case ownership",
+        "title": "Focused immigration counsel",
+        "titleHighlight": "with clear strategy",
+        "subtitle": "Boutique support for visitor, student, family-based, humanitarian, and urgent removal matters, with direct attorney communication from intake through filing.",
+        "cta": "Book a Consultation",
+        "ctaSecondary": "Explore Services",
+        "directAccess": "Direct attorney access",
+        "responseTime": "1-2 business day response",
+        "transparentFees": "Transparent consult fees"
+    },
+    "stats": {
+        "directAttorney": "Direct Attorney Access",
+        "directAttorneyDesc": "You speak with the lawyer responsible for strategy and filing decisions.",
+        "caseReady": "Case-Ready Intake",
+        "caseReadyDesc": "Structured intake helps surface deadlines, filings, and urgent issues early.",
+        "security": "Security-First Communication",
+        "securityDesc": "Forms and chat now run through validated server-side routes with rate limiting.",
+        "virtual": "Virtual Nationwide",
+        "virtualDesc": "Consultations can be handled remotely for clients across the United States."
+    },
+    "process": {
+        "title": "How We Work",
+        "heading": "A clear legal process, without the volume-firm confusion.",
+        "subtitle": "The practice is built around one attorney owning the file, the strategy, and the communication from first consult through the filing decision.",
+        "step1Title": "Listen & Assess",
+        "step1Desc": "Start with a paid consultation to identify the issue, deadlines, and the cleanest next step.",
+        "step2Title": "Prepare & File",
+        "step2Desc": "Build the filing strategy, assemble supporting evidence, and prepare the submission with care.",
+        "step3Title": "Guide You Through",
+        "step3Desc": "Stay prepared after filing with interview preparation, response strategy, and direct follow-up."
+    },
+    "services": {
+        "title": "Our Expertise",
+        "heading": "Focused immigration matters, handled with a clear filing plan.",
+        "subtitle": "From straightforward visa filings to urgent court-sensitive issues, the practice centers on preparation, candid risk assessment, and direct communication.",
+        "timeline": "Timeline",
+        "price": "From"
+    },
+    "whyChooseUs": {
+        "title": "Why Choose M&T",
+        "heading": "Solo-practice attention. Clear legal judgment.",
+        "practiceFocus": "Practice Focus",
+        "heading2": "Built for the matters people actually lose sleep over.",
+        "reason1Title": "One Lawyer, One Strategy",
+        "reason1Desc": "The same attorney owns the case strategy from consultation through the next filing decision.",
+        "reason2Title": "Deadline-Focused Work",
+        "reason2Desc": "Urgent interviews, court dates, and government response deadlines are treated with priority.",
+        "reason3Title": "Clear Scope and Fees",
+        "reason3Desc": "Consultations, filing work, and next steps are framed in plain language before work begins.",
+        "reason4Title": "Disciplined Intake",
+        "reason4Desc": "The site now validates submissions, keeps the AI key server-side, and rate-limits public forms.",
+        "cta": "Request a Case Review"
+    },
+    "testimonials": {
+        "title": "Client Experience",
+        "heading": "What a strong solo practice should deliver.",
+        "subtitle": "Instead of unverifiable testimonials, the site now focuses on the standards clients should reasonably expect from a boutique immigration practice.",
+        "directComm": "Direct communication",
+        "directCommLabel": "No handoff model",
+        "prepared": "Prepared submissions",
+        "preparedLabel": "Evidence-first work",
+        "calm": "Calm guidance in urgent matters",
+        "calmLabel": "Urgent matters prioritized",
+        "straight": "Straight answers on price and scope",
+        "straightLabel": "Transparent fees"
+    },
+    "about": {
+        "title": "About",
+        "heading": "A boutique immigration practice built for direct communication",
+        "quote": "Immigration cases are too important to disappear into a volume practice. You should know who is guiding the strategy, what the next filing is, and where the risks are.",
+        "description": "M&T is framed as a focused solo practice for clients who want thoughtful preparation, straight answers, and direct access to the attorney handling the work.",
+        "credentials": "Credentials & Expertise",
+        "attorneyLed": "Attorney-led strategy",
+        "filingRoadmap": "Clear filing roadmaps",
+        "boutique": "Boutique caseload attention",
+        "virtual": "Virtual consultations nationwide"
+    },
+    "pricing": {
+        "title": "Transparent Fees",
+        "heading": "Clear legal fees for focused representation.",
+        "subtitle": "Ranges vary by complexity, urgency, and document load. The goal is to show realistic legal-fee bands before you book.",
+        "note": "Note: These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
+        "whyChoose": "Why Choose Us?",
+        "cta": "Get a Custom Quote",
+        "service": "Service",
+        "priceRange": "Price Range",
+        "includes": "Includes"
+    },
+    "faq": {
+        "title": "Common Questions",
+        "heading": "Frequently Asked Questions.",
+        "subtitle": "Clear answers about process, pricing, and what to expect before you commit to the next step.",
+        "gettingStarted": "Getting Started",
+        "pricingPayments": "Pricing & Payments",
+        "processTimeline": "Process & Timeline",
+        "legalResults": "Legal & Results"
+    },
+    "contact": {
+        "title": "Get Started",
+        "heading": "Ready to review your matter?",
+        "subtitle": "Book a consultation or send a structured intake request. The office responds to new inquiries within 1-2 business days.",
+        "contactInfo": "Contact Information",
+        "phone": "Phone / WhatsApp",
+        "email": "Email",
+        "office": "Office",
+        "responseTime": "Response Time",
+        "consultationFees": "Consultation Fees",
+        "min15": "15 min",
+        "min30": "30 min",
+        "feeCredit": "Fee credited toward service if retained."
+    },
+    "cta": {
+        "title": "Ready to Start?",
+        "heading": "Your immigration strategy starts with a real case review.",
+        "subtitle": "Don't hand a high-stakes immigration matter to a generic intake funnel. Start with a focused consultation and a clear next step from an attorney-led practice.",
+        "ctaPrimary": "Schedule Consultation",
+        "ctaSecondary": "Call Now",
+        "feature1": "Transparent consultation fees",
+        "feature2": "1-2 business day response",
+        "feature3": "Virtual nationwide consultations"
+    },
+    "footer": {
+        "tagline": "Boutique, attorney-led immigration representation with direct communication, transparent fees, and focused case strategy.",
+        "services": "Services",
+        "company": "Company",
+        "support": "Support",
+        "legal": "Legal",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Use",
+        "advertising": "Attorney Advertising",
+        "copyright": "Copyright © {year} {name}. All rights reserved.",
+        "disclaimer": "ATTORNEY ADVERTISING. The information on this website is for general information purposes only. Nothing on this site should be taken as legal advice for any individual case or situation. This information is not intended to create, and receipt or viewing does not constitute, an attorney-client relationship. Prior results do not guarantee a similar outcome."
+    },
+    "intake": {
+        "step1Title": "Contact",
+        "step2Title": "Case Details",
+        "step3Title": "Review",
+        "name": "Full Name",
+        "email": "Email Address",
+        "phone": "Phone Number",
+        "language": "Preferred Language",
+        "caseType": "Matter Type",
+        "summary": "Case Summary",
+        "consent": "I consent to the collection and processing of my information",
+        "submitting": "Submitting...",
+        "success": "Consultation request received.",
+        "successDesc": "We will review your information and follow up using your preferred contact details."
+    },
+    "language": {
+        "switch": "Español",
+        "current": "English"
+    }
+}

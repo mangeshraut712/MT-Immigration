@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   MessageCircle,
   X,
@@ -11,27 +11,59 @@ import {
   Loader2,
   ArrowRight,
   ExternalLink,
-} from 'lucide-react';
-import Link from 'next/link';
+  Mic,
+  MicOff,
+} from "lucide-react";
+import Link from "next/link";
 import {
   CHAT_MESSAGE_MAX_LENGTH,
   chatMessageSchema,
   type ChatAgentKey,
-} from '@/server/schemas/chat';
+} from "@/server/schemas/chat";
 
-import { getFallbackAssistantReply } from '@/server/ai/chatbot';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { sanitizeSingleLineText } from '@/lib/sanitize';
-import { cn } from '@/lib/utils';
-import { chatAgentCards, chatAgentOrder } from '@/content/chatAgents';
-import { benchReviewer } from '@/content/chatAgents';
+import { getFallbackAssistantReply } from "@/server/ai/chatbot";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { sanitizeMultilineText } from "@/lib/sanitize";
+import { cn } from "@/lib/utils";
+import { chatAgentCards, chatAgentOrder } from "@/content/chatAgents";
+import { benchReviewer } from "@/content/chatAgents";
 
 const CHAT_REQUEST_TIMEOUT_MS = 20_000;
 
+type SpeechRecognitionConstructor = new () => {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEventLike) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+
+type SpeechRecognitionEventLike = {
+  results: ArrayLike<
+    ArrayLike<{
+      transcript: string;
+    }>
+  >;
+};
+
+type SpeechRecognitionErrorEventLike = {
+  error: string;
+};
+
+declare global {
+  interface Window {
+    SpeechRecognition?: SpeechRecognitionConstructor;
+    webkitSpeechRecognition?: SpeechRecognitionConstructor;
+  }
+}
+
 interface Message {
   id: string;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   timestamp: Date;
   agent?: {
@@ -67,14 +99,14 @@ type ChatResponse = {
   error?: string;
 };
 
-type AgentMode = 'auto' | ChatAgentKey;
+type AgentMode = "auto" | ChatAgentKey;
 
 function createMessageId() {
   return crypto.randomUUID();
 }
 
 function sanitizeChatDraft(value: string) {
-  return sanitizeSingleLineText(value, { trim: false });
+  return sanitizeMultilineText(value, { trim: false });
 }
 
 function renderInlineContent(content: string, keyPrefix: string) {
@@ -82,7 +114,7 @@ function renderInlineContent(content: string, keyPrefix: string) {
     .split(/(\*\*.*?\*\*|\*.*?\*)/g)
     .filter(Boolean)
     .map((segment, index) => {
-      if (segment.startsWith('**') && segment.endsWith('**')) {
+      if (segment.startsWith("**") && segment.endsWith("**")) {
         return (
           <strong key={`${keyPrefix}-bold-${index}`} className="font-semibold">
             {segment.slice(2, -2)}
@@ -91,10 +123,10 @@ function renderInlineContent(content: string, keyPrefix: string) {
       }
 
       if (
-        segment.startsWith('*') &&
-        segment.endsWith('*') &&
-        !segment.startsWith('**') &&
-        !segment.endsWith('**')
+        segment.startsWith("*") &&
+        segment.endsWith("*") &&
+        !segment.startsWith("**") &&
+        !segment.endsWith("**")
       ) {
         return (
           <em key={`${keyPrefix}-italic-${index}`} className="italic">
@@ -108,24 +140,32 @@ function renderInlineContent(content: string, keyPrefix: string) {
 }
 
 function renderMessageContent(content: string) {
-  return content.split('\n\n').map((paragraph, paragraphIndex) => (
-    <div key={`paragraph-${paragraphIndex}`} className={paragraphIndex > 0 ? 'mt-4' : undefined}>
-      {paragraph.split('\n').map((line, lineIndex) => {
+  return content.split("\n\n").map((paragraph, paragraphIndex) => (
+    <div
+      key={`paragraph-${paragraphIndex}`}
+      className={paragraphIndex > 0 ? "mt-4" : undefined}
+    >
+      {paragraph.split("\n").map((line, lineIndex) => {
         const trimmedLine = line.trim();
-        const isBullet = trimmedLine.startsWith('• ');
+        const isBullet = trimmedLine.startsWith("• ");
         const bulletText = isBullet ? trimmedLine.slice(2) : trimmedLine;
 
         return (
           <div
             key={`line-${paragraphIndex}-${lineIndex}`}
             className={cn(
-              'leading-relaxed',
-              lineIndex > 0 ? 'mt-2' : undefined,
-              isBullet ? 'flex gap-2' : undefined,
+              "leading-relaxed",
+              lineIndex > 0 ? "mt-2" : undefined,
+              isBullet ? "flex gap-2" : undefined,
             )}
           >
             {isBullet ? <span aria-hidden>&bull;</span> : null}
-            <span>{renderInlineContent(bulletText, `${paragraphIndex}-${lineIndex}`)}</span>
+            <span>
+              {renderInlineContent(
+                bulletText,
+                `${paragraphIndex}-${lineIndex}`,
+              )}
+            </span>
           </div>
         );
       })}
@@ -136,29 +176,45 @@ function renderMessageContent(content: string) {
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [activeAgent, setActiveAgent] = useState<AgentMode>('auto');
+  const [activeAgent, setActiveAgent] = useState<AgentMode>("auto");
   const [chatError, setChatError] = useState<string | null>(null);
+  const [speechSupported, setSpeechSupported] = useState(false);
+  const [isDictating, setIsDictating] = useState(false);
+  const [dictationStatus, setDictationStatus] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const composerRef = useRef<HTMLTextAreaElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const triggerButtonRef = useRef<HTMLButtonElement>(null);
+  const recognitionRef = useRef<InstanceType<SpeechRecognitionConstructor> | null>(
+    null,
+  );
+  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
   useEffect(() => {
+    const recognitionCtor =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    setSpeechSupported(Boolean(recognitionCtor));
+  }, []);
+
+  useEffect(() => {
     const handleOpenChat = () => setIsOpen(true);
-    window.addEventListener('open-chat', handleOpenChat);
-    return () => window.removeEventListener('open-chat', handleOpenChat);
+    window.addEventListener("open-chat", handleOpenChat);
+    return () => window.removeEventListener("open-chat", handleOpenChat);
   }, []);
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      const greeting = getFallbackAssistantReply('hello');
+      const greeting = getFallbackAssistantReply("hello");
       setMessages([
         {
-          id: 'welcome',
-          role: 'assistant',
+          id: "welcome",
+          role: "assistant",
           content: greeting.content,
           agent: {
             key: greeting.agent,
@@ -167,7 +223,7 @@ export function ChatBot() {
           },
           reviewedBy: benchReviewer.title,
           suggestions: greeting.suggestions,
-          source: 'fallback',
+          source: "fallback",
           degraded: true,
           timestamp: new Date(),
         },
@@ -175,18 +231,136 @@ export function ChatBot() {
     }
   }, [isOpen, messages.length]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setIsDictating(false);
+      setDictationStatus(null);
+      recognitionRef.current?.stop();
+      recognitionRef.current = null;
+      lastFocusedElementRef.current?.focus?.();
+      return;
+    }
+
+    lastFocusedElementRef.current = document.activeElement as HTMLElement | null;
+
+    const timeout = window.setTimeout(() => {
+      composerRef.current?.focus();
+    }, 20);
+
+    return () => window.clearTimeout(timeout);
+  }, [isOpen]);
+
+  function closeChat() {
+    setIsOpen(false);
+  }
+
+  function handleDialogKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "Escape") {
+      event.preventDefault();
+      closeChat();
+      return;
+    }
+
+    if (event.key !== "Tab" || !dialogRef.current) {
+      return;
+    }
+
+    const focusableElements = dialogRef.current.querySelectorAll<HTMLElement>(
+      'button, [href], textarea, input, select, [tabindex]:not([tabindex="-1"])',
+    );
+    if (focusableElements.length === 0) {
+      return;
+    }
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (event.shiftKey && document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    } else if (!event.shiftKey && document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  }
+
+  function stopDictation() {
+    recognitionRef.current?.stop();
+    recognitionRef.current = null;
+    setIsDictating(false);
+    setDictationStatus("Dictation stopped.");
+  }
+
+  function startDictation() {
+    const RecognitionCtor =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!RecognitionCtor) {
+      setDictationStatus("Dictation is not supported in this browser.");
+      return;
+    }
+
+    if (isDictating) {
+      stopDictation();
+      return;
+    }
+
+    const recognition = new RecognitionCtor();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event) => {
+      const transcript = Array.from(event.results)
+        .map((result) => result[0]?.transcript || "")
+        .join(" ");
+
+      setInput((currentInput) =>
+        sanitizeChatDraft(
+          `${currentInput.trimEnd()}${currentInput.trim() ? " " : ""}${transcript}`.slice(
+            0,
+            CHAT_MESSAGE_MAX_LENGTH,
+          ),
+        ),
+      );
+      setDictationStatus("Dictation captured. Review the message before sending.");
+    };
+
+    recognition.onerror = (event) => {
+      setDictationStatus(
+        event.error === "not-allowed"
+          ? "Microphone permission was denied."
+          : "Dictation could not be completed.",
+      );
+      setIsDictating(false);
+      recognitionRef.current = null;
+    };
+
+    recognition.onend = () => {
+      setIsDictating(false);
+      recognitionRef.current = null;
+    };
+
+    recognitionRef.current = recognition;
+    setIsDictating(true);
+    setDictationStatus("Listening. Speak your question clearly.");
+    recognition.start();
+  }
+
   async function sendMessage(text = input) {
     if (isTyping) {
       return;
     }
 
     const parsedMessage = chatMessageSchema.safeParse({
-      role: 'user',
+      role: "user",
       content: text,
     });
 
     if (!parsedMessage.success) {
-      setChatError(`Messages must be between 1 and ${CHAT_MESSAGE_MAX_LENGTH} characters.`);
+      setChatError(
+        `Messages must be between 1 and ${CHAT_MESSAGE_MAX_LENGTH} characters.`,
+      );
       return;
     }
 
@@ -194,24 +368,27 @@ export function ChatBot() {
 
     const userMessage: Message = {
       id: createMessageId(),
-      role: 'user',
+      role: "user",
       content: sanitizedText,
       timestamp: new Date(),
     };
 
     const nextMessages = [...messages, userMessage];
     setMessages(nextMessages);
-    setInput('');
+    setInput("");
     setIsTyping(true);
     setChatError(null);
 
     try {
       const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), CHAT_REQUEST_TIMEOUT_MS);
-      const response = await fetch('/api/chat', {
-        method: 'POST',
+      const timeout = window.setTimeout(
+        () => controller.abort(),
+        CHAT_REQUEST_TIMEOUT_MS,
+      );
+      const response = await fetch("/api/chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         signal: controller.signal,
         body: JSON.stringify({
@@ -219,30 +396,35 @@ export function ChatBot() {
             role: message.role,
             content: message.content,
           })),
-          agent: activeAgent === 'auto' ? undefined : activeAgent,
+          agent: activeAgent === "auto" ? undefined : activeAgent,
         }),
       });
       window.clearTimeout(timeout);
 
-      const data = (await response.json().catch(() => null)) as ChatResponse | null;
+      const data = (await response
+        .json()
+        .catch(() => null)) as ChatResponse | null;
 
       if (!response.ok) {
-        const retryAfter = response.headers.get('Retry-After');
-        const message = data?.error || `Chat request failed with status ${response.status}.`;
+        const retryAfter = response.headers.get("Retry-After");
+        const message =
+          data?.error || `Chat request failed with status ${response.status}.`;
         throw new Error(
-          retryAfter ? `${message} Please wait about ${retryAfter} seconds and try again.` : message,
+          retryAfter
+            ? `${message} Please wait about ${retryAfter} seconds and try again.`
+            : message,
         );
       }
 
       if (!data) {
-        throw new Error('The assistant returned an empty response.');
+        throw new Error("The assistant returned an empty response.");
       }
 
       setMessages((currentMessages) => [
         ...currentMessages,
         {
           id: createMessageId(),
-          role: 'assistant',
+          role: "assistant",
           content: data.content,
           agent:
             data.agent && data.agentTitle && data.agentDescription
@@ -262,16 +444,22 @@ export function ChatBot() {
         },
       ]);
 
-      if (data.degraded || data.source === 'fallback') {
-        setChatError('AI is temporarily unavailable. Showing general guidance only.');
+      if (data.degraded || data.source === "fallback") {
+        setChatError(
+          "AI is temporarily unavailable. Showing general guidance only.",
+        );
       }
     } catch (error) {
-      console.error('Chat widget error:', error);
-      if (error instanceof DOMException && error.name === 'AbortError') {
-        setChatError('The assistant took too long to respond. Please try again.');
+      console.error("Chat widget error:", error);
+      if (error instanceof DOMException && error.name === "AbortError") {
+        setChatError(
+          "The assistant took too long to respond. Please try again.",
+        );
       } else {
         setChatError(
-          error instanceof Error ? error.message : 'We could not complete the chat request.',
+          error instanceof Error
+            ? error.message
+            : "We could not complete the chat request.",
         );
       }
     } finally {
@@ -292,6 +480,9 @@ export function ChatBot() {
             onClick={() => setIsOpen(true)}
             className="fixed bottom-5 right-4 z-50 rounded-full bg-foreground p-3.5 text-background shadow-2xl transition-shadow hover:shadow-3xl sm:bottom-24 sm:right-6 sm:p-4"
             aria-label="Open chat"
+            aria-haspopup="dialog"
+            aria-controls="mt-chat-dialog"
+            ref={triggerButtonRef}
           >
             <MessageCircle size={28} />
             <span className="absolute right-0 top-0 h-4 w-4 rounded-full border-2 border-background bg-green-500 animate-pulse" />
@@ -305,8 +496,15 @@ export function ChatBot() {
             initial={{ opacity: 0, y: 20, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 25 }}
+            transition={{ type: "spring", stiffness: 300, damping: 25 }}
             className="fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]"
+            id="mt-chat-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="mt-chat-title"
+            aria-describedby="mt-chat-description"
+            onKeyDown={handleDialogKeyDown}
+            ref={dialogRef}
           >
             <div className="flex shrink-0 items-center justify-between bg-foreground p-4 text-background">
               <div className="flex items-center gap-3">
@@ -314,7 +512,9 @@ export function ChatBot() {
                   <Bot size={22} />
                 </div>
                 <div>
-                  <h3 className="font-semibold">M&amp;T Immigration AI</h3>
+                  <h3 id="mt-chat-title" className="font-semibold">
+                    M&amp;T Immigration AI
+                  </h3>
                   <p className="flex items-center gap-1 text-xs text-background/70">
                     <span className="h-2 w-2 rounded-full bg-green-400" />
                     Specialist routing + review
@@ -322,7 +522,7 @@ export function ChatBot() {
                 </div>
               </div>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={closeChat}
                 className="rounded-lg p-2 transition-colors hover:bg-background/10"
                 aria-label="Close chat"
               >
@@ -331,7 +531,10 @@ export function ChatBot() {
             </div>
 
             <div className="border-b border-border bg-secondary/50 p-2 text-center text-[10px] text-muted-foreground">
-              General information only. No attorney-client relationship is created in chat.
+              <p id="mt-chat-description">
+              General information only. No attorney-client relationship is
+              created in chat.
+              </p>
             </div>
 
             <div className="shrink-0 border-b border-border bg-white px-3 py-3">
@@ -340,20 +543,20 @@ export function ChatBot() {
                   Route To
                 </p>
                 <p className="text-[11px] text-zinc-400">
-                  {activeAgent === 'auto'
-                    ? 'Auto-routing by issue'
+                  {activeAgent === "auto"
+                    ? "Auto-routing by issue"
                     : chatAgentCards[activeAgent].description}
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
-                  onClick={() => setActiveAgent('auto')}
+                  onClick={() => setActiveAgent("auto")}
                   className={cn(
-                    'rounded-full border px-3 py-1.5 text-xs transition-all',
-                    activeAgent === 'auto'
-                      ? 'border-zinc-900 bg-zinc-900 text-white'
-                      : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-black',
+                    "rounded-full border px-3 py-1.5 text-xs transition-all",
+                    activeAgent === "auto"
+                      ? "border-zinc-900 bg-zinc-900 text-white"
+                      : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-black",
                   )}
                 >
                   Auto
@@ -364,10 +567,10 @@ export function ChatBot() {
                     type="button"
                     onClick={() => setActiveAgent(agentKey)}
                     className={cn(
-                      'rounded-full border px-3 py-1.5 text-xs transition-all',
+                      "rounded-full border px-3 py-1.5 text-xs transition-all",
                       activeAgent === agentKey
-                        ? 'border-zinc-900 bg-zinc-900 text-white'
-                        : 'border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-black',
+                        ? "border-zinc-900 bg-zinc-900 text-white"
+                        : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-400 hover:text-black",
                     )}
                   >
                     {chatAgentCards[agentKey].shortTitle}
@@ -376,43 +579,53 @@ export function ChatBot() {
               </div>
             </div>
 
-            <div className="scrollbar-hide flex-1 space-y-5 overflow-y-auto bg-zinc-50/50 p-3 sm:space-y-6 sm:p-4">
+            <div
+              className="scrollbar-hide flex-1 space-y-5 overflow-y-auto bg-zinc-50/50 p-3 sm:space-y-6 sm:p-4"
+              role="log"
+              aria-live="polite"
+              aria-relevant="additions text"
+              aria-label="Chat conversation"
+            >
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={cn(
-                    'flex flex-col gap-2',
-                    message.role === 'user' ? 'items-end' : 'items-start',
+                    "flex flex-col gap-2",
+                    message.role === "user" ? "items-end" : "items-start",
                   )}
                 >
                   <div
                     className={cn(
-                      'flex max-w-[85%] gap-2',
-                      message.role === 'user' ? 'flex-row-reverse' : 'flex-row',
+                      "flex max-w-[85%] gap-2",
+                      message.role === "user" ? "flex-row-reverse" : "flex-row",
                     )}
                   >
                     <div
                       className={cn(
-                        'mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full',
-                        message.role === 'assistant'
-                          ? 'bg-foreground text-background'
-                          : 'bg-black text-white',
+                        "mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full",
+                        message.role === "assistant"
+                          ? "bg-foreground text-background"
+                          : "bg-black text-white",
                       )}
                     >
-                      {message.role === 'assistant' ? <Bot size={14} /> : <User size={14} />}
+                      {message.role === "assistant" ? (
+                        <Bot size={14} />
+                      ) : (
+                        <User size={14} />
+                      )}
                     </div>
 
                     <div
                       className={cn(
-                        'rounded-2xl p-3.5 text-sm leading-relaxed shadow-sm',
-                        message.role === 'user'
-                          ? 'rounded-br-sm bg-black text-white'
-                          : 'rounded-bl-sm border border-border bg-white text-foreground',
+                        "rounded-2xl p-3.5 text-sm leading-relaxed shadow-sm",
+                        message.role === "user"
+                          ? "rounded-br-sm bg-black text-white"
+                          : "rounded-bl-sm border border-border bg-white text-foreground",
                       )}
                     >
-                      {message.role === 'assistant' && message.agent ? (
+                      {message.role === "assistant" && message.agent ? (
                         <div className="mb-2 flex flex-wrap items-center gap-2">
                           <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-900">
                             {message.agent.title}
@@ -432,7 +645,8 @@ export function ChatBot() {
 
                       {renderMessageContent(message.content)}
 
-                      {message.role === 'assistant' && (message.source || message.model) ? (
+                      {message.role === "assistant" &&
+                      (message.source || message.model) ? (
                         <div className="mt-3 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-zinc-400">
                           {message.source ? (
                             <span className="rounded-full bg-zinc-100 px-2 py-1">
@@ -455,8 +669,11 @@ export function ChatBot() {
                             variant="secondary"
                             className="h-8 w-full bg-foreground text-xs text-background hover:bg-foreground/90"
                           >
-                            <Link href={message.action.link} onClick={() => setIsOpen(false)}>
-                              {message.action.label}{' '}
+                            <Link
+                              href={message.action.link}
+                              onClick={() => setIsOpen(false)}
+                            >
+                              {message.action.label}{" "}
                               <ExternalLink size={10} className="ml-2" />
                             </Link>
                           </Button>
@@ -465,7 +682,7 @@ export function ChatBot() {
                     </div>
                   </div>
 
-                  {message.role === 'assistant' && message.suggestions ? (
+                  {message.role === "assistant" && message.suggestions ? (
                     <div className="ml-10 flex flex-wrap gap-2">
                       {message.suggestions.map((suggestion) => (
                         <button
@@ -492,22 +709,22 @@ export function ChatBot() {
                   </div>
                   <div className="rounded-2xl rounded-bl-sm border border-border bg-white p-3 shadow-sm">
                     <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
-                      {activeAgent === 'auto'
+                      {activeAgent === "auto"
                         ? `Routing to the best specialist, then ${benchReviewer.title}`
                         : `${chatAgentCards[activeAgent].title} responding`}
                     </div>
                     <div className="flex gap-1">
                       <span
                         className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
-                        style={{ animationDelay: '0ms' }}
+                        style={{ animationDelay: "0ms" }}
                       />
                       <span
                         className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
-                        style={{ animationDelay: '150ms' }}
+                        style={{ animationDelay: "150ms" }}
                       />
                       <span
                         className="h-1.5 w-1.5 animate-bounce rounded-full bg-zinc-400"
-                        style={{ animationDelay: '300ms' }}
+                        style={{ animationDelay: "300ms" }}
                       />
                     </div>
                   </div>
@@ -527,6 +744,15 @@ export function ChatBot() {
                   {chatError}
                 </div>
               ) : null}
+              {dictationStatus ? (
+                <div
+                  className="mb-3 rounded-xl border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-700"
+                  role="status"
+                  aria-live="polite"
+                >
+                  {dictationStatus}
+                </div>
+              ) : null}
               <form
                 onSubmit={(event) => {
                   event.preventDefault();
@@ -537,15 +763,45 @@ export function ChatBot() {
                 <label htmlFor="chat-composer" className="sr-only">
                   Ask an immigration question
                 </label>
-                <Input
+                <Textarea
+                  ref={composerRef}
                   id="chat-composer"
                   value={input}
-                  onChange={(event) => setInput(sanitizeChatDraft(event.target.value))}
+                  onChange={(event) =>
+                    setInput(sanitizeChatDraft(event.target.value))
+                  }
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" && !event.shiftKey) {
+                      event.preventDefault();
+                      void sendMessage();
+                    }
+                  }}
                   maxLength={CHAT_MESSAGE_MAX_LENGTH}
                   placeholder="Ask about visas, green cards, or urgent deadlines..."
-                  className="flex-1 border-zinc-200 bg-zinc-50 focus-visible:ring-zinc-600"
-                  disabled={isTyping}
+                  className="min-h-[52px] flex-1 resize-none border-zinc-200 bg-zinc-50 focus-visible:ring-zinc-600"
+                  disabled={isTyping || isDictating}
+                  aria-describedby="chat-composer-meta"
                 />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={startDictation}
+                  disabled={!speechSupported || isTyping}
+                  aria-label={
+                    isDictating
+                      ? "Stop dictation"
+                      : speechSupported
+                        ? "Start dictation"
+                        : "Dictation is not supported in this browser"
+                  }
+                  className="shrink-0 rounded-xl border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50"
+                >
+                  {isDictating ? (
+                    <MicOff size={18} />
+                  ) : (
+                    <Mic size={18} />
+                  )}
+                </Button>
                 <Button
                   type="submit"
                   disabled={!input.trim() || isTyping}
@@ -560,13 +816,24 @@ export function ChatBot() {
                   )}
                 </Button>
               </form>
+              <div
+                id="chat-composer-meta"
+                className="mt-2 flex items-center justify-between gap-3 text-[11px] text-zinc-400"
+              >
+                <span>
+                  Press Enter to send, Shift + Enter for a line break.
+                  {speechSupported ? " Dictation supported." : " Dictation unavailable in this browser."}
+                </span>
+                <span>{input.length}/{CHAT_MESSAGE_MAX_LENGTH}</span>
+              </div>
               <div className="mt-2 text-center">
                 <Link
                   href="/#contact"
-                  onClick={() => setIsOpen(false)}
+                  onClick={closeChat}
                   className="inline-flex items-center gap-1 text-[10px] text-zinc-400 transition-colors hover:text-black"
                 >
-                  Ready to proceed? Request a case review <ArrowRight size={8} />
+                  Ready to proceed? Request a case review{" "}
+                  <ArrowRight size={8} />
                 </Link>
               </div>
             </div>

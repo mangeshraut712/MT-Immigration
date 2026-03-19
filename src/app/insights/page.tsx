@@ -1,40 +1,62 @@
-import type { Metadata } from 'next';
+import type { Metadata } from "next";
+import Script from "next/script";
 
-import { fallbackInsightsFeed } from '@/content/legalInsights';
-import { InsightsPageClient } from '@/components/features/insights/InsightsPageClient';
-import { buildCanonicalUrl, getLanguageAlternates } from '@/config/site';
+import { InsightsPageClient } from "@/components/features/insights/InsightsPageClient";
+import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
+import { generateLiveInsightsFeed } from "@/server/ai/insights";
 
 export const metadata: Metadata = {
-  title: 'Legal Insights & Journal',
+  title: "Insights",
   description:
-    'A cleaner single-page journal for legal headlines, news, blog notes, and firm updates.',
-  alternates: getLanguageAlternates('/insights'),
+    "Case studies, immigration news, and practical analysis in one source-backed insights page.",
+  alternates: getLanguageAlternates("/insights"),
   openGraph: {
-    title: 'Legal Insights & Journal',
+    title: "Insights",
     description:
-      'Clean legal headlines, latest news, blog notes, and firm updates in a refined single-page editorial layout.',
-    url: buildCanonicalUrl('/insights'),
+      "Case studies, immigration news, and practical analysis in one source-backed insights page.",
+    url: buildCanonicalUrl("/insights"),
   },
 };
 
 const insightsStructuredData = {
-  '@context': 'https://schema.org',
-  '@type': 'CollectionPage',
-  name: 'Legal Insights & Journal',
-  url: buildCanonicalUrl('/insights'),
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Insights",
+  url: buildCanonicalUrl("/insights"),
   description:
-    'A cleaner single-page journal for legal headlines, news, blog notes, and firm updates.',
-  inLanguage: 'en-US',
+    "Case studies, immigration news, and practical analysis in one source-backed insights page.",
+  inLanguage: "en-US",
 };
 
-export default function InsightsPage() {
+export default async function InsightsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const initialFeed = await generateLiveInsightsFeed();
+  const resolvedSearchParams = await searchParams;
+  const initialView =
+    typeof resolvedSearchParams.view === "string"
+      ? resolvedSearchParams.view
+      : "all";
+  const from =
+    typeof resolvedSearchParams.from === "string"
+      ? resolvedSearchParams.from
+      : "";
+
   return (
     <>
-      <script
+      <Script
+        id="insights-structured-data"
         type="application/ld+json"
+        strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(insightsStructuredData) }}
       />
-      <InsightsPageClient initialFeed={fallbackInsightsFeed} />
+      <InsightsPageClient
+        initialFeed={initialFeed}
+        initialView={initialView}
+        returnHref={from === "home-insights" ? "/#insights" : "/"}
+      />
     </>
   );
 }

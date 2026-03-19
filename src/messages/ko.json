@@ -1,0 +1,53 @@
+{
+    "common": {
+        "siteName": "M&T 이민 법률사무소",
+        "tagline": "변호사에 직접 접근할 수 있는 단독 이민 자문",
+        "description": "방문자, 학생, 가족, 인도주의 및 긴급 재판 관련 사건을 위한 프리미엄 미국 이민 대리. 명확한 전략, 투명한 비용 및 변호사와의 직접적인 소통.",
+        "bookConsultation": "상담 예약",
+        "exploreServices": "서비스 탐색",
+        "learnMore": "자세히 알아보기",
+        "contactUs": "联系我们",
+        "getStarted": "시작하기",
+        "viewAll": "모두 보기",
+        "submit": "제출",
+        "next": "다음",
+        "previous": "이전",
+        "back": "뒤로",
+        "close": "닫기",
+        "loading": "로딩 중..."
+    },
+    "nav": {
+        "services": "서비스",
+        "reviews": "리뷰",
+        "about": "정보",
+        "fees": "비용",
+        "insights": "인사이트",
+        "faq": "자주 묻는 질문",
+        "contact": "연락처"
+    },
+    "hero": {
+        "badge": "직접 사건 소유권을 가진 단독 변호사 실무",
+        "title": "집중된 이민 자문",
+        "titleHighlight": "명확한 전략으로",
+        "subtitle": "방문자, 학생, 가족 기반, 인도주의 및 긴급 체포 사건에 대한 프리미엄 지원, 접수부터 제출까지 변호사와의 직접적인 소통 포함.",
+        "cta": "상담 예약",
+        "ctaSecondary": "서비스 탐색",
+        "directAccess": "변호사 직접 접촉",
+        "responseTime": "1-2 영업일 내 답변",
+        "transparentFees": "투명한 상담 비용"
+    },
+    "stats": {
+        "directAttorney": "변호사 직접 접촉",
+        "directAttorneyDesc": "전략 및 제출 결정에 책임이 있는 변호사와 이야기하게 됩니다.",
+        "caseReady": "사건 준비 접수",
+        "caseReadyDesc": "구조화된 접수가 마감일, 제출 및 긴급 문제를 조기에 파악하는 데 도움이 됩니다.",
+        "security": "보안 우선 통신",
+        "securityDesc": "양식 및 채팅은 이제 검증된 서버 측 경로를 통해 실행됩니다.",
+        "virtual": "전국 가상 상담",
+        "virtualDesc": "미국 전역의 고객을 위한 원격 상담이 가능합니다."
+    },
+    "language": {
+        "switch": "English",
+        "current": "한국어"
+    }
+}

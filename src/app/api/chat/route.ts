@@ -1,46 +1,62 @@
-import { NextResponse } from 'next/server';
+import { NextResponse } from "next/server";
 
 import {
   buildBenchReviewInstructions,
   buildChatInstructions,
   getFallbackAssistantReply,
-} from '@/server/ai/chatbot';
-import { benchReviewer } from '@/content/chatAgents';
+} from "@/server/ai/chatbot";
+import { benchReviewer } from "@/content/chatAgents";
 import {
   getAIProvider,
   getOpenAIClient,
   getOpenAIModel,
   getOpenAIReasoningEffort,
-} from '@/server/ai/openai';
+} from "@/server/ai/openai";
 import {
   getClientKey,
-  rejectUnexpectedSearchParams,
+  parseSearchParams,
+  rejectLargeRequest,
+  rejectNonJsonRequest,
   rejectUntrustedOrigin,
-} from '@/server/request-guards';
-import { takeRateLimitHit } from '@/server/rate-limit';
-import { chatRequestSchema } from '@/server/schemas/chat';
+} from "@/server/request-guards";
+import { takeRateLimitHit } from "@/server/rate-limit";
+import {
+  chatRequestSchema,
+  type ChatMessageInput,
+} from "@/server/schemas/chat";
+import { emptySearchParamsSchema } from "@/server/schemas/request";
 
-export const runtime = 'nodejs';
+export const runtime = "nodejs";
 export const maxDuration = 20;
 
 const CHAT_LIMIT = 12;
 const CHAT_WINDOW_MS = 60_000;
 const CHAT_STATUS_LIMIT = 30;
-const FASTAPI_AGENTS_ENABLED = process.env.USE_FASTAPI_AGENTS === 'true';
-const IS_VERCEL_DEPLOYMENT = Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
+const FASTAPI_AGENTS_ENABLED = process.env.USE_FASTAPI_AGENTS === "true";
+const IS_VERCEL_DEPLOYMENT = Boolean(
+  process.env.VERCEL || process.env.VERCEL_ENV,
+);
 const FASTAPI_AGENT_TIMEOUT_MS = 10_000;
-const FASTAPI_AGENT_SECRET_HEADER = 'x-agent-shared-secret';
+const FASTAPI_AGENT_SECRET_HEADER = "x-agent-shared-secret";
+const CHAT_REQUEST_MAX_BYTES = 32_000;
+const CHAT_CONTEXT_MAX_MESSAGES = 8;
+const CHAT_CONTEXT_MAX_CHARACTERS = 8_000;
 const BENCH_REVIEW_ENABLED =
-  process.env.AI_BENCH_REVIEW_ENABLED?.trim() === 'true' ||
-  (!process.env.AI_BENCH_REVIEW_ENABLED?.trim() && process.env.NODE_ENV === 'production');
+  process.env.AI_BENCH_REVIEW_ENABLED?.trim() === "true" ||
+  (!process.env.AI_BENCH_REVIEW_ENABLED?.trim() &&
+    process.env.NODE_ENV === "production");
 let hasWarnedNoFastApiTarget = false;
 let hasWarnedMissingFastApiSecret = false;
+let hasWarnedAiAuthFailure = false;
 
-function jsonNoStore(body: unknown, init?: (ResponseInit & { headers?: HeadersInit }) | undefined) {
+function jsonNoStore(
+  body: unknown,
+  init?: (ResponseInit & { headers?: HeadersInit }) | undefined,
+) {
   return NextResponse.json(body, {
     ...init,
     headers: {
-      'Cache-Control': 'no-store',
+      "Cache-Control": "no-store",
       ...(init?.headers ?? {}),
     },
   });
@@ -51,27 +67,67 @@ function getFastApiAgentUrl(request: Request) {
 
   if (configuredBaseUrl) {
     const url = new URL(configuredBaseUrl);
-    if (!url.pathname.endsWith('/chat')) {
-      url.pathname = `${url.pathname.replace(/\/$/, '')}/chat`;
+    if (!url.pathname.endsWith("/chat")) {
+      url.pathname = `${url.pathname.replace(/\/$/, "")}/chat`;
     }
     return url.toString();
   }
 
   if (IS_VERCEL_DEPLOYMENT) {
-    return new URL('/api/agents/chat', request.url).toString();
+    return new URL("/api/agents/chat", request.url).toString();
   }
 
   return null;
 }
 
+function isAuthenticationFailure(error: unknown) {
+  if (!error || typeof error !== "object") {
+    return false;
+  }
+
+  const maybeError = error as {
+    status?: number;
+    code?: number;
+    message?: string;
+  };
+  return (
+    maybeError.status === 401 ||
+    maybeError.code === 401 ||
+    maybeError.message?.toLowerCase().includes("authentication") === true
+  );
+}
+
+function pruneChatContext(messages: ChatMessageInput[]) {
+  const selectedMessages: ChatMessageInput[] = [];
+  let totalCharacters = 0;
+
+  for (const message of [...messages].reverse()) {
+    const contentLength = message.content.length;
+    const wouldExceedMessageLimit =
+      selectedMessages.length >= CHAT_CONTEXT_MAX_MESSAGES;
+    const wouldExceedCharacterBudget =
+      selectedMessages.length > 0 &&
+      totalCharacters + contentLength > CHAT_CONTEXT_MAX_CHARACTERS;
+
+    if (wouldExceedMessageLimit || wouldExceedCharacterBudget) {
+      break;
+    }
+
+    selectedMessages.push(message);
+    totalCharacters += contentLength;
+  }
+
+  return selectedMessages.reverse();
+}
+
 export async function GET(request: Request) {
-  const queryError = rejectUnexpectedSearchParams(request);
-  if (queryError) {
-    return queryError;
+  const queryParams = parseSearchParams(request, emptySearchParamsSchema);
+  if (queryParams instanceof NextResponse) {
+    return queryParams;
   }
 
   const rateLimit = await takeRateLimitHit({
-    scope: 'chat-status',
+    scope: "chat-status",
     key: getClientKey(request),
     limit: CHAT_STATUS_LIMIT,
     windowMs: CHAT_WINDOW_MS,
@@ -79,18 +135,21 @@ export async function GET(request: Request) {
 
   if (rateLimit.reason) {
     return jsonNoStore(
-      { error: 'Chat status is temporarily unavailable. Please try again later.' },
+      {
+        error:
+          "Chat status is temporarily unavailable. Please try again later.",
+      },
       { status: 503 },
     );
   }
 
   if (!rateLimit.ok) {
     return jsonNoStore(
-      { error: 'Too many status checks. Please wait a minute and try again.' },
+      { error: "Too many status checks. Please wait a minute and try again." },
       {
         status: 429,
         headers: {
-          'Retry-After': String(
+          "Retry-After": String(
             Math.max(Math.ceil((rateLimit.resetAt - Date.now()) / 1_000), 1),
           ),
         },
@@ -100,7 +159,7 @@ export async function GET(request: Request) {
 
   return jsonNoStore({
     ok: true,
-    provider: getAIProvider() || 'fallback',
+    provider: getAIProvider() || "fallback",
     fastApiAgentsEnabled: FASTAPI_AGENTS_ENABLED,
     fastApiTargetConfigured: Boolean(getFastApiAgentUrl(request)),
     benchReviewEnabled: BENCH_REVIEW_ENABLED,
@@ -108,9 +167,22 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const queryError = rejectUnexpectedSearchParams(request);
-  if (queryError) {
-    return queryError;
+  const queryParams = parseSearchParams(request, emptySearchParamsSchema);
+  if (queryParams instanceof NextResponse) {
+    return queryParams;
+  }
+
+  const contentTypeError = rejectNonJsonRequest(request);
+  if (contentTypeError) {
+    return contentTypeError;
+  }
+
+  const requestTooLargeError = rejectLargeRequest(
+    request,
+    CHAT_REQUEST_MAX_BYTES,
+  );
+  if (requestTooLargeError) {
+    return requestTooLargeError;
   }
 
   const originError = rejectUntrustedOrigin(request);
@@ -123,16 +195,16 @@ export async function POST(request: Request) {
   try {
     payload = await request.json();
   } catch {
-    return jsonNoStore({ error: 'Invalid request body.' }, { status: 400 });
+    return jsonNoStore({ error: "Invalid request body." }, { status: 400 });
   }
 
   const parsed = chatRequestSchema.safeParse(payload);
   if (!parsed.success) {
-    return jsonNoStore({ error: 'Invalid chat payload.' }, { status: 400 });
+    return jsonNoStore({ error: "Invalid chat payload." }, { status: 400 });
   }
 
   const rateLimit = await takeRateLimitHit({
-    scope: 'chat',
+    scope: "chat",
     key: getClientKey(request),
     limit: CHAT_LIMIT,
     windowMs: CHAT_WINDOW_MS,
@@ -140,7 +212,7 @@ export async function POST(request: Request) {
 
   if (rateLimit.reason) {
     return jsonNoStore(
-      { error: 'Chat is temporarily unavailable. Please try again later.' },
+      { error: "Chat is temporarily unavailable. Please try again later." },
       { status: 503 },
     );
   }
@@ -148,12 +220,12 @@ export async function POST(request: Request) {
   if (!rateLimit.ok) {
     return jsonNoStore(
       {
-        error: 'Too many chat messages. Please wait a minute and try again.',
+        error: "Too many chat messages. Please wait a minute and try again.",
       },
       {
         status: 429,
         headers: {
-          'Retry-After': String(
+          "Retry-After": String(
             Math.max(Math.ceil((rateLimit.resetAt - Date.now()) / 1_000), 1),
           ),
         },
@@ -163,13 +235,21 @@ export async function POST(request: Request) {
 
   const latestUserMessage = [...parsed.data.messages]
     .reverse()
-    .find((message) => message.role === 'user');
+    .find((message) => message.role === "user");
 
   if (!latestUserMessage) {
-    return jsonNoStore({ error: 'A user message is required.' }, { status: 400 });
+    return jsonNoStore(
+      { error: "A user message is required." },
+      { status: 400 },
+    );
   }
 
-  const fallback = getFallbackAssistantReply(latestUserMessage.content, parsed.data.agent);
+  const boundedMessages = pruneChatContext(parsed.data.messages);
+
+  const fallback = getFallbackAssistantReply(
+    latestUserMessage.content,
+    parsed.data.agent,
+  );
 
   if (FASTAPI_AGENTS_ENABLED) {
     const fastApiAgentUrl = getFastApiAgentUrl(request);
@@ -179,30 +259,30 @@ export async function POST(request: Request) {
       if (!hasWarnedNoFastApiTarget) {
         hasWarnedNoFastApiTarget = true;
         console.warn(
-          'FastAPI agents are enabled, but no FastAPI target is reachable in this environment. Using direct AI path.',
+          "FastAPI agents are enabled, but no FastAPI target is reachable in this environment. Using direct AI path.",
         );
       }
     } else if (!fastApiSharedSecret) {
       if (!hasWarnedMissingFastApiSecret) {
         hasWarnedMissingFastApiSecret = true;
         console.error(
-          'FastAPI agents are enabled, but FASTAPI_AGENT_SHARED_SECRET is not configured.',
+          "FastAPI agents are enabled, but FASTAPI_AGENT_SHARED_SECRET is not configured.",
         );
       }
     } else {
       try {
         const fastApiResponse = await fetch(fastApiAgentUrl, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
             [FASTAPI_AGENT_SECRET_HEADER]: fastApiSharedSecret,
           },
           body: JSON.stringify({
-            messages: parsed.data.messages,
+            messages: boundedMessages,
             agent: parsed.data.agent,
           }),
           signal: AbortSignal.timeout(FASTAPI_AGENT_TIMEOUT_MS),
-          cache: 'no-store',
+          cache: "no-store",
         });
 
         if (fastApiResponse.ok) {
@@ -224,26 +304,29 @@ export async function POST(request: Request) {
               content: data.content || fallback.content,
               suggestions: data.suggestions || fallback.suggestions,
               action: data.action || fallback.action,
-              source: data.source || 'fastapi',
+              source: data.source || "fastapi",
               degraded: false,
               agent: data.agent || fallback.agent,
               agentTitle: data.agentTitle || fallback.agentCard.title,
-              agentDescription: data.agentDescription || fallback.agentCard.description,
+              agentDescription:
+                data.agentDescription || fallback.agentCard.description,
               reviewedBy: data.reviewedBy,
               model: data.model,
             });
           }
 
-          console.warn('FastAPI agent returned degraded fallback; using direct AI path.');
+          console.warn(
+            "FastAPI agent returned degraded fallback; using direct AI path.",
+          );
         } else {
           const responseSnippet = (await fastApiResponse.text()).slice(0, 240);
-          console.error('FastAPI agent proxy returned non-OK response:', {
+          console.error("FastAPI agent proxy returned non-OK response:", {
             status: fastApiResponse.status,
             body: responseSnippet,
           });
         }
       } catch (error) {
-        console.error('FastAPI agent proxy error:', error);
+        console.error("FastAPI agent proxy error:", error);
       }
     }
   }
@@ -255,7 +338,7 @@ export async function POST(request: Request) {
       content: fallback.content,
       suggestions: fallback.suggestions,
       action: fallback.action,
-      source: 'fallback',
+      source: "fallback",
       degraded: true,
       agent: fallback.agent,
       agentTitle: fallback.agentCard.title,
@@ -268,9 +351,9 @@ export async function POST(request: Request) {
     const specialistResponse = await client.responses.create({
       model: getOpenAIModel(),
       instructions: buildChatInstructions(fallback.content, fallback.agent),
-      input: parsed.data.messages.map((message) => ({
+      input: boundedMessages.map((message) => ({
         role: message.role,
-        content: [{ type: 'input_text' as const, text: message.content }],
+        content: [{ type: "input_text" as const, text: message.content }],
       })),
       max_output_tokens: 500,
       reasoning: {
@@ -279,13 +362,14 @@ export async function POST(request: Request) {
       store: false,
     });
 
-    const specialistDraft = specialistResponse.output_text.trim() || fallback.content;
+    const specialistDraft =
+      specialistResponse.output_text.trim() || fallback.content;
     if (!BENCH_REVIEW_ENABLED) {
       return jsonNoStore({
         content: specialistDraft,
         suggestions: fallback.suggestions,
         action: fallback.action,
-        source: getAIProvider() || 'openai',
+        source: getAIProvider() || "openai",
         degraded: false,
         agent: fallback.agent,
         agentTitle: fallback.agentCard.title,
@@ -301,7 +385,7 @@ export async function POST(request: Request) {
         input: specialistDraft,
         max_output_tokens: 500,
         reasoning: {
-          effort: 'minimal',
+          effort: "minimal",
         },
         store: false,
       });
@@ -312,7 +396,7 @@ export async function POST(request: Request) {
         content,
         suggestions: fallback.suggestions,
         action: fallback.action,
-        source: getAIProvider() || 'openai',
+        source: getAIProvider() || "openai",
         degraded: false,
         agent: fallback.agent,
         agentTitle: fallback.agentCard.title,
@@ -321,13 +405,13 @@ export async function POST(request: Request) {
         model: specialistResponse.model,
       });
     } catch (error) {
-      console.error('Bench review error:', error);
+      console.error("Bench review error:", error);
 
       return jsonNoStore({
         content: specialistDraft,
         suggestions: fallback.suggestions,
         action: fallback.action,
-        source: getAIProvider() || 'openai',
+        source: getAIProvider() || "openai",
         degraded: false,
         agent: fallback.agent,
         agentTitle: fallback.agentCard.title,
@@ -336,13 +420,22 @@ export async function POST(request: Request) {
       });
     }
   } catch (error) {
-    console.error('Chat API error:', error);
+    if (isAuthenticationFailure(error)) {
+      if (!hasWarnedAiAuthFailure) {
+        hasWarnedAiAuthFailure = true;
+        console.warn(
+          "AI provider authentication failed. Chat is falling back to the built-in response set until provider credentials are fixed.",
+        );
+      }
+    } else {
+      console.error("Chat API error:", error);
+    }
 
     return jsonNoStore({
       content: fallback.content,
       suggestions: fallback.suggestions,
       action: fallback.action,
-      source: 'fallback',
+      source: "fallback",
       degraded: true,
       agent: fallback.agent,
       agentTitle: fallback.agentCard.title,

@@ -16,10 +16,10 @@ export type DocketZipPuzzle = {
 
 export const docketZipPuzzles: DocketZipPuzzle[] = [
   {
-    id: 'evidence-chain',
-    docket: 'DZ-101',
-    title: 'Evidence Chain',
-    matter: 'Keep the record intact from opening fact to final exhibit.',
+    id: "evidence-chain",
+    docket: "DZ-101",
+    title: "Evidence Chain",
+    matter: "Keep the record intact from opening fact to final exhibit.",
     size: 5,
     blocked: [
       { row: 1, col: 2 },
@@ -53,10 +53,10 @@ export const docketZipPuzzles: DocketZipPuzzle[] = [
     clueStepIndices: [0, 3, 6, 9, 12, 15, 17, 19],
   },
   {
-    id: 'motion-calendar',
-    docket: 'DZ-204',
-    title: 'Motion Calendar',
-    matter: 'Thread the filings in order before the hearing clock runs out.',
+    id: "motion-calendar",
+    docket: "DZ-204",
+    title: "Motion Calendar",
+    matter: "Thread the filings in order before the hearing clock runs out.",
     size: 5,
     blocked: [
       { row: 0, col: 0 },
@@ -90,10 +90,10 @@ export const docketZipPuzzles: DocketZipPuzzle[] = [
     clueStepIndices: [0, 2, 5, 8, 11, 14, 16, 19],
   },
   {
-    id: 'brief-stack',
-    docket: 'DZ-312',
-    title: 'Brief Stack',
-    matter: 'Connect the arguments cleanly and leave no open cell behind.',
+    id: "brief-stack",
+    docket: "DZ-312",
+    title: "Brief Stack",
+    matter: "Connect the arguments cleanly and leave no open cell behind.",
     size: 5,
     blocked: [
       { row: 1, col: 1 },

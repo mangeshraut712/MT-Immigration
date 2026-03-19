@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { ArrowRight, Scale, Sparkles } from 'lucide-react';
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ArrowRight, Scale, Sparkles } from "lucide-react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 
 const previewCells = [
   [1, 0, 0, 0],
@@ -15,7 +15,7 @@ const previewCells = [
 
 export function BriefBreakSection() {
   return (
-    <section className="border-t border-black/5 bg-[#f6efe7] py-20">
+    <section className="border-t border-black/5 bg-zinc-50 py-20">
       <div className="container-wide grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center">
         <div>
           <div className="mb-6 flex items-center gap-3">
@@ -30,12 +30,16 @@ export function BriefBreakSection() {
             for the moments between the heavy work.
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600">
-            The firm site stays serious where it matters. This is the one intentional detour:
-            a small legal-themed puzzle page built for focus, reset, and a little stress relief.
+            The firm site stays serious where it matters. This is the one
+            intentional detour: a small legal-themed puzzle page built for
+            focus, reset, and a little stress relief.
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild className="rounded-full bg-black text-white hover:bg-zinc-800">
+            <Button
+              asChild
+              className="rounded-full bg-black text-white hover:bg-zinc-800"
+            >
               <Link href="/brief-break">
                 Enter The Puzzle Room
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -52,19 +56,21 @@ export function BriefBreakSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-[2rem] border border-black/5 bg-white/80 p-6 shadow-soft backdrop-blur-sm"
+          className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft"
         >
           <div className="mb-6 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
                 Docket Zip
               </p>
-              <p className="mt-2 text-sm text-zinc-500">Connect the facts. Fill the record.</p>
+              <p className="mt-2 text-sm text-zinc-500">
+                Connect the facts. Fill the record.
+              </p>
             </div>
             <Scale className="h-6 w-6 text-zinc-900" />
           </div>
 
-          <div className="grid grid-cols-4 gap-2 rounded-[1.5rem] bg-[#f7f3ec] p-4">
+          <div className="grid grid-cols-4 gap-2 rounded-[1.5rem] bg-zinc-50 p-4">
             {previewCells.flatMap((row, rowIndex) =>
               row.map((cell, colIndex) => {
                 const key = `${rowIndex}-${colIndex}`;

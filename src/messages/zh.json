@@ -1,0 +1,53 @@
+{
+    "common": {
+        "siteName": "M&T 移民律师事务所",
+        "tagline": "直接联系律师的单人移民法律顾问",
+        "description": "为访客、学生、家庭、人道主义和紧急法院相关事项提供精品美国移民代理。清晰的策略、透明的费用和直接的律师沟通。",
+        "bookConsultation": "预约咨询",
+        "exploreServices": "探索服务",
+        "learnMore": "了解更多",
+        "contactUs": "联系我们",
+        "getStarted": "开始",
+        "viewAll": "查看全部",
+        "submit": "提交",
+        "next": "下一个",
+        "previous": "上一个",
+        "back": "返回",
+        "close": "关闭",
+        "loading": "加载中..."
+    },
+    "nav": {
+        "services": "服务",
+        "reviews": "评论",
+        "about": "关于",
+        "fees": "费用",
+        "insights": "见解",
+        "faq": "常见问题",
+        "contact": "联系"
+    },
+    "hero": {
+        "badge": "拥有案件直接所有权的单人律师执业",
+        "title": "专注的移民顾问",
+        "titleHighlight": "清晰的策略",
+        "subtitle": "为访客、学生、家庭、人道主义和紧急驱逐案件提供精品支持，从接待到提交都有直接律师沟通。",
+        "cta": "预约咨询",
+        "ctaSecondary": "探索服务",
+        "directAccess": "直接联系律师",
+        "responseTime": "1-2个工作日内回复",
+        "transparentFees": "透明的咨询费用"
+    },
+    "stats": {
+        "directAttorney": "直接联系律师",
+        "directAttorneyDesc": "您将与负责策略和提交决定的律师交谈。",
+        "caseReady": "案件准备就绪",
+        "caseReadyDesc": "结构化接待有助于及早发现截止日期、提交和紧急问题。",
+        "security": "安全优先沟通",
+        "securityDesc": "表格和聊天现在通过验证的服务器端路由运行。",
+        "virtual": "全国虚拟服务",
+        "virtualDesc": "可为全国各地的客户进行远程咨询。"
+    },
+    "language": {
+        "switch": "English",
+        "current": "中文"
+    }
+}

@@ -1,6 +1,20 @@
+import createMiddleware from 'next-intl/middleware';
 import { NextResponse, type NextRequest } from 'next/server';
+import { routing } from './i18n/routing';
+
+// Create the i18n middleware
+const i18nMiddleware = createMiddleware(routing);
 
 export function proxy(request: NextRequest) {
+  // First, handle i18n routing
+  const i18nResponse = i18nMiddleware(request);
+
+  // If i18n middleware returns a redirect, follow it
+  if (i18nResponse.status === 307 || i18nResponse.status === 308) {
+    return i18nResponse;
+  }
+
+  // Then handle canonical URL proxy logic
   if (
     process.env.NODE_ENV !== 'production' ||
     process.env.VERCEL_ENV === 'preview' ||
@@ -27,5 +41,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  // Match only internationalized pathnames and proxy routes
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)']
 };

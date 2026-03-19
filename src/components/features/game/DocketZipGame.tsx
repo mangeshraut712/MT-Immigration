@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   RotateCcw,
   Undo2,
@@ -11,12 +11,22 @@ import {
   Clock3,
   Copy,
   MoveRight,
-} from 'lucide-react';
+  CalendarDays,
+  Keyboard,
+  CheckCircle2,
+} from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { useCopyToClipboard, useLocalStorage } from '@/lib/hooks';
-import { cn } from '@/lib/utils';
-import { docketZipPuzzles, type DocketZipPuzzle } from '@/content/docketZipPuzzles';
+import { Button } from "@/components/ui/button";
+import {
+  useCopyToClipboard,
+  useKeyboardShortcut,
+  useLocalStorage,
+} from "@/lib/hooks";
+import { cn } from "@/lib/utils";
+import {
+  docketZipPuzzles,
+  type DocketZipPuzzle,
+} from "@/content/docketZipPuzzles";
 
 type CellMap = {
   key: string;
@@ -54,9 +64,14 @@ const initialStats: GameStats = {
 };
 
 const puzzleModels = docketZipPuzzles.map((puzzle) => {
-  const blockedKeys = new Set(puzzle.blocked.map((cell) => `${cell.row}:${cell.col}`));
+  const blockedKeys = new Set(
+    puzzle.blocked.map((cell) => `${cell.row}:${cell.col}`),
+  );
   const clueIndices = new Map(
-    puzzle.clueStepIndices.map((stepIndex, clueIndex) => [stepIndex, clueIndex + 1]),
+    puzzle.clueStepIndices.map((stepIndex, clueIndex) => [
+      stepIndex,
+      clueIndex + 1,
+    ]),
   );
 
   const openCells: CellMap[] = [];
@@ -78,14 +93,18 @@ const puzzleModels = docketZipPuzzles.map((puzzle) => {
   }
 
   const openByKey = new Map(openCells.map((cell) => [cell.key, cell]));
-  const indexByKey = new Map(openCells.map((cell) => [cell.key, cell.openIndex]));
+  const indexByKey = new Map(
+    openCells.map((cell) => [cell.key, cell.openIndex]),
+  );
   const clueByIndex = new Map<number, number>();
 
   puzzle.solution.forEach((cell, index) => {
     const key = `${cell.row}:${cell.col}`;
     const openIndex = indexByKey.get(key);
     if (openIndex === undefined) {
-      throw new Error(`Solution cell ${key} is not open in puzzle ${puzzle.id}`);
+      throw new Error(
+        `Solution cell ${key} is not open in puzzle ${puzzle.id}`,
+      );
     }
 
     const clue = clueIndices.get(index);
@@ -141,13 +160,13 @@ function getTodayPuzzleIndex() {
 
 function getLocalDateKey(date = new Date()) {
   const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
 function getPreviousLocalDateKey(dateKey: string) {
-  const [year, month, day] = dateKey.split('-').map(Number);
+  const [year, month, day] = dateKey.split("-").map(Number);
   if (!year || !month || !day) {
     return null;
   }
@@ -160,7 +179,7 @@ function getPreviousLocalDateKey(dateKey: string) {
 function formatTime(totalSeconds: number) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
 function toMoveText(pathLength: number, totalOpen: number) {
@@ -196,7 +215,10 @@ function findCompletion(
 
   const neighborCandidates = model.adjacency[currentIndex]
     .filter((neighborIndex) => (visitedMask & (1 << neighborIndex)) === 0)
-    .sort((left, right) => model.adjacency[left].length - model.adjacency[right].length);
+    .sort(
+      (left, right) =>
+        model.adjacency[left].length - model.adjacency[right].length,
+    );
 
   for (const neighborIndex of neighborCandidates) {
     const clueValue = model.clueByIndex.get(neighborIndex);
@@ -224,13 +246,17 @@ function findCompletion(
   return null;
 }
 
-function buildShareText(puzzle: DocketZipPuzzle, elapsedSeconds: number, streak: number) {
+function buildShareText(
+  puzzle: DocketZipPuzzle,
+  elapsedSeconds: number,
+  streak: number,
+) {
   return [
     `${puzzle.title} (${puzzle.docket})`,
     `Solved in ${formatTime(elapsedSeconds)}`,
     `Current streak: ${streak}`,
     `Take a brief break at M&T Immigration`,
-  ].join('\n');
+  ].join("\n");
 }
 
 function isAdjacent(model: PuzzleModel, fromIndex: number, toIndex: number) {
@@ -238,8 +264,17 @@ function isAdjacent(model: PuzzleModel, fromIndex: number, toIndex: number) {
 }
 
 export function DocketZipGame() {
-  const model = useMemo(() => puzzleModels[getTodayPuzzleIndex()], []);
-  const [stats, setStats] = useLocalStorage<GameStats>('mt-docket-zip-stats', initialStats);
+  const todayPuzzleIndex = useMemo(() => getTodayPuzzleIndex(), []);
+  const [selectedPuzzleIndex, setSelectedPuzzleIndex] =
+    useState(todayPuzzleIndex);
+  const model = useMemo(
+    () => puzzleModels[selectedPuzzleIndex],
+    [selectedPuzzleIndex],
+  );
+  const [stats, setStats] = useLocalStorage<GameStats>(
+    "mt-docket-zip-stats",
+    initialStats,
+  );
   const [path, setPath] = useState<number[]>([model.startIndex]);
   const [nextClue, setNextClue] = useState(2);
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -256,6 +291,29 @@ export function DocketZipGame() {
     () => new Map(path.map((openIndex, order) => [openIndex, order])),
     [path],
   );
+
+  const progressPercent = Math.round(
+    (path.length / model.openCells.length) * 100,
+  );
+  const isDailyPuzzle = selectedPuzzleIndex === todayPuzzleIndex;
+  const todaySolved = stats.solvedDates.includes(getLocalDateKey());
+
+  const initializePuzzleState = useCallback((nextModel: PuzzleModel) => {
+    setPath([nextModel.startIndex]);
+    setNextClue(2);
+    setFeedback(null);
+    setHintCell(null);
+    setIsSolved(false);
+    setElapsedSeconds(0);
+    setStartedAt(null);
+    setIsTracing(false);
+    setSolvedStreak(null);
+    suppressNextClickRef.current = null;
+  }, []);
+
+  const resetPuzzle = useCallback(() => {
+    initializePuzzleState(model);
+  }, [initializePuzzleState, model]);
 
   useEffect(() => {
     if (startedAt === null || isSolved) {
@@ -278,20 +336,7 @@ export function DocketZipGame() {
     return () => window.clearTimeout(timeout);
   }, [feedback]);
 
-  function resetPuzzle() {
-    setPath([model.startIndex]);
-    setNextClue(2);
-    setFeedback(null);
-    setHintCell(null);
-    setIsSolved(false);
-    setElapsedSeconds(0);
-    setStartedAt(null);
-    setIsTracing(false);
-    setSolvedStreak(null);
-    suppressNextClickRef.current = null;
-  }
-
-  function undoMove() {
+  const undoMove = useCallback(() => {
     if (path.length <= 1 || isSolved) {
       return;
     }
@@ -311,7 +356,7 @@ export function DocketZipGame() {
       setElapsedSeconds(0);
       setStartedAt(null);
     }
-  }
+  }, [isSolved, model.clueByIndex, path]);
 
   function markSolved(finalElapsedSeconds: number) {
     const today = getLocalDateKey();
@@ -359,7 +404,9 @@ export function DocketZipGame() {
     const previousIndex = path[path.length - 2];
 
     if (targetIndex === currentIndex) {
-      setFeedback('You are already on the active fact. Keep tracing the brief.');
+      setFeedback(
+        "You are already on the active fact. Keep tracing the brief.",
+      );
       return;
     }
 
@@ -368,8 +415,11 @@ export function DocketZipGame() {
       return;
     }
 
-    if (visitedOrder.has(targetIndex) || !isAdjacent(model, currentIndex, targetIndex)) {
-      setFeedback('Objection: that route does not connect cleanly.');
+    if (
+      visitedOrder.has(targetIndex) ||
+      !isAdjacent(model, currentIndex, targetIndex)
+    ) {
+      setFeedback("Objection: that route does not connect cleanly.");
       return;
     }
 
@@ -379,7 +429,9 @@ export function DocketZipGame() {
       return;
     }
 
-    const nextMask = path.reduce((mask, openIndex) => mask | (1 << openIndex), 0) | (1 << targetIndex);
+    const nextMask =
+      path.reduce((mask, openIndex) => mask | (1 << openIndex), 0) |
+      (1 << targetIndex);
     const solutionPreview = findCompletion(
       model,
       targetIndex,
@@ -389,7 +441,9 @@ export function DocketZipGame() {
     );
 
     if (!solutionPreview) {
-      setFeedback('Objection: that route traps part of the record. Try another turn.');
+      setFeedback(
+        "Objection: that route traps part of the record. Try another turn.",
+      );
       return;
     }
 
@@ -405,7 +459,10 @@ export function DocketZipGame() {
     setFeedback(null);
     setHintCell(null);
 
-    if (updatedPath.length === model.openCells.length && targetIndex === model.endIndex) {
+    if (
+      updatedPath.length === model.openCells.length &&
+      targetIndex === model.endIndex
+    ) {
       const finalElapsedSeconds =
         startedAt === null ? 0 : Math.floor((moveTimestamp - startedAt) / 1000);
       setElapsedSeconds(finalElapsedSeconds);
@@ -413,26 +470,59 @@ export function DocketZipGame() {
     }
   }
 
-  function showHint() {
+  const showHint = useCallback(() => {
     if (isSolved) {
       return;
     }
 
     const currentIndex = path[path.length - 1];
-    const visitedMask = path.reduce((mask, openIndex) => mask | (1 << openIndex), 0);
-    const resolvedPath = findCompletion(model, currentIndex, visitedMask, nextClue, new Map());
+    const visitedMask = path.reduce(
+      (mask, openIndex) => mask | (1 << openIndex),
+      0,
+    );
+    const resolvedPath = findCompletion(
+      model,
+      currentIndex,
+      visitedMask,
+      nextClue,
+      new Map(),
+    );
 
     if (resolvedPath && resolvedPath.length > 1) {
       setHintCell(resolvedPath[1]);
-      setFeedback('Clerk’s note: the next clean move is highlighted.');
+      setFeedback("Clerk’s note: the next clean move is highlighted.");
       return;
     }
 
-    setFeedback('No hint available from the current record. Undo a step and try again.');
-  }
+    setFeedback(
+      "No hint available from the current record. Undo a step and try again.",
+    );
+  }, [isSolved, model, nextClue, path]);
+
+  useKeyboardShortcut("r", () => {
+    resetPuzzle();
+  });
+
+  useKeyboardShortcut("u", () => {
+    if (path.length > 1 && !isSolved) {
+      undoMove();
+    }
+  });
+
+  useKeyboardShortcut("h", () => {
+    if (!isSolved) {
+      showHint();
+    }
+  });
 
   async function copyScore() {
-    await copy(buildShareText(model.puzzle, elapsedSeconds, solvedStreak ?? stats.streak));
+    await copy(
+      buildShareText(
+        model.puzzle,
+        elapsedSeconds,
+        solvedStreak ?? stats.streak,
+      ),
+    );
   }
 
   function beginTrace(targetIndex: number, moveTimestamp: number) {
@@ -444,12 +534,15 @@ export function DocketZipGame() {
 
     if (targetIndex === currentIndex) {
       setIsTracing(true);
-      setFeedback('Trace forward from the highlighted fact.');
+      setFeedback("Trace forward from the highlighted fact.");
       suppressNextClickRef.current = targetIndex;
       return;
     }
 
-    if (isAdjacent(model, currentIndex, targetIndex) || targetIndex === path[path.length - 2]) {
+    if (
+      isAdjacent(model, currentIndex, targetIndex) ||
+      targetIndex === path[path.length - 2]
+    ) {
       setIsTracing(true);
       suppressNextClickRef.current = targetIndex;
       handleCellClick(targetIndex, moveTimestamp);
@@ -466,7 +559,10 @@ export function DocketZipGame() {
       return;
     }
 
-    if (isAdjacent(model, currentIndex, targetIndex) || targetIndex === path[path.length - 2]) {
+    if (
+      isAdjacent(model, currentIndex, targetIndex) ||
+      targetIndex === path[path.length - 2]
+    ) {
       handleCellClick(targetIndex, moveTimestamp);
     }
   }
@@ -476,177 +572,244 @@ export function DocketZipGame() {
   }
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
-      <div className="rounded-[2rem] border border-black/5 bg-white/80 p-5 shadow-soft backdrop-blur-sm md:p-8">
-        <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
-              {model.puzzle.docket}
-            </p>
-            <h2 className="mt-2 font-serif text-3xl tracking-tight text-zinc-950">
-              {model.puzzle.title}
-            </h2>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-600">
-              {model.puzzle.matter}
-            </p>
+    <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_23rem]">
+      <div className="rounded-[2.5rem] border border-black/5 bg-white p-5 shadow-soft md:p-8">
+        <div className="mb-6 flex flex-col gap-5 border-b border-zinc-100 pb-6">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="rounded-full border border-black/10 bg-zinc-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-600">
+                  {isDailyPuzzle ? "Today’s Docket" : "Practice Docket"}
+                </span>
+                {todaySolved && isDailyPuzzle ? (
+                  <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Solved Today
+                  </span>
+                ) : null}
+              </div>
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
+                {model.puzzle.docket}
+              </p>
+              <h2 className="mt-2 font-serif text-3xl tracking-tight text-zinc-950 md:text-4xl">
+                {model.puzzle.title}
+              </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-600 md:text-base">
+                {model.puzzle.matter}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm">
+              <Clock3 className="h-4 w-4 text-zinc-900" />
+              {formatTime(elapsedSeconds)}
+            </div>
           </div>
 
-          <div className="flex items-center gap-3 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm">
-            <Clock3 className="h-4 w-4 text-zinc-900" />
-            {formatTime(elapsedSeconds)}
+          <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr]">
+            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-4">
+              <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                <span>Progress</span>
+                <span>{progressPercent}%</span>
+              </div>
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-zinc-200">
+                <div
+                  className="h-full rounded-full bg-zinc-900 transition-[width] duration-300"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+              <p className="mt-3 text-sm text-zinc-600">
+                {path.length} of {model.openCells.length} open cells are
+                connected.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                Moves
+              </p>
+              <p className="mt-3 text-2xl font-semibold text-zinc-950">
+                {toMoveText(path.length, model.openCells.length)}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                Streak
+              </p>
+              <p className="mt-3 text-2xl font-semibold text-zinc-950">
+                {stats.streak}
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="rounded-[2rem] bg-[#f7f3ec] p-4 md:p-6">
+        <div className="rounded-[2rem] bg-[#f6efe7] p-4 md:p-6">
           <div
-            className="relative mx-auto grid w-full max-w-[32rem] gap-2 touch-none select-none"
-            style={{ gridTemplateColumns: `repeat(${model.puzzle.size}, minmax(0, 1fr))` }}
+            className="relative mx-auto grid w-full max-w-[34rem] gap-2 touch-none select-none"
+            style={{
+              gridTemplateColumns: `repeat(${model.puzzle.size}, minmax(0, 1fr))`,
+            }}
             onPointerUp={endTrace}
             onPointerLeave={endTrace}
             onPointerCancel={endTrace}
           >
-            {Array.from({ length: model.puzzle.size * model.puzzle.size }).map((_, cellIndex) => {
-              const row = Math.floor(cellIndex / model.puzzle.size);
-              const col = cellIndex % model.puzzle.size;
-              const key = `${row}:${col}`;
-              const openCell = model.openByKey.get(key);
+            {Array.from({ length: model.puzzle.size * model.puzzle.size }).map(
+              (_, cellIndex) => {
+                const row = Math.floor(cellIndex / model.puzzle.size);
+                const col = cellIndex % model.puzzle.size;
+                const key = `${row}:${col}`;
+                const openCell = model.openByKey.get(key);
 
-              if (!openCell) {
-                return (
-                  <div
-                    key={key}
-                    className="relative aspect-square rounded-2xl bg-zinc-900/90 shadow-inner"
-                  >
-                    <div className="absolute inset-x-[18%] top-1/2 h-2 -translate-y-1/2 rounded-full bg-white/15" />
-                  </div>
-                );
-              }
-
-              const order = visitedOrder.get(openCell.openIndex);
-              const prevIndex = order !== undefined && order > 0 ? path[order - 1] : null;
-              const nextIndex = order !== undefined && order < path.length - 1 ? path[order + 1] : null;
-              const prevCell = prevIndex !== null ? model.openCells[prevIndex] : null;
-              const nextCell = nextIndex !== null ? model.openCells[nextIndex] : null;
-              const active = path[path.length - 1] === openCell.openIndex;
-              const clue = openCell.clue;
-              const cellLabel = [
-                clue ? `Fact ${clue}` : `Grid cell ${row + 1}, ${col + 1}`,
-                active ? 'active' : order !== undefined ? `visited step ${order + 1}` : 'not visited',
-                hintCell === openCell.openIndex ? 'hinted next move' : null,
-              ]
-                .filter(Boolean)
-                .join(', ');
-
-              const connections = {
-                up:
-                  prevCell?.row === row - 1 ||
-                  nextCell?.row === row - 1,
-                down:
-                  prevCell?.row === row + 1 ||
-                  nextCell?.row === row + 1,
-                left:
-                  prevCell?.col === col - 1 ||
-                  nextCell?.col === col - 1,
-                right:
-                  prevCell?.col === col + 1 ||
-                  nextCell?.col === col + 1,
-              };
-
-              const pathGradient = {
-                background:
-                  'linear-gradient(135deg, rgba(20,20,20,0.96) 0%, rgba(80,80,80,0.96) 58%, rgba(120,120,120,0.96) 100%)',
-              };
-
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={(event) => {
-                    if (suppressNextClickRef.current === openCell.openIndex) {
-                      suppressNextClickRef.current = null;
-                      return;
-                    }
-
-                    handleCellClick(openCell.openIndex, event.timeStamp);
-                  }}
-                  onPointerDown={(event) => beginTrace(openCell.openIndex, event.timeStamp)}
-                  onPointerEnter={(event) => extendTrace(openCell.openIndex, event.timeStamp)}
-                  className={cn(
-                    'relative aspect-square rounded-2xl border border-black/5 bg-white text-left transition-all',
-                    active
-                      ? 'shadow-lg shadow-zinc-500/10 ring-2 ring-zinc-300'
-                      : 'shadow-sm hover:border-zinc-400',
-                  )}
-                  aria-label={cellLabel}
-                  aria-pressed={active}
-                >
-                  {order !== undefined ? (
-                    <>
-                      <div
-                        className="absolute left-1/2 top-1/2 h-[34%] w-[34%] -translate-x-1/2 -translate-y-1/2 rounded-full"
-                        style={pathGradient}
-                      />
-                      {connections.up ? (
-                        <div
-                          className="absolute left-1/2 top-[6%] h-[46%] w-[24%] -translate-x-1/2 rounded-full"
-                          style={pathGradient}
-                        />
-                      ) : null}
-                      {connections.down ? (
-                        <div
-                          className="absolute bottom-[6%] left-1/2 h-[46%] w-[24%] -translate-x-1/2 rounded-full"
-                          style={pathGradient}
-                        />
-                      ) : null}
-                      {connections.left ? (
-                        <div
-                          className="absolute left-[6%] top-1/2 h-[24%] w-[46%] -translate-y-1/2 rounded-full"
-                          style={pathGradient}
-                        />
-                      ) : null}
-                      {connections.right ? (
-                        <div
-                          className="absolute right-[6%] top-1/2 h-[24%] w-[46%] -translate-y-1/2 rounded-full"
-                          style={pathGradient}
-                        />
-                      ) : null}
-                    </>
-                  ) : null}
-
-                  {hintCell === openCell.openIndex ? (
-                    <motion.div
-                      layoutId="hint-cell"
-                      className="absolute inset-2 rounded-2xl border-2 border-zinc-500"
-                      transition={{ duration: 0.25 }}
-                    />
-                  ) : null}
-
-                  {path.length === 1 && active ? (
-                    <motion.div
-                      className="absolute inset-1 rounded-2xl border border-zinc-400/80"
-                      initial={{ opacity: 0.45, scale: 0.96 }}
-                      animate={{ opacity: [0.35, 0.7, 0.35], scale: [0.96, 1, 0.96] }}
-                      transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-                    />
-                  ) : null}
-
-                  {clue ? (
+                if (!openCell) {
+                  return (
                     <div
-                      className={cn(
-                        'absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-bold shadow-md',
-                        order !== undefined
-                          ? 'bg-black text-white ring-4 ring-white/30'
-                          : active
-                            ? 'bg-black text-white ring-4 ring-zinc-200'
-                            : 'bg-black text-white',
-                      )}
+                      key={key}
+                      className="relative aspect-square rounded-2xl bg-zinc-900/90 shadow-inner"
                     >
-                      {clue}
+                      <div className="absolute inset-x-[18%] top-1/2 h-2 -translate-y-1/2 rounded-full bg-white/15" />
                     </div>
-                  ) : null}
-                </button>
-              );
-            })}
+                  );
+                }
+
+                const order = visitedOrder.get(openCell.openIndex);
+                const prevIndex =
+                  order !== undefined && order > 0 ? path[order - 1] : null;
+                const nextIndex =
+                  order !== undefined && order < path.length - 1
+                    ? path[order + 1]
+                    : null;
+                const prevCell =
+                  prevIndex !== null ? model.openCells[prevIndex] : null;
+                const nextCell =
+                  nextIndex !== null ? model.openCells[nextIndex] : null;
+                const active = path[path.length - 1] === openCell.openIndex;
+                const clue = openCell.clue;
+                const cellLabel = [
+                  clue ? `Fact ${clue}` : `Grid cell ${row + 1}, ${col + 1}`,
+                  active
+                    ? "active"
+                    : order !== undefined
+                      ? `visited step ${order + 1}`
+                      : "not visited",
+                  hintCell === openCell.openIndex ? "hinted next move" : null,
+                ]
+                  .filter(Boolean)
+                  .join(", ");
+
+                const connections = {
+                  up: prevCell?.row === row - 1 || nextCell?.row === row - 1,
+                  down: prevCell?.row === row + 1 || nextCell?.row === row + 1,
+                  left: prevCell?.col === col - 1 || nextCell?.col === col - 1,
+                  right: prevCell?.col === col + 1 || nextCell?.col === col + 1,
+                };
+
+                const pathGradient = {
+                  background:
+                    "linear-gradient(135deg, rgba(20,20,20,0.96) 0%, rgba(80,80,80,0.96) 58%, rgba(120,120,120,0.96) 100%)",
+                };
+
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={(event) => {
+                      if (suppressNextClickRef.current === openCell.openIndex) {
+                        suppressNextClickRef.current = null;
+                        return;
+                      }
+
+                      handleCellClick(openCell.openIndex, event.timeStamp);
+                    }}
+                    onPointerDown={(event) =>
+                      beginTrace(openCell.openIndex, event.timeStamp)
+                    }
+                    onPointerEnter={(event) =>
+                      extendTrace(openCell.openIndex, event.timeStamp)
+                    }
+                    className={cn(
+                      "relative aspect-square rounded-2xl border border-black/5 bg-white text-left transition-all",
+                      active
+                        ? "shadow-lg shadow-zinc-500/10 ring-2 ring-zinc-300"
+                        : "shadow-sm hover:border-zinc-400",
+                    )}
+                    aria-label={cellLabel}
+                    aria-pressed={active}
+                  >
+                    {order !== undefined ? (
+                      <>
+                        <div
+                          className="absolute left-1/2 top-1/2 h-[34%] w-[34%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+                          style={pathGradient}
+                        />
+                        {connections.up ? (
+                          <div
+                            className="absolute left-1/2 top-[6%] h-[46%] w-[24%] -translate-x-1/2 rounded-full"
+                            style={pathGradient}
+                          />
+                        ) : null}
+                        {connections.down ? (
+                          <div
+                            className="absolute bottom-[6%] left-1/2 h-[46%] w-[24%] -translate-x-1/2 rounded-full"
+                            style={pathGradient}
+                          />
+                        ) : null}
+                        {connections.left ? (
+                          <div
+                            className="absolute left-[6%] top-1/2 h-[24%] w-[46%] -translate-y-1/2 rounded-full"
+                            style={pathGradient}
+                          />
+                        ) : null}
+                        {connections.right ? (
+                          <div
+                            className="absolute right-[6%] top-1/2 h-[24%] w-[46%] -translate-y-1/2 rounded-full"
+                            style={pathGradient}
+                          />
+                        ) : null}
+                      </>
+                    ) : null}
+
+                    {hintCell === openCell.openIndex ? (
+                      <motion.div
+                        layoutId="hint-cell"
+                        className="absolute inset-2 rounded-2xl border-2 border-zinc-500"
+                        transition={{ duration: 0.25 }}
+                      />
+                    ) : null}
+
+                    {path.length === 1 && active ? (
+                      <motion.div
+                        className="absolute inset-1 rounded-2xl border border-zinc-400/80"
+                        initial={{ opacity: 0.45, scale: 0.96 }}
+                        animate={{
+                          opacity: [0.35, 0.7, 0.35],
+                          scale: [0.96, 1, 0.96],
+                        }}
+                        transition={{
+                          duration: 1.6,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    ) : null}
+
+                    {clue ? (
+                      <div
+                        className={cn(
+                          "absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-bold shadow-md",
+                          order !== undefined
+                            ? "bg-black text-white ring-4 ring-white/30"
+                            : active
+                              ? "bg-black text-white ring-4 ring-zinc-200"
+                              : "bg-black text-white",
+                        )}
+                      >
+                        {clue}
+                      </div>
+                    ) : null}
+                  </button>
+                );
+              },
+            )}
           </div>
         </div>
 
@@ -684,27 +847,27 @@ export function DocketZipGame() {
 
         <AnimatePresence mode="wait">
           <motion.div
-            key={feedback ?? (isSolved ? 'solved' : 'ready')}
+            key={feedback ?? (isSolved ? "solved" : "ready")}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             aria-live="polite"
             className={cn(
-              'mt-4 rounded-2xl border px-4 py-3 text-sm leading-relaxed',
+              "mt-4 rounded-2xl border px-4 py-3 text-sm leading-relaxed",
               isSolved
-                ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+                ? "border-emerald-200 bg-emerald-50 text-emerald-900"
                 : feedback
-                  ? 'border-amber-200 bg-amber-50 text-amber-900'
-                  : 'border-zinc-200 bg-white text-zinc-600',
+                  ? "border-amber-200 bg-amber-50 text-amber-900"
+                  : "border-zinc-200 bg-white text-zinc-600",
             )}
           >
             {isSolved
-              ? 'Court adjourned. You completed the entire record in order.'
-              : feedback ??
-                'Connect the numbered facts in order, cover every open cell, and avoid the redacted blocks.'}
+              ? "Court adjourned. You completed the entire record in order."
+              : (feedback ??
+                "Connect the numbered facts in order, cover every open cell, and avoid the redacted blocks.")}
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-6 rounded-[2rem] border border-black/5 bg-white p-5">
+        <div className="mt-6 rounded-[2rem] border border-black/5 bg-zinc-50 p-5">
           <div className="flex items-center gap-3">
             <MoveRight className="h-5 w-5 text-zinc-900" />
             <h3 className="font-serif text-xl tracking-tight text-zinc-950">
@@ -712,14 +875,17 @@ export function DocketZipGame() {
             </h3>
           </div>
           <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-3">
-            <div className="rounded-2xl bg-zinc-50 p-4">
-              Fact 1 is already selected for you. Start tracing from that highlighted cell.
+            <div className="rounded-2xl bg-white p-4">
+              Fact 1 is already selected for you. Start tracing from that
+              highlighted cell.
             </div>
-            <div className="rounded-2xl bg-zinc-50 p-4">
-              Click or press and drag across adjacent cells to build the route in one motion.
+            <div className="rounded-2xl bg-white p-4">
+              Click or press and drag across adjacent cells to build the route
+              in one motion.
             </div>
-            <div className="rounded-2xl bg-zinc-50 p-4">
-              If you trap the path, undo the last turn or ask the clerk for a hint.
+            <div className="rounded-2xl bg-white p-4">
+              If you trap the path, undo the last turn or ask the clerk for a
+              hint.
             </div>
           </div>
         </div>
@@ -739,7 +905,8 @@ export function DocketZipGame() {
                   You cleared the brief.
                 </h3>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
-                  Small reset, same standard. Come back tomorrow for the next chamber puzzle.
+                  Small reset, same standard. Come back tomorrow for the next
+                  chamber puzzle.
                 </p>
               </div>
 
@@ -748,19 +915,29 @@ export function DocketZipGame() {
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
               <div className="rounded-2xl bg-white/5 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Time</p>
-                <p className="mt-2 text-2xl font-semibold">{formatTime(elapsedSeconds)}</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">
+                  Time
+                </p>
+                <p className="mt-2 text-2xl font-semibold">
+                  {formatTime(elapsedSeconds)}
+                </p>
               </div>
               <div className="rounded-2xl bg-white/5 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Streak</p>
-                <p className="mt-2 text-2xl font-semibold">{solvedStreak ?? stats.streak}</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">
+                  Streak
+                </p>
+                <p className="mt-2 text-2xl font-semibold">
+                  {solvedStreak ?? stats.streak}
+                </p>
               </div>
               <div className="rounded-2xl bg-white/5 p-4">
-                <p className="text-xs uppercase tracking-[0.2em] text-white/50">Best</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-white/50">
+                  Best
+                </p>
                 <p className="mt-2 text-2xl font-semibold">
                   {stats.bestTimes[model.puzzle.id] !== undefined
                     ? formatTime(stats.bestTimes[model.puzzle.id])
-                    : '—'}
+                    : "—"}
                 </p>
               </div>
             </div>
@@ -772,7 +949,7 @@ export function DocketZipGame() {
                 className="rounded-full bg-white text-zinc-950 hover:bg-white/90"
               >
                 <Copy className="mr-2 h-4 w-4" />
-                {copied ? 'Copied' : 'Copy Result'}
+                {copied ? "Copied" : "Copy Result"}
               </Button>
               <Button
                 type="button"
@@ -788,45 +965,130 @@ export function DocketZipGame() {
       </div>
 
       <div className="space-y-4">
-        <div className="rounded-[2rem] border border-black/5 bg-white/80 p-6 shadow-soft backdrop-blur-sm">
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
-            Chamber Notes
-          </p>
-          <h3 className="mt-3 font-serif text-2xl tracking-tight text-zinc-950">
-            A two-minute reset between filings.
-          </h3>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-600">
-            This page is intentionally playful. It keeps the same visual language as the firm site,
-            but swaps urgency for focus and recovery.
+        <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft">
+          <div className="flex items-center gap-3">
+            <CalendarDays className="h-5 w-5 text-zinc-900" />
+            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+              Docket Desk
+            </h3>
+          </div>
+          <div className="mt-5 space-y-3">
+            {puzzleModels.map((puzzleModel, index) => {
+              const selected = index === selectedPuzzleIndex;
+              const isToday = index === todayPuzzleIndex;
+              return (
+                <button
+                  key={puzzleModel.puzzle.id}
+                  type="button"
+                  onClick={() => {
+                    setSelectedPuzzleIndex(index);
+                    initializePuzzleState(puzzleModels[index]);
+                  }}
+                  className={cn(
+                    "w-full rounded-2xl border px-4 py-4 text-left transition-all",
+                    selected
+                      ? "border-zinc-900 bg-zinc-900 text-white shadow-lg"
+                      : "border-zinc-200 bg-zinc-50 text-zinc-900 hover:border-zinc-300 hover:bg-white",
+                  )}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p
+                        className={cn(
+                          "text-[11px] font-semibold uppercase tracking-[0.24em]",
+                          selected ? "text-zinc-300" : "text-zinc-500",
+                        )}
+                      >
+                        {puzzleModel.puzzle.docket}
+                      </p>
+                      <h4 className="mt-2 text-base font-semibold">
+                        {puzzleModel.puzzle.title}
+                      </h4>
+                    </div>
+                    {isToday ? (
+                      <span
+                        className={cn(
+                          "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
+                          selected
+                            ? "bg-white/10 text-white"
+                            : "border border-zinc-200 bg-white text-zinc-600",
+                        )}
+                      >
+                        Daily
+                      </span>
+                    ) : null}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft">
+          <div className="flex items-center gap-3">
+            <Scale className="h-5 w-5 text-zinc-900" />
+            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+              Chamber Notes
+            </h3>
+          </div>
+          <p className="mt-4 text-sm leading-relaxed text-zinc-600">
+            The game keeps the site’s quiet editorial language, but swaps
+            urgency for focus and recovery. Think of it as a deliberate pause,
+            not a gimmick.
           </p>
 
           <div className="mt-5 space-y-3">
             <div className="rounded-2xl bg-zinc-50 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Moves</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                Best time
+              </p>
               <p className="mt-2 text-lg font-semibold text-zinc-900">
-                {toMoveText(path.length, model.openCells.length)}
+                {stats.bestTimes[model.puzzle.id] !== undefined
+                  ? formatTime(stats.bestTimes[model.puzzle.id])
+                  : "—"}
               </p>
             </div>
             <div className="rounded-2xl bg-zinc-50 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Current streak</p>
-              <p className="mt-2 text-lg font-semibold text-zinc-900">{stats.streak}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                Today’s mode
+              </p>
+              <p className="mt-2 text-lg font-semibold text-zinc-900">
+                {isDailyPuzzle ? "Daily chamber puzzle" : "Practice docket"}
+              </p>
             </div>
             <div className="rounded-2xl bg-zinc-50 p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">Today’s matter</p>
-              <p className="mt-2 text-lg font-semibold text-zinc-900">{model.puzzle.title}</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+                Keyboard
+              </p>
+              <p className="mt-2 text-sm font-medium text-zinc-900">
+                <span className="inline-flex items-center gap-2">
+                  <Keyboard className="h-4 w-4" />
+                  `H` hint, `U` undo, `R` reset
+                </span>
+              </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-black/5 bg-white/80 p-6 shadow-soft backdrop-blur-sm">
+        <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft">
           <div className="flex items-center gap-3">
             <Trophy className="h-5 w-5 text-zinc-900" />
-            <h3 className="font-serif text-xl tracking-tight text-zinc-950">How to play</h3>
+            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+              How to play
+            </h3>
           </div>
           <ul className="mt-4 space-y-3 text-sm leading-relaxed text-zinc-600">
-            <li>Start at fact 1 and trace a single continuous route through every open cell.</li>
-            <li>Hit the numbered facts in order. Redacted cells are off-limits.</li>
-            <li>Use Undo if you box in the record. Use Clerk’s Hint if you want a gentle nudge.</li>
+            <li>
+              Start at fact 1 and trace one continuous route through every open
+              cell.
+            </li>
+            <li>
+              Hit the numbered facts in order. Redacted cells are off-limits.
+            </li>
+            <li>
+              Use Undo if you box in the record. Use Clerk’s Hint if you want a
+              gentle nudge.
+            </li>
           </ul>
         </div>
       </div>

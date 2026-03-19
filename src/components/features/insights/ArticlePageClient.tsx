@@ -1,58 +1,21 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, BookOpen, Clock3, Share2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Spinner } from '@/components/ui/spinner';
+import Link from "next/link";
+import { ArrowLeft, BookOpen, Clock3, Share2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-type ArticleData = {
+export type ArticleData = {
   title: string;
+  category: string;
+  publishedOn: string;
+  readTime: string;
+  sourceName: string;
+  sourceUrl: string;
   content: string;
   recommendations: { title: string; slug: string }[];
 };
 
-export function ArticlePageClient({ slug }: { slug: string }) {
-  const [data, setData] = useState<ArticleData | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function loadArticle() {
-      try {
-        const res = await fetch(`/api/insights/${slug}`);
-        if (!res.ok) throw new Error('Failed to load article');
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
-      }
-    }
-    loadArticle();
-  }, [slug]);
-
-  if (error) {
-    return (
-      <div className="container-wide py-32 text-center">
-        <h1 className="font-serif text-3xl font-medium text-zinc-900">Article could not be loaded</h1>
-        <p className="mt-4 text-zinc-600">{error}</p>
-        <Button asChild className="mt-8 rounded-full bg-black text-white hover:bg-zinc-800">
-          <Link href="/insights">Return to Hub</Link>
-        </Button>
-      </div>
-    );
-  }
-
-  if (!data) {
-    return (
-      <div className="container-wide flex min-h-[60vh] flex-col items-center justify-center py-32">
-        <Spinner className="h-8 w-8 text-zinc-400" />
-        <p className="mt-6 animate-pulse text-sm font-medium uppercase tracking-widest text-zinc-500">
-          Generating AI Article...
-        </p>
-      </div>
-    );
-  }
-
+export function ArticlePageClient({ data }: { data: ArticleData }) {
   return (
     <article className="bg-[#fcfbf9]">
       {/* Hero */}
@@ -64,17 +27,32 @@ export function ArticlePageClient({ slug }: { slug: string }) {
               className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-black mb-8"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Insights Hub
+              Back to Insights
             </Link>
             <div className="mb-6 flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-widest text-zinc-500">
-              <span className="rounded-full bg-zinc-100 px-3 py-1">Legal Analysis</span>
+              <span className="rounded-full bg-zinc-100 px-3 py-1">
+                {data.category}
+              </span>
+              <span>{data.publishedOn}</span>
               <span className="flex items-center gap-1.5">
-                <Clock3 className="h-3.5 w-3.5" /> 5 min read
+                <Clock3 className="h-3.5 w-3.5" /> {data.readTime}
               </span>
             </div>
             <h1 className="font-serif text-4xl leading-[1.15] tracking-tight text-zinc-950 sm:text-5xl md:text-6xl">
               {data.title}
             </h1>
+            <a
+              href={data.sourceUrl}
+              target={data.sourceUrl.startsWith("http") ? "_blank" : undefined}
+              rel={
+                data.sourceUrl.startsWith("http")
+                  ? "noreferrer noopener"
+                  : undefined
+              }
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-black"
+            >
+              Source: {data.sourceName}
+            </a>
           </div>
         </div>
       </header>
@@ -118,11 +96,17 @@ export function ArticlePageClient({ slug }: { slug: string }) {
             </div>
 
             <div className="rounded-[2rem] bg-zinc-950 p-6 text-white shadow-xl">
-              <h3 className="font-serif text-2xl tracking-tight">Need specific counsel?</h3>
+              <h3 className="font-serif text-2xl tracking-tight">
+                Need specific counsel?
+              </h3>
               <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-                Book a consultation to discuss your specific immigration matter with our lead attorney.
+                Book a consultation to discuss your specific immigration matter
+                with our lead attorney.
               </p>
-              <Button asChild className="mt-6 w-full rounded-full bg-white text-black hover:bg-zinc-200">
+              <Button
+                asChild
+                className="mt-6 w-full rounded-full bg-white text-black hover:bg-zinc-200"
+              >
                 <Link href="/#contact">Book Consultation</Link>
               </Button>
             </div>

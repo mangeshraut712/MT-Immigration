@@ -1,0 +1,53 @@
+{
+    "common": {
+        "siteName": "M&T Công Ty Luật Di Trú",
+        "tagline": "Tư Vấn Di Trú Cá Nhân Với Tiếp Cận Trực Tiếp Luật Sư",
+        "description": "Đại diện di trú Hoa Kỳ boutique cho khách du lịch, sinh viên, gia đình, nhân đạo và các vấn đề tòa án khẩn cấp. Chiến lược rõ ràng, phí minh bạch và giao tiếp trực tiếp với luật sư.",
+        "bookConsultation": "Đặt Tư Vấn",
+        "exploreServices": "Khám Phá Dịch Vụ",
+        "learnMore": "Tìm Hiểu Thêm",
+        "contactUs": "Liên Hệ Chúng Tôi",
+        "getStarted": "Bắt Đầu",
+        "viewAll": "Xem Tất Cả",
+        "submit": "Gửi",
+        "next": "Tiếp Theo",
+        "previous": "Trước",
+        "back": "Quay Lại",
+        "close": "Đóng",
+        "loading": "Đang tải..."
+    },
+    "nav": {
+        "services": "Dịch Vụ",
+        "reviews": "Đánh Giá",
+        "about": "Về Chúng Tôi",
+        "fees": "Phí",
+        "insights": "Thông Tin",
+        "faq": "Câu Hỏi Thường Gặp",
+        "contact": "Liên Hệ"
+    },
+    "hero": {
+        "badge": "Thực hành luật sư cá nhân với quyền sở hữu trực tiếp vụ việc",
+        "title": "Tư vấn di trú tập trung",
+        "titleHighlight": "với chiến lược rõ ràng",
+        "subtitle": "Hỗ trợ boutique cho khách du lịch, sinh viên, gia đình, nhân đạo và các vấn đề trục xuất khẩn cấp, với giao tiếp trực tiếp với luật sư từ tiếp nhận đến nộp hồ sơ.",
+        "cta": "Đặt Tư Vấn",
+        "ctaSecondary": "Khám Phá Dịch Vụ",
+        "directAccess": "Tiếp cận trực tiếp luật sư",
+        "responseTime": "Phản hồi trong 1-2 ngày làm việc",
+        "transparentFees": "Phí tư vấn minh bạch"
+    },
+    "stats": {
+        "directAttorney": "Tiếp Cận Trực Tiếp Luật Sư",
+        "directAttorneyDesc": "Bạn nói chuyện với luật sư chịu trách nhiệm về chiến lược và quyết định nộp hồ sơ.",
+        "caseReady": "Chuẩn Bị Hồ Sơ",
+        "caseReadyDesc": "Tiếp nhận có cấu trúc giúp xác định sớm thời hạn, hồ sơ và vấn đề khẩn cấp.",
+        "security": "Giao Tiếp Ưu Tiên Bảo Mật",
+        "securityDesc": "Biểu mẫu và trò chuyện hiện chạy qua các tuyến phía máy chủ được xác thực.",
+        "virtual": "Tư Vấn Trực Tuyến Toàn Quốc",
+        "virtualDesc": "Tư vấn có thể được xử lý từ xa cho khách hàng trên khắp Hoa Kỳ."
+    },
+    "language": {
+        "switch": "English",
+        "current": "Tiếng Việt"
+    }
+}

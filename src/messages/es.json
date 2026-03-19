@@ -1,0 +1,181 @@
+{
+    "common": {
+        "siteName": "M&T Law Firm de Inmigración",
+        "tagline": "Abogado Único de Inmigración con Acceso Directo",
+        "description": "Representación boutique de inmigración estadounidense para visitantes, estudiantes, familiares, asuntos humanitarios y urgentes. Estrategia clara, tarifas transparentes y comunicación directa con el abogado.",
+        "bookConsultation": "Agendar Consulta",
+        "exploreServices": "Explorar Servicios",
+        "learnMore": "Más Información",
+        "contactUs": "Contáctenos",
+        "getStarted": "Comenzar",
+        "viewAll": "Ver Todo",
+        "submit": "Enviar",
+        "next": "Siguiente",
+        "previous": "Anterior",
+        "back": "Atrás",
+        "close": "Cerrar",
+        "loading": "Cargando..."
+    },
+    "nav": {
+        "services": "Servicios",
+        "reviews": "Reseñas",
+        "about": "Nosotros",
+        "fees": "Tarifas",
+        "insights": "Artículos",
+        "faq": "Preguntas",
+        "contact": "Contacto"
+    },
+    "hero": {
+        "badge": "Práctica de abogado único con propiedad directa del caso",
+        "title": "Asesoría migratoria enfocada",
+        "titleHighlight": "con estrategia clara",
+        "subtitle": "Apoyo boutique para asuntos de visitantes, estudiantes, familiares, humanitarios y de removal urgentes, con comunicación directa con el abogado desde el intake hasta la presentación.",
+        "cta": "Agendar Consulta",
+        "ctaSecondary": "Explorar Servicios",
+        "directAccess": "Acceso directo al abogado",
+        "responseTime": "Respuesta en 1-2 días hábiles",
+        "transparentFees": "Tarifas de consulta transparentes"
+    },
+    "stats": {
+        "directAttorney": "Acceso Directo al Abogado",
+        "directAttorneyDesc": "Usted habla con el abogado responsable de la estrategia y las decisiones de presentación.",
+        "caseReady": "Intake Preparado para Casos",
+        "caseReadyDesc": "El intake estructurado ayuda a identificar plazos, presentaciones y temas urgentes desde el principio.",
+        "security": "Comunicación Segura",
+        "securityDesc": "Los formularios y el chat ahora funcionan a través de rutas validadas del lado del servidor con limitación de tasa.",
+        "virtual": "Consultas Virtuales Nacionales",
+        "virtualDesc": "Las consultas pueden manejarse de forma remota para clientes en todo Estados Unidos."
+    },
+    "process": {
+        "title": "Cómo Trabajamos",
+        "heading": "Un proceso legal claro, sin la confusión de firmas grandes.",
+        "subtitle": "El bufete está construido alrededor de un abogado que posee el caso, la estrategia y la comunicación desde la primera consulta hasta la siguiente decisión de presentación.",
+        "step1Title": "Escuchar y Evaluar",
+        "step1Desc": "Comience con una consulta pagada para identificar el problema, los plazos y el siguiente paso más claro.",
+        "step2Title": "Preparar y Presentar",
+        "step2Desc": "Construya la estrategia de presentación, reúna evidencia de apoyo y prepare la solicitud con cuidado.",
+        "step3Title": "Guía Durante el Proceso",
+        "step3Desc": "Manténgase preparado después de la presentación con preparación para entrevistas, estrategia de respuesta y seguimiento directo."
+    },
+    "services": {
+        "title": "Nuestra Experiencia",
+        "heading": "Asuntos migratorios enfocados, manejados con un plan de presentación claro.",
+        "subtitle": "Desde presentaciones simples de visas hasta asuntos urgentes sensibles a la corte, el bufete se centra en la preparación, la evaluación honesta de riesgos y la comunicación directa.",
+        "timeline": "Tiempo Estimado",
+        "price": "Desde"
+    },
+    "whyChooseUs": {
+        "title": "Por Qué Elegir M&T",
+        "heading": "Atención de práctica privada. Juicio legal claro.",
+        "practiceFocus": "Enfoque de Práctica",
+        "heading2": "Construido para los asuntos que realmente quitan el sueño.",
+        "reason1Title": "Un Abogado, Una Estrategia",
+        "reason1Desc": "El mismo abogado posee la estrategia del caso desde la consulta hasta la siguiente decisión de presentación.",
+        "reason2Title": "Enfoque en Plazos",
+        "reason2Desc": "Entrevistas urgentes, fechas de corte y plazos de respuesta del gobierno se tratan con prioridad.",
+        "reason3Title": "Alcance y Tarifas Claras",
+        "reason3Desc": "Las consultas, el trabajo de presentación y los siguientes pasos se explican en lenguaje claro antes de comenzar.",
+        "reason4Title": "Intake Disciplinado",
+        "reason4Desc": "El sitio valida los envíos, mantiene la clave de IA del lado del servidor y limita las tasas de los formularios públicos.",
+        "cta": "Solicitar Revisión de Caso"
+    },
+    "testimonials": {
+        "title": "Experiencia del Cliente",
+        "heading": "Lo que una práctica privada sólida debería ofrecer.",
+        "subtitle": "En lugar de testimonios no verificables, el sitio se centra en los estándares que los clientes razonablemente pueden esperar de una práctica de inmigración boutique.",
+        "directComm": "Comunicación directa",
+        "directCommLabel": "Sin modelo de transferencia",
+        "prepared": "Presentaciones preparadas",
+        "preparedLabel": "Trabajo basado en evidencia",
+        "calm": "Guía calma en asuntos urgentes",
+        "calmLabel": "Asuntos urgentes priorizados",
+        "straight": "Respuestas directas sobre precio y alcance",
+        "straightLabel": "Tarifas transparentes"
+    },
+    "about": {
+        "title": "Nosotros",
+        "heading": "Una práctica de inmigración boutique construida para comunicación directa",
+        "quote": "Los casos de inmigración son demasiado importantes para desaparecer en una práctica de volumen. Usted debe saber quién está guiando la estrategia, cuál es la siguiente presentación y dónde están los riesgos.",
+        "description": "M&T está diseñado como una práctica enfocada para clientes que buscan preparación thoughtful, respuestas directas y acceso directo al abogado que maneja el caso.",
+        "credentials": "Credenciales y Experiencia",
+        "attorneyLed": "Estrategia dirigida por abogado",
+        "filingRoadmap": "Hojas de ruta claras",
+        "boutique": "Atención de caso boutique",
+        "virtual": "Consultas virtuales en todo el país"
+    },
+    "pricing": {
+        "title": "Tarifas Transparentes",
+        "heading": "Honorarios legales claros para representación enfocada.",
+        "subtitle": "Los rangos varían según la complejidad, la urgencia y la carga de documentos. El objetivo es mostrar bandas de honorarios legales realistas antes de reservar.",
+        "note": "Nota: Estos son solo rangos de servicios legales. Las tarifas de presentación gubernamental, traducciones y costos de terceros son separados a menos que se indique específicamente por escrito.",
+        "whyChoose": "Por Qué Elegirnos?",
+        "cta": "Obtener Cotización Personalizada",
+        "service": "Servicio",
+        "priceRange": "Rango de Precio",
+        "includes": "Incluye"
+    },
+    "faq": {
+        "title": "Preguntas Comunes",
+        "heading": "Preguntas Frecuentes.",
+        "subtitle": "Respuestas claras sobre el proceso, precios y qué esperar antes de comprometerse con el siguiente paso.",
+        "gettingStarted": "Comenzando",
+        "pricingPayments": "Precios y Pagos",
+        "processTimeline": "Proceso y Tiempo",
+        "legalResults": "Resultados Legales"
+    },
+    "contact": {
+        "title": "Comenzar",
+        "heading": "Listo para revisar su asunto?",
+        "subtitle": "Reserve una consulta o envíe una solicitud de intake estructurada. La oficina responde a nuevas consultas dentro de 1-2 días hábiles.",
+        "contactInfo": "Información de Contacto",
+        "phone": "Teléfono / WhatsApp",
+        "email": "Correo Electrónico",
+        "office": "Oficina",
+        "responseTime": "Tiempo de Respuesta",
+        "consultationFees": "Tarifas de Consulta",
+        "min15": "15 min",
+        "min30": "30 min",
+        "feeCredit": "La tarifa se acredita al servicio si es contratado."
+    },
+    "cta": {
+        "title": "Listo para Comenzar?",
+        "heading": "Su estrategia de inmigración comienza con una revisión real del caso.",
+        "subtitle": "No entregue un asunto de inmigración de alto riesgo a un embudo de intake genérico. Comience con una consulta enfocada y un siguiente paso claro de un bufete liderado por un abogado.",
+        "ctaPrimary": "Programar Consulta",
+        "ctaSecondary": "Llamar Ahora",
+        "feature1": "Tarifas de consulta transparentes",
+        "feature2": "Respuesta en 1-2 días hábiles",
+        "feature3": "Consultas virtuales en todo el país"
+    },
+    "footer": {
+        "tagline": "Representación de inmigración liderada por abogado boutique con comunicación directa, tarifas transparentes y estrategia de caso enfocada.",
+        "services": "Servicios",
+        "company": "Empresa",
+        "support": "Apoyo",
+        "legal": "Legal",
+        "privacy": "Política de Privacidad",
+        "terms": "Términos de Uso",
+        "advertising": "Publicidad de Abogado",
+        "copyright": "Copyright © {year} {name}. Todos los derechos reservados.",
+        "disclaimer": "PUBLICIDAD DE ABOGADO. La información en este sitio web es solo para propósitos de información general. Nada en este sitio debe tomarse como asesoramiento legal para ningún caso o situación en particular. Esta información no pretende crear, y recibir o ver no constituye, una relación abogado-cliente. Resultados anteriores no garantizan un resultado similar."
+    },
+    "intake": {
+        "step1Title": "Contacto",
+        "step2Title": "Detalles del Caso",
+        "step3Title": "Revisión",
+        "name": "Nombre Completo",
+        "email": "Correo Electrónico",
+        "phone": "Número de Teléfono",
+        "language": "Idioma Preferido",
+        "caseType": "Tipo de Asunto",
+        "summary": "Resumen del Caso",
+        "consent": "Consiento la recopilación y procesamiento de mi información",
+        "submitting": "Enviando...",
+        "success": "Solicitud de consulta recibida.",
+        "successDesc": "Revisaremos su información y nos pondremos en contacto usando sus datos de contacto preferidos."
+    },
+    "language": {
+        "switch": "English",
+        "current": "Español"
+    }
+}

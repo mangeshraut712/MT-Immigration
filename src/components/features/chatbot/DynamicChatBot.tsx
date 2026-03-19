@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
-const ChatBot = dynamic(() => import('./ChatBot').then((mod) => mod.ChatBot), {
-    ssr: false,
+const ChatBot = dynamic(() => import("./ChatBot").then((mod) => mod.ChatBot), {
+  ssr: false,
 });
 
 export function DynamicChatBot() {
-    return <ChatBot />;
+  return <ChatBot />;
 }

@@ -1,14 +1,154 @@
-# M&T Immigration Law Firm Website
+# M&T Immigration
 
-A boutique immigration law-firm website built with **Next.js 16**, **React 19**, and a restrained monochrome design system with direct-attorney positioning, server-side AI intake, OpenRouter-backed specialist agents, and a branded stress-relief puzzle page.
+Boutique immigration law-firm website built on **Next.js 16.2**, **React 19.2**, **TypeScript 5**, and a server-side AI + intake architecture designed for a modern 2026 deployment stack.
 
-[![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19.2.1-blue?logo=react)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.2.0-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2.1-149eca?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178c6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?logo=tailwindcss)](https://tailwindcss.com/)
-[![ESLint](https://img.shields.io/badge/ESLint-9.39.4-4b32c3?logo=eslint)](https://eslint.org/)
 
-## Quick Start
+## Overview
+
+This repository powers a direct-attorney immigration website with:
+
+- A polished marketing site built with the **App Router**
+- A guarded **server-side chat route** with bounded context windows
+- A structured **consultation intake flow** with validation, rate limiting, webhook forwarding, and optional confirmation emails
+- A **source-backed Knowledge Hub** for immigration news, public decisions, and analysis
+- **Server-side payment redirects** instead of raw client-side checkout URLs
+- Optional **FastAPI specialist agents** for richer AI routing in production
+
+The current codebase is aligned with the 2026 Next.js / React stack already present in `package.json`, not a speculative future stack.
+
+## What’s Modern Here
+
+- **Next.js 16.2** with Turbopack, `proxy.ts`, improved dev/build timing logs, and App Router conventions
+- **React 19.2** runtime with modern rendering semantics and current server/client composition
+- **React Compiler** enabled via `reactCompiler: true`
+- **OpenAI Responses API** usage for server-side chat and live insights refresh
+- **OpenRouter-compatible routing** for production chat provider flexibility
+- **Upstash Redis / local fallback model** for shared public-route throttling
+- **Structured server-only boundaries** for AI, request guards, payments, and webhook signing
+
+## Core Features
+
+### 1. Attorney-Led Marketing Site
+
+- Solo-practice positioning with direct-attorney framing
+- Monochrome premium UI with motion, editorial spacing, and mobile-first layout
+- Pricing, FAQ, services, process, contact, and payment sections built as reusable page modules
+- **Multilingual Support**: Full i18n with 12 languages including English, Spanish, Urdu, Hindi, Bengali, Punjabi, Arabic, Persian, Tagalog, Chinese, Vietnamese, and Korean
+- **Enhanced Animations**: Smooth, performant animations with `prefers-reduced-motion` accessibility support
+
+### 2. AI Chat With Safe Fallbacks
+
+- `/api/chat` keeps model keys off the client
+- Request-size checks, origin checks, rate limiting, and bounded transcript windows
+- Fallback response path still returns useful guidance when no provider key is configured
+- Optional FastAPI proxy mode for specialist agents
+
+### 3. Structured Intake Workflow
+
+- Multi-step intake form with client + server validation
+- Signed outbound webhook delivery
+- Optional confirmation emails through Resend
+- Local and shared rate limiting support
+
+### 4. Knowledge Hub
+
+- Immigration-specific insights page at `/insights`
+- Live feed generation with web-backed source gathering when configured
+- Public-source snapshot fallback when live refresh is unavailable
+- Source-backed article pages instead of generic generated filler
+- Duplicate-entry protection in the live feed pipeline
+
+### 5. Safer Payment Handoff
+
+- Payment buttons route through internal `/pay/[method]` redirects
+- Server validates configured payment hosts before redirecting
+- Hosted checkout stays external to the website itself
+
+### 6. Optional FastAPI Agents
+
+- `api/agents.py` supports specialist agent routing on Vercel Python functions
+- Same-project Vercel deployment path is supported
+- Separate local FastAPI development path is supported
+- Plain `npm run dev` does **not** emulate the Vercel Python route
+
+## Tech Stack
+
+| Area          | Library / Service                             | Version                 |
+| ------------- | --------------------------------------------- | ----------------------- |
+| Framework     | `next`                                        | `16.2.0`                |
+| React         | `react`, `react-dom`                          | `19.2.1`                |
+| Language      | `typescript`                                  | `5.x`                   |
+| Styling       | `tailwindcss`                                 | `3.4.18`                |
+| Motion        | `framer-motion`                               | `12.23.25`              |
+| Validation    | `zod`                                         | `4.1.13`                |
+| Forms         | `react-hook-form`                             | `7.68.0`                |
+| UI primitives | Radix UI packages                             | current pinned versions |
+| AI SDK        | `openai`                                      | `6.27.0`                |
+| Rate limiting | `@upstash/ratelimit`, `@upstash/redis`        | `2.0.8`, `1.37.0`       |
+| Analytics     | `@vercel/analytics`, `@vercel/speed-insights` | `2.0.1`, `2.0.0`        |
+
+## Project Structure
+
+```text
+api/
+  agents.py                 Optional FastAPI specialist-agent backend
+
+src/
+  app/
+    api/                    Route handlers for chat, intake, insights, payment redirects
+    insights/               Knowledge Hub pages
+    brief-break/            Puzzle page
+    [locale]/               Locale-based routing for i18n
+    layout.tsx              Root layout
+    page.tsx                Homepage
+    globals.css             Global design tokens and utilities
+  i18n/                    Internationalization configuration
+    routing.ts             Locale routing definitions
+    request.ts             Request locale handling
+  messages/                Translation files
+    en.json, es.json, ur.json, hi.json, bn.json, pa.json, ar.json, fa.json, tl.json, zh.json, vi.json, ko.json
+  lib/
+    animations.ts           Animation variants and helpers
+  components/
+    features/
+      chatbot/              Chat widget
+      insights/             Knowledge Hub client/article components
+      intake/               Intake form
+      game/                 Brief Break game
+    layout/                 Navbar, footer, scroll helpers
+    sections/               Homepage sections
+    ui/                     Shared primitives
+  config/
+    firm.ts                 Firm identity and env-driven contact data
+    payments.ts             Payment method config
+    site.ts                 Site URL, metadata, canonical helpers
+  content/
+    legalInsights.ts        Source-backed Knowledge Hub content and fallbacks
+    legalKnowledgeBase.ts   Chat fallback content
+    chatAgents.ts           Agent catalog
+  server/
+    ai/                     AI provider helpers and insights generation
+    schemas/                Shared Zod schemas
+    payments.ts             Server-side payment redirect validation
+    request-guards.ts       Origin, content-type, and payload checks
+    webhooks.ts             Signed webhook helpers
+    intake-email.ts         Optional confirmation-email sender
+    rate-limit.ts           Shared/local throttling
+```
+
+## Local Development
+
+### Prerequisites
+
+- Node.js 20+ recommended
+- npm
+- Python 3.10+ only if you plan to run the optional FastAPI service locally
+
+### Quick Start
 
 ```bash
 git clone https://github.com/mangeshraut712/MT-Immigration.git
@@ -19,309 +159,19 @@ npm run check:ai-config
 npm run dev
 ```
 
-Use `USE_FASTAPI_AGENTS=false` for the default local setup. The FastAPI path is optional and should only be enabled when you are running the Python service separately or using a same-project Vercel deployment.
+### Default Local Mode
 
-## 🚀 Key Features
+Use local development in **direct Next.js mode**:
 
-### 🧠 **Server-Side AI Intake**
-- **Next.js chat route**: The website chat runs through a server-side `/api/chat` route instead of a client-exposed model key.
-- **FastAPI specialist agents**: Python-powered agents handle screening, documents, deadlines, and strategy through `api/agents.py`.
-- **OpenRouter SDK integration**: The FastAPI agents use the official OpenRouter Python SDK with server-side environment variables only.
-- **Fallback safety**: The site still works without a live model key, using curated immigration responses for common matters.
-- **Legal guardrails**: Responses stay informational, avoid legal-advice claims, and escalate urgent matters toward consultation.
-
-### ⚖️ **Boutique Firm Positioning**
-- **Solo-practice framing**: Copy and layout emphasize direct attorney access, disciplined intake, and transparent fees.
-- **Legal content cleanup**: Replaced unverifiable testimonials/metrics with standards-based trust language and clearer disclaimers.
-- **Shared brand system**: The site uses a centralized logo asset and reusable `SiteLogo` component for consistent branding.
-
-### 🎮 **Brief Break Puzzle Page**
-- **Law-themed game**: `/brief-break` adds a branded “Docket Zip” puzzle for playful, short stress relief.
-- **On-theme design**: The page keeps the same typography, motion style, spacing, and monochrome palette as the main site.
-- **Daily challenge feel**: Includes a docket ID, timer, streak tracking, hints, reset/undo controls, and share-ready result copy.
-
-### 📊 **Legal Insights & Journal**
-- **Dynamic insights feed**: AI-generated legal analysis and editorial content served through `/insights` and individual article pages.
-- **Fallback content system**: Static editorial content ensures the insights page always loads, even without AI connectivity.
-- **Structured data**: Schema.org markup for better SEO on legal content pages.
-
-### 🔒 **Security, Intake, and Reliability**
-- **Validated intake API**: Consultation requests go through a server-side intake route with schema validation and rate limiting.
-- **Security headers**: Vercel headers are configured in `vercel.json`.
-- **Production-safe telemetry behavior**: Vercel Analytics v2 and Speed Insights only mount on real Vercel deployments.
-- **Secret scanning**: CI includes a committed-secret scan before lint/build.
-
-### ⚡ **Architecture**
-- **Next.js App Router** with React Server Components
-- **FastAPI serverless function** for optional specialist agents on Vercel
-- **Typed validation** with Zod on the Next.js side and Pydantic on the FastAPI side
-- **Project organization** split into `config`, `content`, `server`, `components`, and `app`
-
----
-
-## 🛠️ Tech Stack
-
-| Category | Technology | Version |
-|----------|------------|---------|
-| **Framework** | Next.js (Turbo) | 16.1.6 |
-| **Core** | React | 19.2.1 |
-| **Language** | TypeScript | 5.x |
-| **Styling** | Tailwind CSS | 3.4.18 |
-| **UI Library** | Shadcn/UI | Latest |
-| **Motion** | Framer Motion | 12.23.25 |
-| **Icons** | Lucide React | 0.556.0 |
-| **Toast** | Sonner | 2.0.7 |
-| **Forms** | React Hook Form + Zod | 7.68.0 + 4.1.13 |
-| **AI Provider** | OpenRouter (OpenAI-compatible API) | 6.27.0 |
-| **Analytics** | Vercel Analytics | 2.0.1 |
-| **Optional Python Backend** | FastAPI + Uvicorn | Latest |
-
----
-
-## 📁 Project Structure
-
-```bash
-api/
-└── agents.py                # FastAPI specialist-agents backend for Vercel Python functions
-public/
-└── brand/
-    └── mtlogo.png           # Canonical brand logo asset used across the site
-src/
-├── app/                      # Next.js App Router
-│   ├── layout.tsx            # Root layout with providers
-│   ├── page.tsx              # Homepage composition
-│   ├── globals.css           # Tailwind & CSS Variables
-│   ├── providers.tsx         # Theme and other providers
-│   ├── api/                  # Next.js route handlers
-│   │   └── insights/         # AI-generated legal insights API
-│   ├── brief-break/          # Stress-relief puzzle page
-│   ├── insights/             # Legal insights and journal pages
-│   ├── robots.ts             # SEO robots configuration
-│   └── sitemap.ts            # SEO sitemap generation
-├── components/
-│   ├── branding/             # Shared branding primitives (logo, marks)
-│   ├── features/             # Complex interactive modules
-│   │   ├── chatbot/          # AI assistant with specialist routing
-│   │   ├── game/             # Brief Break puzzle experience
-│   │   ├── insights/         # Legal insights feed and article pages
-│   │   └── intake/           # Multi-step intake form
-│   ├── layout/               # Structural components
-│   │   ├── Navbar.tsx        # Navigation with scroll effects
-│   │   ├── Footer.tsx        # Footer with links
-│   │   └── BackToTop.tsx     # Scroll to top button
-│   ├── sections/             # Landing page sections
-│   │   ├── HeroSection.tsx   # Hero with floating elements
-│   │   ├── StatsSection.tsx  # Animated counters
-│   │   ├── ServicesSection.tsx # Service cards with dialogs
-│   │   └── ...               # Other sections
-│   └── ui/                   # Shadcn/UI atoms
-│       ├── button.tsx
-│       ├── loading.tsx       # Loading states
-│       ├── scroll-progress.tsx # Reading progress
-│       └── ...
-├── config/
-│   ├── firm.ts               # Firm identity, contact details, and brand asset paths
-│   ├── payments.ts           # Payment configuration and methods
-│   └── site.ts               # Site metadata and canonical URL helpers
-├── content/
-│   ├── chatAgents.ts         # Shared agent catalog for UI + server
-│   ├── legalInsights.ts      # Static legal insights and editorial content
-│   ├── legalKnowledgeBase.ts # Immigration copy and fallback chatbot knowledge base
-│   └── docketZipPuzzles.ts   # Puzzle data for Brief Break game
-├── lib/
-    ├── utils.ts              # cn() helper
-    ├── hooks.ts              # Custom React hooks
-    └── animations.ts         # Framer Motion variants
-└── server/
-    ├── ai/                   # Server-only AI helpers
-    ├── schemas/              # Shared request validation schemas
-    └── rate-limit.ts         # In-memory route throttling
+```env
+USE_FASTAPI_AGENTS=false
 ```
 
----
+This is the supported path for plain `npm run dev`.
 
-## 🚦 Getting Started
+### Local FastAPI Mode
 
-### Prerequisites
-
-- Node.js 20 LTS recommended
-- npm
-- Python 3.10+ only if you plan to run the optional FastAPI agents locally
-- Vercel CLI optional if you want local parity with the Python function route via `vercel dev`
-
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/mangeshraut712/MT-Immigration.git
-    cd MT-Immigration
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
-
-3.  **Create your local environment file:**
-    ```bash
-    cp .env.example .env.local
-    ```
-
-    Required values:
-    - `OPENROUTER_API_KEY`: server-side key for the default direct AI path
-    - `OPENROUTER_MODEL`: OpenRouter model slug, defaults to `openai/gpt-4.1-mini`
-
-    Optional values:
-    - `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`: required in production for shared API rate limiting across serverless instances
-    - `INTAKE_WEBHOOK_URL`: webhook target for validated intake submissions (required in production if you want the intake form to accept and forward submissions)
-    - `USE_FASTAPI_AGENTS`: defaults to `false` for local `npm run dev`; set to `true` only when the FastAPI agents service is reachable
-    - `FASTAPI_AGENT_BASE_URL`: required for local FastAPI development; leave blank only on Vercel if the Python function is deployed in the same project
-    - `FASTAPI_AGENT_SHARED_SECRET`: required only when `USE_FASTAPI_AGENTS=true`
-    - `OPENROUTER_BASE_URL`: defaults to `https://openrouter.ai/api/v1`
-    - `OPENROUTER_APP_NAME`: optional attribution title sent to OpenRouter
-    - `OPENROUTER_SITE_URL`: optional attribution URL sent to OpenRouter
-    - `OPENAI_API_KEY` and `OPENAI_MODEL`: optional direct OpenAI fallback for the Next.js chat route when FastAPI agents are disabled or not used
-    - `AI_BENCH_REVIEW_ENABLED`: optional override for the second AI review pass; defaults to off locally and on in production
-
-    Do not expose provider keys in `NEXT_PUBLIC_*` variables.
-
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
-
-    Open [http://localhost:3000](http://localhost:3000) with your browser.
-
-### Build for Production
-
-```bash
-npm run build
-npm start
-```
-
----
-
-## 🧪 Developer Commands
-
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server with Turbopack |
-| `npm run build` | Create optimized production build |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint across the repo |
-| `npm run typecheck` | Run TypeScript without emitting files |
-| `npm run verify` | Run lint, typecheck, and production build together |
-| `npm run check:ai-config` | Validate env assumptions before running or deploying |
-| `npm run smoke:release` | Probe the built app’s critical routes against a running server |
-
-`npm run check:ai-config` is a preflight check only. It verifies env wiring, not downstream provider access, webhook readiness, or full deploy health.
-
----
-
-## 📱 Page Sections
-
-1.  **Hero Section**: High-impact positioning for a solo-practice immigration firm.
-2.  **Stats**: Practice highlights focused on process, security, and client experience.
-3.  **Process**: Visual timeline of the client journey.
-4.  **Services**: Interactive cards with modal details for each practice area.
-5.  **Why Us**: Value proposition with boutique-practice framing.
-6.  **Client Experience**: Standards-based trust section instead of unverifiable testimonials.
-7.  **About**: Attorney-led practice story and credentials framing.
-8.  **Pricing**: Transparent fee ranges and payment-plan messaging.
-9.  **FAQ**: Accordion-style Q&A.
-10. **CTA Banner**: Final consultation call to action.
-11. **Contact**: Multi-step intake form with validated submission flow.
-12. **Brief Break**: A separate puzzle page for stress relief and playful brand interaction.
-13. **Insights**: Legal insights and journal page with editorial content and AI-generated analysis.
-
----
-
-## 🎯 Recent Improvements
-
-- ✅ Moved AI chat behind server-side routes with OpenRouter-backed specialist agents
-- ✅ Added optional FastAPI specialist agents for intake and triage
-- ✅ Added shared legal-team roles: Intake Clerk, Document Counsel, Hearing Clerk, Lead Counsel, and Bench Review
-- ✅ Added privacy and terms pages
-- ✅ Added a reusable shared logo component with a single canonical brand asset
-- ✅ Reorganized the codebase into clearer `config`, `content`, and `server` folders
-- ✅ Added the `/brief-break` law-themed puzzle page and homepage teaser section
-- ✅ Added legal insights and journal feature with AI-generated content and fallback editorial system
-- ✅ Updated all dependencies to latest compatible versions for security and performance
-- ✅ Upgraded to Vercel Analytics v2 and Speed Insights v2
-- ✅ Fixed all linting warnings and improved code organization
-- ✅ Enhanced error logging and code cleanup throughout the application
-- ✅ Cleaned up stale placeholder assets and unused barrel files
-- ✅ Verified lint, build, Python syntax, and audit status
-
----
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. Push to GitHub
-2. Import project in Vercel Dashboard
-3. Auto-detected as Next.js - click Deploy
-
-The `vercel.json` includes security headers and caching configuration.
-
-This project can also deploy a Vercel Python function for the FastAPI agents backend alongside the Next.js app.
-
-### Deploy Modes
-
-Use one of these two production modes:
-
-1. Direct Next.js AI path
-   - `USE_FASTAPI_AGENTS=false`
-   - `OPENROUTER_API_KEY` or `OPENAI_API_KEY`
-2. Same-project FastAPI agents path
-   - `USE_FASTAPI_AGENTS=true`
-   - `OPENROUTER_API_KEY`
-   - `FASTAPI_AGENT_SHARED_SECRET`
-   - Leave `FASTAPI_AGENT_BASE_URL` blank on Vercel when the Python function is deployed in the same project
-
-### Required Vercel Environment Variables
-
-| Area | Variables |
-|------|-----------|
-| Minimum site | `NEXT_PUBLIC_SITE_URL` |
-| Direct AI chat | `OPENROUTER_API_KEY` and optional `OPENROUTER_MODEL`, or `OPENAI_API_KEY` and optional `OPENAI_MODEL` |
-| Intake forwarding | `INTAKE_WEBHOOK_URL` |
-| Shared rate limiting | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` |
-| FastAPI agents | `USE_FASTAPI_AGENTS=true`, `OPENROUTER_API_KEY`, `FASTAPI_AGENT_SHARED_SECRET` |
-| External FastAPI agents | `FASTAPI_AGENT_BASE_URL` only when FastAPI is deployed outside the same Vercel project |
-| Optional AI behavior | `AI_BENCH_REVIEW_ENABLED`, `OPENROUTER_BASE_URL`, `OPENROUTER_APP_NAME`, `OPENROUTER_SITE_URL`, `OPENROUTER_REASONING_EFFORT` |
-
-## 🔐 Secret Handling
-
-- The FastAPI agents backend calls OpenRouter using `OPENROUTER_API_KEY`.
-- FastAPI chat requests require `FASTAPI_AGENT_SHARED_SECRET` and a matching `x-agent-shared-secret` header from the trusted caller.
-- The Python dependency for the agents service is the official `openrouter` SDK.
-- Intake submissions go through a validated server route with shared rate limiting and must be wired to `INTAKE_WEBHOOK_URL` in production.
-- The repo includes a FastAPI agents service in [api/agents.py](./api/agents.py) that reads OpenRouter environment variables from Vercel.
-- If an OpenRouter key was previously exposed anywhere outside this working tree, revoke it in the provider dashboard and remove it from GitHub, Vercel, and any local shell history.
-- CI now runs a committed-secret scan to catch future leaks earlier.
-
-## 🤖 FastAPI Agents
-
-- `api/agents.py` exposes a FastAPI-based specialist agent backend with these routes:
-  - `GET /api/agents/health`
-  - `GET /api/agents/catalog`
-  - `POST /api/agents/chat`
-- The agent roles are:
-  - `screening` -> Intake Clerk
-  - `documents` -> Document Counsel
-  - `deadlines` -> Hearing Clerk
-  - `strategy` -> Lead Counsel
-- Responses can include a final `Bench Review` pass and fallback safely when no valid provider response is available.
-- The current Next.js chat route can proxy to that FastAPI service when `USE_FASTAPI_AGENTS=true`.
-- If `FASTAPI_AGENT_BASE_URL` is unset, the Next route assumes the FastAPI service is deployed in the same Vercel project at `/api/agents`.
-- Under plain local `npm run dev`, leave `USE_FASTAPI_AGENTS=false` unless you are running FastAPI separately and set `FASTAPI_AGENT_BASE_URL`.
-- The `POST /api/agents/chat` route rejects requests unless `x-agent-shared-secret` matches `FASTAPI_AGENT_SHARED_SECRET`.
-- The FastAPI service is configured through the OpenRouter SDK and can send optional attribution headers (`HTTP-Referer` and `X-Title`) when configured.
-- Public metadata routes expose only non-sensitive catalog metadata (no system prompts or provider/model internals).
-
-### Local FastAPI run
+If you want to run the FastAPI agent service separately:
 
 ```bash
 python3 -m venv .venv
@@ -333,79 +183,183 @@ export FASTAPI_AGENT_SHARED_SECRET=replace_with_a_long_random_secret
 python3 -m uvicorn api.agents:app --reload --port 8000
 ```
 
-If you want the Next.js chat widget to use the local FastAPI service during development:
+Then point Next.js to it:
 
-```bash
-export USE_FASTAPI_AGENTS=true
-export FASTAPI_AGENT_BASE_URL=http://127.0.0.1:8000
-export OPENROUTER_API_KEY=your_key_here
-export OPENROUTER_MODEL=openai/gpt-4.1-mini
-export FASTAPI_AGENT_SHARED_SECRET=replace_with_a_long_random_secret
-export UPSTASH_REDIS_REST_URL=your_upstash_rest_url
-export UPSTASH_REDIS_REST_TOKEN=your_upstash_rest_token
+```env
+USE_FASTAPI_AGENTS=true
+FASTAPI_AGENT_BASE_URL=http://127.0.0.1:8000
+FASTAPI_AGENT_SHARED_SECRET=replace_with_a_long_random_secret
 ```
 
-### Vercel-Style Local Development
-
-`npm run dev` only starts the Next.js app. It does not emulate the Vercel Python function route. If you want local parity with the same-project `/api/agents/*` deployment model, use:
+If you want same-project local parity for Next + Python functions, use:
 
 ```bash
 vercel dev
 ```
 
-If you stay on `npm run dev`, keep `USE_FASTAPI_AGENTS=false` unless you are running the FastAPI service separately and setting `FASTAPI_AGENT_BASE_URL`.
+## Environment Variables
 
-## 🧾 Production Checklist
+### Required for Production
 
-- Replace the placeholder firm contact details in [firm.ts](./src/config/firm.ts) before going live.
-- Keep the FastAPI agents backend enabled in production with `USE_FASTAPI_AGENTS=true`.
-- Set `OPENROUTER_API_KEY` in your deployment environment instead of hardcoding any provider token.
-- Set `OPENROUTER_MODEL` to the OpenRouter model you want the agents to use.
-- Set `FASTAPI_AGENT_SHARED_SECRET` in both Next.js and FastAPI environments so internal chat proxy calls are authenticated.
-- Set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` so chat and intake rate limits are shared across production instances.
-- Set `INTAKE_WEBHOOK_URL` in production so intake submissions are accepted and forwarded to your CRM or automation tool.
-- If FastAPI is deployed separately, set `FASTAPI_AGENT_BASE_URL`.
+- `NEXT_PUBLIC_SITE_URL`
+- `UPSTASH_REDIS_REST_URL`
+- `UPSTASH_REDIS_REST_TOKEN`
 
-## ✅ Post-Deploy Verification
+### Internationalization
 
-Run these checks after GitHub merge and Vercel deploy:
+The site supports 12 languages. Configure default locale:
 
-1. Homepage
+- `NEXT_PUBLIC_DEFAULT_LOCALE` (default: "en")
+
+### Required for Live AI
+
+Use one provider path:
+
+- `OPENROUTER_API_KEY` with optional `OPENROUTER_MODEL`
+- or `OPENAI_API_KEY` with optional `OPENAI_MODEL`
+
+### Required for Intake Forwarding
+
+- `INTAKE_WEBHOOK_URL`
+
+Recommended:
+
+- `INTAKE_WEBHOOK_BEARER_TOKEN`
+- or `INTAKE_WEBHOOK_SIGNING_SECRET`
+
+### Optional Email Confirmations
+
+- `RESEND_API_KEY`
+- `INTAKE_CONFIRMATION_FROM_EMAIL`
+- `INTAKE_CONFIRMATION_REPLY_TO`
+
+### Optional Payment Redirects
+
+- `STRIPE_CHECKOUT_URL`
+- `PAYPAL_CHECKOUT_URL`
+- `WIRE_TRANSFER_REQUEST_URL`
+
+Optional client readiness flags:
+
+- `NEXT_PUBLIC_STRIPE_CHECKOUT_ENABLED`
+- `NEXT_PUBLIC_PAYPAL_CHECKOUT_ENABLED`
+- `NEXT_PUBLIC_WIRE_TRANSFER_REQUEST_ENABLED`
+
+### Firm Identity
+
+These should be set before go-live:
+
+- `NEXT_PUBLIC_FIRM_NAME`
+- `NEXT_PUBLIC_FIRM_SHORT_NAME`
+- `NEXT_PUBLIC_FIRM_PHONE_DISPLAY`
+- `NEXT_PUBLIC_FIRM_PHONE_HREF`
+- `NEXT_PUBLIC_FIRM_EMAIL`
+- `NEXT_PUBLIC_FIRM_EMAIL_HREF`
+- `NEXT_PUBLIC_FIRM_CITY`
+- `NEXT_PUBLIC_FIRM_REGION_LABEL`
+- `NEXT_PUBLIC_FIRM_HOURS`
+- `NEXT_PUBLIC_FIRM_RESPONSE_TIME`
+
+## Scripts
+
+| Command                   | Purpose                         |
+| ------------------------- | ------------------------------- |
+| `npm run dev`             | Start local development server  |
+| `npm run build`           | Production build                |
+| `npm run start`           | Run production server           |
+| `npm run lint`            | ESLint                          |
+| `npm run typecheck`       | TypeScript check                |
+| `npm run verify`          | Lint + typecheck + build        |
+| `npm run check:ai-config` | Preflight env/config validation |
+| `npm run smoke:release`   | Quick route-level smoke test    |
+
+## Deployment Modes
+
+### Mode A: Direct Next.js AI Path
+
+- `USE_FASTAPI_AGENTS=false`
+- Server-side chat and insights run directly from the Next.js app
+
+### Mode B: Same-Project FastAPI Agents
+
+- `USE_FASTAPI_AGENTS=true`
+- `FASTAPI_AGENT_SHARED_SECRET` required
+- Leave `FASTAPI_AGENT_BASE_URL` blank on Vercel when `api/agents.py` is deployed in the same project
+
+### Mode C: External FastAPI Agents
+
+- `USE_FASTAPI_AGENTS=true`
+- `FASTAPI_AGENT_BASE_URL=https://your-fastapi-service`
+- `FASTAPI_AGENT_SHARED_SECRET` required
+
+## Security Model
+
+- AI keys stay server-side
+- Intake and chat POST routes reject untrusted origins
+- JSON content type and request-size checks are enforced
+- Public routes are rate-limited
+- Intake webhook delivery can be bearer-authenticated and/or HMAC-signed
+- Payment redirects are validated server-side
+- Placeholder AI secrets are ignored instead of treated as valid
+
+## Production Checklist
+
+- Replace placeholder firm contact values with real production details
+- Configure real AI provider credentials if you want live AI instead of fallback mode
+- Configure `INTAKE_WEBHOOK_URL` before opening intake publicly
+- Configure shared Upstash rate limiting in production
+- Configure payment redirect URLs before enabling hosted checkout buttons
+- Configure Resend if confirmation emails are required
+- If using FastAPI agents, set both `USE_FASTAPI_AGENTS=true` and `FASTAPI_AGENT_SHARED_SECRET`
+
+## Verification
+
+Before release:
+
 ```bash
-curl -I https://your-deployment-url.vercel.app/
+npm run check:ai-config
+npm run verify
+npm run smoke:release -- http://127.0.0.1:3000
 ```
-Expected: `200`
 
-2. Chat readiness
-```bash
-curl https://your-deployment-url.vercel.app/api/chat
-```
-Expected: JSON with `ok: true`
+Typical expected results:
 
-3. Chat request
-```bash
-curl -sS https://your-deployment-url.vercel.app/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"messages":[{"role":"user","content":"Hello"}],"agent":"screening"}'
-```
-Expected: `200` JSON with `content` and `source`
+- `/` returns `200`
+- `/api/chat` returns readiness JSON
+- `/api/chat` POST returns a response payload
+- `/api/intake` returns readiness JSON
+- `/insights` renders a source-backed Knowledge Hub page
 
-4. Intake readiness
-```bash
-curl https://your-deployment-url.vercel.app/api/intake
-```
-Expected: JSON with `ok: true` and `configured: true` before go-live
+## Notes
 
-5. FastAPI agents health
-```bash
-curl https://your-deployment-url.vercel.app/api/agents/health
-```
-Expected when FastAPI agents are enabled: JSON with `ready: true` and `agentAuthConfigured: true`
+- Local development can run cleanly with no AI key configured; chat and insights will use built-in fallback paths.
+- The Knowledge Hub is now designed to prefer public-source, source-linked entries over generic generated filler.
+- Plain `npm run dev` should keep `USE_FASTAPI_AGENTS=false` unless you are explicitly running FastAPI separately.
 
----
+## Recent Updates
 
-## 📄 License
+### Multilingual Support
+The website now supports 12 languages to serve diverse client demographics:
+- English (en) - Default
+- Spanish (es) - US Hispanic population
+- Urdu (ur) - Pakistan
+- Hindi (hi) - India
+- Bengali (bn) - Bangladesh
+- Punjabi (pa) - Pakistan/India
+- Arabic (ar) - Middle East
+- Persian (fa) - Iran
+- Tagalog (tl) - Philippines
+- Chinese (zh) - China
+- Vietnamese (vi) - Vietnam
+- Korean (ko) - Korea
 
-© 2025 M&T Immigration Law Firm. All rights reserved.
+### Animation Enhancements
+- Added new animation variants: popIn, quickFadeUp, slideInRight, slideInLeft, floatAnimation, pulseGlow, shimmer
+- All sections optimized with `useReducedMotion` for accessibility
+- Respect users who prefer reduced motion
 
-**Attorney Advertising**: Prior results do not guarantee a similar outcome.
+## License
+
+Copyright © M&T Immigration Law Firm.
+
+Attorney advertising. Prior results do not guarantee a similar outcome.

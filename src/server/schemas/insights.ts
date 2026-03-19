@@ -1,12 +1,15 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 const sourceUrlSchema = z
   .string()
   .trim()
   .min(1)
   .refine(
-    (value) => value.startsWith('http://') || value.startsWith('https://') || value.startsWith('/'),
-    'Source URL must be absolute or root-relative.',
+    (value) =>
+      value.startsWith("http://") ||
+      value.startsWith("https://") ||
+      value.startsWith("/"),
+    "Source URL must be absolute or root-relative.",
   );
 
 export const insightHeadlineSchema = z.object({
@@ -30,10 +33,11 @@ export const insightsFeedSchema = z.object({
   headlines: z.array(insightHeadlineSchema).length(4),
   news: z.array(insightStorySchema).min(3).max(4),
   blogs: z.array(insightStorySchema).length(3),
+  caseStudies: z.array(insightStorySchema).length(3),
 });
 
 export const insightsResponseSchema = insightsFeedSchema.extend({
-  source: z.enum(['live', 'fallback']),
+  source: z.enum(["live", "fallback"]),
   updatedAtLabel: z.string().trim().min(4).max(80),
 });
 

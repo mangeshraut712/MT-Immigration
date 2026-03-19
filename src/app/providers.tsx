@@ -1,5 +1,6 @@
 "use client";
 
+import { MotionConfig } from "framer-motion";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
@@ -12,7 +13,7 @@ export default function Providers({ children }: { children: ReactNode }) {
       enableColorScheme
       disableTransitionOnChange
     >
-      {children}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </ThemeProvider>
   );
 }

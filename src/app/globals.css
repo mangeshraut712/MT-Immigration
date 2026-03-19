@@ -13,8 +13,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
 
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 240 10% 3.9%;
+    --primary-foreground: 0 0% 98%;
 
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -30,10 +30,10 @@
 
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 221.2 83.2% 53.3%;
+    --ring: 240 10% 3.9%;
 
     --radius: 0.75rem;
-    
+
     /* Custom properties */
     --header-height: 4rem;
   }
@@ -48,8 +48,8 @@
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 10% 3.9%;
 
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -65,7 +65,7 @@
 
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 221.2 83.2% 53.3%;
+    --ring: 0 0% 98%;
   }
 }
 
@@ -76,13 +76,16 @@
 
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Global Noise Texture */
+  /* Global Noise Texture - optimized with will-change and reduced opacity */
   body::before {
     content: "";
     position: fixed;
@@ -93,7 +96,13 @@
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
     z-index: 50;
-    opacity: 0.4;
+    opacity: 0.25;
+    will-change: opacity;
+  }
+
+  /* Dark mode noise */
+  .dark body::before {
+    opacity: 0.15;
   }
 
   html {
@@ -101,9 +110,24 @@
     scroll-padding-top: 5rem;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   /* Custom selection color */
   ::selection {
-    @apply bg-blue-100 text-blue-900;
+    @apply bg-zinc-200 text-zinc-950;
   }
 
   /* Better focus visible styles */
@@ -113,7 +137,6 @@
 }
 
 @layer utilities {
-
   /* Modern card with subtle elevation */
   .card-hover {
     @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
@@ -136,11 +159,24 @@
 
   /* Premium Gradients */
   .bg-gradient-aurora {
-    background: radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.08) 0%, rgba(255, 255, 255, 0) 50%),
-                radial-gradient(circle at 0% 0%, rgba(147, 51, 234, 0.03) 0%, rgba(255, 255, 255, 0) 50%),
-                radial-gradient(circle at 100% 0%, rgba(59, 130, 246, 0.05) 0%, rgba(255, 255, 255, 0) 50%);
+    background:
+      radial-gradient(
+        circle at 50% 0%,
+        rgba(0, 0, 0, 0.05) 0%,
+        rgba(255, 255, 255, 0) 50%
+      ),
+      radial-gradient(
+        circle at 0% 0%,
+        rgba(0, 0, 0, 0.025) 0%,
+        rgba(255, 255, 255, 0) 50%
+      ),
+      radial-gradient(
+        circle at 100% 0%,
+        rgba(0, 0, 0, 0.035) 0%,
+        rgba(255, 255, 255, 0) 50%
+      );
   }
-  
+
   .bg-gradient-subtle {
     @apply bg-gradient-to-b from-zinc-50 to-white;
   }
@@ -149,22 +185,22 @@
     background: radial-gradient(circle at 50% -20%, #1a1a1a 0%, #000000 100%);
   }
 
-	  /* Gradient text */
-	  .gradient-text {
-	    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-500 to-blue-600;
-	  }
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 via-zinc-600 to-zinc-900;
+  }
 
-	  .dark .gradient-text {
-	    @apply from-blue-400 via-indigo-300 to-blue-400;
-	  }
+  .dark .gradient-text {
+    @apply from-zinc-100 via-zinc-400 to-zinc-100;
+  }
 
   /* Text gradient variations */
   .text-gradient-blue {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-600;
   }
 
   .text-gradient-purple {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-zinc-800 to-zinc-500;
   }
 
   /* Glass effect */
@@ -175,7 +211,7 @@
   .glass-dark {
     @apply bg-black/70 backdrop-blur-xl border border-white/5;
   }
-  
+
   /* Soft Shadows */
   .shadow-soft {
     box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
@@ -228,8 +264,23 @@
   .aspect-3-2 {
     aspect-ratio: 3/2;
   }
-}
 
+  .animate-float-soft {
+    animation: float-soft 7s ease-in-out infinite;
+  }
+
+  .animate-breathe {
+    animation: breathe 6s ease-in-out infinite;
+  }
+
+  .animate-pan-slow {
+    animation: pan-slow 18s ease-in-out infinite alternate;
+  }
+
+  .will-change-transform {
+    will-change: transform, opacity;
+  }
+}
 
 /* Smooth animations */
 @keyframes fade-up {
@@ -277,11 +328,46 @@
 }
 
 @keyframes gradient {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
     background-position: 100% 50%;
+  }
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.85;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes pan-slow {
+  0% {
+    transform: translate3d(-1%, -1%, 0);
+  }
+
+  100% {
+    transform: translate3d(1%, 1%, 0);
   }
 }
 
@@ -299,7 +385,12 @@
 
 .animate-shimmer {
   animation: shimmer 2s linear infinite;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
   background-size: 200% 100%;
 }
 

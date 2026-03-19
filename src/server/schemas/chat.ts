@@ -1,15 +1,21 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-import { sanitizeMultilineText } from '@/lib/sanitize';
+import { sanitizeMultilineText } from "@/lib/sanitize";
 
 export const CHAT_MESSAGE_MAX_LENGTH = 3_000;
 
-export const chatAgentSchema = z.enum(['screening', 'documents', 'deadlines', 'strategy']);
+export const chatAgentSchema = z.enum([
+  "screening",
+  "documents",
+  "deadlines",
+  "strategy",
+]);
 
 export const chatMessageSchema = z.object({
-  role: z.enum(['user', 'assistant']),
+  role: z.enum(["user", "assistant"]),
   content: z.preprocess(
-    (value) => (typeof value === 'string' ? sanitizeMultilineText(value) : value),
+    (value) =>
+      typeof value === "string" ? sanitizeMultilineText(value) : value,
     z.string().min(1).max(CHAT_MESSAGE_MAX_LENGTH),
   ),
 });

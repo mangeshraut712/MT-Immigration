@@ -1,0 +1,53 @@
+{
+    "common": {
+        "siteName": "M&T Immigration Law Firm",
+        "tagline": "Solong Immigration Counsel May Direktang Access sa Attorney",
+        "description": "Boutique U.S. immigration representation para sa visitor, student, family, humanitarian, at mga urgent court-related matters. Malinaw na estratehiya, transparent na fees, at direkta pang attorney komunikasyon.",
+        "bookConsultation": "Mag-book ng Konsultasyon",
+        "exploreServices": "Galugarin ang mga Serbisyo",
+        "learnMore": "Matuto Pa",
+        "contactUs": "Makipag-ugnay sa Amin",
+        "getStarted": "Magsimula",
+        "viewAll": "Tingnan Lahat",
+        "submit": "Isumite",
+        "next": "Susunod",
+        "previous": "Nakaraang",
+        "back": "Bumalik",
+        "close": "Isara",
+        "loading": "Naglo-load..."
+    },
+    "nav": {
+        "services": "Mga Serbisyo",
+        "reviews": "Mga Review",
+        "about": "Tungkol",
+        "fees": "Mga Fee",
+        "insights": "Mga Insight",
+        "faq": "Mga Karaniwang Tanong",
+        "contact": "Kontak"
+    },
+    "hero": {
+        "badge": "Solo attorney practice na may direktang case ownership",
+        "title": "Focus na immigration counsel",
+        "titleHighlight": "may malinaw na estratehiya",
+        "subtitle": "Boutique support para sa visitor, student, family-based, humanitarian, at urgent removal matters, with direct attorney communication mula intake hanggang filing.",
+        "cta": "Mag-book ng Konsultasyon",
+        "ctaSecondary": "Galugarin ang mga Serbisyo",
+        "directAccess": "Direktang access sa attorney",
+        "responseTime": "1-2 business day response",
+        "transparentFees": "Transparent na consultation fees"
+    },
+    "stats": {
+        "directAttorney": "Direktang Access sa Attorney",
+        "directAttorneyDesc": "Kausap mo ang lawyer na responsible para sa strategy at filing decisions.",
+        "caseReady": "Case-Ready na Intake",
+        "caseReadyDesc": "Structured intake ay nakakatulong na i-surface ang deadlines, filings, at urgent issues nang maaga.",
+        "security": "Security-First na Komunikasyon",
+        "securityDesc": "Forms at chat ay tumatakbo na sa validated server-side routes.",
+        "virtual": "Virtual Nationwide",
+        "virtualDesc": "Ang mga konsultasyon ay maaaring hawakan nang remote para sa mga kliyente sa buong United States."
+    },
+    "language": {
+        "switch": "English",
+        "current": "Tagalog"
+    }
+}
