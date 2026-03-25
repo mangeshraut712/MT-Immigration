@@ -1,16 +1,15 @@
 // Service Worker for PWA functionality
-const CACHE_VERSION = 'v1.0.0';
+const CACHE_VERSION = 'v1.1.0';
 const STATIC_CACHE = `mt-immigration-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `mt-immigration-dynamic-${CACHE_VERSION}`;
 
-// Resources to cache immediately
+// Resources to cache immediately (only truly static assets — never cache
+// navigation routes that next-intl may redirect, since Safari rejects
+// redirect responses served from a service worker).
 const STATIC_ASSETS = [
-    '/',
     '/manifest.json',
     '/brand/mtlogo.png',
-    '/favicon.ico',
-    '/robots.txt',
-    '/sitemap.xml'
+    '/favicon.ico'
 ];
 
 // Install event - cache static assets
@@ -65,8 +64,10 @@ self.addEventListener('fetch', (event) => {
                 // Fetch from network
                 const networkResponse = await fetch(event.request);
 
-                // Cache successful responses
-                if (networkResponse.ok) {
+                // Only cache successful, non-redirect responses.
+                // Safari throws "Response served by service worker has redirections"
+                // if a cached response is a 3xx redirect.
+                if (networkResponse.ok && !networkResponse.redirected && networkResponse.status < 300) {
                     const cache = await caches.open(DYNAMIC_CACHE);
                     cache.put(event.request, networkResponse.clone());
                 }
@@ -75,10 +76,10 @@ self.addEventListener('fetch', (event) => {
             } catch (error) {
                 // Return offline fallback for navigation requests
                 if (event.request.destination === 'document') {
-                    const cache = await caches.open(STATIC_CACHE);
-                    return cache.match('/') || new Response('Offline - Please check your connection', {
+                    return new Response('Offline - Please check your connection', {
                         status: 503,
-                        statusText: 'Service Unavailable'
+                        statusText: 'Service Unavailable',
+                        headers: { 'Content-Type': 'text/html' }
                     });
                 }
 
