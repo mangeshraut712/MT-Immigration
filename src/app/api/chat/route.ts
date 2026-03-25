@@ -97,14 +97,28 @@ function isAuthenticationFailure(error: unknown) {
   );
 }
 
-function pruneChatContext(messages: ChatMessageInput[]) {
-  const selectedMessages: ChatMessageInput[] = [];
-  let totalCharacters = 0;
+function containsRestrictedContent(text: string) {
+  const restrictedPatterns = [
+    /\b(A-\d{9})\b/i,          // A-Number
+    /\b\d{3}[-.\s]?\d{2}[-.\s]?\d{4}\b/, // SSN
+    /\b(100% success|guarantee|promise you|will definitely win)\b/i, // Overconfident claims
+  ];
+  return restrictedPatterns.some((pattern) => pattern.test(text));
+}
 
-  for (const message of [...messages].reverse()) {
+function pruneChatContext(messages: ChatMessageInput[]) {
+  if (messages.length <= 1) {
+    return messages;
+  }
+
+  const selectedMessages: ChatMessageInput[] = [];
+  const firstMessage = messages[0];
+  let totalCharacters = firstMessage.content.length;
+
+  for (const message of [...messages.slice(1)].reverse()) {
     const contentLength = message.content.length;
     const wouldExceedMessageLimit =
-      selectedMessages.length >= CHAT_CONTEXT_MAX_MESSAGES;
+      selectedMessages.length >= CHAT_CONTEXT_MAX_MESSAGES - 1;
     const wouldExceedCharacterBudget =
       selectedMessages.length > 0 &&
       totalCharacters + contentLength > CHAT_CONTEXT_MAX_CHARACTERS;
@@ -117,7 +131,7 @@ function pruneChatContext(messages: ChatMessageInput[]) {
     totalCharacters += contentLength;
   }
 
-  return selectedMessages.reverse();
+  return [firstMessage, ...selectedMessages.reverse()];
 }
 
 export async function GET(request: Request) {
@@ -391,6 +405,20 @@ export async function POST(request: Request) {
       });
 
       const content = benchReview.output_text.trim() || specialistDraft;
+
+      if (containsRestrictedContent(content)) {
+        return jsonNoStore({
+          content: fallback.content,
+          suggestions: fallback.suggestions,
+          action: fallback.action,
+          source: "fallback",
+          degraded: true,
+          agent: fallback.agent,
+          agentTitle: fallback.agentCard.title,
+          agentDescription: fallback.agentCard.description,
+          reviewedBy: benchReviewer.title,
+        });
+      }
 
       return jsonNoStore({
         content,
