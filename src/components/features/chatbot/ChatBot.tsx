@@ -496,11 +496,11 @@ export function ChatBot() {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className="fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-border bg-background shadow-2xl sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]"
+            initial={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(10px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(10px)" }}
+            transition={{ type: "spring", stiffness: 350, damping: 30 }}
+            className="fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-white/20 bg-background/80 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/80 sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]"
             id="mt-chat-dialog"
             role="dialog"
             aria-modal="true"
@@ -509,34 +509,38 @@ export function ChatBot() {
             onKeyDown={handleDialogKeyDown}
             ref={dialogRef}
           >
-            <div className="flex shrink-0 items-center justify-between bg-foreground p-4 text-background">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-background/20">
-                  <Bot size={22} />
+            <div className="relative flex shrink-0 items-center justify-between border-b border-border/50 bg-gradient-to-r from-zinc-900 to-zinc-800 p-4 text-white dark:from-zinc-100 dark:to-zinc-300 dark:text-zinc-900 overflow-hidden">
+              {/* Subtle ambient glow behind header */}
+              <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+              <div className="relative z-10 flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur-md dark:bg-black/10 dark:ring-black/20">
+                  <Bot size={22} className="drop-shadow-sm" />
                 </div>
                 <div>
-                  <h3 id="mt-chat-title" className="font-semibold">
+                  <h3 id="mt-chat-title" className="font-semibold tracking-tight">
                     M&amp;T Immigration AI
                   </h3>
-                  <p className="flex items-center gap-1 text-xs text-background/70">
-                    <span className="h-2 w-2 rounded-full bg-green-400" />
+                  <p className="flex items-center gap-1.5 text-[11px] font-medium text-white/80 dark:text-black/70">
+                    <span className="relative flex h-2 w-2">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                      <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
+                    </span>
                     Specialist routing + review
                   </p>
                 </div>
               </div>
               <button
                 onClick={closeChat}
-                className="rounded-lg p-2 transition-colors hover:bg-background/10"
+                className="relative z-10 rounded-full p-2 text-white/70 transition-all hover:bg-white/10 hover:text-white dark:text-black/70 dark:hover:bg-black/10 dark:hover:text-black"
                 aria-label="Close chat"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
-            <div className="border-b border-border bg-secondary/50 p-2 text-center text-[10px] text-muted-foreground">
+            <div className="border-b border-border/40 bg-zinc-100/50 p-2 text-center text-[10px] uppercase font-medium tracking-wide text-zinc-500 dark:bg-zinc-900/50 dark:text-zinc-400">
               <p id="mt-chat-description">
-              General information only. No attorney-client relationship is
-              created in chat.
+                General info only • No attorney-client relationship
               </p>
             </div>
 
@@ -583,17 +587,18 @@ export function ChatBot() {
             </div>
 
             <div
-              className="scrollbar-hide flex-1 space-y-5 overflow-y-auto bg-muted/30 p-3 sm:space-y-6 sm:p-4"
+              className="scrollbar-hide flex-1 space-y-5 overflow-y-auto bg-gradient-to-b from-transparent to-muted/20 p-3 sm:space-y-6 sm:p-4"
               role="log"
               aria-live="polite"
               aria-relevant="additions text"
               aria-label="Chat conversation"
             >
-              {messages.map((message) => (
+              {messages.map((message, idx) => (
                 <motion.div
                   key={message.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: idx === messages.length - 1 ? 0.1 : 0, duration: 0.3 }}
                   className={cn(
                     "flex flex-col gap-2",
                     message.role === "user" ? "items-end" : "items-start",
@@ -601,31 +606,31 @@ export function ChatBot() {
                 >
                   <div
                     className={cn(
-                      "flex max-w-[85%] gap-2",
+                      "flex max-w-[88%] gap-2.5",
                       message.role === "user" ? "flex-row-reverse" : "flex-row",
                     )}
                   >
                     <div
                       className={cn(
-                        "mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full",
+                        "mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full shadow-sm ring-1 ring-border/50",
                         message.role === "assistant"
-                          ? "bg-foreground text-background"
+                          ? "bg-gradient-to-br from-zinc-800 to-zinc-950 text-white dark:from-zinc-200 dark:to-zinc-400 dark:text-zinc-950"
                           : "bg-primary text-primary-foreground",
                       )}
                     >
                       {message.role === "assistant" ? (
-                        <Bot size={14} />
+                        <Bot size={13} />
                       ) : (
-                        <User size={14} />
+                        <User size={13} />
                       )}
                     </div>
 
                     <div
                       className={cn(
-                        "rounded-2xl p-3.5 text-sm leading-relaxed shadow-sm",
+                        "rounded-[20px] p-3.5 text-[13.5px] leading-relaxed shadow-sm",
                         message.role === "user"
-                          ? "rounded-br-sm bg-primary text-primary-foreground"
-                          : "rounded-bl-sm border border-border bg-card text-card-foreground",
+                          ? "rounded-tr-sm bg-gradient-to-tr from-zinc-800 to-zinc-900 text-white dark:from-zinc-200 dark:to-zinc-300 dark:text-zinc-950"
+                          : "rounded-tl-sm border border-border/40 bg-card/80 backdrop-blur-md text-card-foreground shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]",
                       )}
                     >
                       {message.role === "assistant" && message.agent ? (
@@ -670,14 +675,14 @@ export function ChatBot() {
                             asChild
                             size="sm"
                             variant="secondary"
-                            className="h-8 w-full bg-foreground text-xs text-background hover:bg-foreground/90"
+                            className="h-8 w-full bg-zinc-900 text-xs text-white shadow-sm transition-all hover:bg-zinc-800 hover:shadow-md dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
                           >
                             <Link
                               href={localizeHref(pathname, message.action.link)}
                               onClick={() => setIsOpen(false)}
                             >
                               {message.action.label}{" "}
-                              <ExternalLink size={10} className="ml-2" />
+                              <ExternalLink size={10} className="ml-2 opacity-70" />
                             </Link>
                           </Button>
                         </div>
@@ -686,12 +691,12 @@ export function ChatBot() {
                   </div>
 
                   {message.role === "assistant" && message.suggestions ? (
-                    <div className="ml-10 flex flex-wrap gap-2">
+                    <div className="ml-9 flex flex-wrap gap-2">
                       {message.suggestions.map((suggestion) => (
                         <button
                           key={`${message.id}-${suggestion}`}
                           onClick={() => sendMessage(suggestion)}
-                          className="rounded-full border border-border bg-card px-3 py-1.5 text-xs text-muted-foreground shadow-sm transition-all hover:border-foreground hover:bg-muted hover:text-foreground"
+                          className="rounded-full border border-border/50 bg-card/60 px-3 py-1.5 text-[11px] font-medium text-muted-foreground shadow-sm backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-background hover:text-foreground hover:shadow-md active:translate-y-0"
                         >
                           {suggestion}
                         </button>
@@ -703,41 +708,44 @@ export function ChatBot() {
 
               {isTyping ? (
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex items-center gap-2"
+                  initial={{ opacity: 0, y: 10, filter: "blur(5px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  className="flex items-end gap-2.5"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-background">
-                    <Bot size={14} />
+                  <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 text-white shadow-sm ring-1 ring-border/50 dark:from-zinc-200 dark:to-zinc-400 dark:text-zinc-950">
+                    <Bot size={13} />
                   </div>
-                  <div className="rounded-2xl rounded-bl-sm border border-border bg-card p-3 shadow-sm">
-                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  <div className="rounded-[20px] rounded-bl-sm border border-border/40 bg-card/80 p-3.5 shadow-sm backdrop-blur-md">
+                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
                       {activeAgent === "auto"
-                        ? `Routing to the best specialist, then ${benchReviewer.title}`
+                        ? `Routing & Reviewing`
                         : `${chatAgentCards[activeAgent].title} responding`}
                     </div>
-                    <div className="flex gap-1">
-                      <span
-                        className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground/60"
-                        style={{ animationDelay: "0ms" }}
+                    <div className="flex items-center gap-1.5 py-1">
+                      <motion.span
+                        animate={{ y: [0, -4, 0], opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut", delay: 0 }}
+                        className="h-1.5 w-1.5 rounded-full bg-foreground/40"
                       />
-                      <span
-                        className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground/60"
-                        style={{ animationDelay: "150ms" }}
+                      <motion.span
+                        animate={{ y: [0, -4, 0], opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut", delay: 0.15 }}
+                        className="h-1.5 w-1.5 rounded-full bg-foreground/40"
                       />
-                      <span
-                        className="h-1.5 w-1.5 animate-bounce rounded-full bg-muted-foreground/60"
-                        style={{ animationDelay: "300ms" }}
+                      <motion.span
+                        animate={{ y: [0, -4, 0], opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 0.8, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+                        className="h-1.5 w-1.5 rounded-full bg-foreground/40"
                       />
                     </div>
                   </div>
                 </motion.div>
               ) : null}
 
-              <div ref={messagesEndRef} />
+              <div ref={messagesEndRef} className="h-2" />
             </div>
 
-            <div className="shrink-0 border-t border-border bg-card p-4">
+            <div className="shrink-0 border-t border-border/40 bg-card/60 p-4 backdrop-blur-xl">
               {chatError ? (
                 <div
                   className="mb-3 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900"
@@ -749,7 +757,7 @@ export function ChatBot() {
               ) : null}
               {dictationStatus ? (
                 <div
-                  className="mb-3 rounded-xl border border-muted bg-muted/50 px-3 py-2 text-sm text-foreground"
+                  className="mb-3 rounded-xl border border-muted bg-muted/30 px-3 py-2 text-sm text-foreground backdrop-blur-sm"
                   role="status"
                   aria-live="polite"
                 >
@@ -761,7 +769,7 @@ export function ChatBot() {
                   event.preventDefault();
                   void sendMessage();
                 }}
-                className="flex gap-2"
+                className="relative flex items-end gap-2 rounded-2xl border border-border/60 bg-background/50 p-1.5 shadow-sm ring-1 ring-transparent transition-all focus-within:ring-border/80 hover:border-border/80"
               >
                 <label htmlFor="chat-composer" className="sr-only">
                   Ask an immigration question
@@ -780,52 +788,59 @@ export function ChatBot() {
                     }
                   }}
                   maxLength={CHAT_MESSAGE_MAX_LENGTH}
-                  placeholder="Ask about visas, green cards, or urgent deadlines..."
-                  className="min-h-[52px] flex-1 resize-none border-border bg-background focus-visible:ring-foreground"
+                  placeholder="Ask about visas, green cards or deadlines..."
+                  className="min-h-[44px] max-h-[120px] flex-1 resize-none border-0 bg-transparent px-3 py-2.5 text-sm shadow-none focus-visible:ring-0"
                   disabled={isTyping || isDictating}
                   aria-describedby="chat-composer-meta"
                 />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={startDictation}
-                  disabled={!speechSupported || isTyping}
-                  aria-label={
-                    isDictating
-                      ? "Stop dictation"
-                      : speechSupported
-                        ? "Start dictation"
-                        : "Dictation is not supported in this browser"
-                  }
-                  className="shrink-0 rounded-xl border-border bg-card text-foreground hover:bg-muted"
-                >
-                  {isDictating ? (
-                    <MicOff size={18} />
-                  ) : (
-                    <Mic size={18} />
-                  )}
-                </Button>
-                <Button
-                  type="submit"
-                  disabled={!input.trim() || isTyping}
-                  size="icon"
-                  aria-label="Send message"
-                  className="shrink-0 rounded-xl bg-primary text-primary-foreground shadow-md hover:bg-primary/90"
-                >
-                  {isTyping ? (
-                    <Loader2 size={18} className="animate-spin" />
-                  ) : (
-                    <Send size={18} />
-                  )}
-                </Button>
+                <div className="flex shrink-0 items-center gap-1.5 pb-1 pr-1">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={startDictation}
+                    disabled={!speechSupported || isTyping}
+                    aria-label={
+                      isDictating
+                        ? "Stop dictation"
+                        : speechSupported
+                          ? "Start dictation"
+                          : "Dictation is not supported in this browser"
+                    }
+                    className="h-8 w-8 rounded-full text-muted-foreground hover:bg-muted/60 hover:text-foreground"
+                  >
+                    {isDictating ? (
+                      <MicOff size={16} className="animate-pulse text-red-500" />
+                    ) : (
+                      <Mic size={16} />
+                    )}
+                  </Button>
+                  <Button
+                    type="submit"
+                    disabled={!input.trim() || isTyping}
+                    size="icon"
+                    aria-label="Send message"
+                    className={cn(
+                      "h-8 w-8 rounded-full transition-all duration-300",
+                      input.trim()
+                        ? "bg-zinc-900 text-white shadow-md hover:scale-105 dark:bg-zinc-100 dark:text-zinc-900"
+                        : "bg-muted text-muted-foreground opacity-50"
+                    )}
+                  >
+                    {isTyping ? (
+                      <Loader2 size={15} className="animate-spin" />
+                    ) : (
+                      <Send size={14} className={cn(input.trim() && "translate-x-[1px]")} />
+                    )}
+                  </Button>
+                </div>
               </form>
               <div
                 id="chat-composer-meta"
-                className="mt-2 flex items-center justify-between gap-3 text-[11px] text-muted-foreground"
+                className="mt-2.5 flex items-center justify-between gap-3 px-1 text-[10px] text-muted-foreground/70 tracking-wide"
               >
                 <span>
-                  Press Enter to send, Shift + Enter for a line break.
-                  {speechSupported ? " Dictation supported." : " Dictation unavailable in this browser."}
+                  Enter to send, Shift + Enter for gap.
                 </span>
                 <span>{input.length}/{CHAT_MESSAGE_MAX_LENGTH}</span>
               </div>
