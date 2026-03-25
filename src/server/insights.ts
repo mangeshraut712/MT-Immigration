@@ -10,8 +10,38 @@ import {
 } from "@/content/legalInsights";
 import { generateLiveInsightsFeed } from "@/server/ai/insights";
 
+const INSIGHTS_CACHE_TTL_MS = 20 * 60_000;
+
+let cachedInsights: {
+  expiresAt: number;
+  payload: Awaited<ReturnType<typeof generateLiveInsightsFeed>>;
+} | null = null;
+let inFlightInsights: Promise<
+  Awaited<ReturnType<typeof generateLiveInsightsFeed>>
+> | null = null;
+
 export async function resolveInsightFeed() {
-  return generateLiveInsightsFeed();
+  const now = Date.now();
+
+  if (cachedInsights && cachedInsights.expiresAt > now) {
+    return cachedInsights.payload;
+  }
+
+  if (!inFlightInsights) {
+    inFlightInsights = generateLiveInsightsFeed()
+      .then((payload) => {
+        cachedInsights = {
+          payload,
+          expiresAt: Date.now() + INSIGHTS_CACHE_TTL_MS,
+        };
+        return payload;
+      })
+      .finally(() => {
+        inFlightInsights = null;
+      });
+  }
+
+  return inFlightInsights;
 }
 
 export async function resolveInsightArticleBySlug(

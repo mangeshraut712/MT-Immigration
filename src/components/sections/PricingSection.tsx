@@ -61,10 +61,7 @@ export function PricingSection() {
                   </span>
                 </div>
                 <h2 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-foreground mt-4 mb-6 leading-[1.1]">
-                  {tPricing("heading").split(". ")[0]} <br />
-                  <span className="text-zinc-400 italic">
-                    {tPricing("heading").split(". ").slice(1).join(". ")}
-                  </span>
+                  {tPricing("heading")}
                 </h2>
                 <p className="text-zinc-500 leading-relaxed text-lg">
                   {tPricing("subtitle")}

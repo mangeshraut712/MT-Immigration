@@ -79,14 +79,6 @@ export default async function LocaleLayout({
                 <link rel="dns-prefetch" href="//vitals.vercel-insights.com" />
                 <link rel="dns-prefetch" href="//vitals.vercel-analytics.com" />
 
-                {/* Critical resource hints */}
-                <link
-                    rel="preload"
-                    href="/brand/mtlogo.png"
-                    as="image"
-                    type="image/png"
-                />
-
                 {/* PWA */}
                 <link rel="manifest" href="/manifest.json" />
                 <meta name="theme-color" content="#000000" />

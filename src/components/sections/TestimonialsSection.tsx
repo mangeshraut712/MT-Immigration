@@ -45,10 +45,7 @@ export function TestimonialsSection() {
             <div className="h-px w-12 bg-zinc-300" />
           </div>
           <h2 className="mb-6 text-3xl md:text-5xl lg:text-6xl font-serif font-medium leading-[1.1] text-foreground">
-            {tTestimonials("heading").split(". ")[0]} <br />
-            <span className="italic text-zinc-400">
-              {tTestimonials("heading").split(". ").slice(1).join(". ")}
-            </span>
+            {tTestimonials("heading")}
           </h2>
           <p className="mx-auto max-w-2xl text-xl leading-relaxed text-zinc-500 text-balance">
             {tTestimonials("subtitle")}

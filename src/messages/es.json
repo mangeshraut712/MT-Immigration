@@ -52,24 +52,24 @@
         "subtitle": "El bufete está construido alrededor de un abogado que posee el caso, la estrategia y la comunicación desde la primera consulta hasta la siguiente decisión de presentación.",
         "step1Title": "Escuchar y Evaluar",
         "step1Desc": "Comience con una consulta pagada para identificar el problema, los plazos y el siguiente paso más claro.",
+        "step1Features": [
+            "Consulta con el abogado",
+            "Revisión inicial de documentos",
+            "Conversación sobre alcance y riesgos"
+        ],
         "step2Title": "Preparar y Presentar",
         "step2Desc": "Construya la estrategia de presentación, reúna evidencia de apoyo y prepare la solicitud con cuidado.",
+        "step2Features": [
+            "Redacción y revisión de formularios",
+            "Lista de evidencia",
+            "Revisión final antes de presentar"
+        ],
         "step3Title": "Guía Durante el Proceso",
         "step3Desc": "Manténgase preparado después de la presentación con preparación para entrevistas, estrategia de respuesta y seguimiento directo.",
-        "step1Features": [
-            "Consultation with the attorney",
-            "Initial document review",
-            "Scope and risk discussion"
-        ],
-        "step2Features": [
-            "Form drafting and review",
-            "Evidence checklist",
-            "Final pre-filing quality check"
-        ],
         "step3Features": [
-            "Interview preparation",
-            "RFE or deadline planning",
-            "Email-based status updates"
+            "Preparación para entrevistas",
+            "Planificación para RFE o plazos",
+            "Actualizaciones por correo electrónico"
         ]
     },
     "services": {
@@ -77,7 +77,174 @@
         "heading": "Asuntos migratorios enfocados, manejados con un plan de presentación claro.",
         "subtitle": "Desde presentaciones simples de visas hasta asuntos urgentes sensibles a la corte, el bufete se centra en la preparación, la evaluación honesta de riesgos y la comunicación directa.",
         "timeline": "Tiempo Estimado",
-        "price": "Desde"
+        "price": "Desde",
+        "details": "Detalles",
+        "whatWeHandle": "Qué Incluye",
+        "keyRequirements": "Requisitos Clave",
+        "estimatedTimeline": "Tiempo Estimado",
+        "bookConsultation": "Agendar Consulta",
+        "viewPricing": "Ver Tarifas ({price})",
+        "items": [
+            {
+                "id": "visitor",
+                "title": "Visa de Visitante (B1/B2)",
+                "description": "Preparación integral para visas de turismo y negocios.",
+                "timeline": "2-4 semanas",
+                "price": "Desde $350",
+                "features": [
+                    "Preparación y guía para DS-160",
+                    "Coaching para entrevista con simulacros",
+                    "Lista de documentos y estrategia"
+                ],
+                "requirements": [
+                    "Pasaporte válido",
+                    "Vínculos con el país de origen",
+                    "Capacidad financiera"
+                ],
+                "stat": "Preparación para entrevista basada en el propósito real de su viaje"
+            },
+            {
+                "id": "student",
+                "title": "Visa de Estudiante (F-1)",
+                "description": "Guía para estudiantes internacionales que desean estudiar en Estados Unidos.",
+                "timeline": "1-3 meses",
+                "price": "Desde $450",
+                "features": [
+                    "Guía sobre admisión",
+                    "Guía sobre I-20 y tarifa SEVIS",
+                    "Preparación integral para entrevista"
+                ],
+                "requirements": [
+                    "Formulario I-20",
+                    "Recibo SEVIS",
+                    "Documentos financieros",
+                    "Historial académico"
+                ],
+                "stat": "Apoyo desde la revisión documental hasta la preparación consular"
+            },
+            {
+                "id": "marriage",
+                "title": "Por Matrimonio",
+                "description": "Residencia para cónyuges de ciudadanos o residentes permanentes de EE.UU.",
+                "timeline": "6-18 meses",
+                "price": "Desde $1,800",
+                "features": [
+                    "Ajuste de estatus (I-130, I-485)",
+                    "Apoyo en proceso consular",
+                    "Preparación de entrevista y estrategia de evidencia"
+                ],
+                "requirements": [
+                    "Matrimonio válido",
+                    "Ciudadanía o residencia del peticionario",
+                    "Apoyo financiero"
+                ],
+                "stat": "Planificación basada en evidencia para matrimonios bona fide"
+            },
+            {
+                "id": "change-status",
+                "title": "Cambio de Estatus",
+                "description": "Cambio de un estatus no inmigrante a otro, como de B-2 a F-1.",
+                "timeline": "3-6 meses",
+                "price": "Desde $850",
+                "features": [
+                    "Evaluación de elegibilidad y riesgo",
+                    "Preparación de formulario I-539",
+                    "Apoyo para responder RFE"
+                ],
+                "requirements": [
+                    "Estatus actual válido",
+                    "Sin intención inmigratoria",
+                    "Solvencia financiera"
+                ],
+                "stat": "Análisis de riesgo antes de presentar el cambio de estatus"
+            },
+            {
+                "id": "work-permit",
+                "title": "Permiso de Trabajo (I-765)",
+                "description": "Documentos de autorización de empleo para solicitantes elegibles.",
+                "timeline": "1-3 meses",
+                "price": "Desde $250",
+                "features": [
+                    "Análisis de elegibilidad por categoría",
+                    "Preparación y presentación de solicitud",
+                    "Seguimiento del caso"
+                ],
+                "requirements": [
+                    "Petición subyacente",
+                    "Categoría de elegibilidad"
+                ],
+                "stat": "Revisión de categoría para evitar retrasos prevenibles"
+            },
+            {
+                "id": "asylum",
+                "title": "Asilo (I-589)",
+                "description": "Protección para personas que temen persecución en su país de origen.",
+                "timeline": "6-24 meses",
+                "price": "Consultar cotización",
+                "features": [
+                    "Preparación de solicitud y declaración",
+                    "Investigación de condiciones del país",
+                    "Preparación para entrevista"
+                ],
+                "requirements": [
+                    "Temor de persecución",
+                    "Presencia física en EE.UU."
+                ],
+                "stat": "Preparación confidencial para asuntos humanitarios de alto riesgo"
+            },
+            {
+                "id": "u-visa",
+                "title": "Visa U (Víctimas)",
+                "description": "Estatus para víctimas de ciertos delitos que colaboran con las autoridades.",
+                "timeline": "3-12 meses",
+                "price": "Consultar cotización",
+                "features": [
+                    "Apoyo con I-918 y Suplemento B",
+                    "Recolección de evidencia",
+                    "Guía sobre determinación bona fide"
+                ],
+                "requirements": [
+                    "Víctima de delito calificador",
+                    "Cooperación con la policía"
+                ],
+                "stat": "Manejo sensible para solicitudes de sobrevivientes"
+            },
+            {
+                "id": "advance-parole",
+                "title": "Advance Parole",
+                "description": "Autorización de viaje (I-131) para solicitantes con ajuste pendiente.",
+                "timeline": "1-2 meses",
+                "price": "Desde $300",
+                "features": [
+                    "Preparación de autorización de viaje",
+                    "Asesoría y análisis de riesgo",
+                    "Manejo urgente si es necesario"
+                ],
+                "requirements": [
+                    "I-485 pendiente",
+                    "Elegibilidad DACA o TPS"
+                ],
+                "stat": "Revisión del riesgo de viaje antes de salir de Estados Unidos"
+            },
+            {
+                "id": "expedite",
+                "title": "Solicitudes de Expedite",
+                "description": "Aceleración de casos pendientes por razones humanitarias o financieras.",
+                "timeline": "1-4 semanas",
+                "price": "Desde $500",
+                "features": [
+                    "Redacción persuasiva de solicitud",
+                    "Compilación de evidencia",
+                    "Estrategia alineada con criterios de USCIS"
+                ],
+                "requirements": [
+                    "Pérdida financiera severa",
+                    "Emergencia humanitaria",
+                    "Interés del gobierno de EE.UU."
+                ],
+                "stat": "Solicitudes construidas sobre urgencia documentada y criterios de agencia"
+            }
+        ]
     },
     "whyChooseUs": {
         "title": "Por Qué Elegir M&T",
@@ -92,7 +259,46 @@
         "reason3Desc": "Las consultas, el trabajo de presentación y los siguientes pasos se explican en lenguaje claro antes de comenzar.",
         "reason4Title": "Intake Disciplinado",
         "reason4Desc": "El sitio valida los envíos, mantiene la clave de IA del lado del servidor y limita las tasas de los formularios públicos.",
-        "cta": "Solicitar Revisión de Caso"
+        "cta": "Solicitar Revisión de Caso",
+        "reasons": [
+            {
+                "title": "Un Abogado, Una Estrategia",
+                "description": "El mismo abogado dirige la estrategia del caso desde la consulta hasta la siguiente decisión de presentación."
+            },
+            {
+                "title": "Trabajo Enfocado en Plazos",
+                "description": "Entrevistas urgentes, fechas de corte y plazos de respuesta del gobierno se manejan con prioridad."
+            },
+            {
+                "title": "Alcance y Tarifas Claras",
+                "description": "Las consultas, el trabajo de presentación y los siguientes pasos se explican en lenguaje claro antes de comenzar."
+            },
+            {
+                "title": "Intake Disciplinado",
+                "description": "El sitio valida envíos, mantiene las credenciales de IA en el servidor y limita las tasas de los formularios públicos."
+            }
+        ],
+        "practiceAreas": [
+            {
+                "title": "Trabajo y estatus",
+                "summary": "Estrategia para H-1B, EAD y cambio de estatus."
+            },
+            {
+                "title": "Rutas de estudiante",
+                "summary": "Planificación F-1, mantenimiento de estatus y preparación de entrevista."
+            },
+            {
+                "title": "Casos familiares",
+                "summary": "Solicitudes por matrimonio y planificación de reunificación familiar."
+            },
+            {
+                "title": "Alivio humanitario",
+                "summary": "Asilo, visa U y asuntos urgentes centrados en protección."
+            }
+        ],
+        "quoteBefore": "Una práctica boutique funciona mejor cuando el abogado permanece cerca del expediente, comunica",
+        "quoteEmphasis": "temprano",
+        "quoteAfter": " y explica las partes difíciles antes de presentar el caso."
     },
     "testimonials": {
         "title": "Experiencia del Cliente",
@@ -108,24 +314,24 @@
         "straightLabel": "Tarifas transparentes",
         "items": [
             {
-                "title": "Direct communication",
-                "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
-                "label": "No handoff model"
+                "title": "Comunicación directa",
+                "description": "Los clientes deben saber quién revisa los hechos, cuál es la siguiente presentación y cuándo un plazo cambia la estrategia.",
+                "label": "Sin modelo de transferencia"
             },
             {
-                "title": "Prepared submissions",
-                "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
-                "label": "Evidence-first work"
+                "title": "Presentaciones preparadas",
+                "description": "Una solicitud sólida comienza con disciplina documental, evaluación honesta de riesgos y tiempo suficiente para corregir puntos débiles antes de presentar.",
+                "label": "Trabajo basado en evidencia"
             },
             {
-                "title": "Calm guidance in urgent matters",
-                "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
-                "label": "Urgent matters prioritized"
+                "title": "Guía calmada en asuntos urgentes",
+                "description": "Las fechas de corte, problemas de remoción y avisos de entrevista requieren atención legal directa, no guiones genéricos de intake.",
+                "label": "Asuntos urgentes priorizados"
             },
             {
-                "title": "Straight answers on price and scope",
-                "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
-                "label": "Transparent fees"
+                "title": "Respuestas claras sobre precio y alcance",
+                "description": "Una práctica individual debe explicar qué está incluido, qué no lo está y cuándo una consulta es el primer paso correcto.",
+                "label": "Tarifas transparentes"
             }
         ]
     },
@@ -144,74 +350,74 @@
         "title": "Tarifas Transparentes",
         "heading": "Honorarios legales claros para representación enfocada.",
         "subtitle": "Los rangos varían según la complejidad, la urgencia y la carga de documentos. El objetivo es mostrar bandas de honorarios legales realistas antes de reservar.",
-        "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
+        "note": "Estos son solo rangos de servicios legales. Las tarifas gubernamentales, traducciones y costos de terceros son aparte salvo que se indique por escrito.",
         "whyChoose": "Por Qué Elegirnos?",
         "cta": "Obtener Cotización Personalizada",
         "service": "Servicio",
         "priceRange": "Rango de Precio",
         "includes": "Incluye",
-        "noteLabel": "Note:",
-        "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
+        "noteLabel": "Nota:",
+        "paymentPlanNote": "Los planes de pago pueden estar disponibles para asuntos elegibles. El alcance final y la estructura de cobro se confirman durante la consulta.",
         "items": [
             {
-                "service": "Visitor Visa (B1/B2)",
+                "service": "Visa de Visitante (B1/B2)",
                 "price": "$350–$650",
                 "includes": "DS-160, coaching"
             },
             {
-                "service": "Student Visa (F-1)",
+                "service": "Visa de Estudiante (F-1)",
                 "price": "$450–$900",
-                "includes": "I-20 guidance, prep"
+                "includes": "Guía I-20, preparación"
             },
             {
-                "service": "Change of Status",
+                "service": "Cambio de Estatus",
                 "price": "$850–$1,800",
-                "includes": "I-539, risk assessment"
+                "includes": "I-539, evaluación de riesgo"
             },
             {
-                "service": "Marriage-Based AOS",
+                "service": "Ajuste por Matrimonio",
                 "price": "$1,800–$3,500",
-                "includes": "Full forms, evidence"
+                "includes": "Formularios completos, evidencia"
             },
             {
-                "service": "Consular Processing",
+                "service": "Proceso Consular",
                 "price": "$1,200–$2,400",
-                "includes": "NVC support"
+                "includes": "Apoyo NVC"
             },
             {
-                "service": "Work Permit (I-765)",
+                "service": "Permiso de Trabajo (I-765)",
                 "price": "$250–$450",
-                "includes": "Eligibility analysis"
+                "includes": "Análisis de elegibilidad"
             },
             {
                 "service": "Advance Parole (I-131)",
                 "price": "$250–$450",
-                "includes": "Authorization prep"
+                "includes": "Preparación de autorización"
             },
             {
-                "service": "Expedite Request Prep",
+                "service": "Preparación de Expedite",
                 "price": "$300–$600",
-                "includes": "Drafting, evidence"
+                "includes": "Redacción, evidencia"
             },
             {
                 "service": "U Visa",
                 "price": "$1,800–$3,500",
-                "includes": "Full support"
+                "includes": "Apoyo completo"
             },
             {
-                "service": "Asylum",
+                "service": "Asilo",
                 "price": "$2,500–$6,000",
-                "includes": "Research, prep"
+                "includes": "Investigación, preparación"
             }
         ],
         "benefits": [
-            "Transparent, upfront pricing",
-            "Scope explained before work begins",
-            "Flexible payment plans when appropriate",
-            "Hosted online payment options",
-            "No hidden administrative fees",
-            "Consultation fees credited when applicable",
-            "Government filing fees billed separately"
+            "Tarifas transparentes desde el inicio",
+            "Alcance explicado antes de comenzar",
+            "Planes de pago flexibles cuando corresponde",
+            "Opciones de pago en línea alojadas",
+            "Sin cargos administrativos ocultos",
+            "Crédito de consulta cuando aplica",
+            "Tarifas gubernamentales por separado"
         ]
     },
     "faq": {
@@ -221,7 +427,77 @@
         "gettingStarted": "Comenzando",
         "pricingPayments": "Precios y Pagos",
         "processTimeline": "Proceso y Tiempo",
-        "legalResults": "Resultados Legales"
+        "legalResults": "Resultados Legales",
+        "categories": [
+            {
+                "category": "Comenzando",
+                "faqs": [
+                    {
+                        "question": "¿Cómo funcionan las consultas?",
+                        "answer": "Las consultas son el primer paso para la mayoría de los asuntos. Sirven para identificar el problema, detectar plazos, revisar documentos disponibles y decidir si el siguiente paso es presentar algo, reunir más evidencia o programar una estrategia más urgente."
+                    },
+                    {
+                        "question": "¿Ofrecen consultas virtuales?",
+                        "answer": "Sí. La práctica está preparada para consultas remotas por teléfono o video, lo que permite revisar muchos asuntos migratorios sin una visita presencial."
+                    },
+                    {
+                        "question": "¿Qué idiomas apoyan?",
+                        "answer": "Las consultas en inglés se ofrecen directamente, y se pueden organizar flujos de trabajo con intérprete cuando el cliente se siente más cómodo en otro idioma."
+                    }
+                ]
+            },
+            {
+                "category": "Precios y Pagos",
+                "faqs": [
+                    {
+                        "question": "¿Las tarifas de USCIS están incluidas?",
+                        "answer": "No. Las tarifas gubernamentales son separadas de los honorarios legales. La consulta se usa para explicar el rango probable de honorarios, los costos de presentación esperados y cualquier otro gasto que pueda surgir."
+                    },
+                    {
+                        "question": "¿Cómo funcionan los planes de pago?",
+                        "answer": "Las opciones a plazos pueden estar disponibles según el alcance del trabajo y la urgencia del asunto. La estructura de pago se explica durante la consulta para que el cliente entienda qué se paga antes de empezar y qué puede dividirse."
+                    },
+                    {
+                        "question": "¿Ofrecen tarifas ajustadas?",
+                        "answer": "La flexibilidad depende del alcance, la urgencia y el tipo de asunto. Si la asequibilidad es una preocupación, conviene mencionarlo desde el principio para saber qué es realista."
+                    }
+                ]
+            },
+            {
+                "category": "Proceso y Tiempo",
+                "faqs": [
+                    {
+                        "question": "¿Qué tan rápido pueden presentar mi caso?",
+                        "answer": "Los tiempos dependen del tipo de caso, de qué tan rápido se reúnen los documentos y de si existen plazos urgentes. Los asuntos sencillos pueden avanzar con rapidez una vez que la evidencia requerida está lista."
+                    },
+                    {
+                        "question": "¿Me prepararán para mi entrevista?",
+                        "answer": "Sí. La preparación para entrevista forma parte de muchos asuntos migratorios, especialmente cuando las preguntas del oficial, la credibilidad o la organización documental pueden afectar el resultado."
+                    },
+                    {
+                        "question": "¿Cómo hago seguimiento a mi caso?",
+                        "answer": "Las actualizaciones suelen manejarse por correo electrónico y seguimientos programados. La frecuencia exacta depende del alcance de la representación, de los plazos próximos y de si alguna notificación exige una respuesta más rápida."
+                    }
+                ]
+            },
+            {
+                "category": "Legal y Resultados",
+                "faqs": [
+                    {
+                        "question": "¿Garantizan resultados?",
+                        "answer": "Ningún abogado puede garantizar resultados en asuntos migratorios porque la decisión final pertenece a la agencia o tribunal de inmigración. Lo que sí debe esperar es consejo honesto, preparación disciplinada y comunicación clara sobre el riesgo."
+                    },
+                    {
+                        "question": "¿Qué pasa si mi caso es negado?",
+                        "answer": "Si un caso es negado, el primer paso es revisar la decisión con cuidado y determinar qué opciones realmente existen. Según la situación, eso puede incluir una nueva presentación, una moción, una apelación o una vía diferente."
+                    },
+                    {
+                        "question": "¿Está autorizado para ejercer derecho migratorio?",
+                        "answer": "Este sitio está construido alrededor de una práctica migratoria liderada por abogado. Los detalles de representación, la licencia y los términos de contratación siempre deben confirmarse durante la consulta y en el acuerdo escrito."
+                    }
+                ]
+            }
+        ]
     },
     "contact": {
         "title": "Comenzar",
@@ -238,30 +514,30 @@
         "feeCredit": "La tarifa se acredita al servicio si es contratado.",
         "cards": [
             {
-                "label": "Phone / WhatsApp",
-                "tooltip": "Click to call"
+                "label": "Teléfono / WhatsApp",
+                "tooltip": "Haga clic para llamar"
             },
             {
-                "label": "Email",
-                "tooltip": "Click to email"
+                "label": "Correo Electrónico",
+                "tooltip": "Haga clic para escribir"
             },
             {
-                "label": "Office",
-                "tooltip": "New York, NY"
+                "label": "Oficina",
+                "tooltip": "Soporte virtual nacional"
             },
             {
-                "label": "Business Hours",
-                "tooltip": "1-2 business day response"
+                "label": "Tiempo de Respuesta",
+                "tooltip": "Solo días hábiles"
             }
         ],
         "feeOptions": [
             {
-                "label": "15 min Initial Sync",
-                "price": "$125"
+                "label": "15 min",
+                "price": "$20"
             },
             {
-                "label": "30 min Strategy Session",
-                "price": "$250"
+                "label": "30 min",
+                "price": "$40"
             }
         ]
     },
@@ -284,20 +560,24 @@
         "privacy": "Política de Privacidad",
         "terms": "Términos de Uso",
         "advertising": "Publicidad de Abogado",
+        "insights": "Artículos",
+        "siteMap": "Mapa del Sitio",
+        "emailAria": "Escríbanos a {email}",
+        "phoneAria": "Llámenos al {phone}",
         "copyright": "Copyright © {year} {name}. Todos los derechos reservados.",
         "disclaimer": "PUBLICIDAD DE ABOGADO. La información en este sitio web es solo para propósitos de información general. Nada en este sitio debe tomarse como asesoramiento legal para ningún caso o situación en particular. Esta información no pretende crear, y recibir o ver no constituye, una relación abogado-cliente. Resultados anteriores no garantizan un resultado similar.",
         "links": {
             "services": [
                 {
-                    "name": "Visitor Visas (B1/B2)",
+                    "name": "Visas de Visitante (B1/B2)",
                     "href": "/#services"
                 },
                 {
-                    "name": "Student Visas (F-1)",
+                    "name": "Visas de Estudiante (F-1)",
                     "href": "/#services"
                 },
                 {
-                    "name": "Marriage-Based",
+                    "name": "Por Matrimonio",
                     "href": "/#services"
                 },
                 {
@@ -305,39 +585,39 @@
                     "href": "/#services"
                 },
                 {
-                    "name": "Work Permits (EAD)",
+                    "name": "Permisos de Trabajo (EAD)",
                     "href": "/#services"
                 }
             ],
             "company": [
                 {
-                    "name": "About the Practice",
+                    "name": "Sobre la Práctica",
                     "href": "/#about"
                 },
                 {
-                    "name": "Our Process",
+                    "name": "Nuestro Proceso",
                     "href": "/#process"
                 },
                 {
-                    "name": "Client Experience",
+                    "name": "Experiencia del Cliente",
                     "href": "/#testimonials"
                 },
                 {
-                    "name": "Insights",
+                    "name": "Artículos",
                     "href": "/insights"
                 },
                 {
-                    "name": "Contact",
+                    "name": "Contacto",
                     "href": "/#contact"
                 }
             ],
             "support": [
                 {
-                    "name": "Pricing & Fees",
+                    "name": "Precios y Tarifas",
                     "href": "/#pricing"
                 },
                 {
-                    "name": "Secure Payments",
+                    "name": "Pagos Seguros",
                     "href": "/#payments"
                 },
                 {
@@ -345,7 +625,7 @@
                     "href": "/#faq"
                 },
                 {
-                    "name": "Book Consultation",
+                    "name": "Agendar Consulta",
                     "href": "/#contact"
                 },
                 {
@@ -355,19 +635,38 @@
             ],
             "legal": [
                 {
-                    "name": "Privacy Policy",
+                    "name": "Política de Privacidad",
                     "href": "/privacy"
                 },
                 {
-                    "name": "Terms of Use",
+                    "name": "Términos de Uso",
                     "href": "/terms"
                 },
                 {
-                    "name": "Attorney Advertising",
+                    "name": "Publicidad de Abogado",
                     "href": "/terms"
                 }
             ]
         }
+    },
+    "insightsPreview": {
+        "title": "Artículos",
+        "heading": "Casos, noticias y lecturas prácticas en un solo lugar.",
+        "subtitle": "Una vista compacta de los últimos estudios de caso de fuentes públicas, novedades migratorias y análisis más largos.",
+        "openAll": "Abrir Todos los Artículos",
+        "seeMore": "Ver Más",
+        "caseStudies": "Casos",
+        "news": "Noticias",
+        "analysis": "Análisis"
+    },
+    "briefBreak": {
+        "title": "Brief Break",
+        "heading": "Una sala de acertijos tranquila, para los momentos entre el trabajo pesado.",
+        "subtitle": "El sitio del bufete se mantiene serio donde importa. Este es el único desvío intencional: una pequeña página de rompecabezas legales pensada para concentración, pausa y un poco de alivio.",
+        "cta": "Entrar a la Sala de Acertijos",
+        "pill": "Rompecabezas diario con rachas, pistas y cero presión legal",
+        "previewTitle": "Docket Zip",
+        "previewSubtitle": "Conecta los hechos. Completa el expediente."
     },
     "intake": {
         "step1Title": "Contacto",

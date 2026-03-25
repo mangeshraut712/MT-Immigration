@@ -5,6 +5,7 @@ import { ArrowRight, Scale, Sparkles } from "lucide-react";
 import { DocketZipGame } from "@/components/features/game/DocketZipGame";
 import { Button } from "@/components/ui/button";
 import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
+import { localizeHrefForLocale } from "@/i18n/routing";
 
 export const metadata: Metadata = {
   title: "Brief Break",
@@ -19,7 +20,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function BriefBreakPage() {
+export default async function BriefBreakPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <div className="min-h-screen bg-white">
       <section className="relative overflow-hidden border-b border-black/5 bg-[#f6efe7]">
@@ -29,12 +36,15 @@ export default function BriefBreakPage() {
         <div className="container-wide relative py-20 md:py-28">
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-zinc-500">
-              <Link href="/" className="transition-colors hover:text-black">
+              <Link
+                href={localizeHrefForLocale(locale, "/")}
+                className="transition-colors hover:text-black"
+              >
                 Home
               </Link>
               <span>/</span>
               <Link
-                href="/insights"
+                href={localizeHrefForLocale(locale, "/insights")}
                 className="transition-colors hover:text-black"
               >
                 Insights

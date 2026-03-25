@@ -155,7 +155,7 @@ export default function Footer() {
             transition={{ delay: 0.2 }}
           >
             <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
-              Legal
+              {tFooter("legal")}
             </h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link, i) => (

@@ -402,7 +402,7 @@ export function InsightsPageClient({
                 variant="outline"
                 className="h-10 rounded-full border-zinc-200 bg-white px-5 text-zinc-900 hover:bg-zinc-50"
               >
-                <Link href={returnHref || "/"}>
+                <Link href={localizeHref(pathname, returnHref || "/")}>
                   <ArrowLeft className="mr-2 h-4 w-4" />
                   Back to main site
                 </Link>
@@ -584,7 +584,7 @@ export function InsightsPageClient({
                   {feed.topics.slice(0, 4).map((topic) => (
                     <Link
                       key={topic}
-                      href={findTopicHref(feed, topic)}
+                      href={localizeHref(pathname, findTopicHref(feed, topic))}
                       className="group flex items-center justify-between rounded-xl border border-zinc-200 p-4 transition-all hover:border-black hover:bg-zinc-50"
                     >
                       <span className="font-medium text-zinc-800">{topic}</span>

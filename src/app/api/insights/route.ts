@@ -1,25 +1,15 @@
 import { NextResponse } from "next/server";
 
-import { generateLiveInsightsFeed } from "@/server/ai/insights";
 import { getClientKey, parseSearchParams } from "@/server/request-guards";
 import { takeRateLimitHit } from "@/server/rate-limit";
 import { emptySearchParamsSchema } from "@/server/schemas/request";
+import { resolveInsightFeed } from "@/server/insights";
 
 export const runtime = "nodejs";
 export const maxDuration = 20;
 
 const INSIGHTS_LIMIT = 12;
 const INSIGHTS_WINDOW_MS = 60_000;
-const INSIGHTS_CACHE_TTL_MS = 20 * 60_000;
-
-let cachedInsights: {
-  expiresAt: number;
-  payload: Awaited<ReturnType<typeof generateLiveInsightsFeed>>;
-} | null = null;
-let inFlightInsights: Promise<
-  Awaited<ReturnType<typeof generateLiveInsightsFeed>>
-> | null = null;
-
 function getResponseHeaders() {
   return {
     "Cache-Control":
@@ -31,14 +21,6 @@ export async function GET(request: Request) {
   const queryParams = parseSearchParams(request, emptySearchParamsSchema);
   if (queryParams instanceof NextResponse) {
     return queryParams;
-  }
-
-  const now = Date.now();
-
-  if (cachedInsights && cachedInsights.expiresAt > now) {
-    return NextResponse.json(cachedInsights.payload, {
-      headers: getResponseHeaders(),
-    });
   }
 
   const rateLimit = await takeRateLimitHit({
@@ -72,20 +54,6 @@ export async function GET(request: Request) {
     );
   }
 
-  if (!inFlightInsights) {
-    inFlightInsights = generateLiveInsightsFeed()
-      .then((payload) => {
-        cachedInsights = {
-          payload,
-          expiresAt: Date.now() + INSIGHTS_CACHE_TTL_MS,
-        };
-        return payload;
-      })
-      .finally(() => {
-        inFlightInsights = null;
-      });
-  }
-
-  const payload = await inFlightInsights;
+  const payload = await resolveInsightFeed();
   return NextResponse.json(payload, { headers: getResponseHeaders() });
 }

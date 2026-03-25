@@ -72,10 +72,7 @@ export function ContactSection() {
             <div className="h-px w-12 bg-zinc-300"></div>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
-            {tContact("heading").split(" ").slice(0, 3).join(" ")} <br />
-            <span className="text-zinc-400 italic">
-              {tContact("heading").split(" ").slice(3).join(" ")}
-            </span>
+            {tContact("heading")}
           </h2>
           <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto">
             {tContact("subtitle")}

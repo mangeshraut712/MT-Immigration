@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
+import { localizeHrefForLocale } from "@/i18n/routing";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -15,7 +16,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function PrivacyPage() {
+export default async function PrivacyPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
   return (
     <div className="bg-white">
       <section className="relative overflow-hidden border-b border-black/5 bg-zinc-50">
@@ -23,12 +30,15 @@ export default function PrivacyPage() {
         <div className="container-wide max-w-4xl py-24 md:py-28">
           <div className="relative">
             <div className="mb-6 flex flex-wrap gap-3 text-sm text-zinc-500">
-              <Link href="/" className="transition-colors hover:text-black">
+              <Link
+                href={localizeHrefForLocale(locale, "/")}
+                className="transition-colors hover:text-black"
+              >
                 Home
               </Link>
               <span>/</span>
               <Link
-                href="/insights"
+                href={localizeHrefForLocale(locale, "/insights")}
                 className="transition-colors hover:text-black"
               >
                 Insights

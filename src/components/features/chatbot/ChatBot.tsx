@@ -15,6 +15,8 @@ import {
   MicOff,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { localizeHref } from "@/i18n/routing";
 import {
   CHAT_MESSAGE_MAX_LENGTH,
   chatMessageSchema,
@@ -174,6 +176,7 @@ function renderMessageContent(content: string) {
 }
 
 export function ChatBot() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -670,7 +673,7 @@ export function ChatBot() {
                             className="h-8 w-full bg-foreground text-xs text-background hover:bg-foreground/90"
                           >
                             <Link
-                              href={message.action.link}
+                              href={localizeHref(pathname, message.action.link)}
                               onClick={() => setIsOpen(false)}
                             >
                               {message.action.label}{" "}
@@ -828,7 +831,7 @@ export function ChatBot() {
               </div>
               <div className="mt-2 text-center">
                 <Link
-                  href="/#contact"
+                  href={localizeHref(pathname, "/#contact")}
                   onClick={closeChat}
                   className="inline-flex items-center gap-1 text-[10px] text-zinc-400 transition-colors hover:text-black"
                 >

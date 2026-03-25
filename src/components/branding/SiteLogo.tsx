@@ -34,7 +34,7 @@ export function SiteLogo({
           fill
           sizes="64px"
           priority={priority}
-          loading={priority ? undefined : loading}
+          loading={priority ? "eager" : loading}
           className="object-contain p-0.5"
         />
       </div>

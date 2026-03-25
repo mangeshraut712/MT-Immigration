@@ -1,3 +1,5 @@
+import Script from "next/script";
+
 import { firmConfig } from "@/config/firm";
 import { siteUrl } from "@/config/site";
 
@@ -58,8 +60,10 @@ export function SiteStructuredData() {
   };
 
   return (
-    <script
+    <Script
+      id="site-structured-data"
       type="application/ld+json"
+      strategy="afterInteractive"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
     />
   );

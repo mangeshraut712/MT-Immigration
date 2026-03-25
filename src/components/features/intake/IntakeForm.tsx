@@ -11,6 +11,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { usePathname } from "next/navigation";
+import { localizeHref } from "@/i18n/routing";
 import {
   Select,
   SelectContent,
@@ -106,6 +108,7 @@ function getErrorId(field: IntakeField) {
 }
 
 export default function IntakeForm() {
+  const pathname = usePathname();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [direction, setDirection] = useState(0);
@@ -718,7 +721,7 @@ export default function IntakeForm() {
                       create an attorney-client relationship, and is subject to
                       the{" "}
                       <Link
-                        href="/privacy"
+                        href={localizeHref(pathname, "/privacy")}
                         className="font-medium text-zinc-900 underline hover:text-black"
                       >
                         Privacy Policy
