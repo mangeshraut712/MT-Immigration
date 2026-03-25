@@ -24,7 +24,7 @@ export default function Footer() {
   >;
 
   return (
-    <footer className="border-t border-border/70 bg-zinc-950 text-zinc-50">
+    <footer className="border-t border-border/70 bg-card text-card-foreground">
       {/* Main Footer */}
       <div className="container-wide py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-6">
@@ -41,13 +41,13 @@ export default function Footer() {
                 nameClassName="text-base text-zinc-50"
               />
             </Link>
-            <p className="text-sm text-zinc-400 leading-relaxed mb-5">
+            <p className="mb-5 text-sm leading-relaxed text-muted-foreground">
               {tFooter("tagline")}
             </p>
             <div className="space-y-2">
               <a
                 href={firmConfig.contact.emailHref}
-                className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 aria-label={tFooter("emailAria", {
                   email: firmConfig.contact.email,
                 })}
@@ -57,7 +57,7 @@ export default function Footer() {
               </a>
               <a
                 href={firmConfig.contact.phoneHref}
-                className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
+                className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground"
                 aria-label={tFooter("phoneAria", {
                   phone: firmConfig.contact.phoneDisplay,
                 })}
@@ -65,7 +65,7 @@ export default function Footer() {
                 <Phone size={14} />
                 {firmConfig.contact.phoneDisplay}
               </a>
-              <p className="flex items-center gap-2 text-sm text-zinc-400">
+              <p className="flex items-center gap-2 text-sm text-muted-foreground">
                 <MapPin size={14} />
                 {firmConfig.contact.city}
               </p>
@@ -79,7 +79,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
           >
-            <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-foreground">
               {tFooter("services")}
             </h3>
             <ul className="space-y-2">
@@ -87,7 +87,7 @@ export default function Footer() {
                 <li key={i}>
                   <Link
                     href={localizeHref(pathname, link.href)}
-                    className="text-sm text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1 group"
+                    className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.name}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -104,7 +104,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
           >
-            <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-foreground">
               {tFooter("company")}
             </h3>
             <ul className="space-y-2">
@@ -112,7 +112,7 @@ export default function Footer() {
                 <li key={i}>
                   <Link
                     href={localizeHref(pathname, link.href)}
-                    className="text-sm text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1 group"
+                    className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.name}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -129,7 +129,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}
           >
-            <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-foreground">
               {tFooter("support")}
             </h3>
             <ul className="space-y-2">
@@ -137,7 +137,7 @@ export default function Footer() {
                 <li key={i}>
                   <Link
                     href={localizeHref(pathname, link.href)}
-                    className="text-sm text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1 group"
+                    className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.name}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -154,7 +154,7 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
+            <h3 className="mb-4 text-xs font-semibold uppercase tracking-wide text-foreground">
               {tFooter("legal")}
             </h3>
             <ul className="space-y-2">
@@ -162,7 +162,7 @@ export default function Footer() {
                 <li key={i}>
                   <Link
                     href={localizeHref(pathname, link.href)}
-                    className="text-sm text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1 group"
+                    className="group inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
                     {link.name}
                     <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -175,15 +175,15 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar - Apple Style */}
-      <div className="border-t border-white/10">
+      <div className="border-t border-border/70">
         <div className="container-wide py-6">
           {/* Disclaimer */}
-          <p className="text-xs text-zinc-500 leading-relaxed mb-4">
+          <p className="mb-4 text-xs leading-relaxed text-muted-foreground">
             {tFooter("disclaimer")}
           </p>
 
           {/* Copyright & Links */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-xs text-zinc-500">
+          <div className="flex flex-col items-start justify-between gap-3 text-xs text-muted-foreground md:flex-row md:items-center">
             <p>
               {tFooter("copyright", {
                 year: new Date().getFullYear(),
@@ -193,28 +193,28 @@ export default function Footer() {
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href={localizeHref(pathname, "/privacy")}
-                className="hover:text-white transition-colors"
+                className="transition-colors hover:text-foreground"
               >
                 {tFooter("privacy")}
               </Link>
-              <span className="text-zinc-700">|</span>
+              <span className="text-border">|</span>
               <Link
                 href={localizeHref(pathname, "/terms")}
-                className="hover:text-white transition-colors"
+                className="transition-colors hover:text-foreground"
               >
                 {tFooter("terms")}
               </Link>
-              <span className="text-zinc-700">|</span>
+              <span className="text-border">|</span>
               <Link
                 href={localizeHref(pathname, "/insights")}
-                className="hover:text-white transition-colors"
+                className="transition-colors hover:text-foreground"
               >
                 {tFooter("insights")}
               </Link>
-              <span className="text-zinc-700">|</span>
+              <span className="text-border">|</span>
               <Link
                 href="/sitemap.xml"
-                className="hover:text-white transition-colors"
+                className="transition-colors hover:text-foreground"
               >
                 {tFooter("siteMap")}
               </Link>

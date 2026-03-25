@@ -89,19 +89,19 @@ export function PaymentSection() {
           >
             <div>
               <div className="mb-4 flex items-center gap-3">
-                <div className="h-px w-8 bg-zinc-300" />
-                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                <div className="h-px w-8 bg-border" />
+                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                   Payments
                 </span>
               </div>
-              <h2 className="text-4xl font-serif font-medium leading-[1.06] tracking-tight text-zinc-950 md:text-5xl">
+              <h2 className="text-4xl font-serif font-medium leading-[1.06] tracking-tight text-foreground md:text-5xl">
                 Simple payment options,
                 <br />
-                <span className="text-zinc-400 italic font-light">
+                <span className="font-light italic text-zinc-400 dark:text-zinc-500">
                   built for legal clients.
                 </span>
               </h2>
-              <p className="mt-5 max-w-xl text-base leading-relaxed text-zinc-600">
+              <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
                 Choose what you are paying for, then complete payment on the provider page.
               </p>
             </div>
@@ -112,13 +112,13 @@ export function PaymentSection() {
                   <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/70 bg-muted text-foreground">
                     <Icon className="h-4 w-4" />
                   </div>
-                  <span className="text-sm font-medium text-zinc-700">{label}</span>
+                  <span className="text-sm font-medium text-foreground">{label}</span>
                 </div>
               ))}
             </div>
 
             <div className="surface-panel rounded-[1.75rem] p-5 shadow-sm">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                 Common Uses
               </p>
               <div className="mt-4 grid gap-3">
@@ -127,8 +127,8 @@ export function PaymentSection() {
                     key={item.title}
                     className="surface-muted rounded-2xl px-4 py-3"
                   >
-                    <p className="text-sm font-semibold text-zinc-900">{item.title}</p>
-                    <p className="mt-1 text-sm leading-relaxed text-zinc-600">
+                    <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                       {item.description}
                     </p>
                   </div>
@@ -142,14 +142,14 @@ export function PaymentSection() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="surface-panel rounded-[2rem] p-5 shadow-xl shadow-zinc-200/30 md:p-6"
+            className="surface-panel rounded-[2rem] p-5 shadow-xl shadow-zinc-200/30 dark:shadow-black/30 md:p-6"
           >
-            <div className="flex flex-col gap-4 border-b border-zinc-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex flex-col gap-4 border-b border-border/70 pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-500">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                   Pay Now
                 </p>
-                <h3 className="mt-2 text-2xl font-serif font-medium tracking-tight text-zinc-950">
+                <h3 className="mt-2 text-2xl font-serif font-medium tracking-tight text-foreground">
                   Select a payment method
                 </h3>
               </div>
@@ -197,10 +197,10 @@ export function PaymentSection() {
                     <ActiveIcon className="h-5 w-5" />
                   </div>
                   <div>
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                       {activeMethod.provider}
                     </p>
-                    <h4 className="mt-2 text-2xl font-serif font-medium tracking-tight text-zinc-950">
+                    <h4 className="mt-2 text-2xl font-serif font-medium tracking-tight text-foreground">
                       {activeMethod.title}
                     </h4>
                   </div>
@@ -217,24 +217,24 @@ export function PaymentSection() {
                 )}
               </div>
 
-              <p className="mt-5 text-base leading-relaxed text-zinc-600">
+              <p className="mt-5 text-base leading-relaxed text-muted-foreground">
                 {activeMethod.summary}
               </p>
 
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 <div className="surface-inset rounded-2xl p-4 shadow-sm">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Best for
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">
                     {activeMethod.bestFor}
                   </p>
                 </div>
                 <div className="surface-inset rounded-2xl p-4 shadow-sm">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Speed
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">
                     {activeMethod.speed}
                   </p>
                 </div>

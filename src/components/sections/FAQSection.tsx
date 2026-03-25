@@ -25,10 +25,9 @@ export function FAQSection() {
   return (
     <section
       id="faq"
-      className="section-padding bg-white relative overflow-hidden"
+      className="section-padding relative overflow-hidden bg-background"
     >
-      {/* Solid White Background */}
-      <div className="absolute inset-0 bg-white" />
+      <div className="absolute inset-0 bg-gradient-subtle" />
 
       <div className="container-wide relative z-10">
         {/* Header */}
@@ -40,19 +39,19 @@ export function FAQSection() {
           className="text-center mb-16 max-w-3xl mx-auto"
         >
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12 bg-zinc-300"></div>
-            <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">
+            <div className="h-px w-12 bg-border"></div>
+            <span className="text-sm font-semibold tracking-widest uppercase text-muted-foreground">
               {tFaq("title")}
             </span>
-            <div className="h-px w-12 bg-zinc-300"></div>
+            <div className="h-px w-12 bg-border"></div>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
             {tFaq("heading").split(" ").slice(0, 2).join(" ")} <br />
-            <span className="text-zinc-400 italic">
+            <span className="text-zinc-400 italic dark:text-zinc-500">
               {tFaq("heading").split(" ").slice(2).join(" ")}
             </span>
           </h2>
-          <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground">
             {tFaq("subtitle")}
           </p>
         </motion.div>
@@ -69,8 +68,8 @@ export function FAQSection() {
             >
               {/* Category Header */}
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center">
-                  <HelpCircle className="w-5 h-5 text-zinc-900" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border/70 bg-muted">
+                  <HelpCircle className="h-5 w-5 text-foreground" />
                 </div>
                 <h3 className="text-2xl font-serif font-medium text-foreground">
                   {category.category}
@@ -89,9 +88,9 @@ export function FAQSection() {
                   >
                     <AccordionItem
                       value={`${categoryIndex}-${faqIndex}`}
-                      className="bg-white border border-zinc-100 rounded-2xl px-4 md:px-6 shadow-sm hover:border-zinc-200 transition-all duration-300 data-[state=open]:border-zinc-300 data-[state=open]:shadow-md data-[state=open]:bg-zinc-50"
+                      className="surface-panel rounded-2xl px-4 shadow-sm transition-all duration-300 hover:border-border md:px-6 data-[state=open]:border-border data-[state=open]:shadow-md data-[state=open]:bg-muted/35"
                     >
-                      <AccordionTrigger className="text-left text-base md:text-lg font-semibold hover:text-black transition-colors py-5 md:py-6 hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-inset rounded-lg">
+                      <AccordionTrigger className="rounded-lg py-5 text-left text-base font-semibold text-foreground transition-colors hover:text-foreground hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset md:py-6 md:text-lg">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="text-muted-foreground leading-relaxed pb-5 md:pb-6 text-base px-4 md:px-0">

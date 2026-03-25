@@ -11,8 +11,8 @@ export function HeroSection() {
 
   return (
     <section className="relative flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden bg-gradient-subtle md:min-h-[90vh]">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:72px_72px] opacity-70 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,black_40%,transparent_100%)]" />
-      <div className="absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-zinc-200/45 blur-[110px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:72px_72px] opacity-70 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,black_40%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.06)_1px,transparent_1px)]" />
+      <div className="absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-zinc-200/45 blur-[110px] dark:bg-zinc-700/35" />
 
       <div className="container-wide relative z-10 py-20 text-center sm:py-24 md:pt-32 md:pb-20">
         {/* Badge */}
@@ -30,13 +30,13 @@ export function HeroSection() {
         <h1 className="mb-8 text-4xl font-serif font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-7xl lg:text-8xl">
           <span className="text-foreground drop-shadow-sm">{tHero("title")}</span>
           <br />
-          <span className="text-zinc-500 italic font-light">
+          <span className="text-zinc-500 italic font-light dark:text-zinc-400">
             with{" "}
             <span className="relative inline-block font-medium text-foreground not-italic">
               {tHero("titleHighlight")}
               <span
                 aria-hidden
-                className="absolute -bottom-1 left-0 right-0 h-[2px] origin-left bg-zinc-300"
+                className="absolute -bottom-1 left-0 right-0 h-[2px] origin-left bg-zinc-300 dark:bg-zinc-600"
               />
             </span>
           </span>
@@ -72,7 +72,7 @@ export function HeroSection() {
         </div>
 
         {/* Refined Trust indicators */}
-        <div className="flex flex-col items-center justify-center gap-2 text-xs font-medium text-zinc-500 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-3 sm:text-sm">
+        <div className="flex flex-col items-center justify-center gap-2 text-xs font-medium text-muted-foreground sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-3 sm:text-sm">
           <div className="glass flex items-center gap-1.5 rounded-full px-3 py-1.5 sm:gap-2 sm:px-4 sm:py-2">
             <Phone size={14} className="text-foreground sm:hidden" />
             <Phone size={16} className="hidden text-foreground sm:block" />

@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { firmConfig } from "@/config/firm";
 import { localizeHref, routing, stripLocalePrefix } from "@/i18n/routing";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const primaryNavItems = [
   { name: "Services", href: "/#services" },
@@ -135,7 +136,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
         )}
       >
         <div className="hidden border-b border-border/60 lg:block">
-          <div className="container-wide flex h-9 items-center justify-between gap-6 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500">
+          <div className="container-wide flex h-9 items-center justify-between gap-6 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
             <div className="flex min-w-0 items-center gap-6">
               {utilityItems.slice(0, 2).map((item) => (
                 <div
@@ -150,7 +151,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
 
             <a
               href={firmConfig.contact.phoneHref}
-              className="flex items-center gap-2 whitespace-nowrap transition-colors hover:text-black"
+              className="flex items-center gap-2 whitespace-nowrap transition-colors hover:text-black dark:hover:text-white"
             >
               <Phone className="h-3.5 w-3.5 text-zinc-400" />
               {firmConfig.contact.phoneDisplay}
@@ -167,8 +168,8 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                 className="transition-all"
               >
                 <SiteLogo
-                  imageClassName="border-black/5"
-                  nameClassName="hidden text-[1.65rem] leading-none text-zinc-950 sm:block"
+                  imageClassName="border-black/5 dark:border-white/10"
+                  nameClassName="hidden text-[1.65rem] leading-none text-zinc-950 dark:text-zinc-50 sm:block"
                   priority
                 />
               </motion.div>
@@ -197,6 +198,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
 
             <div className="hidden items-center lg:flex gap-3">
               <LanguageSwitcher currentLocale={currentLocale} />
+              <ThemeToggle />
               <Button
                 asChild
                 size="sm"
@@ -263,7 +265,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                       <a
                         key={item.text}
                         href={item.href}
-                        className="flex items-center gap-3 text-sm text-zinc-700 transition-colors hover:text-black"
+                        className="flex items-center gap-3 text-sm text-zinc-700 transition-colors hover:text-black dark:text-zinc-300 dark:hover:text-white"
                       >
                         <item.icon className="h-4 w-4 text-zinc-400" />
                         <span>{item.text}</span>
@@ -271,7 +273,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                     ) : (
                       <div
                         key={item.text}
-                        className="flex items-start gap-3 text-sm text-zinc-700"
+                        className="flex items-start gap-3 text-sm text-zinc-700 dark:text-zinc-300"
                       >
                         <item.icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-zinc-400" />
                         <span>{item.text}</span>
@@ -306,6 +308,13 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                       </motion.div>
                     );
                   })}
+                </div>
+
+                <div>
+                  <div className="flex items-center gap-3">
+                    <LanguageSwitcher currentLocale={currentLocale} />
+                    <ThemeToggle />
+                  </div>
                 </div>
 
                 <div>

@@ -18,19 +18,19 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <div className="container-wide flex min-h-[70vh] items-center justify-center py-24">
-        <div className="w-full max-w-3xl rounded-[2.5rem] border border-zinc-200 bg-zinc-50 p-10 text-center shadow-soft md:p-14">
-          <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-sm">
+        <div className="surface-panel w-full max-w-3xl p-10 text-center md:p-14">
+          <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full border border-border/70 bg-background/90 shadow-sm">
             <AlertTriangle className="h-10 w-10 text-red-500" />
           </div>
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
             Unexpected Error
           </p>
-          <h1 className="mt-5 text-4xl font-serif font-medium tracking-tight text-zinc-950 md:text-5xl">
+          <h1 className="mt-5 text-4xl font-serif font-medium tracking-tight text-foreground md:text-5xl">
             Something interrupted the page.
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-zinc-600">
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
             Please try again. If the issue continues, contact the office directly
             so the problem can be reviewed.
           </p>

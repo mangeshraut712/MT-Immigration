@@ -39,12 +39,12 @@ export class ErrorBoundary extends Component<Props, State> {
       }
 
       return (
-        <div className="flex min-h-[400px] flex-col items-center justify-center p-8 text-center">
+        <div className="flex min-h-[400px] flex-col items-center justify-center bg-background p-8 text-center text-foreground">
           <AlertTriangle className="mb-4 h-16 w-16 text-red-500" />
-          <h2 className="mb-2 text-xl font-semibold text-gray-900">
+          <h2 className="mb-2 text-xl font-semibold text-foreground">
             Something went wrong
           </h2>
-          <p className="mb-6 text-gray-600">
+          <p className="mb-6 text-muted-foreground">
             We encountered an unexpected error. Please try refreshing the page.
           </p>
           <Button
@@ -56,10 +56,10 @@ export class ErrorBoundary extends Component<Props, State> {
           </Button>
           {process.env.NODE_ENV === "development" && this.state.error && (
             <details className="mt-4 max-w-2xl text-left">
-              <summary className="cursor-pointer text-sm text-gray-500">
+              <summary className="cursor-pointer text-sm text-muted-foreground">
                 Error Details (Development)
               </summary>
-              <pre className="mt-2 whitespace-pre-wrap rounded bg-gray-100 p-4 text-xs text-red-600">
+              <pre className="mt-2 whitespace-pre-wrap rounded-xl border border-border/70 bg-card p-4 text-xs text-red-500">
                 {this.state.error.stack}
               </pre>
             </details>

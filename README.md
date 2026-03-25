@@ -51,7 +51,7 @@
 - **Advanced Monitoring**: Real-time Core Web Vitals tracking
 
 ### 🌙 **Theming**
-- **Light-First Design System**: Unified surface, border, and typography tokens across the primary UI
+- **Light + Dark Theme Support**: Manual theme toggle with persisted preference and semantic surface tokens
 - **Consistent Component Styling**: Shared surface utilities reduce one-off palette drift between sections
 - **Accessibility Compliant**: WCAG-aware contrast and focus styling across primary components
 
@@ -443,7 +443,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Next.js 16.2** with Turbopack, advanced caching, PWA capabilities, and App Router conventions
 - **React 19.2** runtime with modern rendering semantics, server/client composition, and React Compiler
 - **Progressive Web App (PWA)** with service workers, offline functionality, and install prompts
-- **Refined Theming** with a unified light-first design system and consistent surface tokens
+- **Refined Theming** with semantic surface tokens and a lightweight custom theme toggle
 - **Advanced Analytics** with real-time Core Web Vitals tracking and user behavior monitoring
 - **Comprehensive Testing Suite** with Jest, 22 test cases, and 100% critical component coverage
 - **Enhanced Accessibility** with WCAG AA compliance, ARIA labels, and keyboard navigation
@@ -803,11 +803,12 @@ Typical expected results:
 - **`getRuntimeUiLocale()` upgraded**: The locale resolver now recognizes all 12 supported locales instead of only three.
 - **Structural audit**: Automated key-parity checks confirmed 134/134 runtime-ui keys and full JSON key coverage for every locale.
 
-### AI Safety & Premium UI (March 2026)
+### AI Safety, Premium UI & Theming (March 2026)
 - **Deterministic PII Filters**: Regex-based interceptors block SSNs, A-Numbers, and overconfident claims before they reach the user.
 - **Intent Preservation**: `pruneChatContext` always retains the first user message so the AI never loses the original case context.
 - **Glassmorphic ChatBot UI**: Frosted-glass container with `backdrop-blur-2xl`, semantic surface tokens (`bg-background/95`), and micro-animations.
-- **Theme-Aware Refactoring**: Purged all hardcoded light-mode Tailwind classes across ChatBot, IntakeForm, PricingSection, and Footer; replaced with semantic variables for seamless dark-mode support.
+- **Theme Toggle Restored**: A lightweight custom theme provider now powers a working light/dark toggle in the navbar without reintroducing the old `next-themes` runtime issues.
+- **Theme-Aware Refactoring (Complete)**: Fully purged 100+ instances of legacy hardcoded colors (`bg-white`, `text-zinc-900`) across all 68 pages, Insights filters, ChatBot interactions, and interactive games. The entire platform natively inherits inverted semantic variables in `.dark` mode (`--background`, `--card`, `--muted`, `--foreground`), scaling dynamically without fixed color disruption.
 
 ### Security & Performance
 - **AI Safety Hardening**: Request validation, bounded transcript windows, fallback responses, and bench review stabilize non-deterministic model output.
@@ -824,3 +825,9 @@ Typical expected results:
 Copyright © M&T Immigration Law Firm.
 
 Attorney advertising. Prior results do not guarantee a similar outcome.
+
+---
+
+<div align="center">
+  <a href="#-mt-immigration-law-firm"><strong>⬆️ Go to Top</strong></a>
+</div>

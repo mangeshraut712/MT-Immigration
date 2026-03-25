@@ -85,7 +85,7 @@ function SourceLink({
   const toneClasses =
     tone === "light"
       ? "text-zinc-300 hover:text-white"
-      : "text-foreground text-foreground hover:text-foreground/80";
+      : "text-foreground hover:text-foreground/80";
 
   if (isExternal) {
     return (
@@ -588,10 +588,10 @@ export function InsightsPageClient({
                     <Link
                       key={topic}
                       href={localizeHref(pathname, findTopicHref(feed, topic))}
-                      className="group flex items-center justify-between rounded-xl border border-border p-4 transition-all hover:border-black hover:bg-muted"
+                      className="group flex items-center justify-between rounded-xl border border-border p-4 transition-all hover:border-foreground hover:bg-muted"
                     >
                       <span className="font-medium text-foreground">{topic}</span>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground group-text-foreground hover:text-foreground/80" />
+                      <ChevronRight className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-foreground/80" />
                     </Link>
                   ))}
                 </div>
@@ -630,7 +630,7 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="rounded-[2rem] bg-black p-6 text-white shadow-xl shadow-zinc-900/10"
+                className="rounded-[2rem] bg-foreground p-6 text-background shadow-xl shadow-zinc-900/10"
               >
                 <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   {copy.sourceStandards}
@@ -835,7 +835,7 @@ export function InsightsPageClient({
               </div>
               <Button
                 asChild
-                className="h-14 rounded-full bg-black px-8 text-lg font-medium text-white hover:bg-zinc-800 shadow-xl transition-all"
+                className="h-14 rounded-full bg-foreground px-8 text-lg font-medium text-background shadow-xl transition-all hover:opacity-90"
               >
                 <Link href={localizeHref(pathname, "/#contact")}>
                   {copy.requestLegalGuidance}

@@ -103,35 +103,35 @@ export default async function PrivacyPage({
     privacyPageCopy.en;
 
   return (
-    <div className="bg-white">
-      <section className="relative overflow-hidden border-b border-black/5 bg-zinc-50">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.03),transparent_55%)]" />
+    <div className="bg-background text-foreground">
+      <section className="bg-gradient-subtle relative overflow-hidden border-b border-border/70">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.03),transparent_55%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(248,250,252,0.08),transparent_55%)]" />
         <div className="container-wide max-w-4xl py-24 md:py-28">
           <div className="relative">
-            <div className="mb-6 flex flex-wrap gap-3 text-sm text-zinc-500">
+            <div className="mb-6 flex flex-wrap gap-3 text-sm text-muted-foreground">
               <Link
                 href={localizeHrefForLocale(locale, "/")}
-                className="transition-colors hover:text-black"
+                className="transition-colors hover:text-foreground"
               >
                 Home
               </Link>
               <span>/</span>
               <Link
                 href={localizeHrefForLocale(locale, "/insights")}
-                className="transition-colors hover:text-black"
+                className="transition-colors hover:text-foreground"
               >
                 Insights
               </Link>
               <span>/</span>
-              <span className="text-zinc-900">{copy.breadcrumbCurrent}</span>
+              <span className="text-foreground">{copy.breadcrumbCurrent}</span>
             </div>
-            <div className="inline-flex rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-zinc-600 shadow-sm">
+            <div className="inline-flex rounded-full border border-border/70 bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
               {copy.badge}
             </div>
-            <h1 className="mt-6 text-4xl font-serif font-medium tracking-tight text-zinc-950 md:text-6xl">
+            <h1 className="mt-6 text-4xl font-serif font-medium tracking-tight text-foreground md:text-6xl">
               {copy.heading}
             </h1>
-            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600">
+            <p className="mt-6 max-w-3xl text-lg leading-relaxed text-muted-foreground">
               {copy.intro}
             </p>
           </div>
@@ -139,10 +139,10 @@ export default async function PrivacyPage({
       </section>
 
       <div className="container-wide max-w-4xl py-16 md:py-20">
-        <div className="space-y-10 text-zinc-700 leading-relaxed">
+        <div className="space-y-10 leading-relaxed text-muted-foreground">
           {copy.sections.map((section) => (
             <section key={section.title}>
-              <h2 className="mb-3 text-2xl font-serif font-medium">
+              <h2 className="mb-3 text-2xl font-serif font-medium text-foreground">
                 {section.title}
               </h2>
               <p>{section.body}</p>
