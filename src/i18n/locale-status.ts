@@ -11,6 +11,6 @@ export function isLocaleTranslationComplete(locale: string): locale is Locale {
 }
 
 export function getLocaleTranslationNotice(locale: string) {
+  void locale;
   return null;
 }
-

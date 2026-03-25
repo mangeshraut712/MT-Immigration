@@ -46,152 +46,220 @@
     "virtual": "全国虚拟服务",
     "virtualDesc": "可为全国各地的客户进行远程咨询。"
   },
-  "insightsPreview": {
-    "title": "Insights",
-    "heading": "Case studies, news, and practical reads in one place.",
-    "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
-    "openAll": "Open All Insights",
-    "seeMore": "See More",
-    "caseStudies": "Case Studies",
-    "news": "News",
-    "analysis": "Analysis"
-  },
-  "language": {
-    "switch": "English",
-    "current": "中文"
-  },
-  "briefBreak": {
-    "previewTitle": "Docket Zip",
-    "previewSubtitle": "Connect the facts. Fill the record.",
-    "title": "短暂休息",
-    "cta": "进入谜题室",
-    "heading": "一个安静的拼图室，适合繁重工作之间的时刻。",
-    "pill": "每日密室谜题，带有条纹、提示和零法律压力",
-    "subtitle": "公司网站在重要的地方保持严肃的态度。这是一个有意绕道的地方：一个以法律为主题的小型拼图页面，旨在集中注意力、重置和缓解压力。"
-  },
-  "intake": {
-    "step1Title": "接触",
-    "consent": "我同意收集和处理我的信息",
-    "successDesc": "我们将审核您的信息并使用您首选的联系方式进行跟进。",
-    "success": "收到咨询请求。",
-    "language": "首选语言",
-    "caseType": "物质类型",
-    "email": "电子邮件",
-    "step2Title": "案例详情",
-    "summary": "案例概要",
-    "phone": "电话号码",
-    "submitting": "正在提交...",
-    "step3Title": "审查",
-    "name": "姓名"
-  },
-  "pricing": {
-    "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
-    "noteLabel": "Note:",
-    "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
-    "benefits": [
-      "Transparent, upfront pricing",
-      "Scope explained before work begins",
-      "Flexible payment plans when appropriate",
-      "Hosted online payment options",
-      "No hidden administrative fees",
-      "Consultation fees credited when applicable",
-      "Government filing fees billed separately"
+  "process": {
+    "title": "我们如何工作",
+    "heading": "明确的法律程序，没有数量-公司的混乱。",
+    "subtitle": "该实践是围绕一名拥有文件、策略以及从第一次咨询到归档决定的沟通的律师而建立的。",
+    "step1Title": "倾听和评估",
+    "step1Desc": "从付费咨询开始，以确定问题、截止日期和最干净的下一步。",
+    "step2Title": "准备并归档",
+    "step2Desc": "制定申请策略，收集支持证据，并仔细准备提交材料。",
+    "step3Title": "引导您完成",
+    "step3Desc": "提交面试准备、应对策略和直接跟进后，请做好准备。",
+    "step1Features": [
+      "与律师协商",
+      "初步文件审查",
+      "范围和风险讨论"
     ],
+    "step2Features": [
+      "表格起草和审核",
+      "证据清单",
+      "最终备案前质量检查"
+    ],
+    "step3Features": [
+      "面试准备",
+      "RFE 或截止日期计划",
+      "基于电子邮件的状态更新"
+    ]
+  },
+  "services": {
+    "title": "我们的专业知识",
+    "heading": "重点关注移民事务，并通过明确的申请计划进行处理。",
+    "subtitle": "从简单的签证申请到法庭敏感的紧急问题，实践的重点是准备、坦诚的风险评估和直接沟通。",
+    "timeline": "时间轴",
+    "price": "从",
+    "details": "细节",
+    "whatWeHandle": "我们处理什么",
+    "keyRequirements": "主要要求",
+    "estimatedTimeline": "预计时间表",
+    "bookConsultation": "预约咨询",
+    "viewPricing": "查看定价 ({price})",
     "items": [
       {
-        "service": "Visitor Visa (B1/B2)",
-        "price": "$350–$650",
-        "includes": "DS-160, coaching"
+        "id": "visitor",
+        "title": "访客签证（B1/B2）",
+        "description": "全面准备旅游和商务旅行签证。",
+        "timeline": "2-4周",
+        "price": "350 美元起",
+        "features": [
+          "DS-160 准备和指导",
+          "模拟面试辅导",
+          "记录清单和策略"
+        ],
+        "requirements": [
+          "有效护照",
+          "与祖国的联系",
+          "财务能力"
+        ],
+        "stat": "围绕您的实际旅行目的进行面试准备"
       },
       {
-        "service": "Student Visa (F-1)",
-        "price": "$450–$900",
-        "includes": "I-20 guidance, prep"
+        "id": "student",
+        "title": "学生签证（F-1）",
+        "description": "国际学生在美国接受教育的指南。",
+        "timeline": "1-3个月",
+        "price": "450 美元起",
+        "features": [
+          "入学途径指导",
+          "I-20 和 SEVIS 费用指南",
+          "全面的面试准备"
+        ],
+        "requirements": [
+          "I-20 表格",
+          "SEVIS收据",
+          "财务文件",
+          "学业记录"
+        ],
+        "stat": "从文件审查到领事面试准备的支持"
       },
       {
-        "service": "Change of Status",
-        "price": "$850–$1,800",
-        "includes": "I-539, risk assessment"
+        "id": "marriage",
+        "title": "以婚姻为基础",
+        "description": "美国公民和永久居民的配偶的绿卡。",
+        "timeline": "6-18个月",
+        "price": "1,800 美元起",
+        "features": [
+          "身份调整（I-130、I-485）",
+          "领事处理支持",
+          "访谈准备和证据策略"
+        ],
+        "requirements": [
+          "有效婚姻",
+          "申请人公民身份或 LPR 身份",
+          "财政支持"
+        ],
+        "stat": "善意婚姻案件的证据优先规划"
       },
       {
-        "service": "Marriage-Based AOS",
-        "price": "$1,800–$3,500",
-        "includes": "Full forms, evidence"
+        "id": "change-status",
+        "title": "身份变更",
+        "description": "从一种非移民身份转换为另一种非移民身份，例如 B-2 转换为 F-1。",
+        "timeline": "3-6个月",
+        "price": "850 美元起",
+        "features": [
+          "资格和风险评估",
+          "I-539 表格准备",
+          "RFE回复支持"
+        ],
+        "requirements": [
+          "当前有效状态",
+          "无移民意向",
+          "财务偿付能力"
+        ],
+        "stat": "提交状态变更请求之前的风险分析"
       },
       {
-        "service": "Consular Processing",
-        "price": "$1,200–$2,400",
-        "includes": "NVC support"
+        "id": "work-permit",
+        "title": "工作许可证 (I-765)",
+        "description": "符合资格的申请人的就业授权文件。",
+        "timeline": "1-3个月",
+        "price": "250 美元起",
+        "features": [
+          "特定类别的资格分析",
+          "申请准备和提交",
+          "应用程序跟踪"
+        ],
+        "requirements": [
+          "基本请愿书",
+          "资格类别"
+        ],
+        "stat": "提交前进行类别审查以避免可预防的延误"
       },
       {
-        "service": "Work Permit (I-765)",
-        "price": "$250–$450",
-        "includes": "Eligibility analysis"
+        "id": "asylum",
+        "title": "庇护 (I-589)",
+        "description": "保护那些担心在祖国遭受迫害的人。",
+        "timeline": "6-24个月",
+        "price": "咨询报价",
+        "features": [
+          "申请准备和宣誓书支持",
+          "国情研究",
+          "面试准备"
+        ],
+        "requirements": [
+          "害怕受到迫害",
+          "在美国实际存在"
+        ],
+        "stat": "高风险人道主义事务的保密准备"
       },
       {
-        "service": "Advance Parole (I-131)",
-        "price": "$250–$450",
-        "includes": "Authorization prep"
+        "id": "u-visa",
+        "title": "U 签证（受害者）",
+        "description": "协助执法的某些犯罪受害者的地位。",
+        "timeline": "3-12个月",
+        "price": "咨询报价",
+        "features": [
+          "I-918 和补充 B 支持",
+          "证据收集",
+          "善意认定指导"
+        ],
+        "requirements": [
+          "合格犯罪的受害者",
+          "对警察有帮助"
+        ],
+        "stat": "对基于幸存者的申请进行敏感处理"
       },
       {
-        "service": "Expedite Request Prep",
-        "price": "$300–$600",
-        "includes": "Drafting, evidence"
+        "id": "advance-parole",
+        "title": "提前假释",
+        "description": "待处理的绿卡申请人的旅行授权 (I-131)。",
+        "timeline": "1-2个月",
+        "price": "300 美元起",
+        "features": [
+          "旅行授权准备",
+          "风险咨询与分析",
+          "如果需要紧急处理"
+        ],
+        "requirements": [
+          "等待 I-485",
+          "DACA 或 TPS 资格"
+        ],
+        "stat": "离开美国前的旅行风险审查"
       },
       {
-        "service": "U Visa",
-        "price": "$1,800–$3,500",
-        "includes": "Full support"
-      },
-      {
-        "service": "Asylum",
-        "price": "$2,500–$6,000",
-        "includes": "Research, prep"
+        "id": "expedite",
+        "title": "加急请求",
+        "description": "出于人道主义或财务原因，加速处理未决案件。",
+        "timeline": "1-4周",
+        "price": "500 美元起",
+        "features": [
+          "起草令人信服的请求",
+          "证据汇编",
+          "根据 USCIS 标准量身定制的策略"
+        ],
+        "requirements": [
+          "严重的经济损失",
+          "人道主义紧急情况",
+          "美国政府利益"
+        ],
+        "stat": "围绕记录的紧迫性和机构标准提出请求"
       }
-    ],
-    "priceRange": "价格范围",
-    "cta": "获取定制报价",
-    "service": "服务",
-    "heading": "明确的法律费用以集中代表。",
-    "whyChoose": "为什么选择我们？",
-    "subtitle": "范围因复杂性、紧急程度和文档负载而异。目标是在您预订之前显示实际的法律费用范围。",
-    "title": "费用透明",
-    "includes": "包括"
+    ]
   },
   "whyChooseUs": {
-    "reason2Title": "以截止日期为重点的工作",
-    "heading2": "专为人们真正失眠的问题而设计。",
-    "quoteEmphasis": "早期的",
-    "reason1Title": "一位律师，一种策略",
-    "reason3Desc": "在工作开始之前，咨询、归档工作和后续步骤均以通俗易懂的语言进行阐述。",
-    "quoteBefore": "当律师密切关注档案并进行沟通时，精品业务的效果最佳",
-    "quoteAfter": "，并在文件发出前告诉客户困难的部分。",
     "title": "为什么选择M&T",
-    "reason4Title": "纪律严明的摄入量",
-    "practiceFocus": "练习重点",
-    "reason3Title": "明确的范围和费用",
     "heading": "独奏练习注意。明确的法律判断。",
-    "cta": "请求案例审查",
-    "practiceAreas": [
-      {
-        "title": "工作和地位很重要",
-        "summary": "H-1B、EAD 和身份变更策略。"
-      },
-      {
-        "summary": "F-1 规划、身份维护和面试准备。",
-        "title": "学生途径"
-      },
-      {
-        "summary": "基于婚姻的申请和家庭团聚规划。",
-        "title": "家庭案件"
-      },
-      {
-        "title": "人道主义救援",
-        "summary": "庇护、U 签证和紧急保护事务。"
-      }
-    ],
+    "practiceFocus": "练习重点",
+    "heading2": "专为人们真正失眠的问题而设计。",
+    "reason1Title": "一位律师，一种策略",
     "reason1Desc": "从咨询到下一个申请决定，案件策略由同一位律师负责。",
+    "reason2Title": "以截止日期为重点的工作",
+    "reason2Desc": "紧急面谈、法庭日期和政府答复截止日期将得到优先处理。",
+    "reason3Title": "明确的范围和费用",
+    "reason3Desc": "在工作开始之前，咨询、归档工作和后续步骤均以通俗易懂的语言进行阐述。",
+    "reason4Title": "纪律严明的摄入量",
     "reason4Desc": "该网站现在验证提交内容，将人工智能密钥保留在服务器端，并对公共表单进行速率限制。",
+    "cta": "请求案例审查",
     "reasons": [
       {
         "title": "一位律师，一种策略",
@@ -206,416 +274,160 @@
         "description": "在工作开始之前，咨询、归档工作和后续步骤均以通俗易懂的语言进行阐述。"
       },
       {
-        "description": "该网站验证提交内容，将人工智能凭证保存在服务器端，并对公共表单进行速率限制。",
-        "title": "纪律严明的摄入量"
+        "title": "纪律严明的摄入量",
+        "description": "该网站验证提交内容，将人工智能凭证保存在服务器端，并对公共表单进行速率限制。"
       }
     ],
-    "reason2Desc": "紧急面谈、法庭日期和政府答复截止日期将得到优先处理。"
+    "practiceAreas": [
+      {
+        "title": "工作和地位很重要",
+        "summary": "H-1B、EAD 和身份变更策略。"
+      },
+      {
+        "title": "学生途径",
+        "summary": "F-1 规划、身份维护和面试准备。"
+      },
+      {
+        "title": "家庭案件",
+        "summary": "基于婚姻的申请和家庭团聚规划。"
+      },
+      {
+        "title": "人道主义救援",
+        "summary": "庇护、U 签证和紧急保护事务。"
+      }
+    ],
+    "quoteBefore": "当律师密切关注档案并进行沟通时，精品业务的效果最佳",
+    "quoteEmphasis": "早期的",
+    "quoteAfter": "，并在文件发出前告诉客户困难的部分。"
   },
   "testimonials": {
-    "items": [
-      {
-        "title": "Direct communication",
-        "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
-        "label": "No handoff model"
-      },
-      {
-        "title": "Prepared submissions",
-        "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
-        "label": "Evidence-first work"
-      },
-      {
-        "title": "Calm guidance in urgent matters",
-        "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
-        "label": "Urgent matters prioritized"
-      },
-      {
-        "title": "Straight answers on price and scope",
-        "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
-        "label": "Transparent fees"
-      }
-    ],
-    "calm": "紧急事务冷静指导",
-    "straight": "关于价格和范围的直接答案",
-    "heading": "强大的独奏练习应该带来什么。",
-    "directComm": "直接沟通",
-    "prepared": "准备提交的材料",
-    "subtitle": "该网站现在不再提供无法验证的推荐，而是专注于客户对精品移民实践的合理期望标准。",
-    "directCommLabel": "无切换模型",
-    "straightLabel": "费用透明",
-    "calmLabel": "紧急事项优先处理",
     "title": "客户体验",
-    "preparedLabel": "证据优先的工作"
-  },
-  "footer": {
-    "links": {
-      "services": [
-        {
-          "name": "Visitor Visas (B1/B2)",
-          "href": "/#services"
-        },
-        {
-          "name": "Student Visas (F-1)",
-          "href": "/#services"
-        },
-        {
-          "name": "Marriage-Based",
-          "href": "/#services"
-        },
-        {
-          "name": "Asylum & U-Visa",
-          "href": "/#services"
-        },
-        {
-          "name": "Work Permits (EAD)",
-          "href": "/#services"
-        }
-      ],
-      "company": [
-        {
-          "name": "About the Practice",
-          "href": "/#about"
-        },
-        {
-          "name": "Our Process",
-          "href": "/#process"
-        },
-        {
-          "name": "Client Experience",
-          "href": "/#testimonials"
-        },
-        {
-          "name": "Insights",
-          "href": "/insights"
-        },
-        {
-          "name": "Contact",
-          "href": "/#contact"
-        }
-      ],
-      "support": [
-        {
-          "name": "Pricing & Fees",
-          "href": "/#pricing"
-        },
-        {
-          "name": "Secure Payments",
-          "href": "/#payments"
-        },
-        {
-          "name": "FAQ",
-          "href": "/#faq"
-        },
-        {
-          "name": "Book Consultation",
-          "href": "/#contact"
-        },
-        {
-          "name": "Brief Break",
-          "href": "/brief-break"
-        }
-      ],
-      "legal": [
-        {
-          "name": "Privacy Policy",
-          "href": "/privacy"
-        },
-        {
-          "name": "Terms of Use",
-          "href": "/terms"
-        },
-        {
-          "name": "Attorney Advertising",
-          "href": "/terms"
-        }
-      ]
-    },
-    "phoneAria": "请拨打 {phone} 联系我们",
-    "disclaimer": "律师广告。本网站上的信息仅供一般参考之用。本网站上的任何内容均不应被视为针对任何个案或情况的法律建议。该信息无意创建、接收或查看也不构成律师与委托人关系。先前的结果并不能保证类似的结果。",
-    "privacy": "隐私政策",
-    "legal": "合法的",
-    "insights": "见解",
-    "support": "支持",
-    "terms": "使用条款",
-    "copyright": "版权所有 © {年份} {名称}。版权所有。",
-    "advertising": "律师广告",
-    "tagline": "由律师主导的精品移民代理，具有直接沟通、透明的费用和针对性的案件策略。",
-    "company": "公司",
-    "services": "服务",
-    "siteMap": "网站地图",
-    "emailAria": "给我们发电子邮件：{email}"
-  },
-  "about": {
-    "description": "M&T 被定位为专注于单独执业的客户，他们希望获得深思熟虑的准备、直接的答案以及直接联系处理工作的律师。",
-    "quote": "移民案件太重要了，不能在大量的实践中消失。您应该知道谁在指导该策略、下一个备案是什么以及风险在哪里。",
-    "attorneyLed": "律师主导的策略",
-    "title": "关于",
-    "filingRoadmap": "清晰的归档路线图",
-    "boutique": "精品案例关注度",
-    "virtual": "全国虚拟咨询",
-    "credentials": "资质和专业知识",
-    "heading": "专为直接沟通而打造的精品移民实践"
-  },
-  "process": {
-    "step1Features": [
-      "Consultation with the attorney",
-      "Initial document review",
-      "Scope and risk discussion"
-    ],
-    "step2Features": [
-      "Form drafting and review",
-      "Evidence checklist",
-      "Final pre-filing quality check"
-    ],
-    "step3Features": [
-      "Interview preparation",
-      "RFE or deadline planning",
-      "Email-based status updates"
-    ],
-    "step3Title": "引导您完成",
-    "step3Desc": "提交面试准备、应对策略和直接跟进后，请做好准备。",
-    "step2Desc": "制定申请策略，收集支持证据，并仔细准备提交材料。",
-    "step1Title": "倾听和评估",
-    "step2Title": "准备并归档",
-    "step1Desc": "从付费咨询开始，以确定问题、截止日期和最干净的下一步。",
-    "subtitle": "该实践是围绕一名拥有文件、策略以及从第一次咨询到归档决定的沟通的律师而建立的。",
-    "title": "我们如何工作",
-    "heading": "明确的法律程序，没有数量-公司的混乱。"
-  },
-  "contact": {
-    "cards": [
-      {
-        "label": "Phone / WhatsApp",
-        "tooltip": "Click to call"
-      },
-      {
-        "label": "Email",
-        "tooltip": "Click to email"
-      },
-      {
-        "label": "Office",
-        "tooltip": "New York, NY"
-      },
-      {
-        "label": "Business Hours",
-        "tooltip": "1-2 business day response"
-      }
-    ],
-    "feeOptions": [
-      {
-        "label": "15 min Initial Sync",
-        "price": "$125"
-      },
-      {
-        "label": "30 min Strategy Session",
-        "price": "$250"
-      }
-    ],
-    "subtitle": "预约咨询或发送结构化的接收请求。该办公室会在 1-2 个工作日内回复新的询问。",
-    "min15": "15分钟",
-    "feeCredit": "如果保留，费用将计入服务费。",
-    "heading": "准备好审查您的问题了吗？",
-    "min30": "30分钟",
-    "email": "电子邮件",
-    "consultationFees": "咨询费",
-    "contactInfo": "联系信息",
-    "phone": "电话/WhatsApp",
-    "office": "办公室",
-    "responseTime": "响应时间",
-    "title": "开始使用"
-  },
-  "cta": {
-    "feature2": "1-2 个工作日回复",
-    "feature1": "透明的咨询费用",
-    "title": "准备好开始了吗？",
-    "heading": "您的移民策略从真实案例审查开始。",
-    "ctaPrimary": "日程咨询",
-    "feature3": "全国虚拟咨询",
-    "ctaSecondary": "立即致电",
-    "subtitle": "不要将高风险的移民事务交给一般的接收渠道。从有针对性的咨询开始，并从律师主导的实践中明确下一步。"
-  },
-  "services": {
-    "details": "细节",
-    "keyRequirements": "主要要求",
-    "estimatedTimeline": "预计时间表",
-    "subtitle": "从简单的签证申请到法庭敏感的紧急问题，实践的重点是准备、坦诚的风险评估和直接沟通。",
-    "heading": "重点关注移民事务，并通过明确的申请计划进行处理。",
-    "timeline": "时间轴",
-    "price": "从",
-    "bookConsultation": "预约咨询",
-    "whatWeHandle": "我们处理什么",
-    "viewPricing": "查看定价 ({price})",
-    "title": "我们的专业知识",
+    "heading": "强大的独奏练习应该带来什么。",
+    "subtitle": "该网站现在不再提供无法验证的推荐，而是专注于客户对精品移民实践的合理期望标准。",
+    "directComm": "直接沟通",
+    "directCommLabel": "无切换模型",
+    "prepared": "准备提交的材料",
+    "preparedLabel": "证据优先的工作",
+    "calm": "紧急事务冷静指导",
+    "calmLabel": "紧急事项优先处理",
+    "straight": "关于价格和范围的直接答案",
+    "straightLabel": "费用透明",
     "items": [
       {
-        "stat": "围绕您的实际旅行目的进行面试准备",
-        "id": "游客",
-        "description": "全面准备旅游和商务旅行签证。",
-        "timeline": "2-4周",
-        "requirements": [
-          "有效护照",
-          "与祖国的联系",
-          "财务能力"
-        ],
-        "price": "350 美元起",
-        "title": "访客签证（B1/B2）",
-        "features": [
-          "DS-160 准备和指导",
-          "模拟面试辅导",
-          "记录清单和策略"
-        ]
+        "title": "直接沟通",
+        "description": "客户应该知道谁正在审查事实、下一次提交的内容是什么以及截止日期何时改变策略。",
+        "label": "无切换模型"
       },
       {
-        "stat": "从文件审查到领事面试准备的支持",
-        "id": "学生",
-        "timeline": "1-3个月",
-        "features": [
-          "入学途径指导",
-          "I-20 和 SEVIS 费用指南",
-          "全面的面试准备"
-        ],
-        "title": "学生签证（F-1）",
-        "price": "450 美元起",
-        "requirements": [
-          "I-20 表格",
-          "SEVIS收据",
-          "财务文件",
-          "学业记录"
-        ],
-        "description": "国际学生在美国接受教育的指南。"
+        "title": "准备提交的材料",
+        "description": "一份强有力的备案始于文件纪律、诚实的风险评估以及提交前足够的时间来修复薄弱环节。",
+        "label": "证据优先的工作"
       },
       {
-        "description": "美国公民和永久居民的配偶的绿卡。",
-        "stat": "善意婚姻案件的证据优先规划",
-        "id": "婚姻",
-        "features": [
-          "身份调整（I-130、I-485）",
-          "领事处理支持",
-          "访谈准备和证据策略"
-        ],
-        "price": "1,800 美元起",
-        "timeline": "6-18个月",
-        "requirements": [
-          "有效婚姻",
-          "申请人公民身份或 LPR 身份",
-          "财政支持"
-        ],
-        "title": "以婚姻为基础"
+        "title": "紧急事务冷静指导",
+        "description": "法庭日期、驱逐问题和面谈通知需要直接的法律关注，而不是通用的受理脚本。",
+        "label": "紧急事项优先处理"
       },
       {
-        "price": "850 美元起",
-        "description": "从一种非移民身份转换为另一种非移民身份，例如 B-2 转换为 F-1。",
-        "requirements": [
-          "当前有效状态",
-          "无移民意向",
-          "财务偿付能力"
-        ],
-        "stat": "提交状态变更请求之前的风险分析",
-        "timeline": "3-6个月",
-        "id": "改变状态",
-        "title": "身份变更",
-        "features": [
-          "资格和风险评估",
-          "I-539 表格准备",
-          "RFE回复支持"
-        ]
-      },
-      {
-        "stat": "提交前进行类别审查以避免可预防的延误",
-        "timeline": "1-3个月",
-        "price": "250 美元起",
-        "requirements": [
-          "基本请愿书",
-          "资格类别"
-        ],
-        "id": "工作许可证",
-        "title": "工作许可证 (I-765)",
-        "features": [
-          "特定类别的资格分析",
-          "申请准备和提交",
-          "应用程序跟踪"
-        ],
-        "description": "符合资格的申请人的就业授权文件。"
-      },
-      {
-        "id": "庇护",
-        "price": "咨询报价",
-        "stat": "高风险人道主义事务的保密准备",
-        "timeline": "6-24个月",
-        "description": "保护那些担心在祖国遭受迫害的人。",
-        "features": [
-          "申请准备和宣誓书支持",
-          "国情研究",
-          "面试准备"
-        ],
-        "title": "庇护 (I-589)",
-        "requirements": [
-          "害怕受到迫害",
-          "在美国实际存在"
-        ]
-      },
-      {
-        "id": "u签证",
-        "price": "咨询报价",
-        "stat": "对基于幸存者的申请进行敏感处理",
-        "title": "U 签证（受害者）",
-        "timeline": "3-12个月",
-        "requirements": [
-          "合格犯罪的受害者",
-          "对警察有帮助"
-        ],
-        "features": [
-          "I-918 和补充 B 支持",
-          "证据收集",
-          "善意认定指导"
-        ],
-        "description": "协助执法的某些犯罪受害者的地位。"
-      },
-      {
-        "timeline": "1-2个月",
-        "description": "待处理的绿卡申请人的旅行授权 (I-131)。",
-        "stat": "离开美国前的旅行风险审查",
-        "title": "提前假释",
-        "id": "提前假释",
-        "features": [
-          "旅行授权准备",
-          "风险咨询与分析",
-          "如果需要紧急处理"
-        ],
-        "price": "300 美元起",
-        "requirements": [
-          "等待 I-485",
-          "DACA 或 TPS 资格"
-        ]
-      },
-      {
-        "timeline": "1-4周",
-        "stat": "围绕记录的紧迫性和机构标准提出请求",
-        "id": "加快",
-        "title": "加急请求",
-        "features": [
-          "起草令人信服的请求",
-          "证据汇编",
-          "根据 USCIS 标准量身定制的策略"
-        ],
-        "price": "500 美元起",
-        "requirements": [
-          "严重的经济损失",
-          "人道主义紧急情况",
-          "美国政府利益"
-        ],
-        "description": "出于人道主义或财务原因，加速处理未决案件。"
+        "title": "关于价格和范围的直接答案",
+        "description": "单独的实践应该告诉人们什么是包括在内的，什么是不包括的，以及何时咨询是正确的第一步。",
+        "label": "费用透明"
       }
     ]
   },
+  "about": {
+    "title": "关于",
+    "heading": "专为直接沟通而打造的精品移民实践",
+    "quote": "移民案件太重要了，不能在大量的实践中消失。您应该知道谁在指导该策略、下一个备案是什么以及风险在哪里。",
+    "description": "M&T 被定位为专注于单独执业的客户，他们希望获得深思熟虑的准备、直接的答案以及直接联系处理工作的律师。",
+    "credentials": "资质和专业知识",
+    "attorneyLed": "律师主导的策略",
+    "filingRoadmap": "清晰的归档路线图",
+    "boutique": "精品案例关注度",
+    "virtual": "全国虚拟咨询"
+  },
+  "pricing": {
+    "title": "费用透明",
+    "heading": "明确的法律费用以集中代表。",
+    "subtitle": "范围因复杂性、紧急程度和文档负载而异。目标是在您预订之前显示实际的法律费用范围。",
+    "note": "这些只是合法的服务范围。除非另有明确书面说明，政府申请费、翻译费和第三方费用是分开的。",
+    "whyChoose": "为什么选择我们？",
+    "cta": "获取定制报价",
+    "service": "服务",
+    "priceRange": "价格范围",
+    "includes": "包括",
+    "noteLabel": "笔记：",
+    "paymentPlanNote": "付款计划可能适用于符合资格的事项。最终范围和计费结构在协商期间确定。",
+    "items": [
+      {
+        "service": "访客签证（B1/B2）",
+        "price": "$350–$650",
+        "includes": "DS-160，辅导"
+      },
+      {
+        "service": "学生签证（F-1）",
+        "price": "$450–$900",
+        "includes": "I-20 指导、准备"
+      },
+      {
+        "service": "身份变更",
+        "price": "$850–$1,800",
+        "includes": "I-539，风险评估"
+      },
+      {
+        "service": "基于婚姻的 AOS",
+        "price": "$1,800–$3,500",
+        "includes": "完整表格、证据"
+      },
+      {
+        "service": "领事处理",
+        "price": "$1,200–$2,400",
+        "includes": "雷士支持"
+      },
+      {
+        "service": "工作许可证 (I-765)",
+        "price": "$250–$450",
+        "includes": "资格分析"
+      },
+      {
+        "service": "提前假释 (I-131)",
+        "price": "$250–$450",
+        "includes": "授权准备"
+      },
+      {
+        "service": "加快请求准备",
+        "price": "$300–$600",
+        "includes": "起草、证据"
+      },
+      {
+        "service": "U签证",
+        "price": "$1,800–$3,500",
+        "includes": "全力支持"
+      },
+      {
+        "service": "庇护",
+        "price": "$2,500–$6,000",
+        "includes": "研究、准备"
+      }
+    ],
+    "benefits": [
+      "透明的预定价",
+      "工作开始前解释范围",
+      "适当时灵活的付款计划",
+      "托管在线支付选项",
+      "无隐藏行政费用",
+      "咨询费在适用时记入贷方",
+      "政府申请费单独计费"
+    ]
+  },
   "faq": {
-    "legalResults": "法律与结果",
-    "subtitle": "在您承诺下一步之前，请明确回答有关流程、定价和预期的内容。",
-    "processTimeline": "流程和时间表",
     "title": "常见问题",
+    "heading": "常见问题解答。",
+    "subtitle": "在您承诺下一步之前，请明确回答有关流程、定价和预期的内容。",
     "gettingStarted": "入门",
     "pricingPayments": "定价与付款",
-    "heading": "常见问题解答。",
+    "processTimeline": "流程和时间表",
+    "legalResults": "法律与结果",
     "categories": [
       {
         "category": "入门",
@@ -638,16 +450,16 @@
         "category": "定价与付款",
         "faqs": [
           {
-            "answer": "不会。政府申请费与法律费用是分开的。咨询用于解释可能的法律费用范围、预期的申请费以及此事可能出现的任何其他费用。",
-            "question": "你们的定价中包含 USCIS 费用吗？"
+            "question": "你们的定价中包含 USCIS 费用吗？",
+            "answer": "不会。政府申请费与法律费用是分开的。咨询用于解释可能的法律费用范围、预期的申请费以及此事可能出现的任何其他费用。"
           },
           {
             "question": "付款计划如何运作？",
             "answer": "根据工作范围和事情的紧急程度，可能会提供分期付款选项。在咨询期间讨论付款结构，以便客户了解工作开始前应付的费用以及可以分摊的费用。"
           },
           {
-            "answer": "费用灵活性取决于范围、紧急程度和所涉及事项的类型。如果负担能力是一个问题，请尽早提出，以便办公室可以解释实际可用的内容。",
-            "question": "你们提供浮动定价吗？"
+            "question": "你们提供浮动定价吗？",
+            "answer": "费用灵活性取决于范围、紧急程度和所涉及事项的类型。如果负担能力是一个问题，请尽早提出，以便办公室可以解释实际可用的内容。"
           }
         ]
       },
@@ -655,12 +467,12 @@
         "category": "流程和时间表",
         "faqs": [
           {
-            "answer": "时间表取决于案件类型、收集文件的速度以及是否有紧急期限。一旦掌握了所需的证据，简单的事情往往可以迅速进展。",
-            "question": "你们能多快提交我的申请？"
+            "question": "你们能多快提交我的申请？",
+            "answer": "时间表取决于案件类型、收集文件的速度以及是否有紧急期限。一旦掌握了所需的证据，简单的事情往往可以迅速进展。"
           },
           {
-            "answer": "是的。面试准备是许多移民事务的一部分，特别是在官员的问题、可信度或文件组织可能影响结果的情况下。",
-            "question": "你能为我的面试做准备吗？"
+            "question": "你能为我的面试做准备吗？",
+            "answer": "是的。面试准备是许多移民事务的一部分，特别是在官员的问题、可信度或文件组织可能影响结果的情况下。"
           },
           {
             "question": "我如何跟踪我的案件状态？",
@@ -672,8 +484,8 @@
         "category": "法律与结果",
         "faqs": [
           {
-            "answer": "没有律师可以保证移民事务的结果，因为最终决定权属于处理案件的政府机构或移民法院。您应该期待的是坦诚的建议、严格的准备以及关于风险的诚实沟通。",
-            "question": "你保证结果吗？"
+            "question": "你保证结果吗？",
+            "answer": "没有律师可以保证移民事务的结果，因为最终决定权属于处理案件的政府机构或移民法院。您应该期待的是坦诚的建议、严格的准备以及关于风险的诚实沟通。"
           },
           {
             "question": "如果我的案件被拒绝怎么办？",
@@ -686,5 +498,193 @@
         ]
       }
     ]
+  },
+  "contact": {
+    "title": "开始使用",
+    "heading": "准备好审查您的问题了吗？",
+    "subtitle": "预约咨询或发送结构化的接收请求。该办公室会在 1-2 个工作日内回复新的询问。",
+    "contactInfo": "联系信息",
+    "phone": "电话/WhatsApp",
+    "email": "电子邮件",
+    "office": "办公室",
+    "responseTime": "响应时间",
+    "consultationFees": "咨询费",
+    "min15": "15分钟",
+    "min30": "30分钟",
+    "feeCredit": "如果保留，费用将计入服务费。",
+    "cards": [
+      {
+        "label": "电话/WhatsApp",
+        "tooltip": "点击拨打电话"
+      },
+      {
+        "label": "电子邮件",
+        "tooltip": "点击发送电子邮件"
+      },
+      {
+        "label": "办公室",
+        "tooltip": "纽约州纽约市"
+      },
+      {
+        "label": "营业时间",
+        "tooltip": "1-2 个工作日回复"
+      }
+    ],
+    "feeOptions": [
+      {
+        "label": "15 分钟初始同步",
+        "price": "125 美元"
+      },
+      {
+        "label": "30 分钟策略会议",
+        "price": "250 美元"
+      }
+    ]
+  },
+  "cta": {
+    "title": "准备好开始了吗？",
+    "heading": "您的移民策略从真实案例审查开始。",
+    "subtitle": "不要将高风险的移民事务交给一般的接收渠道。从有针对性的咨询开始，并从律师主导的实践中明确下一步。",
+    "ctaPrimary": "日程咨询",
+    "ctaSecondary": "立即致电",
+    "feature1": "透明的咨询费用",
+    "feature2": "1-2 个工作日回复",
+    "feature3": "全国虚拟咨询"
+  },
+  "footer": {
+    "tagline": "由律师主导的精品移民代理，具有直接沟通、透明的费用和针对性的案件策略。",
+    "services": "服务",
+    "company": "公司",
+    "support": "支持",
+    "legal": "合法的",
+    "privacy": "隐私政策",
+    "terms": "使用条款",
+    "advertising": "律师广告",
+    "insights": "见解",
+    "siteMap": "网站地图",
+    "emailAria": "给我们发电子邮件：{email}",
+    "phoneAria": "请拨打 {phone} 联系我们",
+    "copyright": "版权所有 © {年份} {名称}。版权所有。",
+    "disclaimer": "律师广告。本网站上的信息仅供一般参考之用。本网站上的任何内容均不应被视为针对任何个案或情况的法律建议。该信息无意创建、接收或查看也不构成律师与委托人关系。先前的结果并不能保证类似的结果。",
+    "links": {
+      "services": [
+        {
+          "name": "访客签证（B1/B2）",
+          "href": "/#services"
+        },
+        {
+          "name": "学生签证（F-1）",
+          "href": "/#services"
+        },
+        {
+          "name": "以婚姻为基础",
+          "href": "/#services"
+        },
+        {
+          "name": "庇护和 U 签证",
+          "href": "/#services"
+        },
+        {
+          "name": "工作许可证（EAD）",
+          "href": "/#services"
+        }
+      ],
+      "company": [
+        {
+          "name": "关于实践",
+          "href": "/#about"
+        },
+        {
+          "name": "我们的流程",
+          "href": "/#process"
+        },
+        {
+          "name": "客户体验",
+          "href": "/#testimonials"
+        },
+        {
+          "name": "见解",
+          "href": "/insights"
+        },
+        {
+          "name": "接触",
+          "href": "/#contact"
+        }
+      ],
+      "support": [
+        {
+          "name": "定价和费用",
+          "href": "/#pricing"
+        },
+        {
+          "name": "安全支付",
+          "href": "/#payments"
+        },
+        {
+          "name": "常问问题",
+          "href": "/#faq"
+        },
+        {
+          "name": "预约咨询",
+          "href": "/#contact"
+        },
+        {
+          "name": "短暂休息",
+          "href": "/brief-break"
+        }
+      ],
+      "legal": [
+        {
+          "name": "隐私政策",
+          "href": "/privacy"
+        },
+        {
+          "name": "使用条款",
+          "href": "/terms"
+        },
+        {
+          "name": "律师广告",
+          "href": "/terms"
+        }
+      ]
+    }
+  },
+  "insightsPreview": {
+    "title": "见解",
+    "heading": "案例研究、新闻和实用读物集中于一处。",
+    "subtitle": "最新公共源案例研究、当前移民发展和较长分析文章的紧凑视图。",
+    "openAll": "打开所有见解",
+    "seeMore": "查看更多",
+    "caseStudies": "案例研究",
+    "news": "消息",
+    "analysis": "分析"
+  },
+  "briefBreak": {
+    "title": "短暂休息",
+    "heading": "一个安静的拼图室，适合繁重工作之间的时刻。",
+    "subtitle": "公司网站在重要的地方保持严肃的态度。这是一个有意绕道的地方：一个以法律为主题的小型拼图页面，旨在集中注意力、重置和缓解压力。",
+    "cta": "进入谜题室",
+    "pill": "每日密室谜题，带有条纹、提示和零法律压力",
+    "previewTitle": "案卷邮编",
+    "previewSubtitle": "连接事实。填写记录。"
+  },
+  "intake": {
+    "step1Title": "接触",
+    "step2Title": "案例详情",
+    "step3Title": "审查",
+    "name": "姓名",
+    "email": "电子邮件",
+    "phone": "电话号码",
+    "language": "首选语言",
+    "caseType": "物质类型",
+    "summary": "案例概要",
+    "consent": "我同意收集和处理我的信息",
+    "submitting": "正在提交...",
+    "success": "收到咨询请求。",
+    "successDesc": "我们将审核您的信息并使用您首选的联系方式进行跟进。"
+  },
+  "language": {
+    "switch": "English",
+    "current": "中文"
   }
 }
