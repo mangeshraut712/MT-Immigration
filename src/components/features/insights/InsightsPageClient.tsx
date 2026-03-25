@@ -54,8 +54,8 @@ function StoryMeta({
   readTime?: string;
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
-      <span className="rounded-full border border-zinc-200 bg-zinc-100 px-3 py-1 text-zinc-700">
+    <div className="flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+      <span className="rounded-full border border-border bg-muted px-3 py-1 text-foreground">
         {category}
       </span>
       <span>{publishedOn}</span>
@@ -85,7 +85,7 @@ function SourceLink({
   const toneClasses =
     tone === "light"
       ? "text-zinc-300 hover:text-white"
-      : "text-zinc-700 hover:text-black";
+      : "text-foreground hover:text-black";
 
   if (isExternal) {
     return (
@@ -125,7 +125,7 @@ function NewsCard({ story }: { story: InsightStory }) {
   return (
     <motion.article
       variants={staggerItemVariants}
-      className="group relative rounded-[2rem] border border-zinc-200 bg-white p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/50"
+      className="group relative rounded-[2rem] border border-border bg-card p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/50"
     >
       <StoryMeta
         category={story.category}
@@ -136,16 +136,16 @@ function NewsCard({ story }: { story: InsightStory }) {
         href={localizeHref(pathname, `/insights/${createInsightSlug(story.title)}`)}
         className="group-hover:underline"
       >
-        <h3 className="mt-5 text-2xl font-serif font-medium leading-tight text-zinc-950 transition-colors duration-200 group-hover:text-zinc-700">
+        <h3 className="mt-5 text-2xl font-serif font-medium leading-tight text-foreground transition-colors duration-200 group-hover:text-foreground">
           {story.title}
         </h3>
       </Link>
-      <p className="mt-4 text-base leading-relaxed text-zinc-600">
+      <p className="mt-4 text-base leading-relaxed text-muted-foreground">
         {story.summary}
       </p>
-      <div className="mt-5 flex items-center justify-between gap-4 border-t border-zinc-100 pt-4">
+      <div className="mt-5 flex items-center justify-between gap-4 border-t border-border pt-4">
         <div className="flex items-center gap-2">
-          <span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-600">
+          <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium text-muted-foreground">
             {story.topic}
           </span>
         </div>
@@ -175,23 +175,23 @@ function HeadlineList({
           className="group py-4 first:pt-0 last:pb-0"
         >
           <div className="flex gap-4">
-            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-zinc-50 border border-zinc-200 font-serif text-lg font-medium text-zinc-400">
+            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-muted border border-border font-serif text-lg font-medium text-muted-foreground">
               0{index + 1}
             </span>
             <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                 {story.category}
               </p>
               <Link
                 href={localizeHref(pathname, `/insights/${createInsightSlug(story.title)}`)}
                 className="group-hover:underline"
               >
-                <h3 className="mt-1.5 text-lg font-semibold leading-snug text-zinc-900 transition-colors group-hover:text-zinc-600">
+                <h3 className="mt-1.5 text-lg font-semibold leading-snug text-foreground transition-colors group-hover:text-muted-foreground">
                   {story.title}
                 </h3>
               </Link>
               <div className="mt-2 flex flex-wrap items-center gap-3">
-                <p className="text-sm text-zinc-500">{story.publishedOn}</p>
+                <p className="text-sm text-muted-foreground">{story.publishedOn}</p>
                 <SourceLink
                   sourceName={story.sourceName}
                   sourceUrl={story.sourceUrl}
@@ -376,9 +376,9 @@ export function InsightsPageClient({
   const showAnalysis = showAll || activeView === "analysis";
 
   return (
-    <div className="bg-white">
+    <div className="bg-background">
       {/* ─── Hero Section ─── */}
-      <section className="relative overflow-hidden pt-24 sm:pt-28 bg-[#fdfdfc]">
+      <section className="relative overflow-hidden pt-24 sm:pt-28 bg-background">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.02),transparent_60%)]" />
 
         <div className="container-wide relative z-10 pb-10">
@@ -389,8 +389,8 @@ export function InsightsPageClient({
             className="mx-auto max-w-4xl text-center"
           >
             <div className="inline-flex items-center gap-3 mb-8">
-              <div className="px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-zinc-600 bg-white border border-zinc-200 rounded-full shadow-sm flex items-center gap-2">
-                <Newspaper className="h-4 w-4 text-zinc-400" />
+              <div className="px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground bg-card border-border rounded-full shadow-sm flex items-center gap-2">
+                <Newspaper className="h-4 w-4 text-muted-foreground" />
                 {copy.heroBadge}
                 {isLive ? (
                   <span className="relative flex h-2 w-2 ml-1">
@@ -404,7 +404,7 @@ export function InsightsPageClient({
               <Button
                 asChild
                 variant="outline"
-                className="h-10 rounded-full border-zinc-200 bg-white px-5 text-zinc-900 hover:bg-zinc-50"
+                className="h-10 rounded-full border-border bg-card px-5 text-foreground hover:bg-muted"
               >
                 <Link href={localizeHref(pathname, returnHref || "/")}>
                   <ArrowLeft className="mr-2 h-4 w-4" />
@@ -416,14 +416,14 @@ export function InsightsPageClient({
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif font-medium tracking-tight text-foreground leading-[1.1]">
               {copy.headingStart}
               <br />
-              <span className="text-zinc-400 italic font-light">
+              <span className="text-muted-foreground italic font-light">
                 {copy.headingHighlight}
               </span>{" "}
               <br className="sm:hidden" />
               {copy.headingEnd}
             </h1>
 
-            <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-zinc-500 sm:text-xl">
+            <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground sm:text-xl">
               {feed.overview}
             </p>
 
@@ -438,7 +438,7 @@ export function InsightsPageClient({
                 <motion.span
                   key={topic}
                   variants={staggerItemVariants}
-                  className="rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900"
+                  className="rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 >
                   {topic}
                 </motion.span>
@@ -452,7 +452,7 @@ export function InsightsPageClient({
                   "inline-flex items-center gap-2.5 rounded-full px-4 py-2 text-xs font-medium border uppercase tracking-widest",
                   isLive
                     ? "border-emerald-200 bg-emerald-50 text-emerald-800"
-                    : "border-zinc-200 bg-zinc-50 text-zinc-800",
+                    : "border-border bg-muted text-foreground",
                 )}
               >
                 {isRefreshing ? (
@@ -465,7 +465,7 @@ export function InsightsPageClient({
                   : copy.snapshotDesk.replace("{date}", feed.updatedAtLabel)}
               </span>
               {loadError ? (
-                <span className="text-xs text-zinc-500 mt-2 sm:mt-0">
+                <span className="text-xs text-muted-foreground mt-2 sm:mt-0">
                   {loadError}
                 </span>
               ) : null}
@@ -474,7 +474,7 @@ export function InsightsPageClient({
         </div>
       </section>
 
-      <section className="border-t border-zinc-100 bg-white py-6">
+      <section className="border-t border-border bg-background py-6">
         <div className="container-wide">
           <div className="flex flex-wrap items-center justify-center gap-2">
             {insightViews.map((view) => {
@@ -488,8 +488,8 @@ export function InsightsPageClient({
                   className={cn(
                     "rounded-full border px-4 py-2 text-sm font-medium transition-all",
                     isActive
-                      ? "border-black bg-black text-white"
-                      : "border-zinc-200 bg-zinc-50 text-zinc-600 hover:border-zinc-300 hover:bg-white hover:text-black",
+                      ? "border-foreground bg-foreground text-background"
+                      : "border-border bg-muted text-muted-foreground hover:border-border hover:bg-background hover:text-foreground",
                   )}
                 >
                   {view.label}
@@ -502,7 +502,7 @@ export function InsightsPageClient({
 
       {/* ─── Featured + Sidebar ─── */}
       {showAll ? (
-      <section className="pb-10 bg-zinc-50 pt-10 border-t border-zinc-100">
+      <section className="pb-10 bg-background pt-10 border-t border-border">
         <div className="container-wide">
           <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr] xl:items-start">
             <div className="space-y-6">
@@ -513,12 +513,12 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="group relative rounded-[2rem] border border-zinc-200 bg-white shadow-xl shadow-zinc-200/40 p-8 sm:p-10 flex flex-col justify-between"
+                className="group relative rounded-[2rem] border border-border bg-card shadow-xl shadow-black/5 p-8 sm:p-10 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center gap-3">
                     <span className="inline-flex items-center gap-2 rounded-full bg-black px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-white">
-                      <TrendingUp className="h-3.5 w-3.5 text-zinc-400" />
+                      <TrendingUp className="h-3.5 w-3.5 text-muted-foreground" />
                       {copy.featured}
                     </span>
                     <StoryMeta
@@ -535,19 +535,19 @@ export function InsightsPageClient({
                     )}
                     className="hover:underline"
                   >
-                    <h2 className="mt-6 max-w-3xl text-3xl font-serif font-medium leading-tight text-zinc-900 sm:text-5xl">
+                    <h2 className="mt-6 max-w-3xl text-3xl font-serif font-medium leading-tight text-foreground sm:text-5xl">
                       {feed.featured.title}
                     </h2>
                   </Link>
 
-                  <p className="mt-4 max-w-3xl text-lg leading-relaxed text-zinc-500">
+                  <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted-foreground">
                     {feed.featured.summary}
                   </p>
                 </div>
 
-                <div className="mt-10 flex flex-col gap-4 border-t border-zinc-100 pt-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="mt-10 flex flex-col gap-4 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-3">
-                    <span className="rounded-full bg-zinc-100 border border-zinc-200 px-3 py-1 text-xs font-medium uppercase tracking-widest text-zinc-600">
+                    <span className="rounded-full bg-muted border border-border px-3 py-1 text-xs font-medium uppercase tracking-widest text-muted-foreground">
                       {feed.featured.topic}
                     </span>
                     <SourceLink
@@ -557,7 +557,7 @@ export function InsightsPageClient({
                   </div>
                   <Button
                     asChild
-                    className="h-12 rounded-full bg-black px-8 text-white hover:bg-zinc-800 transition-all font-medium"
+                    className="h-12 rounded-full bg-foreground px-8 text-background hover:opacity-90 transition-all font-medium"
                   >
                     <Link href="#case-studies">
                       {copy.seeCaseStudies}
@@ -572,15 +572,15 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm"
+                className="rounded-[2rem] border border-border bg-card p-6 shadow-sm"
               >
                 <div className="flex items-center gap-3">
-                  <Sparkles className="h-5 w-5 text-zinc-900" />
-                  <h2 className="text-xl font-serif font-medium tracking-tight text-zinc-900">
+                  <Sparkles className="h-5 w-5 text-foreground" />
+                  <h2 className="text-xl font-serif font-medium tracking-tight text-foreground">
                     {copy.topicTracks}
                   </h2>
                 </div>
-                <p className="mt-3 max-w-3xl text-base leading-relaxed text-zinc-500">
+                <p className="mt-3 max-w-3xl text-base leading-relaxed text-muted-foreground">
                   {copy.topicTracksDesc}
                 </p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -588,10 +588,10 @@ export function InsightsPageClient({
                     <Link
                       key={topic}
                       href={localizeHref(pathname, findTopicHref(feed, topic))}
-                      className="group flex items-center justify-between rounded-xl border border-zinc-200 p-4 transition-all hover:border-black hover:bg-zinc-50"
+                      className="group flex items-center justify-between rounded-xl border border-border p-4 transition-all hover:border-black hover:bg-muted"
                     >
-                      <span className="font-medium text-zinc-800">{topic}</span>
-                      <ChevronRight className="h-4 w-4 text-zinc-400 group-hover:text-black" />
+                      <span className="font-medium text-foreground">{topic}</span>
+                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-black" />
                     </Link>
                   ))}
                 </div>
@@ -606,13 +606,13 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="rounded-[2rem] border border-zinc-200 bg-white p-6 shadow-sm"
+                className="rounded-[2rem] border border-border bg-card p-6 shadow-sm"
               >
                 <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                  <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     {copy.sourceWatch}
                   </p>
-                  <Zap className="h-4 w-4 text-zinc-400" />
+                  <Zap className="h-4 w-4 text-muted-foreground" />
                 </div>
                 <motion.div
                   variants={staggerContainerVariants}
@@ -632,7 +632,7 @@ export function InsightsPageClient({
                 viewport={{ once: true }}
                 className="rounded-[2rem] bg-black p-6 text-white shadow-xl shadow-zinc-900/10"
               >
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   {copy.sourceStandards}
                 </p>
                 <motion.div
@@ -656,7 +656,7 @@ export function InsightsPageClient({
                           <h3 className="text-sm font-semibold text-white">
                             {announcement.title}
                           </h3>
-                          <p className="mt-1 text-sm leading-relaxed text-zinc-400">
+                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
                             {announcement.detail}
                           </p>
                         </div>
@@ -678,14 +678,14 @@ export function InsightsPageClient({
           <div className="mb-10 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="h-px w-8 bg-zinc-700"></div>
-              <span className="text-xs font-semibold tracking-widest uppercase text-zinc-400">
+              <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
                 {copy.publicDecisions}
               </span>
             </div>
             <h2 className="text-3xl font-serif tracking-tight">{copy.caseStudies}</h2>
           </div>
           <div className="mb-8 flex max-w-3xl items-start gap-3 rounded-[1.5rem] border border-white/10 bg-white/5 p-5">
-            <Briefcase className="mt-0.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
+            <Briefcase className="mt-0.5 h-5 w-5 flex-shrink-0 text-muted-foreground" />
             <p className="text-sm leading-relaxed text-zinc-300">
               {copy.caseStudiesDesc}
             </p>
@@ -710,7 +710,7 @@ export function InsightsPageClient({
 
       {/* ─── Latest News ─── */}
       {showNews ? (
-      <section id="news" className="py-12 bg-white">
+      <section id="news" className="py-12 bg-background">
         <div className="container-wide">
           <motion.div
             variants={slideLeftVariants}
@@ -722,19 +722,19 @@ export function InsightsPageClient({
             <div className="max-w-3xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px w-8 bg-zinc-300"></div>
-                <span className="text-xs font-semibold tracking-widest uppercase text-zinc-500">
+                <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
                   {copy.latestNews}
                 </span>
               </div>
               <h2 className="mt-4 text-4xl md:text-5xl font-serif font-medium tracking-tight text-foreground leading-[1.1]">
                 {copy.latestNewsHeadingStart}{" "}
                 <br className="hidden md:block" />
-                <span className="text-zinc-400 italic font-light">
+                <span className="text-muted-foreground italic font-light">
                   {copy.latestNewsHeadingHighlight}
                 </span>
               </h2>
             </div>
-            <p className="max-w-xl text-lg leading-relaxed text-zinc-500">
+            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
               {copy.latestNewsDesc}
             </p>
           </motion.div>
@@ -761,7 +761,7 @@ export function InsightsPageClient({
       {showAnalysis ? (
       <section
         id="blogs"
-        className="section-padding bg-zinc-50 border-t border-zinc-100"
+        className="section-padding bg-muted border-t border-border"
       >
         <div className="container-wide">
           <motion.div
@@ -774,18 +774,18 @@ export function InsightsPageClient({
             <div className="max-w-3xl">
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px w-8 bg-zinc-300"></div>
-                <span className="text-xs font-semibold tracking-widest uppercase text-zinc-500">
+                <span className="text-xs font-semibold tracking-widest uppercase text-muted-foreground">
                   {copy.analysisBlogs}
                 </span>
               </div>
               <h2 className="mt-4 text-4xl md:text-5xl font-serif font-medium tracking-tight text-foreground leading-[1.1]">
                 {copy.analysisHeadingStart} <br className="hidden md:block" />
-                <span className="text-zinc-400 italic font-light">
+                <span className="text-muted-foreground italic font-light">
                   {copy.analysisHeadingHighlight}
                 </span>
               </h2>
             </div>
-            <p className="max-w-xl text-lg leading-relaxed text-zinc-500">
+            <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
               {copy.analysisDesc}
             </p>
           </motion.div>
@@ -809,27 +809,27 @@ export function InsightsPageClient({
       ) : null}
 
       {/* ─── Editorial CTA ─── */}
-      <section className="pb-16 pt-8 bg-zinc-50">
+      <section className="pb-16 pt-8 bg-muted">
         <div className="container-wide">
           <motion.div
             variants={fadeUpVariants}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="relative overflow-hidden rounded-[2.5rem] bg-white border border-zinc-200 p-8 shadow-xl lg:p-14"
+            className="relative overflow-hidden rounded-[2.5rem] bg-card border-border p-8 shadow-xl lg:p-14"
           >
             <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between z-10">
               <div className="max-w-3xl">
-                <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                   {copy.editorialNote}
                 </p>
-                <h2 className="mt-4 text-3xl md:text-5xl font-serif font-medium leading-[1.1] text-zinc-900">
+                <h2 className="mt-4 text-3xl md:text-5xl font-serif font-medium leading-[1.1] text-foreground">
                   {copy.editorialHeadingStart} <br />
-                  <span className="text-zinc-400 italic font-light">
+                  <span className="text-muted-foreground italic font-light">
                     {copy.editorialHeadingHighlight}
                   </span>
                 </h2>
-                <p className="mt-6 text-lg leading-relaxed text-zinc-500 mb-0">
+                <p className="mt-6 text-lg leading-relaxed text-muted-foreground mb-0">
                   {editorialNote}
                 </p>
               </div>
