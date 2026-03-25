@@ -28,10 +28,23 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { sanitizeMultilineText } from "@/lib/sanitize";
 import { cn } from "@/lib/utils";
-import { chatAgentCards, chatAgentOrder } from "@/content/chatAgents";
-import { benchReviewer } from "@/content/chatAgents";
+import { benchReviewer, chatAgentCards, chatAgentOrder } from "@/content/chatAgents";
 
 const CHAT_REQUEST_TIMEOUT_MS = 20_000;
+const chatShellClass =
+  "fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-border/60 bg-background/95 text-foreground shadow-[0_24px_80px_-30px_rgba(0,0,0,0.35)] backdrop-blur-2xl sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]";
+const chatHeaderClass =
+  "relative flex shrink-0 items-center justify-between overflow-hidden border-b border-border/60 bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-800 p-4 text-white dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-100 dark:text-zinc-950";
+const assistantBubbleClass =
+  "rounded-tl-sm border border-border/60 bg-card/95 text-card-foreground shadow-[0_2px_10px_-3px_rgba(0,0,0,0.08)] backdrop-blur-md";
+const userBubbleClass =
+  "rounded-tr-sm bg-zinc-950 text-white shadow-md dark:bg-zinc-100 dark:text-zinc-950";
+const messageAvatarAssistantClass =
+  "bg-gradient-to-br from-zinc-900 to-zinc-700 text-white shadow-sm ring-1 ring-border/50 dark:from-zinc-200 dark:to-zinc-300 dark:text-zinc-950";
+const messageAvatarUserClass =
+  "bg-primary text-primary-foreground";
+const chatOpenButtonClass =
+  "fixed bottom-5 right-4 z-50 rounded-full border border-border/70 bg-foreground p-3.5 text-background shadow-2xl transition-shadow hover:shadow-3xl sm:bottom-24 sm:right-6 sm:p-4";
 
 type SpeechRecognitionConstructor = new () => {
   continuous: boolean;
@@ -481,7 +494,7 @@ export function ChatBot() {
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.96 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-5 right-4 z-50 rounded-full bg-foreground p-3.5 text-background shadow-2xl transition-shadow hover:shadow-3xl sm:bottom-24 sm:right-6 sm:p-4"
+            className={chatOpenButtonClass}
             aria-label="Open chat"
             aria-haspopup="dialog"
             aria-controls="mt-chat-dialog"
@@ -500,7 +513,7 @@ export function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
             exit={{ opacity: 0, y: 20, scale: 0.95, filter: "blur(10px)" }}
             transition={{ type: "spring", stiffness: 350, damping: 30 }}
-            className="fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-white/20 bg-background/80 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/80 sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]"
+            className={chatShellClass}
             id="mt-chat-dialog"
             role="dialog"
             aria-modal="true"
@@ -509,7 +522,7 @@ export function ChatBot() {
             onKeyDown={handleDialogKeyDown}
             ref={dialogRef}
           >
-            <div className="relative flex shrink-0 items-center justify-between border-b border-border/50 bg-gradient-to-r from-zinc-900 to-zinc-800 p-4 text-white dark:from-zinc-100 dark:to-zinc-300 dark:text-zinc-900 overflow-hidden">
+            <div className={chatHeaderClass}>
               {/* Subtle ambient glow behind header */}
               <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
               <div className="relative z-10 flex items-center gap-3">
@@ -614,8 +627,8 @@ export function ChatBot() {
                       className={cn(
                         "mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full shadow-sm ring-1 ring-border/50",
                         message.role === "assistant"
-                          ? "bg-gradient-to-br from-zinc-800 to-zinc-950 text-white dark:from-zinc-200 dark:to-zinc-400 dark:text-zinc-950"
-                          : "bg-primary text-primary-foreground",
+                          ? messageAvatarAssistantClass
+                          : messageAvatarUserClass,
                       )}
                     >
                       {message.role === "assistant" ? (
@@ -629,8 +642,8 @@ export function ChatBot() {
                       className={cn(
                         "rounded-[20px] p-3.5 text-[13.5px] leading-relaxed shadow-sm",
                         message.role === "user"
-                          ? "rounded-tr-sm bg-gradient-to-tr from-zinc-800 to-zinc-900 text-white dark:from-zinc-200 dark:to-zinc-300 dark:text-zinc-950"
-                          : "rounded-tl-sm border border-border/40 bg-card/80 backdrop-blur-md text-card-foreground shadow-[0_2px_10px_-3px_rgba(0,0,0,0.05)]",
+                          ? userBubbleClass
+                          : assistantBubbleClass,
                       )}
                     >
                       {message.role === "assistant" && message.agent ? (
@@ -675,7 +688,7 @@ export function ChatBot() {
                             asChild
                             size="sm"
                             variant="secondary"
-                            className="h-8 w-full bg-zinc-900 text-xs text-white shadow-sm transition-all hover:bg-zinc-800 hover:shadow-md dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-white"
+                            className="h-8 w-full bg-zinc-950 text-xs text-white shadow-sm transition-all hover:bg-zinc-800 hover:shadow-md dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-white"
                           >
                             <Link
                               href={localizeHref(pathname, message.action.link)}
@@ -823,7 +836,7 @@ export function ChatBot() {
                     className={cn(
                       "h-8 w-8 rounded-full transition-all duration-300",
                       input.trim()
-                        ? "bg-zinc-900 text-white shadow-md hover:scale-105 dark:bg-zinc-100 dark:text-zinc-900"
+                        ? "bg-zinc-950 text-white shadow-md hover:scale-105 dark:bg-zinc-100 dark:text-zinc-950"
                         : "bg-muted text-muted-foreground opacity-50"
                     )}
                   >

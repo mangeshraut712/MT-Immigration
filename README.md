@@ -816,6 +816,10 @@ The website now supports 12 languages to serve diverse client demographics:
 - Respect users who prefer reduced motion
 
 ### Security & Performance Fixes (Latest)
+- **Deterministic AI Safety**: Integrated post-generation interceptors to block PII leaks (SSNs, A-Numbers) and overconfident AI guarantee claims before response delivery.
+- **AI Intent Preservation**: Redesigned context pruning mechanisms so the chatbot memory buffer never drops the original user prompt during long conversations.
+- **Premium UI Overhaul**: Upgraded the ChatBot and Intake Form to a state-of-the-art glassmorphic aesthetic (`backdrop-blur-2xl`) with fluid micro-animations and smooth gradients. 
+- **Dark Mode Architecture**: Purged all generic hardcoded light-mode layout tokens (`bg-white`) across primary components, substituting them with fully dynamic semantic CSS references ensuring 100% theme awareness.
 - **Enhanced Input Sanitization**: Added maximum length limits to prevent DoS attacks on all form inputs
 - **CSP Security Improvements**: Removed unsafe-eval directive, restricted image sources, added HTTPS enforcement
 - **Layout Structure Fixes**: Resolved React hydration errors by properly structuring HTML layouts for i18n routing
