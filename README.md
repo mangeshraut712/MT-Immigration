@@ -11,7 +11,7 @@
 [![Security](https://img.shields.io/badge/Security-First-Enterprise-6B46C1?logo=shield&style=for-the-badge)](https://vercel.com/security)
 
 [![Build Status](https://img.shields.io/badge/Build-Passing-22C55E?logo=github-actions&style=for-the-badge)](https://github.com/mangeshraut712/MT-Immigration/actions)
-[![Performance](https://img.shields.io/badge/Lighthouse-100/100-22C55E?logo=lighthouse&style=for-the-badge)](https://web.dev/)
+[![Performance](https://img.shields.io/badge/Performance-Tuned-22C55E?logo=lighthouse&style=for-the-badge)](https://web.dev/)
 [![License](https://img.shields.io/badge/License-MIT-3B82F6?logo=law&style=for-the-badge)](./LICENSE)
 
 **🏆 Enterprise-Grade Immigration Platform with AI Legal Intelligence**
@@ -43,12 +43,12 @@
 - **Input Sanitization**: AI-powered malicious input detection and prevention
 
 ### ⚡ **Performance Excellence**
-- **Sub-100ms Response Times**: Optimized with Turbopack and advanced caching
-- **100/100 Lighthouse Scores**: Perfect performance, accessibility, and SEO
-- **68 Localized Pages**: Instant loading across all language variants
+- **Critical-Path Optimization**: Homepage defers lower sections, client chrome waits for interaction, and the footer is server-rendered
+- **Production-Focused Performance Work**: The codebase is tuned toward strong Lighthouse/PageSpeed results without relying on hardcoded score claims
+- **68 Localized Pages**: Shared locale routing across all supported language variants
 - **Edge Computing**: Global CDN with Vercel Edge Functions
 - **PWA Ready**: Offline functionality with service worker caching
-- **Advanced Monitoring**: Real-time Core Web Vitals tracking
+- **Production Monitoring Hooks**: Optional Core Web Vitals and analytics integration paths
 
 ### 🌙 **Theming**
 - **Light + Dark Theme Support**: Manual theme toggle with persisted preference and semantic surface tokens
@@ -318,15 +318,15 @@ const validatedData = intakeSchema.parse(formData)
 
 | Metric | Value | Target | Status |
 |--------|-------|--------|--------|
-| **Lighthouse Score** | 100/100 | 90+ | ✅ |
-| **First Contentful Paint** | <800ms | <1000ms | ✅ |
-| **Time to Interactive** | <2s | <3s | ✅ |
-| **Bundle Size** | <200KB | <500KB | ✅ |
-| **Core Web Vitals** | All Green | All Green | ✅ |
+| **Lighthouse / PageSpeed** | Tuned in production | 90+ | 🛠️ |
+| **First Contentful Paint** | Critical path optimized | <1000ms | 🛠️ |
+| **Time to Interactive** | Reduced client boot path | <3s | 🛠️ |
+| **Bundle Size** | Continuously reduced | <500KB | 🛠️ |
+| **Core Web Vitals** | Monitored in production | All Green | 🛠️ |
 | **Test Coverage** | 22/22 tests | 90%+ | ✅ |
 | **TypeScript Coverage** | 100% | 95%+ | ✅ |
 | **Build Time** | <5s | <10s | ✅ |
-| **PWA Score** | 100/100 | 90+ | ✅ |
+| **PWA Score** | Installable / offline-ready | 90+ | ✅ |
 | **Accessibility** | WCAG AA | WCAG AA | ✅ |
 
 ---
@@ -414,7 +414,7 @@ We welcome contributions to enhance the M&T Immigration platform!
 ### Community
 - **📧 Email**: support@mt-immigration.com
 - **💬 Discord**: [Join our community](https://discord.gg/mt-immigration)
-- **📖 Documentation**: [Full API docs](https://mt-immigration.vercel.app/docs)
+- **📖 API Reference**: [OpenAPI JSON](https://mt-immigration.vercel.app/openapi.json)
 
 ---
 
@@ -444,7 +444,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **React 19.2** runtime with modern rendering semantics, server/client composition, and React Compiler
 - **Progressive Web App (PWA)** with service workers, offline functionality, and install prompts
 - **Refined Theming** with semantic surface tokens and a lightweight custom theme toggle
-- **Advanced Analytics** with real-time Core Web Vitals tracking and user behavior monitoring
+- **Chamber Run Puzzle Mode** with staged dockets, shared hint budget, and dark-mode-aware board styling
+- **Advanced Analytics Hooks** with optional Core Web Vitals and interaction tracking
 - **Comprehensive Testing Suite** with Jest, 22 test cases, and 100% critical component coverage
 - **Enhanced Accessibility** with WCAG AA compliance, ARIA labels, and keyboard navigation
 - **OpenAI GPT-4.1 Integration** with intelligent chat agents and legal knowledge bases
@@ -490,20 +491,27 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Duplicate-entry protection in the live feed pipeline
 - Insights content is schema-validated before it is published or cached
 
-### 5. Safer Payment Handoff
+### 5. Brief Break Game
+
+- Multi-stage `Chamber Run` mode with sequential dockets
+- Single-docket practice mode for replay and learning
+- Shared hint budget, per-stage par times, and difficulty labels
+- Dark-mode-aware board, side panels, and completion states
+
+### 6. Safer Payment Handoff
 
 - Payment buttons route through internal `/pay/[method]` redirects
 - Server validates configured payment hosts before redirecting
 - Hosted checkout stays external to the website itself
 
-### 6. Optional FastAPI Agents
+### 7. Optional FastAPI Agents
 
 - `api/agents.py` supports specialist agent routing on Vercel Python functions
 - Same-project Vercel deployment path is supported
 - Separate local FastAPI development path is supported
 - Plain `npm run dev` does **not** emulate the Vercel Python route
 
-### 7. Comprehensive Testing & Quality Assurance
+### 8. Comprehensive Testing & Quality Assurance
 
 - **22 Test Cases**: Complete Jest test suite with 100% coverage on critical components
 - **Component Testing**: UI component validation and interaction testing
@@ -511,7 +519,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **TypeScript Compliance**: 100% type safety with strict mode enforcement
 - **CI/CD Integration**: Automated testing pipeline with quality gates
 
-### 8. Advanced Analytics & Monitoring
+### 9. Advanced Analytics & Monitoring
 
 - **Real-time Performance**: Core Web Vitals tracking (FCP, LCP, CLS, FID, TTFB)
 - **User Behavior Analytics**: Page views, scroll depth, time on page, and interaction tracking
@@ -520,7 +528,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **A/B Testing Framework**: Experiment tracking and performance measurement
 - **Privacy Compliant**: Anonymous analytics with user consent management
 
-### 9. Progressive Web App (PWA) Features
+### 10. Progressive Web App (PWA) Features
 
 - **Service Worker**: Advanced caching strategies for offline functionality
 - **Web App Manifest**: Complete PWA configuration with install prompts
@@ -818,7 +826,13 @@ Typical expected results:
 - **Layout Fixes**: Resolved React hydration errors; stable rendering keys across all lists.
 - **Locale Routing**: Pages moved to `[locale]/` with `proxy.ts` request handling.
 - **Repository Cleanup**: Removed dead theming code, unused dependencies, and leftover translation scripts.
-- **Build Optimization**: Zero linting errors, zero TypeScript errors, optimized bundle sizes.
+- **Critical Path Reduction**: Footer moved to the server, global client enhancements defer until interaction, and lower homepage sections load through a deferred client wrapper.
+
+### Brief Break, Theme & UX Polish (March 2026)
+- **Chamber Run Expanded**: The Brief Break game now supports a staged multi-docket run instead of ending after the first puzzle.
+- **More Dockets Added**: Additional handcrafted puzzle boards increase run length and variation.
+- **Run Mechanics Added**: Shared hint budget, per-stage par times, and difficulty tags make the game more strategic without changing the core rules.
+- **Dark Mode Cleanup**: The game board, logo plate, source standards card, and section-level contrast issues were corrected so text remains legible in both light and dark themes.
 
 ## License
 

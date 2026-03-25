@@ -30,12 +30,12 @@ export function BriefBreakSection() {
               {tBriefBreak("title")}
             </span>
           </div>
-          <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-zinc-950 md:text-5xl">
+          <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-foreground md:text-5xl">
             {tBriefBreak("heading").split(",")[0]}
             <br />
             {tBriefBreak("heading").split(",").slice(1).join(",").trim()}
           </h2>
-          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600">
+          <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground">
             {tBriefBreak("subtitle")}
           </p>
 
@@ -61,14 +61,14 @@ export function BriefBreakSection() {
         >
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em] text-muted-foreground">
                 {tBriefBreak("previewTitle")}
               </p>
-              <p className="mt-2 text-sm text-zinc-500">
+              <p className="mt-2 text-sm text-muted-foreground">
                 {tBriefBreak("previewSubtitle")}
               </p>
             </div>
-            <Scale className="h-6 w-6 text-zinc-900" />
+            <Scale className="h-6 w-6 text-foreground" />
           </div>
 
           <div className="grid grid-cols-4 gap-2 rounded-[1.5rem] bg-muted/55 p-4">
@@ -90,7 +90,7 @@ export function BriefBreakSection() {
                       className="relative aspect-square rounded-2xl border border-border/70 bg-background shadow-sm"
                     >
                     {cell > 0 ? (
-                      <div className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black text-sm font-bold text-white">
+                      <div className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-foreground text-sm font-bold text-background">
                         {cell}
                       </div>
                     ) : null}

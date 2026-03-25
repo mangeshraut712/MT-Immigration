@@ -69,7 +69,7 @@ export function ServicesSection() {
       id="services"
       className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
-      <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-zinc-100/70 blur-[100px] pointer-events-none" />
+      <div className="pointer-events-none absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-zinc-100/70 blur-[100px] dark:bg-zinc-800/60" />
 
       <div className="container-wide relative z-10">
         {/* Header */}
@@ -88,11 +88,11 @@ export function ServicesSection() {
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground mb-8 leading-[1.1]">
             {tServices("heading").split(",")[0]}, <br />
-            <span className="text-zinc-400 italic">
+            <span className="text-zinc-400 italic dark:text-zinc-500">
               {tServices("heading").split(",").slice(1).join(",").trim()}
             </span>
           </h2>
-          <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl text-balance">
+          <p className="max-w-2xl text-balance text-xl leading-relaxed text-muted-foreground">
             {tServices("subtitle")}
           </p>
         </motion.div>
@@ -115,22 +115,22 @@ export function ServicesSection() {
                     <service.icon size={28} strokeWidth={1.5} />
                   </div>
 
-                  <h3 className="text-2xl font-serif font-medium mb-3 group-hover:text-black transition-colors">
+                  <h3 className="mb-3 text-2xl font-serif font-medium text-foreground transition-colors group-hover:text-foreground">
                     {service.title}
                   </h3>
 
-                  <p className="text-zinc-500 mb-6 leading-relaxed flex-grow">
+                  <p className="mb-6 flex-grow leading-relaxed text-muted-foreground">
                     {service.description}
                   </p>
 
-                  <div className="flex items-center justify-between pt-6 border-t border-zinc-50 mt-auto">
+                  <div className="mt-auto flex items-center justify-between border-t border-border/70 pt-6">
                     <Badge
                       variant="secondary"
-                      className="bg-zinc-100 text-zinc-600 font-normal"
+                      className="bg-muted font-normal text-muted-foreground"
                     >
                       {service.timeline}
                     </Badge>
-                    <div className="flex items-center text-sm font-semibold text-zinc-900 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                    <div className="flex -translate-x-2 items-center text-sm font-semibold text-foreground opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100">
                       {tServices("details")}{" "}
                       <ChevronRight size={16} className="ml-1" />
                     </div>
@@ -141,7 +141,7 @@ export function ServicesSection() {
               <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto sm:max-h-none">
                 <DialogHeader>
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 rounded-xl bg-zinc-100 text-zinc-900">
+                    <div className="rounded-xl bg-muted p-3 text-foreground">
                       <service.icon size={32} />
                     </div>
                     <div>
@@ -166,7 +166,7 @@ export function ServicesSection() {
                       {service.features.map((feature, i) => (
                         <li
                           key={i}
-                          className="text-sm text-zinc-600 flex items-start gap-2"
+                          className="flex items-start gap-2 text-sm text-muted-foreground"
                         >
                           <span className="block w-1.5 h-1.5 rounded-full bg-zinc-300 mt-1.5 shrink-0" />
                           {feature}
@@ -196,18 +196,18 @@ export function ServicesSection() {
 
                     <div className="surface-muted rounded-xl p-4">
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm text-zinc-500 flex items-center gap-2">
+                        <span className="flex items-center gap-2 text-sm text-muted-foreground">
                           <Clock size={14} /> {tServices("estimatedTimeline")}
                         </span>
                         <span className="font-semibold text-foreground">
                           {service.timeline}
                         </span>
                       </div>
-                      <div className="h-px bg-zinc-200 my-3" />
-                      <div className="flex items-center gap-2 text-sm text-zinc-600">
+                      <div className="my-3 h-px bg-border/70" />
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Star
                           size={14}
-                          className="text-zinc-600 fill-zinc-600"
+                          className="fill-muted-foreground text-muted-foreground"
                         />
                         <span className="italic">{service.stat}</span>
                       </div>
@@ -215,7 +215,7 @@ export function ServicesSection() {
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-zinc-100 mt-4">
+                <div className="mt-4 flex flex-col gap-3 border-t border-border/70 pt-6 sm:flex-row">
                   <Button
                     asChild
                     className="h-12 flex-1 rounded-xl bg-foreground text-base text-background hover:opacity-92"

@@ -73,12 +73,12 @@ export default async function BriefBreakPage({
   return (
     <div className="min-h-screen bg-background">
       <section className="relative overflow-hidden border-b border-border/60 bg-gradient-subtle">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(15,23,42,0.06),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.018)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_70%_65%_at_50%_10%,black_35%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(15,23,42,0.06),transparent_55%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(248,250,252,0.08),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.018)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_70%_65%_at_50%_10%,black_35%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.04)_1px,transparent_1px)]" />
 
         <div className="container-wide relative py-20 md:py-28">
           <div className="mx-auto max-w-5xl">
-            <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-zinc-500">
+            <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-muted-foreground">
               <Link href={localizeHrefForLocale(locale, "/")} className="transition-colors hover:text-foreground">
                 Home
               </Link>
@@ -90,7 +90,7 @@ export default async function BriefBreakPage({
                 Insights
               </Link>
               <span>/</span>
-              <span className="text-zinc-900">{copy.breadcrumbCurrent}</span>
+              <span className="text-foreground">{copy.breadcrumbCurrent}</span>
             </div>
 
             <div className="mx-auto max-w-4xl text-center">
@@ -99,15 +99,15 @@ export default async function BriefBreakPage({
                 {copy.badge}
               </div>
 
-              <h1 className="mt-8 font-serif text-4xl leading-[0.98] tracking-tight text-zinc-950 md:text-7xl">
+              <h1 className="mt-8 font-serif text-4xl leading-[0.98] tracking-tight text-foreground md:text-7xl">
                 {copy.headingStart}
                 <br />
-                <span className="text-zinc-400 italic font-light">
+                <span className="text-zinc-400 italic font-light dark:text-zinc-500">
                   {copy.headingEnd}
                 </span>
               </h1>
 
-              <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-zinc-600 md:text-xl">
+              <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-muted-foreground md:text-xl">
                 {copy.intro}
               </p>
 

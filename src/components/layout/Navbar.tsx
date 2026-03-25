@@ -151,7 +151,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
 
             <a
               href={firmConfig.contact.phoneHref}
-              className="flex items-center gap-2 whitespace-nowrap transition-colors hover:text-black dark:hover:text-white"
+              className="flex items-center gap-2 whitespace-nowrap transition-colors hover:text-foreground"
             >
               <Phone className="h-3.5 w-3.5 text-zinc-400" />
               {firmConfig.contact.phoneDisplay}
@@ -169,7 +169,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               >
                 <SiteLogo
                   imageClassName="border-black/5 dark:border-white/10"
-                  nameClassName="hidden text-[1.65rem] leading-none text-zinc-950 dark:text-zinc-50 sm:block"
+                  nameClassName="hidden text-[1.65rem] leading-none text-foreground sm:block"
                   priority
                 />
               </motion.div>
@@ -265,7 +265,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                       <a
                         key={item.text}
                         href={item.href}
-                        className="flex items-center gap-3 text-sm text-zinc-700 transition-colors hover:text-black dark:text-zinc-300 dark:hover:text-white"
+                        className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
                       >
                         <item.icon className="h-4 w-4 text-zinc-400" />
                         <span>{item.text}</span>
@@ -273,7 +273,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                     ) : (
                       <div
                         key={item.text}
-                        className="flex items-start gap-3 text-sm text-zinc-700 dark:text-zinc-300"
+                        className="flex items-start gap-3 text-sm text-muted-foreground"
                       >
                         <item.icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-zinc-400" />
                         <span>{item.text}</span>

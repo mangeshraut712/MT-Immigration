@@ -293,7 +293,7 @@ export default function IntakeForm() {
   return (
     <div className="mx-auto w-full max-w-2xl">
       <div className="relative mb-10">
-        <div className="absolute left-0 top-5 -z-10 h-0.5 w-full bg-zinc-100" />
+        <div className="absolute left-0 top-5 -z-10 h-0.5 w-full bg-border/70" />
         <motion.div
           className="absolute left-0 top-5 -z-10 h-0.5 bg-foreground"
           initial={{ width: "0%" }}

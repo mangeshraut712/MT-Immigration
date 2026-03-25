@@ -632,7 +632,7 @@ export function InsightsPageClient({
                 viewport={{ once: true }}
                 className="rounded-[2rem] bg-foreground p-6 text-background shadow-xl shadow-zinc-900/10"
               >
-                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                <p className="text-xs font-semibold uppercase tracking-widest text-background/55">
                   {copy.sourceStandards}
                 </p>
                 <motion.div
@@ -650,13 +650,13 @@ export function InsightsPageClient({
                     >
                       <div className="flex items-start gap-3">
                         <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                          <ArrowRight className="h-3 w-3 text-zinc-300 transition-transform group-hover:translate-x-0.5" />
+                          <ArrowRight className="h-3 w-3 text-background/70 transition-transform group-hover:translate-x-0.5" />
                         </div>
                         <div>
-                          <h3 className="text-sm font-semibold text-white">
+                          <h3 className="text-sm font-semibold text-background">
                             {announcement.title}
                           </h3>
-                          <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                          <p className="mt-1 text-sm leading-relaxed text-background/72">
                             {announcement.detail}
                           </p>
                         </div>

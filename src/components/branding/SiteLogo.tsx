@@ -24,7 +24,7 @@ export function SiteLogo({
     <div className={cn("flex items-center gap-3", className)}>
       <div
         className={cn(
-          "relative h-16 w-16 overflow-hidden rounded-2xl border border-border/50 bg-background shadow-md",
+          "relative h-16 w-16 overflow-hidden rounded-2xl border border-border/50 bg-white shadow-md dark:border-white/10 dark:bg-white/95 dark:shadow-[0_16px_28px_-18px_rgba(0,0,0,0.85)]",
           imageClassName,
         )}
       >

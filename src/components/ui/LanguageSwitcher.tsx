@@ -85,7 +85,7 @@ export function LanguageSwitcher({
         type="button"
         onClick={() => setIsOpen((currentValue) => !currentValue)}
         disabled={isPending}
-        className="flex h-9 items-center gap-2 rounded-full px-3 text-sm font-medium text-zinc-600 transition-colors hover:bg-zinc-100 hover:text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
+        className="flex h-9 items-center gap-2 rounded-full px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         aria-label={`Current language: ${localeNames[currentLocale]}. Click to change language.`}
         aria-expanded={isOpen}
       >
@@ -98,8 +98,8 @@ export function LanguageSwitcher({
       </button>
 
       {isOpen ? (
-        <div className="absolute right-0 z-50 mt-2 max-h-80 w-56 overflow-y-auto rounded-xl border border-zinc-100 bg-white py-1 shadow-lg">
-          <div className="border-b border-zinc-100 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+        <div className="absolute right-0 z-50 mt-2 max-h-80 w-56 overflow-y-auto rounded-xl border border-border/70 bg-card py-1 shadow-lg">
+          <div className="border-b border-border/70 px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Select Language
           </div>
           {routing.locales.map((locale) => (
@@ -107,9 +107,9 @@ export function LanguageSwitcher({
               key={locale}
               type="button"
               onClick={() => onSelectChange(locale)}
-              className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors hover:bg-zinc-50 ${locale === currentLocale
-                  ? "bg-zinc-50 font-medium text-zinc-900"
-                  : "text-zinc-600"
+              className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition-colors hover:bg-muted ${locale === currentLocale
+                  ? "bg-muted font-medium text-foreground"
+                  : "text-muted-foreground"
                 }`}
             >
               <span className="text-lg">{localeFlags[locale]}</span>
@@ -120,7 +120,7 @@ export function LanguageSwitcher({
                 </span>
               ) : null}
               {locale === currentLocale ? (
-                <span className="ml-auto text-zinc-400">✓</span>
+                <span className="ml-auto text-muted-foreground">✓</span>
               ) : null}
             </button>
           ))}

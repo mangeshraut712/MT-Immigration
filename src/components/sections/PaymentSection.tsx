@@ -239,10 +239,10 @@ export function PaymentSection() {
                   </p>
                 </div>
                 <div className="surface-inset rounded-2xl p-4 shadow-sm">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Availability
                   </p>
-                  <p className="mt-2 text-sm leading-relaxed text-zinc-700">
+                  <p className="mt-2 text-sm leading-relaxed text-foreground">
                     {activeMethod.availability}
                   </p>
                 </div>
@@ -254,8 +254,8 @@ export function PaymentSection() {
                     key={detail}
                     className="surface-inset flex items-start gap-3 rounded-2xl p-4 shadow-sm"
                   >
-                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-zinc-500" />
-                    <p className="text-sm leading-relaxed text-zinc-600">{detail}</p>
+                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                    <p className="text-sm leading-relaxed text-muted-foreground">{detail}</p>
                   </div>
                 ))}
               </div>

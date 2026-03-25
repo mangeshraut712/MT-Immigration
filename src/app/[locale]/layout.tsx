@@ -12,9 +12,8 @@ import Providers from "../providers";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { Toaster } from "@/components/ui/sonner";
 import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
-import { ClientEnhancements } from "@/components/ui/client-enhancements";
+import { DeferredAppChrome } from "@/components/ui/deferred-app-chrome";
 
 // SF Pro alternative - Inter is the closest Google Font
 const inter = Inter({
@@ -106,9 +105,8 @@ export default async function LocaleLayout({
                         <main id="main-content" className="min-h-screen">
                             <ErrorBoundary>{children}</ErrorBoundary>
                         </main>
-                        <Footer />
-                        <ClientEnhancements />
-                        <Toaster position="bottom-right" richColors closeButton />
+                        <Footer locale={locale} />
+                        <DeferredAppChrome />
                     </Providers>
                 </NextIntlClientProvider>
             </body>

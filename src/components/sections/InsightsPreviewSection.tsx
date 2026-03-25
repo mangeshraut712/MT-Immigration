@@ -68,7 +68,7 @@ export function InsightsPreviewSection() {
       id="insights"
       className="relative overflow-hidden border-t border-border/60 bg-background py-16 md:py-24"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(15,23,42,0.04),transparent_48%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(15,23,42,0.04),transparent_48%)] dark:bg-[radial-gradient(circle_at_top_left,rgba(248,250,252,0.08),transparent_48%)]" />
 
       <div className="container-wide relative z-10">
         <motion.div
@@ -80,19 +80,19 @@ export function InsightsPreviewSection() {
         >
           <div className="max-w-3xl">
             <div className="mb-4 flex items-center gap-3">
-              <div className="h-px w-10 bg-zinc-300" />
-              <span className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+              <div className="h-px w-10 bg-border" />
+              <span className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                 {tInsightsPreview("title")}
               </span>
             </div>
-            <h2 className="text-4xl font-serif font-medium leading-[1.08] tracking-tight text-zinc-950 md:text-5xl">
+            <h2 className="text-4xl font-serif font-medium leading-[1.08] tracking-tight text-foreground md:text-5xl">
               {tInsightsPreview("heading").split(",")[0]},
               <br />
-              <span className="text-zinc-400 italic font-light">
+              <span className="text-zinc-400 italic font-light dark:text-zinc-500">
                 {tInsightsPreview("heading").split(",").slice(1).join(",").trim()}
               </span>
             </h2>
-            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-600">
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted-foreground">
               {tInsightsPreview("subtitle")}
             </p>
           </div>
@@ -123,17 +123,17 @@ export function InsightsPreviewSection() {
                   <group.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-500">
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                     {group.label}
                   </p>
-                  <p className="mt-1 text-xs text-zinc-400">{group.sourceName}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">{group.sourceName}</p>
                 </div>
               </div>
 
-              <h3 className="mt-6 text-2xl font-serif font-medium leading-tight text-zinc-950">
+              <h3 className="mt-6 text-2xl font-serif font-medium leading-tight text-foreground">
                 {group.title}
               </h3>
-              <p className="mt-4 text-base leading-relaxed text-zinc-600">
+              <p className="mt-4 text-base leading-relaxed text-muted-foreground">
                 {group.summary}
               </p>
 

@@ -8,6 +8,9 @@ export type DocketZipPuzzle = {
   docket: string;
   title: string;
   matter: string;
+  briefing: string;
+  difficulty: "Measured" | "Demanding" | "Severe";
+  parSeconds: number;
   size: number;
   blocked: GridCell[];
   solution: GridCell[];
@@ -20,6 +23,10 @@ export const docketZipPuzzles: DocketZipPuzzle[] = [
     docket: "DZ-101",
     title: "Evidence Chain",
     matter: "Keep the record intact from opening fact to final exhibit.",
+    briefing:
+      "A measured opener. Build one clean chain through the record without breaking continuity.",
+    difficulty: "Measured",
+    parSeconds: 90,
     size: 5,
     blocked: [
       { row: 1, col: 2 },
@@ -57,6 +64,10 @@ export const docketZipPuzzles: DocketZipPuzzle[] = [
     docket: "DZ-204",
     title: "Motion Calendar",
     matter: "Thread the filings in order before the hearing clock runs out.",
+    briefing:
+      "Calendar pressure sets in here. The route tightens quickly and rewards clean early turns.",
+    difficulty: "Demanding",
+    parSeconds: 105,
     size: 5,
     blocked: [
       { row: 0, col: 0 },
@@ -94,6 +105,10 @@ export const docketZipPuzzles: DocketZipPuzzle[] = [
     docket: "DZ-312",
     title: "Brief Stack",
     matter: "Connect the arguments cleanly and leave no open cell behind.",
+    briefing:
+      "A denser record with fewer escape routes. One careless turn can box in the whole stack.",
+    difficulty: "Demanding",
+    parSeconds: 120,
     size: 5,
     blocked: [
       { row: 1, col: 1 },
@@ -123,6 +138,88 @@ export const docketZipPuzzles: DocketZipPuzzle[] = [
       { row: 2, col: 0 },
       { row: 1, col: 0 },
       { row: 0, col: 0 },
+    ],
+    clueStepIndices: [0, 3, 6, 8, 10, 13, 16, 19],
+  },
+  {
+    id: "service-grid",
+    docket: "DZ-418",
+    title: "Service Grid",
+    matter: "Carry every notice across the room before the service window closes.",
+    briefing:
+      "The fourth chamber adds long corridors and punishes rushed reversals. Trace the service line deliberately.",
+    difficulty: "Demanding",
+    parSeconds: 115,
+    size: 5,
+    blocked: [
+      { row: 0, col: 4 },
+      { row: 1, col: 1 },
+      { row: 2, col: 3 },
+      { row: 3, col: 0 },
+      { row: 4, col: 2 },
+    ],
+    solution: [
+      { row: 4, col: 0 },
+      { row: 4, col: 1 },
+      { row: 3, col: 1 },
+      { row: 2, col: 1 },
+      { row: 2, col: 0 },
+      { row: 1, col: 0 },
+      { row: 0, col: 0 },
+      { row: 0, col: 1 },
+      { row: 0, col: 2 },
+      { row: 0, col: 3 },
+      { row: 1, col: 3 },
+      { row: 1, col: 4 },
+      { row: 2, col: 4 },
+      { row: 3, col: 4 },
+      { row: 4, col: 4 },
+      { row: 4, col: 3 },
+      { row: 3, col: 3 },
+      { row: 3, col: 2 },
+      { row: 2, col: 2 },
+      { row: 1, col: 2 },
+    ],
+    clueStepIndices: [0, 2, 5, 8, 11, 14, 17, 19],
+  },
+  {
+    id: "final-review",
+    docket: "DZ-509",
+    title: "Final Review",
+    matter: "Close the chamber by threading the last review without losing the sequence.",
+    briefing:
+      "The closing docket is the sharpest board in the run. Treat every move like the final quality check.",
+    difficulty: "Severe",
+    parSeconds: 135,
+    size: 5,
+    blocked: [
+      { row: 0, col: 1 },
+      { row: 1, col: 3 },
+      { row: 2, col: 0 },
+      { row: 3, col: 2 },
+      { row: 4, col: 4 },
+    ],
+    solution: [
+      { row: 0, col: 0 },
+      { row: 1, col: 0 },
+      { row: 1, col: 1 },
+      { row: 2, col: 1 },
+      { row: 3, col: 1 },
+      { row: 3, col: 0 },
+      { row: 4, col: 0 },
+      { row: 4, col: 1 },
+      { row: 4, col: 2 },
+      { row: 4, col: 3 },
+      { row: 3, col: 3 },
+      { row: 3, col: 4 },
+      { row: 2, col: 4 },
+      { row: 1, col: 4 },
+      { row: 0, col: 4 },
+      { row: 0, col: 3 },
+      { row: 0, col: 2 },
+      { row: 1, col: 2 },
+      { row: 2, col: 2 },
+      { row: 2, col: 3 },
     ],
     clueStepIndices: [0, 3, 6, 8, 10, 13, 16, 19],
   },

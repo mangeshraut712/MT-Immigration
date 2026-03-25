@@ -12,8 +12,8 @@ export function AboutSection() {
       id="about"
       className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(15,23,42,0.04),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black_20%,transparent_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(15,23,42,0.04),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_20%,rgba(248,250,252,0.08),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black_20%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.04)_1px,transparent_1px)]" />
 
       <div className="container-wide relative z-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-24 items-center">
@@ -26,7 +26,7 @@ export function AboutSection() {
           >
             <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0">
               {/* Decorative background elements */}
-              <div className="absolute -inset-4 rotate-3 rounded-3xl bg-zinc-200/60 opacity-50 blur-xl" />
+              <div className="absolute -inset-4 rotate-3 rounded-3xl bg-zinc-200/60 opacity-50 blur-xl dark:bg-zinc-800/60" />
               <div className="absolute -inset-2 -rotate-2 rounded-3xl bg-muted/70" />
 
               {/* Main image container */}
@@ -38,10 +38,10 @@ export function AboutSection() {
                       nameClassName="hidden"
                     />
                   </div>
-                  <p className="text-zinc-700 text-sm font-semibold uppercase tracking-[0.18em]">
+                  <p className="text-sm font-semibold uppercase tracking-[0.18em] text-foreground">
                     {tAbout("attorneyLed")}
                   </p>
-                  <p className="mt-2 text-sm text-zinc-500">
+                  <p className="mt-2 text-sm text-muted-foreground">
                     Built for clients who want clarity before the filing goes
                     out.
                   </p>
@@ -56,10 +56,10 @@ export function AboutSection() {
                 transition={{ delay: 0.3 }}
                 className="surface-panel absolute -bottom-4 -right-4 p-4 md:-bottom-6 md:-right-6 md:p-6"
               >
-                <div className="text-2xl font-bold text-zinc-900">
+                <div className="text-2xl font-bold text-foreground">
                   One strategy owner
                 </div>
-                <div className="text-sm text-zinc-500 font-medium">
+                <div className="text-sm font-medium text-muted-foreground">
                   No handoffs once the matter is underway
                 </div>
               </motion.div>
@@ -75,8 +75,8 @@ export function AboutSection() {
             className="order-1 lg:order-2 space-y-8"
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="h-px w-12 bg-zinc-400" />
-              <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">
+              <div className="h-px w-12 bg-border" />
+              <span className="text-sm font-semibold tracking-widest uppercase text-muted-foreground">
                 {tAbout("title")}
               </span>
             </div>
@@ -86,19 +86,19 @@ export function AboutSection() {
             </h2>
 
             <div className="relative mt-8">
-              <Quote className="absolute -top-4 -left-4 w-12 h-12 text-zinc-100 rotate-180" />
-              <blockquote className="text-lg md:text-2xl font-serif font-light italic leading-relaxed pl-4 md:pl-8 border-l-4 border-zinc-200 text-zinc-900">
+              <Quote className="absolute -top-4 -left-4 h-12 w-12 rotate-180 text-zinc-100 dark:text-zinc-800" />
+              <blockquote className="border-l-4 border-border pl-4 font-serif text-lg font-light italic leading-relaxed text-foreground md:pl-8 md:text-2xl">
                 &ldquo;{tAbout("quote")}&rdquo;
               </blockquote>
             </div>
 
-            <p className="text-lg text-zinc-600 leading-relaxed mt-8">
+            <p className="mt-8 text-lg leading-relaxed text-muted-foreground">
               {tAbout("description")}
             </p>
 
             {/* Credentials with icons */}
-            <div className="pt-6 border-t border-zinc-200 mt-8">
-              <h4 className="text-sm font-bold uppercase tracking-widest text-zinc-400 mb-6">
+            <div className="mt-8 border-t border-border/70 pt-6">
+              <h4 className="mb-6 text-sm font-bold uppercase tracking-widest text-muted-foreground">
                 {tAbout("credentials")}
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -119,7 +119,7 @@ export function AboutSection() {
                     <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-muted transition-colors group-hover:bg-foreground">
                       <cred.icon className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-background" />
                     </div>
-                    <span className="text-sm font-medium text-zinc-700">
+                    <span className="text-sm font-medium text-foreground">
                       {cred.text}
                     </span>
                   </motion.div>

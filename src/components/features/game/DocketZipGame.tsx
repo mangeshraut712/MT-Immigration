@@ -56,6 +56,17 @@ type GameStats = {
   bestTimes: Record<string, number>;
 };
 
+type GameMode = "challenge" | "single";
+
+type ChallengeStageResult = {
+  puzzleId: string;
+  seconds: number;
+  moves: number;
+  hintsUsed: number;
+};
+
+const CHAMBER_RUN_HINTS = 4;
+
 const initialStats: GameStats = {
   streak: 0,
   lastSolvedDate: null,
@@ -259,17 +270,48 @@ function buildShareText(
   ].join("\n");
 }
 
+function buildChallengeShareText(
+  completedStages: number,
+  totalStages: number,
+  elapsedSeconds: number,
+  hintsRemaining: number,
+) {
+  return [
+    `Chamber Run`,
+    `Cleared ${completedStages}/${totalStages} dockets`,
+    `Total time: ${formatTime(elapsedSeconds)}`,
+    `Hints left: ${hintsRemaining}`,
+    `Take a brief break at M&T Immigration`,
+  ].join("\n");
+}
+
 function isAdjacent(model: PuzzleModel, fromIndex: number, toIndex: number) {
   return model.adjacency[fromIndex].includes(toIndex);
 }
 
 export function DocketZipGame() {
   const todayPuzzleIndex = useMemo(() => getTodayPuzzleIndex(), []);
-  const [selectedPuzzleIndex, setSelectedPuzzleIndex] =
-    useState(todayPuzzleIndex);
+  const challengeOrder = useMemo(
+    () => [
+      todayPuzzleIndex,
+      ...puzzleModels.map((_, index) => index).filter((index) => index !== todayPuzzleIndex),
+    ],
+    [todayPuzzleIndex],
+  );
+  const [gameMode, setGameMode] = useState<GameMode>("challenge");
+  const [selectedPuzzleIndex, setSelectedPuzzleIndex] = useState(todayPuzzleIndex);
+  const [challengeStageIndex, setChallengeStageIndex] = useState(0);
+  const [challengeResults, setChallengeResults] = useState<ChallengeStageResult[]>([]);
+  const [challengeHintsRemaining, setChallengeHintsRemaining] =
+    useState(CHAMBER_RUN_HINTS);
+  const [stageHintsUsed, setStageHintsUsed] = useState(0);
+  const activePuzzleIndex =
+    gameMode === "challenge"
+      ? challengeOrder[challengeStageIndex]
+      : selectedPuzzleIndex;
   const model = useMemo(
-    () => puzzleModels[selectedPuzzleIndex],
-    [selectedPuzzleIndex],
+    () => puzzleModels[activePuzzleIndex],
+    [activePuzzleIndex],
   );
   const [stats, setStats] = useLocalStorage<GameStats>(
     "mt-docket-zip-stats",
@@ -295,8 +337,28 @@ export function DocketZipGame() {
   const progressPercent = Math.round(
     (path.length / model.openCells.length) * 100,
   );
-  const isDailyPuzzle = selectedPuzzleIndex === todayPuzzleIndex;
+  const isDailyPuzzle = activePuzzleIndex === todayPuzzleIndex;
   const todaySolved = stats.solvedDates.includes(getLocalDateKey());
+  const currentStageNumber = gameMode === "challenge" ? challengeStageIndex + 1 : 1;
+  const totalStages = gameMode === "challenge" ? challengeOrder.length : 1;
+  const hasNextStage =
+    gameMode === "challenge" && challengeStageIndex < challengeOrder.length - 1;
+  const runElapsedSeconds =
+    challengeResults.reduce((total, result) => total + result.seconds, 0) +
+    (!isSolved ? elapsedSeconds : 0);
+  const totalHintsUsed =
+    challengeResults.reduce((total, result) => total + result.hintsUsed, 0) +
+    (isSolved ? 0 : stageHintsUsed);
+  const isPerfectRun =
+    gameMode === "challenge" &&
+    challengeResults.length === totalStages &&
+    totalHintsUsed === 0 &&
+    challengeResults.every(
+      (result) =>
+        result.seconds <=
+        (puzzleModels.find((entry) => entry.puzzle.id === result.puzzleId)?.puzzle
+          .parSeconds ?? Number.MAX_SAFE_INTEGER),
+    );
 
   const initializePuzzleState = useCallback((nextModel: PuzzleModel) => {
     setPath([nextModel.startIndex]);
@@ -308,12 +370,48 @@ export function DocketZipGame() {
     setStartedAt(null);
     setIsTracing(false);
     setSolvedStreak(null);
+    setStageHintsUsed(0);
     suppressNextClickRef.current = null;
   }, []);
 
   const resetPuzzle = useCallback(() => {
+    if (gameMode === "challenge") {
+      setChallengeResults((currentResults) =>
+        currentResults.filter((result) => result.puzzleId !== model.puzzle.id),
+      );
+    }
     initializePuzzleState(model);
-  }, [initializePuzzleState, model]);
+  }, [gameMode, initializePuzzleState, model]);
+
+  const startChallengeRun = useCallback(() => {
+    const firstModel = puzzleModels[challengeOrder[0]];
+    setGameMode("challenge");
+    setChallengeStageIndex(0);
+    setChallengeResults([]);
+    setChallengeHintsRemaining(CHAMBER_RUN_HINTS);
+    initializePuzzleState(firstModel);
+  }, [challengeOrder, initializePuzzleState]);
+
+  const advanceChallengeStage = useCallback(() => {
+    if (!hasNextStage) {
+      return;
+    }
+
+    const nextStage = challengeStageIndex + 1;
+    const nextModel = puzzleModels[challengeOrder[nextStage]];
+    setChallengeStageIndex(nextStage);
+    initializePuzzleState(nextModel);
+  }, [challengeOrder, challengeStageIndex, hasNextStage, initializePuzzleState]);
+
+  const selectPracticePuzzle = useCallback(
+    (index: number) => {
+      setGameMode("single");
+      setSelectedPuzzleIndex(index);
+      setChallengeHintsRemaining(CHAMBER_RUN_HINTS);
+      initializePuzzleState(puzzleModels[index]);
+    },
+    [initializePuzzleState],
+  );
 
   useEffect(() => {
     if (startedAt === null || isSolved) {
@@ -358,9 +456,27 @@ export function DocketZipGame() {
     }
   }, [isSolved, model.clueByIndex, path]);
 
-  function markSolved(finalElapsedSeconds: number) {
+  function markSolved(finalElapsedSeconds: number, finalMoves: number) {
     const today = getLocalDateKey();
     setIsSolved(true);
+
+    if (gameMode === "challenge") {
+      setChallengeResults((currentResults) => {
+        if (currentResults.some((result) => result.puzzleId === model.puzzle.id)) {
+          return currentResults;
+        }
+
+        return [
+          ...currentResults,
+          {
+            puzzleId: model.puzzle.id,
+            seconds: finalElapsedSeconds,
+            moves: finalMoves,
+            hintsUsed: stageHintsUsed,
+          },
+        ];
+      });
+    }
 
     setStats((currentStats) => {
       const alreadySolvedToday = currentStats.solvedDates.includes(today);
@@ -466,12 +582,17 @@ export function DocketZipGame() {
       const finalElapsedSeconds =
         startedAt === null ? 0 : Math.floor((moveTimestamp - startedAt) / 1000);
       setElapsedSeconds(finalElapsedSeconds);
-      markSolved(finalElapsedSeconds);
+      markSolved(finalElapsedSeconds, updatedPath.length - 1);
     }
   }
 
   const showHint = useCallback(() => {
     if (isSolved) {
+      return;
+    }
+
+    if (gameMode === "challenge" && challengeHintsRemaining <= 0) {
+      setFeedback("No clerk notes remain in this chamber run. Solve it from the record.");
       return;
     }
 
@@ -490,6 +611,10 @@ export function DocketZipGame() {
 
     if (resolvedPath && resolvedPath.length > 1) {
       setHintCell(resolvedPath[1]);
+      if (gameMode === "challenge") {
+        setChallengeHintsRemaining((currentValue) => currentValue - 1);
+        setStageHintsUsed((currentValue) => currentValue + 1);
+      }
       setFeedback("Clerk’s note: the next clean move is highlighted.");
       return;
     }
@@ -497,7 +622,7 @@ export function DocketZipGame() {
     setFeedback(
       "No hint available from the current record. Undo a step and try again.",
     );
-  }, [isSolved, model, nextClue, path]);
+  }, [challengeHintsRemaining, gameMode, isSolved, model, nextClue, path]);
 
   useKeyboardShortcut("r", () => {
     resetPuzzle();
@@ -517,11 +642,18 @@ export function DocketZipGame() {
 
   async function copyScore() {
     await copy(
-      buildShareText(
-        model.puzzle,
-        elapsedSeconds,
-        solvedStreak ?? stats.streak,
-      ),
+      gameMode === "challenge"
+        ? buildChallengeShareText(
+            challengeResults.length,
+            totalStages,
+            runElapsedSeconds,
+            challengeHintsRemaining,
+          )
+        : buildShareText(
+            model.puzzle,
+            elapsedSeconds,
+            solvedStreak ?? stats.streak,
+          ),
     );
   }
 
@@ -574,12 +706,16 @@ export function DocketZipGame() {
   return (
     <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_23rem]">
       <div className="rounded-[2.5rem] border border-border bg-card p-5 shadow-soft md:p-8">
-        <div className="mb-6 flex flex-col gap-5 border-b border-zinc-100 pb-6">
+        <div className="mb-6 flex flex-col gap-5 border-b border-border/70 pb-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-black/10 bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                  {isDailyPuzzle ? "Today’s Docket" : "Practice Docket"}
+                <span className="rounded-full border border-border/70 bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                  {gameMode === "challenge"
+                    ? `Chamber Run · Stage ${currentStageNumber}/${totalStages}`
+                    : isDailyPuzzle
+                      ? "Today’s Docket"
+                      : "Practice Docket"}
                 </span>
                 {todaySolved && isDailyPuzzle ? (
                   <span className="inline-flex items-center gap-1 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700">
@@ -588,32 +724,50 @@ export function DocketZipGame() {
                   </span>
                 ) : null}
               </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-zinc-500">
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
                 {model.puzzle.docket}
               </p>
-              <h2 className="mt-2 font-serif text-3xl tracking-tight text-zinc-950 md:text-4xl">
+              <h2 className="mt-2 font-serif text-3xl tracking-tight text-foreground md:text-4xl">
                 {model.puzzle.title}
               </h2>
               <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
                 {model.puzzle.matter}
               </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full border border-border/70 bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  {model.puzzle.difficulty}
+                </span>
+                <span className="rounded-full border border-border/70 bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                  Par {formatTime(model.puzzle.parSeconds)}
+                </span>
+                {gameMode === "challenge" ? (
+                  <span className="rounded-full border border-border/70 bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+                    {challengeHintsRemaining} clerk notes left
+                  </span>
+                ) : null}
+              </div>
+              {gameMode === "challenge" ? (
+                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
+                  Clear all {totalStages} dockets in sequence. Each stage tightens the route and carries your run forward.
+                </p>
+              ) : null}
             </div>
 
             <div className="flex items-center gap-3 rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-secondary-foreground shadow-sm">
               <Clock3 className="h-4 w-4 text-foreground" />
-              {formatTime(elapsedSeconds)}
+              {formatTime(gameMode === "challenge" ? runElapsedSeconds : elapsedSeconds)}
             </div>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr]">
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             <div className="rounded-2xl border border-border bg-muted px-4 py-4">
-              <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+              <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                 <span>Progress</span>
                 <span>{progressPercent}%</span>
               </div>
-              <div className="mt-3 h-2 overflow-hidden rounded-full bg-zinc-200">
+              <div className="mt-3 h-2 overflow-hidden rounded-full bg-border/80">
                 <div
-                  className="h-full rounded-full bg-zinc-900 transition-[width] duration-300"
+                  className="h-full rounded-full bg-foreground transition-[width] duration-300"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -624,26 +778,42 @@ export function DocketZipGame() {
             </div>
 
             <div className="rounded-2xl border border-border bg-muted px-4 py-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                 Moves
               </p>
-              <p className="mt-3 text-2xl font-semibold text-zinc-950">
+              <p className="mt-3 text-2xl font-semibold text-foreground">
                 {toMoveText(path.length, model.openCells.length)}
               </p>
             </div>
 
             <div className="rounded-2xl border border-border bg-muted px-4 py-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                 Streak
               </p>
-              <p className="mt-3 text-2xl font-semibold text-zinc-950">
+              <p className="mt-3 text-2xl font-semibold text-foreground">
                 {stats.streak}
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-border bg-muted px-4 py-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                {gameMode === "challenge" ? "Hints" : "Mode"}
+              </p>
+              <p className="mt-3 text-2xl font-semibold text-foreground">
+                {gameMode === "challenge"
+                  ? challengeHintsRemaining
+                  : "Single"}
+              </p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                {gameMode === "challenge"
+                  ? "Shared clerk notes for the full run."
+                  : "Practice one docket at a time."}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="rounded-[2rem] bg-[#f6efe7] p-4 md:p-6">
+        <div className="rounded-[2rem] border border-border/70 bg-[#f6efe7] p-4 dark:bg-zinc-950/70 md:p-6">
           <div
             className="relative mx-auto grid w-full max-w-[34rem] gap-2 touch-none select-none"
             style={{
@@ -664,7 +834,7 @@ export function DocketZipGame() {
                   return (
                     <div
                       key={key}
-                      className="relative aspect-square rounded-2xl bg-zinc-900/90 shadow-inner"
+                      className="relative aspect-square rounded-2xl bg-zinc-900/90 shadow-inner dark:bg-zinc-800"
                     >
                       <div className="absolute inset-x-[18%] top-1/2 h-2 -translate-y-1/2 rounded-full bg-white/15" />
                     </div>
@@ -729,8 +899,8 @@ export function DocketZipGame() {
                     className={cn(
                       "relative aspect-square rounded-2xl border border-border bg-card text-left transition-all",
                       active
-                        ? "shadow-lg shadow-zinc-500/10 ring-2 ring-zinc-300"
-                        : "shadow-sm hover:border-zinc-400",
+                        ? "shadow-lg shadow-zinc-500/10 ring-2 ring-foreground/35"
+                        : "shadow-sm hover:border-foreground/40",
                     )}
                     aria-label={cellLabel}
                     aria-pressed={active}
@@ -771,14 +941,14 @@ export function DocketZipGame() {
                     {hintCell === openCell.openIndex ? (
                       <motion.div
                         layoutId="hint-cell"
-                        className="absolute inset-2 rounded-2xl border-2 border-zinc-500"
+                        className="absolute inset-2 rounded-2xl border-2 border-amber-400/90"
                         transition={{ duration: 0.25 }}
                       />
                     ) : null}
 
                     {path.length === 1 && active ? (
                       <motion.div
-                        className="absolute inset-1 rounded-2xl border border-zinc-400/80"
+                        className="absolute inset-1 rounded-2xl border border-foreground/45"
                         initial={{ opacity: 0.45, scale: 0.96 }}
                         animate={{
                           opacity: [0.35, 0.7, 0.35],
@@ -797,10 +967,10 @@ export function DocketZipGame() {
                         className={cn(
                           "absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-sm font-bold shadow-md",
                           order !== undefined
-                            ? "bg-black text-white ring-4 ring-white/30"
+                            ? "bg-foreground text-background ring-4 ring-background/25"
                             : active
-                              ? "bg-black text-white ring-4 ring-zinc-200"
-                              : "bg-black text-white",
+                              ? "bg-foreground text-background ring-4 ring-border"
+                              : "bg-foreground text-background",
                         )}
                       >
                         {clue}
@@ -814,6 +984,20 @@ export function DocketZipGame() {
         </div>
 
         <div className="mt-6 flex flex-wrap gap-3">
+          <Button
+            type="button"
+            variant={gameMode === "challenge" ? "default" : "outline"}
+            onClick={startChallengeRun}
+            className={cn(
+              "rounded-full",
+              gameMode === "challenge"
+                ? "bg-foreground text-background hover:opacity-92"
+                : "border-border bg-card",
+            )}
+          >
+            <Trophy className="mr-2 h-4 w-4" />
+            Chamber Run
+          </Button>
           <Button
             type="button"
             variant="outline"
@@ -854,14 +1038,18 @@ export function DocketZipGame() {
             className={cn(
               "mt-4 rounded-2xl border px-4 py-3 text-sm leading-relaxed",
               isSolved
-                ? "border-emerald-200 bg-emerald-50 text-emerald-900"
+                ? "border-emerald-300/40 bg-emerald-500/10 text-emerald-200"
                 : feedback
-                  ? "border-amber-200 bg-amber-50 text-amber-900"
+                  ? "border-amber-300/40 bg-amber-500/10 text-amber-200"
                   : "border-border bg-card text-muted-foreground",
             )}
           >
             {isSolved
-              ? "Court adjourned. You completed the entire record in order."
+              ? hasNextStage
+                ? `Stage ${currentStageNumber} cleared. The next docket is ready.`
+                : gameMode === "challenge"
+                  ? "Chamber cleared. You completed the full multi-stage run."
+                  : "Court adjourned. You completed the entire record in order."
               : (feedback ??
                 "Connect the numbered facts in order, cover every open cell, and avoid the redacted blocks.")}
           </motion.div>
@@ -870,7 +1058,7 @@ export function DocketZipGame() {
         <div className="mt-6 rounded-[2rem] border border-border bg-muted p-5">
           <div className="flex items-center gap-3">
             <MoveRight className="h-5 w-5 text-foreground" />
-            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+            <h3 className="font-serif text-xl tracking-tight text-foreground">
               Play it like a court-ready Zip
             </h3>
           </div>
@@ -884,8 +1072,9 @@ export function DocketZipGame() {
               in one motion.
             </div>
             <div className="rounded-2xl bg-card p-4">
-              If you trap the path, undo the last turn or ask the clerk for a
-              hint.
+              {gameMode === "challenge"
+                ? "If you trap the path, undo quickly. Clerk notes are limited across the full run."
+                : "If you trap the path, undo the last turn or ask the clerk for a hint."}
             </div>
           </div>
         </div>
@@ -898,19 +1087,26 @@ export function DocketZipGame() {
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-300">
+                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/55">
                   Docket Closed
                 </p>
                 <h3 className="mt-3 font-serif text-3xl tracking-tight">
-                  You cleared the brief.
+                  {hasNextStage
+                    ? `Stage ${currentStageNumber} closed.`
+                    : gameMode === "challenge"
+                      ? "You cleared the full chamber run."
+                      : "You cleared the brief."}
                 </h3>
                 <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/70">
-                  Small reset, same standard. Come back tomorrow for the next
-                  chamber puzzle.
+                  {hasNextStage
+                    ? `Good. Advance to stage ${currentStageNumber + 1} and keep the record moving.`
+                    : gameMode === "challenge"
+                      ? "Three dockets, one clean run. Come back tomorrow for another chamber sequence."
+                      : "Small reset, same standard. Come back tomorrow for the next chamber puzzle."}
                 </p>
               </div>
 
-              <Scale className="h-8 w-8 text-zinc-300" />
+              <Scale className="h-8 w-8 text-white/55" />
             </div>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -919,15 +1115,17 @@ export function DocketZipGame() {
                   Time
                 </p>
                 <p className="mt-2 text-2xl font-semibold">
-                  {formatTime(elapsedSeconds)}
+                  {formatTime(gameMode === "challenge" ? runElapsedSeconds : elapsedSeconds)}
                 </p>
               </div>
               <div className="rounded-2xl bg-white/5 p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-white/50">
-                  Streak
+                  {gameMode === "challenge" ? "Stages" : "Streak"}
                 </p>
                 <p className="mt-2 text-2xl font-semibold">
-                  {solvedStreak ?? stats.streak}
+                  {gameMode === "challenge"
+                    ? `${challengeResults.length}/${totalStages}`
+                    : (solvedStreak ?? stats.streak)}
                 </p>
               </div>
               <div className="rounded-2xl bg-white/5 p-4">
@@ -942,23 +1140,41 @@ export function DocketZipGame() {
               </div>
             </div>
 
+            {gameMode === "challenge" && !hasNextStage ? (
+              <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-white/75">
+                {isPerfectRun
+                  ? "Perfect run recorded. Every stage cleared at par without using a clerk note."
+                  : `Run complete with ${totalHintsUsed} clerk note${totalHintsUsed === 1 ? "" : "s"} used.`}
+              </div>
+            ) : null}
+
             <div className="mt-6 flex flex-wrap gap-3">
               <Button
                 type="button"
                 onClick={copyScore}
-                className="rounded-full bg-foreground text-background hover:bg-white/90"
+                className="rounded-full bg-foreground text-background hover:opacity-90"
               >
                 <Copy className="mr-2 h-4 w-4" />
-                {copied ? "Copied" : "Copy Result"}
+                {copied ? "Copied" : gameMode === "challenge" ? "Copy Run Result" : "Copy Result"}
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={resetPuzzle}
-                className="rounded-full border-white/20 bg-transparent text-white hover:bg-white/10"
-              >
-                Play Again
-              </Button>
+              {hasNextStage ? (
+                <Button
+                  type="button"
+                  onClick={advanceChallengeStage}
+                  className="rounded-full bg-white text-zinc-950 hover:bg-white/90"
+                >
+                  Continue to Stage {currentStageNumber + 1}
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={gameMode === "challenge" ? startChallengeRun : resetPuzzle}
+                  className="rounded-full border-white/20 bg-transparent text-white hover:bg-white/10"
+                >
+                  {gameMode === "challenge" ? "Run It Again" : "Play Again"}
+                </Button>
+              )}
             </div>
           </motion.div>
         ) : null}
@@ -968,38 +1184,87 @@ export function DocketZipGame() {
         <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
             <CalendarDays className="h-5 w-5 text-foreground" />
-            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+            <h3 className="font-serif text-xl tracking-tight text-foreground">
               Docket Desk
             </h3>
           </div>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <Button
+              type="button"
+              size="sm"
+              onClick={startChallengeRun}
+              className={cn(
+                "rounded-full",
+                gameMode === "challenge"
+                  ? "bg-foreground text-background hover:opacity-92"
+                  : "bg-muted text-foreground hover:bg-muted/80",
+              )}
+            >
+              Chamber Run
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => selectPracticePuzzle(activePuzzleIndex)}
+              className={cn(
+                "rounded-full border-border/70",
+                gameMode === "single"
+                  ? "bg-card text-foreground"
+                  : "bg-background text-muted-foreground hover:bg-muted",
+              )}
+            >
+              Practice Mode
+            </Button>
+          </div>
           <div className="mt-5 space-y-3">
-            {puzzleModels.map((puzzleModel, index) => {
-              const selected = index === selectedPuzzleIndex;
+            {(gameMode === "challenge" ? challengeOrder.map((index) => index) : puzzleModels.map((_, index) => index)).map((index) => {
+              const puzzleModel = puzzleModels[index];
+              const selected = index === activePuzzleIndex;
               const isToday = index === todayPuzzleIndex;
+              const stageNumber = challengeOrder.indexOf(index) + 1;
+              const completed = challengeResults.some(
+                (result) => result.puzzleId === puzzleModel.puzzle.id,
+              );
               return (
                 <button
                   key={puzzleModel.puzzle.id}
                   type="button"
                   onClick={() => {
-                    setSelectedPuzzleIndex(index);
-                    initializePuzzleState(puzzleModels[index]);
+                    if (gameMode === "challenge") {
+                      if (!completed && index !== activePuzzleIndex) {
+                        return;
+                      }
+
+                      setChallengeStageIndex(stageNumber - 1);
+                      initializePuzzleState(puzzleModels[index]);
+                      return;
+                    }
+
+                    selectPracticePuzzle(index);
                   }}
                   className={cn(
                     "w-full rounded-2xl border px-4 py-4 text-left transition-all",
                     selected
-                      ? "border-zinc-900 bg-zinc-900 text-white shadow-lg"
-                      : "border-border bg-muted text-foreground hover:border-zinc-300 hover:bg-white",
+                      ? "border-foreground bg-foreground text-background shadow-lg"
+                      : "border-border bg-muted text-foreground hover:border-foreground/30 hover:bg-card",
+                    gameMode === "challenge" && !completed && index !== activePuzzleIndex
+                      ? "opacity-80"
+                      : "",
                   )}
+                  disabled={gameMode === "challenge" && !completed && index !== activePuzzleIndex}
                 >
                   <div className="flex items-center justify-between gap-3">
                     <div>
                       <p
                         className={cn(
                           "text-[11px] font-semibold uppercase tracking-[0.24em]",
-                          selected ? "text-zinc-300" : "text-zinc-500",
+                          selected ? "text-background/65" : "text-muted-foreground",
                         )}
                       >
-                        {puzzleModel.puzzle.docket}
+                        {gameMode === "challenge"
+                          ? `Stage ${stageNumber} · ${puzzleModel.puzzle.docket}`
+                          : puzzleModel.puzzle.docket}
                       </p>
                       <h4 className="mt-2 text-base font-semibold">
                         {puzzleModel.puzzle.title}
@@ -1016,6 +1281,17 @@ export function DocketZipGame() {
                       >
                         Daily
                       </span>
+                    ) : completed ? (
+                      <span
+                        className={cn(
+                          "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
+                          selected
+                            ? "bg-white/10 text-white"
+                            : "border border-emerald-300/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-300",
+                        )}
+                      >
+                        Cleared
+                      </span>
                     ) : null}
                   </div>
                 </button>
@@ -1027,19 +1303,17 @@ export function DocketZipGame() {
         <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
             <Scale className="h-5 w-5 text-foreground" />
-            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+            <h3 className="font-serif text-xl tracking-tight text-foreground">
               Chamber Notes
             </h3>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            The game keeps the site’s quiet editorial language, but swaps
-            urgency for focus and recovery. Think of it as a deliberate pause,
-            not a gimmick.
+            {model.puzzle.briefing}
           </p>
 
           <div className="mt-5 space-y-3">
             <div className="rounded-2xl bg-muted p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Best time
               </p>
               <p className="mt-2 text-lg font-semibold text-foreground">
@@ -1049,15 +1323,35 @@ export function DocketZipGame() {
               </p>
             </div>
             <div className="rounded-2xl bg-muted p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
-                Today’s mode
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Difficulty
               </p>
               <p className="mt-2 text-lg font-semibold text-foreground">
-                {isDailyPuzzle ? "Daily chamber puzzle" : "Practice docket"}
+                {model.puzzle.difficulty}
               </p>
             </div>
             <div className="rounded-2xl bg-muted p-4">
-              <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Current mode
+              </p>
+              <p className="mt-2 text-lg font-semibold text-foreground">
+                {gameMode === "challenge"
+                  ? `Chamber run · ${currentStageNumber}/${totalStages}`
+                  : isDailyPuzzle
+                    ? "Daily chamber puzzle"
+                    : "Practice docket"}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-muted p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                Stage target
+              </p>
+              <p className="mt-2 text-lg font-semibold text-foreground">
+                {formatTime(model.puzzle.parSeconds)}
+              </p>
+            </div>
+            <div className="rounded-2xl bg-muted p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Keyboard
               </p>
               <p className="mt-2 text-sm font-medium text-foreground">
@@ -1073,7 +1367,7 @@ export function DocketZipGame() {
         <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
             <Trophy className="h-5 w-5 text-foreground" />
-            <h3 className="font-serif text-xl tracking-tight text-zinc-950">
+            <h3 className="font-serif text-xl tracking-tight text-foreground">
               How to play
             </h3>
           </div>
@@ -1089,6 +1383,12 @@ export function DocketZipGame() {
               Use Undo if you box in the record. Use Clerk’s Hint if you want a
               gentle nudge.
             </li>
+            {gameMode === "challenge" ? (
+              <li>
+                Clear each docket in sequence to finish the full chamber run.
+                Every solved stage unlocks the next one.
+              </li>
+            ) : null}
           </ul>
         </div>
       </div>
