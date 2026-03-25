@@ -85,7 +85,7 @@ function SourceLink({
   const toneClasses =
     tone === "light"
       ? "text-zinc-300 hover:text-white"
-      : "text-foreground hover:text-black";
+      : "text-foreground text-foreground hover:text-foreground/80";
 
   if (isExternal) {
     return (
@@ -591,7 +591,7 @@ export function InsightsPageClient({
                       className="group flex items-center justify-between rounded-xl border border-border p-4 transition-all hover:border-black hover:bg-muted"
                     >
                       <span className="font-medium text-foreground">{topic}</span>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-black" />
+                      <ChevronRight className="h-4 w-4 text-muted-foreground group-text-foreground hover:text-foreground/80" />
                     </Link>
                   ))}
                 </div>

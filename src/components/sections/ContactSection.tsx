@@ -52,7 +52,7 @@ export function ContactSection() {
       id="contact"
       className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(15,23,42,0.04),transparent_38%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(15,23,42,0.04),transparent_38%)] dark:bg-[radial-gradient(circle_at_top_right,rgba(248,250,252,0.08),transparent_38%)]" />
 
       <div className="container-wide relative z-10">
         {/* Header */}
@@ -64,16 +64,16 @@ export function ContactSection() {
           className="text-center mb-16 max-w-3xl mx-auto"
         >
           <div className="flex items-center justify-center gap-3 mb-6">
-            <div className="h-px w-12 bg-zinc-300"></div>
-            <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">
+            <div className="h-px w-12 bg-border"></div>
+            <span className="text-sm font-semibold tracking-widest uppercase text-muted-foreground">
               {tContact("title")}
             </span>
-            <div className="h-px w-12 bg-zinc-300"></div>
+            <div className="h-px w-12 bg-border"></div>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
             {tContact("heading")}
           </h2>
-          <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto">
+          <p className="mx-auto max-w-2xl text-xl leading-relaxed text-muted-foreground">
             {tContact("subtitle")}
           </p>
         </motion.div>
@@ -114,7 +114,7 @@ export function ContactSection() {
                               <item.icon size={20} strokeWidth={1.5} />
                             </motion.div>
                             <div>
-                              <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
+                              <p className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                                 {item.label}
                               </p>
                               <p className="text-lg font-medium text-foreground transition-colors">
@@ -140,7 +140,7 @@ export function ContactSection() {
                           <item.icon size={20} strokeWidth={1.5} />
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
+                          <p className="mb-1 text-xs font-bold uppercase tracking-widest text-muted-foreground">
                             {item.label}
                           </p>
                           <p className="text-lg font-medium text-foreground">
@@ -160,17 +160,17 @@ export function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="relative overflow-hidden rounded-2xl bg-zinc-950 p-6 text-white shadow-xl md:rounded-[2rem] md:p-8"
+              className="relative overflow-hidden rounded-2xl border border-border/70 bg-foreground p-6 text-background shadow-xl shadow-black/20 md:rounded-[2rem] md:p-8"
             >
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_50%)]" />
-              <h3 className="text-xl font-serif font-bold mb-6 relative z-10">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_50%)]" />
+              <h3 className="relative z-10 mb-6 text-xl font-serif font-bold">
                 {tContact("consultationFees")}
               </h3>
-              <div className="space-y-4 relative z-10">
+              <div className="relative z-10 space-y-4">
                 {feeOptions.map((option) => (
                   <div
                     key={option.label}
-                    className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/5 group-hover:bg-white/15 transition-colors"
+                    className="flex items-center justify-between rounded-2xl border border-white/10 bg-card/10 p-4 backdrop-blur-md transition-colors group-hover:bg-card/15"
                   >
                     <span className="font-medium">{option.label}</span>
                     <span className="text-2xl font-bold font-serif">
@@ -179,7 +179,7 @@ export function ContactSection() {
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-zinc-400 mt-6 relative z-10 text-center">
+              <p className="relative z-10 mt-6 text-center text-xs text-background/70">
                 {tContact("feeCredit")}
               </p>
             </motion.div>
