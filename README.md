@@ -470,6 +470,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - `/api/chat` keeps model keys off the client
 - Request-size checks, origin checks, rate limiting, and bounded transcript windows
+- Validation and fallback layers keep behavior consistent when model output is inherently non-deterministic
 - Fallback response path still returns useful guidance when no provider key is configured
 - Optional FastAPI proxy mode for specialist agents
 
