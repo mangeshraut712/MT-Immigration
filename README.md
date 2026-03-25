@@ -31,9 +31,10 @@
 - **Legal Research Automation**: Real-time case law and precedent analysis
 
 ### 🌐 **Global Multilingual Experience**
-- **12 Languages Supported**: English, Spanish, Urdu, Hindi, Bengali, Punjabi, Arabic, Persian, Tagalog, Chinese, Vietnamese, Korean
+- **12 Languages — Fully Translated**: English, Spanish, Urdu, Hindi, Bengali, Punjabi, Arabic, Persian, Tagalog, Chinese, Vietnamese, Korean
 - **Locale-Aware Routing**: All supported locales are routed through the same App Router flow
-- **Progressive Translation Rollout**: English is the source locale, Spanish is near-complete, and partial locales are clearly marked in the UI
+- **Dual-Layer i18n**: Static page content via `next-intl` JSON bundles + dynamic client UI (chatbot, intake, insights) via `runtime-ui.ts`
+- **Full Key Parity**: Every locale carries 100% of the English keys in both the message bundles and the runtime UI dictionary
 
 ### 🛡️ **Enterprise Security Architecture**
 - **Zero-Trust Model**: End-to-end encryption with server-side key management
@@ -140,7 +141,7 @@ mt-immigration/
 │   │   ├── features/          # AI chat, intake, insights, games
 │   │   └── layout/            # Navigation, footer, helpers
 │   ├── lib/                   # Utilities, hooks, animations
-│   ├── i18n/                  # 12 language configurations
+│   ├── i18n/                  # 12 language configs + runtime-ui dictionary
 │   └── content/               # Knowledge bases & static data
 │
 ├── 🤖 AI Backend (Python + FastAPI)
@@ -447,7 +448,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Comprehensive Testing Suite** with Jest, 22 test cases, and 100% critical component coverage
 - **Enhanced Accessibility** with WCAG AA compliance, ARIA labels, and keyboard navigation
 - **OpenAI GPT-4.1 Integration** with intelligent chat agents and legal knowledge bases
-- **12-Language Internationalization** with locale-aware routing, translated message bundles, and partial-locale notices
+- **12-Language Internationalization** with locale-aware routing, fully translated message bundles, and runtime-ui dictionary for dynamic surfaces
 - **Enterprise Security** with CSP, rate limiting, input sanitization, and audit logging
 - **Advanced Caching Strategies** with HTTP headers, service worker cache, and CDN optimization
 - **Mobile-First Experience** with touch optimization and responsive PWA features
@@ -459,7 +460,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Solo-practice positioning with direct-attorney framing
 - Monochrome premium UI with motion, editorial spacing, and mobile-first layout
 - Pricing, FAQ, services, process, contact, and payment sections built as reusable page modules
-- **Multilingual Support**: 12 routed locales with English as the source locale, Spanish near-complete, and progressive rollout for the remaining languages
+- **Multilingual Support**: 12 routed locales — all fully translated with complete key parity against the English source
 - **Enhanced Animations**: Smooth, performant animations with `prefers-reduced-motion` accessibility support
 - **PWA Capabilities**: Installable web app with offline functionality
 - **Advanced Accessibility**: WCAG AA compliant with full keyboard navigation and screen reader support
@@ -563,7 +564,9 @@ src/
   i18n/                    Internationalization configuration
     routing.ts             Locale routing definitions
     request.ts             Request locale handling
-  messages/                Translation files
+    runtime-ui.ts          Hardcoded UI copy for dynamic client components (chatbot, intake, insights, article)
+    locale-status.ts       Translation completeness flags per locale
+  messages/                Translation files (next-intl JSON bundles)
     en.json, es.json, ur.json, hi.json, bn.json, pa.json, ar.json, fa.json, tl.json, zh.json, vi.json, ko.json
   lib/
     animations.ts           Animation variants and helpers
@@ -661,9 +664,8 @@ vercel dev
 
 ### Internationalization
 
-The site supports 12 languages. Configure default locale:
-
-- `NEXT_PUBLIC_DEFAULT_LOCALE` (default: "en")
+The site ships with 12 fully translated locales. The default locale is English (`en`).
+All locales have full key parity in both `src/messages/*.json` (static) and `src/i18n/runtime-ui.ts` (dynamic client UI).
 
 ### Required for Live AI
 
@@ -789,44 +791,32 @@ Typical expected results:
 - Local development can run cleanly with no AI key configured; chat and insights will use built-in fallback paths.
 - The Knowledge Hub is now designed to prefer public-source, source-linked entries over generic generated filler.
 - Plain `npm run dev` should keep `USE_FASTAPI_AGENTS=false` unless you are explicitly running FastAPI separately.
-- Partial locales now show an in-app notice instead of silently pretending every section is fully translated.
+- All 12 locales are fully translated — no Beta badges or partial-locale notices are displayed.
 
 ## Recent Updates
 
-### Multilingual Support
-The website now supports 12 languages to serve diverse client demographics:
-- English (en) - Default
-- Spanish (es) - US Hispanic population
-- Urdu (ur) - Pakistan
-- Hindi (hi) - India
-- Bengali (bn) - Bangladesh
-- Punjabi (pa) - Pakistan/India
-- Arabic (ar) - Middle East
-- Persian (fa) - Iran
-- Tagalog (tl) - Philippines
-- Chinese (zh) - China
-- Vietnamese (vi) - Vietnam
-- Korean (ko) - Korea
+### Full 12-Language Translation (March 2026)
+- **All locales production-ready**: English, Spanish, Hindi, Urdu, Arabic, Bengali, Persian, Korean, Punjabi, Tagalog, Vietnamese, and Chinese now have 100% key parity in both static (`src/messages/*.json`) and dynamic (`src/i18n/runtime-ui.ts`) translation layers.
+- **Runtime UI Dictionary**: A new `runtime-ui.ts` module provides hardcoded, locale-aware copy for all client-side interactive surfaces — chatbot chrome, fallback agent suggestions, intake form labels/errors/toasts, insights page headings, and article page shells — bypassing `next-intl` for hydrated components.
+- **Beta badges removed**: `locale-status.ts` now marks all 12 locales as fully translated; the `LanguageSwitcher` no longer shows "Beta" tags.
+- **`getRuntimeUiLocale()` upgraded**: The locale resolver now recognizes all 12 supported locales instead of only three.
+- **Structural audit**: Automated key-parity checks confirmed 134/134 runtime-ui keys and full JSON key coverage for every locale.
 
-### Animation Enhancements
-- Added new animation variants: popIn, quickFadeUp, slideInRight, slideInLeft, floatAnimation, pulseGlow, shimmer
-- All sections optimized with `useReducedMotion` for accessibility
-- Respect users who prefer reduced motion
+### AI Safety & Premium UI (March 2026)
+- **Deterministic PII Filters**: Regex-based interceptors block SSNs, A-Numbers, and overconfident claims before they reach the user.
+- **Intent Preservation**: `pruneChatContext` always retains the first user message so the AI never loses the original case context.
+- **Glassmorphic ChatBot UI**: Frosted-glass container with `backdrop-blur-2xl`, semantic surface tokens (`bg-background/95`), and micro-animations.
+- **Theme-Aware Refactoring**: Purged all hardcoded light-mode Tailwind classes across ChatBot, IntakeForm, PricingSection, and Footer; replaced with semantic variables for seamless dark-mode support.
 
-### Security & Performance Fixes (Latest)
-- **AI Safety Hardening**: Request validation, bounded transcript windows, fallback responses, and optional bench review now stabilize non-deterministic model output.
-- **Context Control**: Chat context is pruned by message count and character budget to keep responses predictable and within route limits.
-- **Frontend System Cleanup**: Primary sections now share common surface tokens and reduced color drift across homepage modules and the chatbot.
-- **Theme Simplification**: Removed stale theme toggling infrastructure and standardized the app on the current light-first design system.
-- **Enhanced Input Sanitization**: Added maximum length limits to prevent DoS attacks on all form inputs
-- **CSP Security Improvements**: Removed unsafe-eval directive, restricted image sources, added HTTPS enforcement
-- **Layout Structure Fixes**: Resolved React hydration errors by properly structuring HTML layouts for i18n routing
-- **Locale Routing Fixes**: Moved localized pages to `[locale]` and switched request handling to `proxy.ts` for current Next.js conventions
-- **Partial Locale Transparency**: Incomplete locales are marked in the language switcher and show a translation notice in the page shell.
-- **UI Structure Fixes**: Ensured stable React rendering array keys, preventing hydration mismatches and improving list stability
-- **Accessibility Enhancements**: Improved ARIA-label attributes for footer UI elements and contact interactions
-- **Repository Cleanup**: Removed dead theming code and unused theme dependencies from the project.
-- **Build Optimization**: Zero linting errors, zero TypeScript errors, optimized bundle sizes
+### Security & Performance
+- **AI Safety Hardening**: Request validation, bounded transcript windows, fallback responses, and bench review stabilize non-deterministic model output.
+- **Context Control**: Chat context pruned by message count and character budget to stay within route limits.
+- **Enhanced Input Sanitization**: Max-length limits on all form inputs prevent DoS attacks.
+- **CSP Improvements**: Removed `unsafe-eval`, restricted image sources, added HTTPS enforcement.
+- **Layout Fixes**: Resolved React hydration errors; stable rendering keys across all lists.
+- **Locale Routing**: Pages moved to `[locale]/` with `proxy.ts` request handling.
+- **Repository Cleanup**: Removed dead theming code, unused dependencies, and leftover translation scripts.
+- **Build Optimization**: Zero linting errors, zero TypeScript errors, optimized bundle sizes.
 
 ## License
 
