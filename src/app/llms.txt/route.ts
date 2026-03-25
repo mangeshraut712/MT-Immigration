@@ -1,7 +1,7 @@
 import { getSiteUrl } from "@/config/site";
 import { siteConfig } from "@/config/site";
 
-export const runtime = "edge";
+export const runtime = "nodejs";
 
 export function GET() {
   const base = getSiteUrl();
