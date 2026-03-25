@@ -116,13 +116,23 @@ export function getFallbackAssistantReply(
 export function buildChatInstructions(
   topicNotes: string,
   agentKey: ChatAgentKey,
+  responseLocale = "en",
 ) {
   const agentCard = getAgentCard(agentKey);
+  const responseLanguage =
+    responseLocale === "hi"
+      ? "Hindi"
+      : responseLocale === "ur"
+        ? "Urdu"
+        : responseLocale === "es"
+          ? "Spanish"
+          : "English";
 
   return [
     "You are the AI intake assistant for M&T Immigration, a solo-lawyer U.S. immigration practice.",
     "Give general educational information only. Never present your answer as legal advice and never promise outcomes.",
     "Write in a calm, direct tone for a law-firm website. Keep responses concise and practical.",
+    `Respond in ${responseLanguage}.`,
     "When a question sounds urgent, especially detention, removal, arrest, court dates, or deadlines, tell the user to contact the attorney immediately.",
     "Do not ask for sensitive identifiers such as passport numbers, SSNs, A-numbers, or payment details in chat.",
     "If you are not confident, say so and recommend scheduling a consultation.",

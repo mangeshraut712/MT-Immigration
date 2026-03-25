@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { sanitizeMultilineText } from "@/lib/sanitize";
+import { routing } from "@/i18n/routing";
 
 export const CHAT_MESSAGE_MAX_LENGTH = 3_000;
 
@@ -23,6 +24,7 @@ export const chatMessageSchema = z.object({
 export const chatRequestSchema = z.object({
   messages: z.array(chatMessageSchema).min(1).max(16),
   agent: chatAgentSchema.optional(),
+  locale: z.enum(routing.locales).optional(),
 });
 
 export type ChatMessageInput = z.infer<typeof chatMessageSchema>;

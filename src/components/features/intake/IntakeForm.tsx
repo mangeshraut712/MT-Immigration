@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import { toast } from "sonner";
 import { Check, ChevronRight, ChevronLeft, Loader2 } from "lucide-react";
 
@@ -33,15 +34,11 @@ import {
   sanitizeSingleLineText,
 } from "@/lib/sanitize";
 import { cn } from "@/lib/utils";
+import { getRuntimeUiLocale, runtimeUiCopy } from "@/i18n/runtime-ui";
 
 type IntakeField = keyof IntakeFormData;
 type IntakeErrors = Partial<Record<IntakeField, string>>;
-
-const steps = [
-  { id: 1, title: "Contact" },
-  { id: 2, title: "Case Details" },
-  { id: 3, title: "Review" },
-];
+type IntakeCopy = (typeof runtimeUiCopy)[keyof typeof runtimeUiCopy]["intake"];
 
 const variants = {
   enter: (direction: number) => ({
@@ -58,7 +55,11 @@ const variants = {
   }),
 };
 
-function getStepErrors(step: number, formData: IntakeFormData): IntakeErrors {
+function getStepErrors(
+  step: number,
+  formData: IntakeFormData,
+  copy: IntakeCopy,
+): IntakeErrors {
   const errors: IntakeErrors = {};
   const normalizedName = sanitizeSingleLineText(formData.name);
   const normalizedEmail = sanitizeEmail(formData.email);
@@ -69,35 +70,34 @@ function getStepErrors(step: number, formData: IntakeFormData): IntakeErrors {
 
   if (step === 1) {
     if (normalizedName.length < 2) {
-      errors.name = "Enter the full name you want us to use.";
+      errors.name = copy.errors.name;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
-      errors.email = "Enter a valid email address.";
+      errors.email = copy.errors.email;
     }
 
     if (normalizedPhone.length < 7) {
-      errors.phone = "Enter a phone number we can reach.";
+      errors.phone = copy.errors.phone;
     }
 
     if (!normalizedLanguage) {
-      errors.language = "Choose the language you prefer.";
+      errors.language = copy.errors.language;
     }
   }
 
   if (step === 2) {
     if (!normalizedCaseType) {
-      errors.caseType = "Choose the matter you want help with.";
+      errors.caseType = copy.errors.caseType;
     }
 
     if (normalizedSummary.length < 30) {
-      errors.summary = "Add a short summary with enough detail for a review.";
+      errors.summary = copy.errors.summary;
     }
   }
 
   if (step === 3 && !formData.consent) {
-    errors.consent =
-      "You must confirm the intake disclosure before submitting.";
+    errors.consent = copy.errors.consent;
   }
 
   return errors;
@@ -108,6 +108,10 @@ function getErrorId(field: IntakeField) {
 }
 
 export default function IntakeForm() {
+  const locale = useLocale();
+  const uiLocale = getRuntimeUiLocale(locale);
+  const copy = runtimeUiCopy[uiLocale].intake;
+  const steps = copy.steps;
   const pathname = usePathname();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -171,10 +175,10 @@ export default function IntakeForm() {
   }
 
   function nextStep() {
-    const stepErrors = getStepErrors(step, formData);
+    const stepErrors = getStepErrors(step, formData, copy);
     if (Object.keys(stepErrors).length > 0) {
       setErrors(stepErrors);
-      toast.error("Please complete the required fields before continuing.");
+      toast.error(copy.toasts.completeRequired);
       return;
     }
 
@@ -190,10 +194,10 @@ export default function IntakeForm() {
   async function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
-    const stepErrors = getStepErrors(3, formData);
+    const stepErrors = getStepErrors(3, formData, copy);
     if (Object.keys(stepErrors).length > 0) {
       setErrors(stepErrors);
-      toast.error("Please confirm the disclosure before submitting.");
+      toast.error(copy.toasts.confirmDisclosure);
       return;
     }
 
@@ -214,9 +218,7 @@ export default function IntakeForm() {
           consent: flattenedErrors.consent?.[0],
           website: flattenedErrors.website?.[0],
         });
-        toast.error(
-          "Please review the highlighted intake fields and try again.",
-        );
+        toast.error(copy.toasts.reviewFields);
         return;
       }
 
@@ -245,16 +247,16 @@ export default function IntakeForm() {
           setRetryAfterSeconds(retryAfter);
         }
 
-        const message = data.error || "We could not submit your request.";
+        const message = data.error || copy.toasts.submitError;
         setServerError(message);
         toast.error(message);
         return;
       }
 
-      toast.success("Consultation request received.", {
+      toast.success(copy.toasts.success, {
         description: data.confirmationSent
-          ? "We sent a confirmation email and will follow up using your preferred contact details."
-          : "We will review your information and follow up using your preferred contact details.",
+          ? copy.toasts.successSent
+          : copy.toasts.successDefault,
       });
 
       setStep(1);
@@ -267,7 +269,7 @@ export default function IntakeForm() {
       const message =
         error instanceof Error
           ? error.message
-          : "We could not submit your request.";
+          : copy.toasts.submitError;
       setServerError(message);
       toast.error(message);
     } finally {
@@ -300,38 +302,41 @@ export default function IntakeForm() {
         />
 
         <div className="flex justify-between">
-          {steps.map((currentStep) => (
-            <div
-              key={currentStep.id}
-              className="group flex cursor-default flex-col items-center"
-            >
-              <motion.div
-                className={cn(
-                  "z-10 mb-3 flex h-10 w-10 items-center justify-center rounded-full border-4 text-sm font-semibold transition-all duration-300",
-                  step >= currentStep.id
-                    ? "border-foreground bg-foreground text-background shadow-lg"
-                    : "border-border bg-card text-muted-foreground",
-                )}
-                animate={{
-                  scale: step === currentStep.id ? 1.1 : 1,
-                }}
+          {copy.steps.map((title, index) => {
+            const currentStep = { id: index + 1, title };
+            return (
+              <div
+                key={currentStep.id}
+                className="group flex cursor-default flex-col items-center"
               >
-                {step > currentStep.id ? (
-                  <Check className="h-5 w-5" />
-                ) : (
-                  currentStep.id
-                )}
-              </motion.div>
-              <span
-                className={cn(
-                  "text-xs font-medium uppercase tracking-wider transition-colors duration-300",
-                  step >= currentStep.id ? "text-foreground" : "text-muted-foreground",
-                )}
-              >
-                {currentStep.title}
-              </span>
-            </div>
-          ))}
+                <motion.div
+                  className={cn(
+                    "z-10 mb-3 flex h-10 w-10 items-center justify-center rounded-full border-4 text-sm font-semibold transition-all duration-300",
+                    step >= currentStep.id
+                      ? "border-foreground bg-foreground text-background shadow-lg"
+                      : "border-border bg-card text-muted-foreground",
+                  )}
+                  animate={{
+                    scale: step === currentStep.id ? 1.1 : 1,
+                  }}
+                >
+                  {step > currentStep.id ? (
+                    <Check className="h-5 w-5" />
+                  ) : (
+                    currentStep.id
+                  )}
+                </motion.div>
+                <span
+                  className={cn(
+                    "text-xs font-medium uppercase tracking-wider transition-colors duration-300",
+                    step >= currentStep.id ? "text-foreground" : "text-muted-foreground",
+                  )}
+                >
+                  {currentStep.title}
+                </span>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -366,17 +371,15 @@ export default function IntakeForm() {
                   className="space-y-6"
                 >
                   <div>
-                    <h3 className="mb-2 text-2xl font-bold">
-                      Contact Information
-                    </h3>
+                    <h3 className="mb-2 text-2xl font-bold">{copy.contactInfoTitle}</h3>
                     <p className="text-muted-foreground">
-                      Start with the best way for the attorney to reach you.
+                      {copy.contactInfoDesc}
                     </p>
                   </div>
 
                   <div className="space-y-5">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Full Name</Label>
+                      <Label htmlFor="name">{copy.fullName}</Label>
                       <Input
                         id="name"
                         name="name"
@@ -397,7 +400,7 @@ export default function IntakeForm() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="email">Email Address</Label>
+                      <Label htmlFor="email">{copy.emailAddress}</Label>
                       <Input
                         id="email"
                         name="email"
@@ -420,7 +423,7 @@ export default function IntakeForm() {
 
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
-                        <Label htmlFor="phone">Phone</Label>
+                      <Label htmlFor="phone">{copy.phone}</Label>
                         <Input
                           id="phone"
                           name="phone"
@@ -441,7 +444,7 @@ export default function IntakeForm() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="language">Preferred Language</Label>
+                        <Label htmlFor="language">{copy.preferredLanguage}</Label>
                         <Select
                           name="language"
                           onValueChange={(value) =>
@@ -459,14 +462,14 @@ export default function IntakeForm() {
                             }
                             className="h-12 bg-background"
                           >
-                            <SelectValue placeholder="Select" />
+                            <SelectValue placeholder={copy.select} />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="English">English</SelectItem>
-                            <SelectItem value="Spanish">Spanish</SelectItem>
-                            <SelectItem value="Urdu">Urdu</SelectItem>
-                            <SelectItem value="Punjabi">Punjabi</SelectItem>
-                            <SelectItem value="French">French</SelectItem>
+                            {copy.languages.map((language, index) => (
+                              <SelectItem key={language} value={["English","Spanish","Urdu","Punjabi","French"][index]}>
+                                {language}
+                              </SelectItem>
+                            ))}
                           </SelectContent>
                         </Select>
                         {renderError("language")}
@@ -481,7 +484,7 @@ export default function IntakeForm() {
                       size="lg"
                       className="h-12 w-full rounded-full font-semibold"
                     >
-                      Continue <ChevronRight className="ml-2 h-4 w-4" />
+                      {copy.continue} <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
                 </motion.div>
@@ -499,15 +502,15 @@ export default function IntakeForm() {
                   className="space-y-6"
                 >
                   <div>
-                    <h3 className="mb-2 text-2xl font-bold">Case Details</h3>
+                    <h3 className="mb-2 text-2xl font-bold">{copy.caseDetailsTitle}</h3>
                     <p className="text-muted-foreground">
-                      Tell us enough to evaluate the matter and the next step.
+                      {copy.caseDetailsDesc}
                     </p>
                   </div>
 
                   <div className="space-y-5">
                     <div className="space-y-2">
-                      <Label htmlFor="caseType">Case Type</Label>
+                      <Label htmlFor="caseType">{copy.caseType}</Label>
                       <Select
                         name="caseType"
                         onValueChange={(value) =>
@@ -523,40 +526,26 @@ export default function IntakeForm() {
                           }
                           className="h-12 bg-background"
                         >
-                          <SelectValue placeholder="Select service type" />
+                          <SelectValue placeholder={copy.selectServiceType} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Visitor Visa">
-                            Visitor Visa (B1/B2)
-                          </SelectItem>
-                          <SelectItem value="Student Visa">
-                            Student Visa (F-1)
-                          </SelectItem>
-                          <SelectItem value="Change of Status">
-                            Change of Status
-                          </SelectItem>
-                          <SelectItem value="Marriage-Based">
-                            Marriage-Based Green Card
-                          </SelectItem>
-                          <SelectItem value="Work Permit">
-                            Work Permit (EAD)
-                          </SelectItem>
-                          <SelectItem value="Asylum">Asylum</SelectItem>
-                          <SelectItem value="Removal Defense">
-                            Removal / Court Matter
-                          </SelectItem>
+                          {copy.caseTypeLabels.map((label, index) => (
+                            <SelectItem key={label} value={copy.caseTypes[index]}>
+                              {label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                       {renderError("caseType")}
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="summary">Brief Summary</Label>
+                      <Label htmlFor="summary">{copy.summary}</Label>
                       <Textarea
                         id="summary"
                         name="summary"
                         autoComplete="off"
-                        placeholder="Describe your current status, deadlines, and the help you need."
+                        placeholder={copy.summaryPlaceholder}
                         rows={5}
                         maxLength={2000}
                         value={formData.summary}
@@ -571,8 +560,7 @@ export default function IntakeForm() {
                       />
                       <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <span>
-                          Include deadlines, prior filings, and any urgent
-                          hearing dates.
+                          {copy.summaryHelp}
                         </span>
                         <span>{formData.summary.trim().length}/2000</span>
                       </div>
@@ -580,7 +568,7 @@ export default function IntakeForm() {
                     </div>
 
                     <div className="space-y-3">
-                      <Label>Documents Available</Label>
+                      <Label>{copy.documentsAvailable}</Label>
                       <div className="flex flex-wrap gap-6">
                         <div className="flex items-center space-x-3">
                           <Checkbox
@@ -595,7 +583,7 @@ export default function IntakeForm() {
                             htmlFor="hasPassport"
                             className="cursor-pointer font-normal"
                           >
-                            Passport
+                            {copy.passport}
                           </Label>
                         </div>
                         <div className="flex items-center space-x-3">
@@ -611,7 +599,7 @@ export default function IntakeForm() {
                             htmlFor="hasReceipts"
                             className="cursor-pointer font-normal"
                           >
-                            USCIS receipts or notices
+                            {copy.receipts}
                           </Label>
                         </div>
                       </div>
@@ -626,7 +614,7 @@ export default function IntakeForm() {
                       size="lg"
                       className="h-12 flex-1 rounded-full font-semibold"
                     >
-                      <ChevronLeft className="mr-2 h-4 w-4" /> Back
+                      <ChevronLeft className="mr-2 h-4 w-4" /> {copy.back}
                     </Button>
                     <Button
                       type="button"
@@ -634,7 +622,7 @@ export default function IntakeForm() {
                       size="lg"
                       className="h-12 flex-1 rounded-full font-semibold"
                     >
-                      Continue <ChevronRight className="ml-2 h-4 w-4" />
+                      {copy.continue} <ChevronRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
                 </motion.div>
@@ -652,48 +640,45 @@ export default function IntakeForm() {
                   className="space-y-6"
                 >
                   <div>
-                    <h3 className="mb-2 text-2xl font-bold">
-                      Review &amp; Submit
-                    </h3>
+                    <h3 className="mb-2 text-2xl font-bold">{copy.reviewTitle}</h3>
                     <p className="text-muted-foreground">
-                      Confirm the intake details before sending them to the
-                      office.
+                      {copy.reviewDesc}
                     </p>
                   </div>
 
                   <div className="space-y-3 rounded-xl border border-border bg-muted/50 p-6 text-sm">
                     <div className="flex justify-between border-b border-border/50 py-2">
-                      <span className="text-muted-foreground">Name</span>
+                      <span className="text-muted-foreground">{copy.reviewLabels.name}</span>
                       <span className="font-medium">
                         {formData.name || "—"}
                       </span>
                     </div>
                     <div className="flex justify-between border-b border-border/50 py-2">
-                      <span className="text-muted-foreground">Email</span>
+                      <span className="text-muted-foreground">{copy.reviewLabels.email}</span>
                       <span className="font-medium">
                         {formData.email || "—"}
                       </span>
                     </div>
                     <div className="flex justify-between border-b border-border/50 py-2">
-                      <span className="text-muted-foreground">Phone</span>
+                      <span className="text-muted-foreground">{copy.reviewLabels.phone}</span>
                       <span className="font-medium">
                         {formData.phone || "—"}
                       </span>
                     </div>
                     <div className="flex justify-between border-b border-border/50 py-2">
-                      <span className="text-muted-foreground">Language</span>
+                      <span className="text-muted-foreground">{copy.reviewLabels.language}</span>
                       <span className="font-medium">
                         {formData.language || "—"}
                       </span>
                     </div>
                     <div className="flex justify-between border-b border-border/50 py-2">
-                      <span className="text-muted-foreground">Case Type</span>
+                      <span className="text-muted-foreground">{copy.reviewLabels.caseType}</span>
                       <span className="font-medium">
                         {formData.caseType || "—"}
                       </span>
                     </div>
                     <div className="py-2">
-                      <span className="text-muted-foreground">Summary</span>
+                      <span className="text-muted-foreground">{copy.reviewLabels.summary}</span>
                       <p className="mt-2 rounded-lg bg-background p-4 leading-relaxed text-foreground">
                         {formData.summary || "—"}
                       </p>
@@ -717,14 +702,12 @@ export default function IntakeForm() {
                       htmlFor="consent"
                       className="cursor-pointer text-sm font-normal leading-relaxed text-muted-foreground"
                     >
-                      I understand this form is for intake review only, does not
-                      create an attorney-client relationship, and is subject to
-                      the{" "}
+                      {copy.consentPrefix}{" "}
                       <Link
                         href={localizeHref(pathname, "/privacy")}
                         className="font-medium text-foreground underline hover:text-foreground/80"
                       >
-                        Privacy Policy
+                        {copy.privacyPolicy}
                       </Link>
                       .
                     </Label>
@@ -751,7 +734,7 @@ export default function IntakeForm() {
                       size="lg"
                       className="h-12 flex-1 rounded-full font-semibold"
                     >
-                      <ChevronLeft className="mr-2 h-4 w-4" /> Back
+                      <ChevronLeft className="mr-2 h-4 w-4" /> {copy.back}
                     </Button>
                     <Button
                       type="submit"
@@ -762,12 +745,12 @@ export default function IntakeForm() {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Submitting...
+                          {copy.submitting}
                         </>
                       ) : retryAfterSeconds > 0 ? (
-                        `Please wait ${retryAfterSeconds}s`
+                        copy.pleaseWait.replace("{seconds}", String(retryAfterSeconds))
                       ) : (
-                        "Submit Request"
+                        copy.submitRequest
                       )}
                     </Button>
                   </div>

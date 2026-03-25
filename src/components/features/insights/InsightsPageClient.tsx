@@ -3,6 +3,7 @@
 import { startTransition, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -37,17 +38,11 @@ import {
   staggerItemVariants,
 } from "@/lib/animations";
 import { localizeHref } from "@/i18n/routing";
+import { getRuntimeUiLocale, runtimeUiCopy } from "@/i18n/runtime-ui";
 
 const INSIGHTS_REQUEST_TIMEOUT_MS = 18_000;
-const insightViews = [
-  { key: "all", label: "All" },
-  { key: "case-studies", label: "Case Studies" },
-  { key: "news", label: "News" },
-  { key: "analysis", label: "Analysis" },
-] as const;
-
 type InsightsApiResponse = InsightsFeedData | { error: string };
-type InsightsView = (typeof insightViews)[number]["key"];
+type InsightsView = "all" | "case-studies" | "news" | "analysis";
 
 function StoryMeta({
   category,
@@ -285,7 +280,16 @@ export function InsightsPageClient({
   initialView?: string;
   returnHref?: string;
 }) {
+  const locale = useLocale();
+  const uiLocale = getRuntimeUiLocale(locale);
+  const copy = runtimeUiCopy[uiLocale].insights;
   const pathname = usePathname();
+  const insightViews = [
+    { key: "all", label: copy.filters.all },
+    { key: "case-studies", label: copy.filters["case-studies"] },
+    { key: "news", label: copy.filters.news },
+    { key: "analysis", label: copy.filters.analysis },
+  ] as const;
   const [feed, setFeed] = useState(initialFeed);
   const [isRefreshing, setIsRefreshing] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -338,15 +342,15 @@ export function InsightsPageClient({
 
         if (error instanceof DOMException && error.name === "AbortError") {
           setLoadError(
-            "Refreshing the live public-source feed took too long. Showing the last verified snapshot.",
+            copy.refreshTimeout,
           );
           return;
         }
 
         setLoadError(
           error instanceof Error
-            ? `${error.message} Showing the last verified snapshot.`
-            : "Could not refresh the live public-source feed. Showing the last verified snapshot.",
+            ? `${error.message} ${copy.refreshSnapshot}`
+            : copy.refreshDefault,
         );
       } finally {
         if (!ignore) {
@@ -363,7 +367,7 @@ export function InsightsPageClient({
       controller.abort();
       window.clearTimeout(timeout);
     };
-  }, []);
+  }, [copy.refreshDefault, copy.refreshSnapshot, copy.refreshTimeout]);
 
   const isLive = feed.source === "live";
   const showAll = activeView === "all";
@@ -387,7 +391,7 @@ export function InsightsPageClient({
             <div className="inline-flex items-center gap-3 mb-8">
               <div className="px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-zinc-600 bg-white border border-zinc-200 rounded-full shadow-sm flex items-center gap-2">
                 <Newspaper className="h-4 w-4 text-zinc-400" />
-                Insights
+                {copy.heroBadge}
                 {isLive ? (
                   <span className="relative flex h-2 w-2 ml-1">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -404,19 +408,19 @@ export function InsightsPageClient({
               >
                 <Link href={localizeHref(pathname, returnHref || "/")}>
                   <ArrowLeft className="mr-2 h-4 w-4" />
-                  Back to main site
+                  {copy.backToSite}
                 </Link>
               </Button>
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-serif font-medium tracking-tight text-foreground leading-[1.1]">
-              Case studies, news,
+              {copy.headingStart}
               <br />
               <span className="text-zinc-400 italic font-light">
-                and practical reads
+                {copy.headingHighlight}
               </span>{" "}
               <br className="sm:hidden" />
-              in one place.
+              {copy.headingEnd}
             </h1>
 
             <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-zinc-500 sm:text-xl">
@@ -457,8 +461,8 @@ export function InsightsPageClient({
                   <RefreshCw className="h-3 w-3" />
                 )}
                 {isLive
-                  ? `Live public-source desk updated ${feed.updatedAtLabel}`
-                  : `Verified public-source snapshot ${feed.updatedAtLabel}`}
+                  ? copy.liveDesk.replace("{date}", feed.updatedAtLabel)
+                  : copy.snapshotDesk.replace("{date}", feed.updatedAtLabel)}
               </span>
               {loadError ? (
                 <span className="text-xs text-zinc-500 mt-2 sm:mt-0">
@@ -515,7 +519,7 @@ export function InsightsPageClient({
                   <div className="flex items-center gap-3">
                     <span className="inline-flex items-center gap-2 rounded-full bg-black px-3.5 py-1.5 text-xs font-semibold uppercase tracking-widest text-white">
                       <TrendingUp className="h-3.5 w-3.5 text-zinc-400" />
-                      Featured
+                      {copy.featured}
                     </span>
                     <StoryMeta
                       category={feed.featured.category}
@@ -556,7 +560,7 @@ export function InsightsPageClient({
                     className="h-12 rounded-full bg-black px-8 text-white hover:bg-zinc-800 transition-all font-medium"
                   >
                     <Link href="#case-studies">
-                      See case studies
+                      {copy.seeCaseStudies}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -573,12 +577,11 @@ export function InsightsPageClient({
                 <div className="flex items-center gap-3">
                   <Sparkles className="h-5 w-5 text-zinc-900" />
                   <h2 className="text-xl font-serif font-medium tracking-tight text-zinc-900">
-                    Topic Tracks
+                    {copy.topicTracks}
                   </h2>
                 </div>
                 <p className="mt-3 max-w-3xl text-base leading-relaxed text-zinc-500">
-                  Entry points tied to the source-backed stories already on this
-                  page, not generic AI topic pages.
+                  {copy.topicTracksDesc}
                 </p>
                 <div className="mt-6 grid gap-4 sm:grid-cols-2">
                   {feed.topics.slice(0, 4).map((topic) => (
@@ -607,7 +610,7 @@ export function InsightsPageClient({
               >
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-                    Source Watch
+                    {copy.sourceWatch}
                   </p>
                   <Zap className="h-4 w-4 text-zinc-400" />
                 </div>
@@ -630,7 +633,7 @@ export function InsightsPageClient({
                 className="rounded-[2rem] bg-black p-6 text-white shadow-xl shadow-zinc-900/10"
               >
                 <p className="text-xs font-semibold uppercase tracking-widest text-zinc-400">
-                  Source Standards
+                  {copy.sourceStandards}
                 </p>
                 <motion.div
                   variants={staggerContainerVariants}
@@ -676,18 +679,15 @@ export function InsightsPageClient({
             <div className="flex items-center gap-3">
               <div className="h-px w-8 bg-zinc-700"></div>
               <span className="text-xs font-semibold tracking-widest uppercase text-zinc-400">
-                Public Decisions
+                {copy.publicDecisions}
               </span>
             </div>
-            <h2 className="text-3xl font-serif tracking-tight">Case Studies</h2>
+            <h2 className="text-3xl font-serif tracking-tight">{copy.caseStudies}</h2>
           </div>
           <div className="mb-8 flex max-w-3xl items-start gap-3 rounded-[1.5rem] border border-white/10 bg-white/5 p-5">
             <Briefcase className="mt-0.5 h-5 w-5 flex-shrink-0 text-zinc-400" />
             <p className="text-sm leading-relaxed text-zinc-300">
-              These cards summarize public decisions and real-world immigration
-              fact patterns, not private client victories. They are meant to
-              show how timing, evidence, and procedural posture affect outcomes
-              in practice.
+              {copy.caseStudiesDesc}
             </p>
           </div>
           <motion.div
@@ -723,20 +723,19 @@ export function InsightsPageClient({
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px w-8 bg-zinc-300"></div>
                 <span className="text-xs font-semibold tracking-widest uppercase text-zinc-500">
-                  Latest News
+                  {copy.latestNews}
                 </span>
               </div>
               <h2 className="mt-4 text-4xl md:text-5xl font-serif font-medium tracking-tight text-foreground leading-[1.1]">
-                Agency changes and policy movement,{" "}
+                {copy.latestNewsHeadingStart}{" "}
                 <br className="hidden md:block" />
                 <span className="text-zinc-400 italic font-light">
-                  stripped to what matters.
+                  {copy.latestNewsHeadingHighlight}
                 </span>
               </h2>
             </div>
             <p className="max-w-xl text-lg leading-relaxed text-zinc-500">
-              Short reads focused on filings, timing, and procedural shifts that
-              change what clients should do next.
+              {copy.latestNewsDesc}
             </p>
           </motion.div>
 
@@ -776,19 +775,18 @@ export function InsightsPageClient({
               <div className="flex items-center gap-3 mb-4">
                 <div className="h-px w-8 bg-zinc-300"></div>
                 <span className="text-xs font-semibold tracking-widest uppercase text-zinc-500">
-                  Analysis & Blogs
+                  {copy.analysisBlogs}
                 </span>
               </div>
               <h2 className="mt-4 text-4xl md:text-5xl font-serif font-medium tracking-tight text-foreground leading-[1.1]">
-                Longer reads when the update <br className="hidden md:block" />
+                {copy.analysisHeadingStart} <br className="hidden md:block" />
                 <span className="text-zinc-400 italic font-light">
-                  needs practical context.
+                  {copy.analysisHeadingHighlight}
                 </span>
               </h2>
             </div>
             <p className="max-w-xl text-lg leading-relaxed text-zinc-500">
-              Commentary chosen for strategy value, not content volume, so
-              readers can move from headline to implication quickly.
+              {copy.analysisDesc}
             </p>
           </motion.div>
 
@@ -823,12 +821,12 @@ export function InsightsPageClient({
             <div className="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between z-10">
               <div className="max-w-3xl">
                 <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
-                  Editorial Note
+                  {copy.editorialNote}
                 </p>
                 <h2 className="mt-4 text-3xl md:text-5xl font-serif font-medium leading-[1.1] text-zinc-900">
-                  Clean updates are useful. <br />
+                  {copy.editorialHeadingStart} <br />
                   <span className="text-zinc-400 italic font-light">
-                    Legal advice is still personal.
+                    {copy.editorialHeadingHighlight}
                   </span>
                 </h2>
                 <p className="mt-6 text-lg leading-relaxed text-zinc-500 mb-0">
@@ -840,7 +838,7 @@ export function InsightsPageClient({
                 className="h-14 rounded-full bg-black px-8 text-lg font-medium text-white hover:bg-zinc-800 shadow-xl transition-all"
               >
                 <Link href={localizeHref(pathname, "/#contact")}>
-                  Request legal guidance
+                  {copy.requestLegalGuidance}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>

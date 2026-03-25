@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import { localizeHref } from "@/i18n/routing";
 import {
   CHAT_MESSAGE_MAX_LENGTH,
@@ -29,6 +30,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { sanitizeMultilineText } from "@/lib/sanitize";
 import { cn } from "@/lib/utils";
 import { benchReviewer, chatAgentCards, chatAgentOrder } from "@/content/chatAgents";
+import { getRuntimeUiLocale, runtimeUiCopy } from "@/i18n/runtime-ui";
 
 const CHAT_REQUEST_TIMEOUT_MS = 20_000;
 const chatShellClass =
@@ -189,6 +191,9 @@ function renderMessageContent(content: string) {
 }
 
 export function ChatBot() {
+  const locale = useLocale();
+  const uiLocale = getRuntimeUiLocale(locale);
+  const copy = runtimeUiCopy[uiLocale].chatbot;
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -304,7 +309,7 @@ export function ChatBot() {
     recognitionRef.current?.stop();
     recognitionRef.current = null;
     setIsDictating(false);
-    setDictationStatus("Dictation stopped.");
+    setDictationStatus(copy.dictationStopped);
   }
 
   function startDictation() {
@@ -312,7 +317,7 @@ export function ChatBot() {
       window.SpeechRecognition || window.webkitSpeechRecognition;
 
     if (!RecognitionCtor) {
-      setDictationStatus("Dictation is not supported in this browser.");
+      setDictationStatus(copy.dictationUnavailable);
       return;
     }
 
@@ -324,7 +329,8 @@ export function ChatBot() {
     const recognition = new RecognitionCtor();
     recognition.continuous = false;
     recognition.interimResults = true;
-    recognition.lang = "en-US";
+    recognition.lang =
+      uiLocale === "hi" ? "hi-IN" : uiLocale === "ur" ? "ur-PK" : "en-US";
 
     recognition.onresult = (event) => {
       const transcript = Array.from(event.results)
@@ -339,14 +345,14 @@ export function ChatBot() {
           ),
         ),
       );
-      setDictationStatus("Dictation captured. Review the message before sending.");
+      setDictationStatus(copy.dictationCaptured);
     };
 
     recognition.onerror = (event) => {
       setDictationStatus(
         event.error === "not-allowed"
-          ? "Microphone permission was denied."
-          : "Dictation could not be completed.",
+          ? copy.dictationDenied
+          : copy.dictationFailed,
       );
       setIsDictating(false);
       recognitionRef.current = null;
@@ -359,7 +365,7 @@ export function ChatBot() {
 
     recognitionRef.current = recognition;
     setIsDictating(true);
-    setDictationStatus("Listening. Speak your question clearly.");
+    setDictationStatus(copy.dictationListening);
     recognition.start();
   }
 
@@ -374,9 +380,7 @@ export function ChatBot() {
     });
 
     if (!parsedMessage.success) {
-      setChatError(
-        `Messages must be between 1 and ${CHAT_MESSAGE_MAX_LENGTH} characters.`,
-      );
+      setChatError(copy.messagesLengthError.replace("{max}", String(CHAT_MESSAGE_MAX_LENGTH)));
       return;
     }
 
@@ -413,6 +417,7 @@ export function ChatBot() {
             content: message.content,
           })),
           agent: activeAgent === "auto" ? undefined : activeAgent,
+          locale: uiLocale,
         }),
       });
       window.clearTimeout(timeout);
@@ -462,20 +467,20 @@ export function ChatBot() {
 
       if (data.degraded || data.source === "fallback") {
         setChatError(
-          "AI is temporarily unavailable. Showing general guidance only.",
+          copy.aiUnavailable,
         );
       }
     } catch (error) {
       console.error("Chat widget error:", error);
       if (error instanceof DOMException && error.name === "AbortError") {
         setChatError(
-          "The assistant took too long to respond. Please try again.",
+          copy.timeoutError,
         );
       } else {
         setChatError(
           error instanceof Error
             ? error.message
-            : "We could not complete the chat request.",
+            : copy.requestFailed,
         );
       }
     } finally {
@@ -495,7 +500,7 @@ export function ChatBot() {
             whileTap={{ scale: 0.96 }}
             onClick={() => setIsOpen(true)}
             className={chatOpenButtonClass}
-            aria-label="Open chat"
+            aria-label={copy.openChat}
             aria-haspopup="dialog"
             aria-controls="mt-chat-dialog"
             ref={triggerButtonRef}
@@ -538,14 +543,14 @@ export function ChatBot() {
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
                     </span>
-                    Specialist routing + review
+                    {copy.subtitle}
                   </p>
                 </div>
               </div>
               <button
                 onClick={closeChat}
                 className="relative z-10 rounded-full p-2 text-white/70 transition-all hover:bg-white/10 hover:text-white"
-                aria-label="Close chat"
+                aria-label={copy.closeChat}
               >
                 <X size={18} />
               </button>
@@ -553,18 +558,18 @@ export function ChatBot() {
 
             <div className="border-b border-border/40 bg-muted/50 p-2 text-center text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
               <p id="mt-chat-description">
-                General info only • No attorney-client relationship
+                {copy.generalInfoOnly}
               </p>
             </div>
 
             <div className="shrink-0 border-b border-border bg-card px-3 py-3">
               <div className="mb-2 flex items-center justify-between gap-3">
                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                  Route To
+                  {copy.routeTo}
                 </p>
                 <p className="text-[11px] text-muted-foreground">
                   {activeAgent === "auto"
-                    ? "Auto-routing by issue"
+                    ? copy.autoRoutingByIssue
                     : chatAgentCards[activeAgent].description}
                 </p>
               </div>
@@ -579,7 +584,7 @@ export function ChatBot() {
                       : "border-border bg-background text-muted-foreground hover:border-foreground hover:text-foreground",
                   )}
                 >
-                  Auto
+                  {copy.auto}
                 </button>
                 {chatAgentOrder.map((agentKey) => (
                   <button
@@ -658,7 +663,7 @@ export function ChatBot() {
                           ) : null}
                           {message.degraded ? (
                             <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-amber-800">
-                              General guidance only
+                              {copy.generalGuidanceOnly}
                             </span>
                           ) : null}
                         </div>
@@ -731,8 +736,8 @@ export function ChatBot() {
                   <div className="rounded-[20px] rounded-bl-sm border border-border/40 bg-card/80 p-3.5 shadow-sm backdrop-blur-md">
                     <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
                       {activeAgent === "auto"
-                        ? `Routing & Reviewing`
-                        : `${chatAgentCards[activeAgent].title} responding`}
+                        ? copy.routingAndReviewing
+                        : `${chatAgentCards[activeAgent].title} ${copy.respondingSuffix}`}
                     </div>
                     <div className="flex items-center gap-1.5 py-1">
                       <motion.span
@@ -785,7 +790,7 @@ export function ChatBot() {
                 className="relative flex items-end gap-2 rounded-2xl border border-border/60 bg-background/50 p-1.5 shadow-sm ring-1 ring-transparent transition-all focus-within:ring-border/80 hover:border-border/80"
               >
                 <label htmlFor="chat-composer" className="sr-only">
-                  Ask an immigration question
+                  {copy.askQuestion}
                 </label>
                 <Textarea
                   ref={composerRef}
@@ -801,7 +806,7 @@ export function ChatBot() {
                     }
                   }}
                   maxLength={CHAT_MESSAGE_MAX_LENGTH}
-                  placeholder="Ask about visas, green cards or deadlines..."
+                  placeholder={copy.placeholder}
                   className="min-h-[44px] max-h-[120px] flex-1 resize-none border-0 bg-transparent px-3 py-2.5 text-sm shadow-none focus-visible:ring-0"
                   disabled={isTyping || isDictating}
                   aria-describedby="chat-composer-meta"
@@ -815,10 +820,10 @@ export function ChatBot() {
                     disabled={!speechSupported || isTyping}
                     aria-label={
                       isDictating
-                        ? "Stop dictation"
+                        ? copy.stopDictation
                         : speechSupported
-                          ? "Start dictation"
-                          : "Dictation is not supported in this browser"
+                          ? copy.startDictation
+                          : copy.dictationUnsupported
                     }
                     className="h-8 w-8 rounded-full text-muted-foreground hover:bg-muted/60 hover:text-foreground"
                   >
@@ -832,7 +837,7 @@ export function ChatBot() {
                     type="submit"
                     disabled={!input.trim() || isTyping}
                     size="icon"
-                    aria-label="Send message"
+                    aria-label={copy.sendMessage}
                     className={cn(
                       "h-8 w-8 rounded-full transition-all duration-300",
                       input.trim()
@@ -853,7 +858,7 @@ export function ChatBot() {
                 className="mt-2.5 flex items-center justify-between gap-3 px-1 text-[10px] text-muted-foreground/70 tracking-wide"
               >
                 <span>
-                  Enter to send, Shift + Enter for gap.
+                  {copy.enterToSend}
                 </span>
                 <span>{input.length}/{CHAT_MESSAGE_MAX_LENGTH}</span>
               </div>
@@ -863,7 +868,7 @@ export function ChatBot() {
                   onClick={closeChat}
                   className="inline-flex items-center gap-1 text-[10px] text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  Ready to proceed? Request a case review{" "}
+                  {copy.requestReview}{" "}
                   <ArrowRight size={8} />
                 </Link>
               </div>

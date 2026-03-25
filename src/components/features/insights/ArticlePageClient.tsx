@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import { ArrowLeft, BookOpen, Clock3, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { localizeHref } from "@/i18n/routing";
+import { getRuntimeUiLocale, runtimeUiCopy } from "@/i18n/runtime-ui";
 
 export type ArticleData = {
   title: string;
@@ -18,6 +20,9 @@ export type ArticleData = {
 };
 
 export function ArticlePageClient({ data }: { data: ArticleData }) {
+  const locale = useLocale();
+  const uiLocale = getRuntimeUiLocale(locale);
+  const copy = runtimeUiCopy[uiLocale].article;
   const pathname = usePathname();
 
   return (
@@ -31,7 +36,7 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
               className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-black mb-8"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Insights
+              {copy.backToInsights}
             </Link>
             <div className="mb-6 flex flex-wrap items-center gap-3 text-xs font-semibold uppercase tracking-widest text-zinc-500">
               <span className="rounded-full bg-zinc-100 px-3 py-1">
@@ -55,7 +60,7 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
               }
               className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-black"
             >
-              Source: {data.sourceName}
+              {copy.sourceLabel}: {data.sourceName}
             </a>
           </div>
         </div>
@@ -71,7 +76,7 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
             <div className="mt-16 flex items-center justify-between border-t border-black/10 pt-8">
               <div className="flex items-center gap-3">
                 <Button variant="outline" size="sm" className="rounded-full">
-                  <Share2 className="mr-2 h-4 w-4" /> Share
+                  <Share2 className="mr-2 h-4 w-4" /> {copy.share}
                 </Button>
               </div>
             </div>
@@ -81,7 +86,7 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
           <aside className="space-y-8">
             <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center gap-2 font-serif text-xl font-medium tracking-tight text-zinc-900 border-b border-black/5 pb-4">
-                <BookOpen className="h-5 w-5" /> Related Content
+                <BookOpen className="h-5 w-5" /> {copy.relatedContent}
               </div>
               <ul className="space-y-6">
                 {data.recommendations.map((rec, i) => (
@@ -101,18 +106,17 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
 
             <div className="rounded-[2rem] bg-zinc-950 p-6 text-white shadow-xl">
               <h3 className="font-serif text-2xl tracking-tight">
-                Need specific counsel?
+                {copy.needCounsel}
               </h3>
               <p className="mt-4 text-sm leading-relaxed text-zinc-400">
-                Book a consultation to discuss your specific immigration matter
-                with our lead attorney.
+                {copy.counselDesc}
               </p>
               <Button
                 asChild
                 className="mt-6 w-full rounded-full bg-white text-black hover:bg-zinc-200"
               >
                 <Link href={localizeHref(pathname, "/#contact")}>
-                  Book Consultation
+                  {copy.bookConsultation}
                 </Link>
               </Button>
             </div>

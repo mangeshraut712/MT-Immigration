@@ -364,7 +364,11 @@ export async function POST(request: Request) {
   try {
     const specialistResponse = await client.responses.create({
       model: getOpenAIModel(),
-      instructions: buildChatInstructions(fallback.content, fallback.agent),
+      instructions: buildChatInstructions(
+        fallback.content,
+        fallback.agent,
+        parsed.data.locale,
+      ),
       input: boundedMessages.map((message) => ({
         role: message.role,
         content: [{ type: "input_text" as const, text: message.content }],
