@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { ArrowRight, BookOpen, Briefcase, Newspaper } from "lucide-react";
 
@@ -11,8 +13,9 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@/lib/animations";
+import { localizeHref } from "@/i18n/routing";
 
-const previewGroups = [
+const previewGroupsBase = [
   {
     key: "case-studies",
     label: "Case Studies",
@@ -43,6 +46,23 @@ const previewGroups = [
 ] as const;
 
 export function InsightsPreviewSection() {
+  const pathname = usePathname();
+  const tInsightsPreview = useTranslations("insightsPreview");
+  const previewGroups = [
+    {
+      ...previewGroupsBase[0],
+      label: tInsightsPreview("caseStudies"),
+    },
+    {
+      ...previewGroupsBase[1],
+      label: tInsightsPreview("news"),
+    },
+    {
+      ...previewGroupsBase[2],
+      label: tInsightsPreview("analysis"),
+    },
+  ];
+
   return (
     <section
       id="insights"
@@ -62,19 +82,18 @@ export function InsightsPreviewSection() {
             <div className="mb-4 flex items-center gap-3">
               <div className="h-px w-10 bg-zinc-300" />
               <span className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
-                Insights
+                {tInsightsPreview("title")}
               </span>
             </div>
             <h2 className="text-4xl font-serif font-medium leading-[1.08] tracking-tight text-zinc-950 md:text-5xl">
-              Case studies, news,
+              {tInsightsPreview("heading").split(",")[0]},
               <br />
               <span className="text-zinc-400 italic font-light">
-                and practical reads in one place.
+                {tInsightsPreview("heading").split(",").slice(1).join(",").trim()}
               </span>
             </h2>
             <p className="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-600">
-              A compact view of the latest public-source case studies, current immigration
-              developments, and longer analysis pieces.
+              {tInsightsPreview("subtitle")}
             </p>
           </div>
 
@@ -82,8 +101,8 @@ export function InsightsPreviewSection() {
             asChild
             className="h-12 rounded-full bg-black px-7 text-white hover:bg-zinc-800"
           >
-            <Link href="/insights?from=home-insights">
-              Open All Insights
+            <Link href={localizeHref(pathname, "/insights?from=home-insights")}>
+              {tInsightsPreview("openAll")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
@@ -126,8 +145,8 @@ export function InsightsPreviewSection() {
                 variant="outline"
                 className="mt-6 h-11 rounded-full border-zinc-200 bg-white px-6 text-zinc-900 hover:bg-zinc-50"
               >
-                <Link href={group.href}>
-                  See More
+                <Link href={localizeHref(pathname, group.href)}>
+                  {tInsightsPreview("seeMore")}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

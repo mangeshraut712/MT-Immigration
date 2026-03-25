@@ -82,17 +82,5 @@ export function localizeHref(pathname: string, href: string) {
         return href;
     }
 
-    if (href === '/' || href.startsWith('/#')) {
-        if (href === '/') {
-            return localePrefix;
-        }
-
-        return `${localePrefix}${href.slice(1)}`;
-    }
-
-    if (href === '/') {
-        return localePrefix;
-    }
-
-    return href;
+    return localizeHrefForLocale(localePrefix.slice(1), href);
 }

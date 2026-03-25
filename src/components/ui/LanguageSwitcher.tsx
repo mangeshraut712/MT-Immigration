@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState, useTransition } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, Globe } from "lucide-react";
 
-import { routing, getLocalePrefix } from "@/i18n/routing";
+import { routing, stripLocalePrefix } from "@/i18n/routing";
 
 type SupportedLocale = (typeof routing.locales)[number];
 
@@ -45,6 +45,7 @@ export function LanguageSwitcher({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -64,32 +65,15 @@ export function LanguageSwitcher({
   }, []);
 
   function onSelectChange(nextLocale: SupportedLocale) {
-    const prefix = getLocalePrefix(pathname);
-    
-    // Remove the current locale prefix from pathname to get the core path
-    let corePath = pathname;
-    if (prefix && pathname.startsWith(prefix)) {
-        corePath = pathname.slice(prefix.length) || "/";
-    }
-
-    if (!corePath.startsWith("/")) {
-        corePath = "/" + corePath;
-    }
-
-    // Next-intl prefix default strategy means the defaultLocale can optionally omit its path?
-    // Usually next-intl prefixes all locales in strictly 'always' or 'as-needed' strategy.
-    // So we prefix with nextLocale
-    const nextPrefix = nextLocale === "en" ? "/en" : `/${nextLocale}`;
-    
-    // Construct new path
-    let newPath = `${nextPrefix}${corePath === "/" ? "" : corePath}`;
-    
-    if (newPath === "") newPath = "/";
+    const corePath = stripLocalePrefix(pathname || "/");
+    const search = searchParams.toString();
+    const hash = typeof window !== "undefined" ? window.location.hash : "";
+    const newPath =
+      corePath === "/" ? `/${nextLocale}` : `/${nextLocale}${corePath}`;
+    const target = `${newPath}${search ? `?${search}` : ""}${hash}`;
 
     startTransition(() => {
-      router.push(newPath);
-      // We also enforce router.refresh() in some setups to clear RSC payload caching for language,
-      // but standard push works smoothly.
+      router.push(target);
     });
     setIsOpen(false);
   }

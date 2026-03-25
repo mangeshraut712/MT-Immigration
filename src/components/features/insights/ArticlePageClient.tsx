@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ArrowLeft, BookOpen, Clock3, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { localizeHref } from "@/i18n/routing";
 
 export type ArticleData = {
   title: string;
@@ -16,6 +18,8 @@ export type ArticleData = {
 };
 
 export function ArticlePageClient({ data }: { data: ArticleData }) {
+  const pathname = usePathname();
+
   return (
     <article className="bg-[#fcfbf9]">
       {/* Hero */}
@@ -23,7 +27,7 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
         <div className="container-wide relative z-10 pb-16 sm:pb-24">
           <div className="mx-auto max-w-3xl">
             <Link
-              href="/insights"
+              href={localizeHref(pathname, "/insights")}
               className="inline-flex items-center gap-2 text-sm font-medium text-zinc-500 transition-colors hover:text-black mb-8"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -83,7 +87,7 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
                 {data.recommendations.map((rec, i) => (
                   <li key={i}>
                     <Link
-                      href={`/insights/${rec.slug}`}
+                      href={localizeHref(pathname, `/insights/${rec.slug}`)}
                       className="group block"
                     >
                       <h4 className="text-base font-medium leading-tight text-zinc-800 transition-colors group-hover:text-black group-hover:underline">
@@ -107,7 +111,9 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
                 asChild
                 className="mt-6 w-full rounded-full bg-white text-black hover:bg-zinc-200"
               >
-                <Link href="/#contact">Book Consultation</Link>
+                <Link href={localizeHref(pathname, "/#contact")}>
+                  Book Consultation
+                </Link>
               </Button>
             </div>
           </aside>

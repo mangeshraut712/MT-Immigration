@@ -13,11 +13,7 @@ const steps = [
       "Start with a paid consultation to identify the issue, deadlines, and the cleanest next step.",
     highlight: "Attorney review of the facts you share",
     icon: Ear,
-    features: [
-      "Consultation with the attorney",
-      "Initial document review",
-      "Scope and risk discussion",
-    ],
+    features: [],
   },
   {
     id: "02",
@@ -26,11 +22,7 @@ const steps = [
       "Build the filing strategy, assemble supporting evidence, and prepare the submission with care.",
     highlight: "Tailored preparation for the filing that actually matters",
     icon: FileEdit,
-    features: [
-      "Form drafting and review",
-      "Evidence checklist",
-      "Final pre-filing quality check",
-    ],
+    features: [],
   },
   {
     id: "03",
@@ -39,11 +31,7 @@ const steps = [
       "Stay prepared after filing with interview preparation, response strategy, and direct follow-up.",
     highlight: "Focused support through interviews, RFEs, and case changes",
     icon: UserCheck,
-    features: [
-      "Interview preparation",
-      "RFE or deadline planning",
-      "Email-based status updates",
-    ],
+    features: [],
   },
 ];
 
@@ -55,16 +43,19 @@ export function ProcessSection() {
       ...steps[0],
       title: tProcess("step1Title"),
       description: tProcess("step1Desc"),
+      features: tProcess.raw("step1Features") as string[],
     },
     {
       ...steps[1],
       title: tProcess("step2Title"),
       description: tProcess("step2Desc"),
+      features: tProcess.raw("step2Features") as string[],
     },
     {
       ...steps[2],
       title: tProcess("step3Title"),
       description: tProcess("step3Desc"),
+      features: tProcess.raw("step3Features") as string[],
     },
   ];
 

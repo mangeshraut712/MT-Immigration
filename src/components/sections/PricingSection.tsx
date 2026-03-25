@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   fadeUpVariants,
   staggerContainerVariants,
@@ -18,63 +20,20 @@ import {
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { localizeHref } from "@/i18n/routing";
 
-const pricingData = [
-  {
-    service: "Visitor Visa (B1/B2)",
-    price: "$350–$650",
-    includes: "DS-160, coaching",
-  },
-  {
-    service: "Student Visa (F-1)",
-    price: "$450–$900",
-    includes: "I-20 guidance, prep",
-  },
-  {
-    service: "Change of Status",
-    price: "$850–$1,800",
-    includes: "I-539, risk assessment",
-  },
-  {
-    service: "Marriage-Based AOS",
-    price: "$1,800–$3,500",
-    includes: "Full forms, evidence",
-  },
-  {
-    service: "Consular Processing",
-    price: "$1,200–$2,400",
-    includes: "NVC support",
-  },
-  {
-    service: "Work Permit (I-765)",
-    price: "$250–$450",
-    includes: "Eligibility analysis",
-  },
-  {
-    service: "Advance Parole (I-131)",
-    price: "$250–$450",
-    includes: "Authorization prep",
-  },
-  {
-    service: "Expedite Request Prep",
-    price: "$300–$600",
-    includes: "Drafting, evidence",
-  },
-  { service: "U Visa", price: "$1,800–$3,500", includes: "Full support" },
-  { service: "Asylum", price: "$2,500–$6,000", includes: "Research, prep" },
-];
-
-const benefits = [
-  "Transparent, upfront pricing",
-  "Scope explained before work begins",
-  "Flexible payment plans when appropriate",
-  "Hosted online payment options",
-  "No hidden administrative fees",
-  "Consultation fees credited when applicable",
-  "Government filing fees billed separately",
-];
+type PricingItem = {
+  service: string;
+  price: string;
+  includes: string;
+};
 
 export function PricingSection() {
+  const pathname = usePathname();
+  const tPricing = useTranslations("pricing");
+  const pricingData = tPricing.raw("items") as PricingItem[];
+  const benefits = tPricing.raw("benefits") as string[];
+
   return (
     <section
       id="pricing"
@@ -98,29 +57,26 @@ export function PricingSection() {
                 <div className="flex items-center gap-3 mb-4">
                   <div className="h-px w-8 bg-zinc-300"></div>
                   <span className="text-xs font-semibold tracking-widest uppercase text-zinc-500">
-                    Transparent Fees
+                    {tPricing("title")}
                   </span>
                 </div>
                 <h2 className="text-4xl md:text-5xl font-serif font-medium tracking-tight text-foreground mt-4 mb-6 leading-[1.1]">
-                  Clear legal fees <br />
+                  {tPricing("heading").split(". ")[0]} <br />
                   <span className="text-zinc-400 italic">
-                    for focused representation.
+                    {tPricing("heading").split(". ").slice(1).join(". ")}
                   </span>
                 </h2>
                 <p className="text-zinc-500 leading-relaxed text-lg">
-                  Ranges vary by complexity, urgency, and document load. The
-                  goal is to show realistic legal-fee bands before you book.
+                  {tPricing("subtitle")}
                 </p>
                 <p className="text-sm text-zinc-500 mt-4 p-4 bg-white border border-zinc-200 rounded-xl shadow-sm">
-                  <strong>Note:</strong> These are legal service ranges only.
-                  Government filing fees, translations, and third-party costs
-                  are separate unless specifically stated in writing.
+                  <strong>{tPricing("noteLabel")}</strong> {tPricing("note")}
                 </p>
               </div>
 
               <div className="space-y-4">
                 <h4 className="font-serif font-medium text-foreground text-lg">
-                  Why Choose Us?
+                  {tPricing("whyChoose")}
                 </h4>
                 <motion.ul
                   variants={staggerContainerVariants}
@@ -149,7 +105,9 @@ export function PricingSection() {
                 size="lg"
                 className="w-full rounded-xl bg-black text-white hover:bg-zinc-800 shadow-lg hover:shadow-xl transition-all h-12 text-base"
               >
-                <Link href="#contact">Get a Custom Quote</Link>
+                <Link href={localizeHref(pathname, "/#contact")}>
+                  {tPricing("cta")}
+                </Link>
               </Button>
             </div>
           </motion.div>
@@ -167,13 +125,13 @@ export function PricingSection() {
                 <TableHeader>
                   <TableRow className="bg-zinc-50/50 hover:bg-zinc-50/50 border-b border-zinc-100">
                     <TableHead className="w-[40%] font-serif font-bold text-zinc-900 py-6 text-lg pl-8">
-                      Service
+                      {tPricing("service")}
                     </TableHead>
                     <TableHead className="w-[25%] font-serif font-bold text-zinc-900 text-lg">
-                      Price Range
+                      {tPricing("priceRange")}
                     </TableHead>
                     <TableHead className="font-serif font-bold text-zinc-900 text-lg pr-8">
-                      Includes
+                      {tPricing("includes")}
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -202,8 +160,7 @@ export function PricingSection() {
               </Table>
             </div>
             <p className="mt-6 text-sm text-zinc-400 text-center">
-              Payment plans may be available for qualifying matters. Final scope
-              and billing structure are confirmed during consultation.
+              {tPricing("paymentPlanNote")}
             </p>
           </motion.div>
         </div>

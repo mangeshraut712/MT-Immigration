@@ -9,39 +9,19 @@ import { firmConfig } from "@/config/firm";
 import { SiteLogo } from "@/components/branding/SiteLogo";
 import { localizeHref } from "@/i18n/routing";
 
-const footerLinks = {
-  services: [
-    { name: "Visitor Visas (B1/B2)", href: "/#services" },
-    { name: "Student Visas (F-1)", href: "/#services" },
-    { name: "Marriage-Based", href: "/#services" },
-    { name: "Asylum & U-Visa", href: "/#services" },
-    { name: "Work Permits (EAD)", href: "/#services" },
-  ],
-  company: [
-    { name: "About the Practice", href: "/#about" },
-    { name: "Our Process", href: "/#process" },
-    { name: "Client Experience", href: "/#testimonials" },
-    { name: "Insights", href: "/insights" },
-    { name: "Contact", href: "/#contact" },
-  ],
-  support: [
-    { name: "Pricing & Fees", href: "/#pricing" },
-    { name: "Secure Payments", href: "/#payments" },
-    { name: "FAQ", href: "/#faq" },
-    { name: "Book Consultation", href: "/#contact" },
-    { name: "Brief Break", href: "/brief-break" },
-  ],
-  legal: [
-    { name: "Privacy Policy", href: "/privacy" },
-    { name: "Terms of Use", href: "/terms" },
-    { name: "Attorney Advertising", href: "/terms" },
-  ],
+type FooterLinkGroup = {
+  name: string;
+  href: string;
 };
 
 export default function Footer() {
   const tFooter = useTranslations("footer");
   const pathname = usePathname();
   const homeHref = localizeHref(pathname, "/");
+  const footerLinks = tFooter.raw("links") as Record<
+    "services" | "company" | "support" | "legal",
+    FooterLinkGroup[]
+  >;
 
   return (
     <footer className="bg-black text-white">
@@ -68,7 +48,9 @@ export default function Footer() {
               <a
                 href={firmConfig.contact.emailHref}
                 className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
-                aria-label={`Email us at ${firmConfig.contact.email}`}
+                aria-label={tFooter("emailAria", {
+                  email: firmConfig.contact.email,
+                })}
               >
                 <Mail size={14} />
                 {firmConfig.contact.email}
@@ -76,7 +58,9 @@ export default function Footer() {
               <a
                 href={firmConfig.contact.phoneHref}
                 className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
-                aria-label={`Call us at ${firmConfig.contact.phoneDisplay}`}
+                aria-label={tFooter("phoneAria", {
+                  phone: firmConfig.contact.phoneDisplay,
+                })}
               >
                 <Phone size={14} />
                 {firmConfig.contact.phoneDisplay}
@@ -96,7 +80,7 @@ export default function Footer() {
             transition={{ delay: 0.05 }}
           >
             <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
-              Services
+              {tFooter("services")}
             </h3>
             <ul className="space-y-2">
               {footerLinks.services.map((link, i) => (
@@ -121,7 +105,7 @@ export default function Footer() {
             transition={{ delay: 0.1 }}
           >
             <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
-              Company
+              {tFooter("company")}
             </h3>
             <ul className="space-y-2">
               {footerLinks.company.map((link, i) => (
@@ -146,7 +130,7 @@ export default function Footer() {
             transition={{ delay: 0.15 }}
           >
             <h3 className="font-semibold text-xs text-white uppercase tracking-wide mb-4">
-              Support
+              {tFooter("support")}
             </h3>
             <ul className="space-y-2">
               {footerLinks.support.map((link, i) => (
@@ -195,12 +179,7 @@ export default function Footer() {
         <div className="container-wide py-6">
           {/* Disclaimer */}
           <p className="text-xs text-zinc-500 leading-relaxed mb-4">
-            ATTORNEY ADVERTISING. The information on this website is for general
-            information purposes only. Nothing on this site should be taken as
-            legal advice for any individual case or situation. This information
-            is not intended to create, and receipt or viewing does not
-            constitute, an attorney-client relationship. Prior results do not
-            guarantee a similar outcome.
+            {tFooter("disclaimer")}
           </p>
 
           {/* Copyright & Links */}
@@ -216,28 +195,28 @@ export default function Footer() {
                 href={localizeHref(pathname, "/privacy")}
                 className="hover:text-white transition-colors"
               >
-                Privacy Policy
+                {tFooter("privacy")}
               </Link>
               <span className="text-zinc-700">|</span>
               <Link
                 href={localizeHref(pathname, "/terms")}
                 className="hover:text-white transition-colors"
               >
-                Terms of Use
+                {tFooter("terms")}
               </Link>
               <span className="text-zinc-700">|</span>
               <Link
                 href={localizeHref(pathname, "/insights")}
                 className="hover:text-white transition-colors"
               >
-                Insights
+                {tFooter("insights")}
               </Link>
               <span className="text-zinc-700">|</span>
               <Link
                 href="/sitemap.xml"
                 className="hover:text-white transition-colors"
               >
-                Site Map
+                {tFooter("siteMap")}
               </Link>
             </div>
           </div>

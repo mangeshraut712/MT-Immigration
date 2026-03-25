@@ -2,6 +2,7 @@
 
 import { startTransition, useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   ArrowLeft,
@@ -35,6 +36,7 @@ import {
   staggerContainerVariants,
   staggerItemVariants,
 } from "@/lib/animations";
+import { localizeHref } from "@/i18n/routing";
 
 const INSIGHTS_REQUEST_TIMEOUT_MS = 18_000;
 const insightViews = [
@@ -123,6 +125,8 @@ function SourceLink({
 }
 
 function NewsCard({ story }: { story: InsightStory }) {
+  const pathname = usePathname();
+
   return (
     <motion.article
       variants={staggerItemVariants}
@@ -134,7 +138,7 @@ function NewsCard({ story }: { story: InsightStory }) {
         readTime={story.readTime}
       />
       <Link
-        href={`/insights/${createInsightSlug(story.title)}`}
+        href={localizeHref(pathname, `/insights/${createInsightSlug(story.title)}`)}
         className="group-hover:underline"
       >
         <h3 className="mt-5 text-2xl font-serif font-medium leading-tight text-zinc-950 transition-colors duration-200 group-hover:text-zinc-700">
@@ -165,6 +169,8 @@ function HeadlineList({
 }: {
   headlines: readonly InsightHeadline[];
 }) {
+  const pathname = usePathname();
+
   return (
     <div className="mt-4 divide-y divide-zinc-100">
       {headlines.map((story, index) => (
@@ -182,7 +188,7 @@ function HeadlineList({
                 {story.category}
               </p>
               <Link
-                href={`/insights/${createInsightSlug(story.title)}`}
+                href={localizeHref(pathname, `/insights/${createInsightSlug(story.title)}`)}
                 className="group-hover:underline"
               >
                 <h3 className="mt-1.5 text-lg font-semibold leading-snug text-zinc-900 transition-colors group-hover:text-zinc-600">
@@ -206,6 +212,8 @@ function HeadlineList({
 }
 
 function CaseStudyCard({ story }: { story: InsightStory }) {
+  const pathname = usePathname();
+
   return (
     <motion.article
       variants={staggerItemVariants}
@@ -217,7 +225,7 @@ function CaseStudyCard({ story }: { story: InsightStory }) {
         readTime={story.readTime}
       />
       <Link
-        href={`/insights/${createInsightSlug(story.title)}`}
+        href={localizeHref(pathname, `/insights/${createInsightSlug(story.title)}`)}
         className="group block hover:underline"
       >
         <h3 className="mt-5 text-2xl font-serif font-medium leading-tight text-white">
@@ -277,6 +285,7 @@ export function InsightsPageClient({
   initialView?: string;
   returnHref?: string;
 }) {
+  const pathname = usePathname();
   const [feed, setFeed] = useState(initialFeed);
   const [isRefreshing, setIsRefreshing] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
@@ -516,7 +525,10 @@ export function InsightsPageClient({
                   </div>
 
                   <Link
-                    href={`/insights/${createInsightSlug(feed.featured.title)}`}
+                    href={localizeHref(
+                      pathname,
+                      `/insights/${createInsightSlug(feed.featured.title)}`,
+                    )}
                     className="hover:underline"
                   >
                     <h2 className="mt-6 max-w-3xl text-3xl font-serif font-medium leading-tight text-zinc-900 sm:text-5xl">
@@ -827,7 +839,7 @@ export function InsightsPageClient({
                 asChild
                 className="h-14 rounded-full bg-black px-8 text-lg font-medium text-white hover:bg-zinc-800 shadow-xl transition-all"
               >
-                <Link href="/#contact">
+                <Link href={localizeHref(pathname, "/#contact")}>
                   Request legal guidance
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>

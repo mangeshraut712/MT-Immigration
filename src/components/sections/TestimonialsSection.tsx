@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { CheckCircle2 } from "lucide-react";
 
 import {
@@ -9,35 +10,16 @@ import {
   staggerContainerVariants,
 } from "@/lib/animations";
 
-const clientExpectations = [
-  {
-    title: "Direct communication",
-    description:
-      "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
-    label: "No handoff model",
-  },
-  {
-    title: "Prepared submissions",
-    description:
-      "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
-    label: "Evidence-first work",
-  },
-  {
-    title: "Calm guidance in urgent matters",
-    description:
-      "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
-    label: "Urgent matters prioritized",
-  },
-  {
-    title: "Straight answers on price and scope",
-    description:
-      "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
-    label: "Transparent fees",
-  },
-];
+type ClientExpectation = {
+  title: string;
+  description: string;
+  label: string;
+};
 
 export function TestimonialsSection() {
+  const tTestimonials = useTranslations("testimonials");
   const shouldReduceMotion = useReducedMotion();
+  const clientExpectations = tTestimonials.raw("items") as ClientExpectation[];
 
   return (
     <section
@@ -58,18 +40,18 @@ export function TestimonialsSection() {
           <div className="mb-6 flex items-center justify-center gap-3">
             <div className="h-px w-12 bg-zinc-300" />
             <span className="text-sm font-semibold uppercase tracking-widest text-zinc-500">
-              Client Experience
+              {tTestimonials("title")}
             </span>
             <div className="h-px w-12 bg-zinc-300" />
           </div>
           <h2 className="mb-6 text-3xl md:text-5xl lg:text-6xl font-serif font-medium leading-[1.1] text-foreground">
-            What a strong solo practice <br />
-            <span className="italic text-zinc-400">should deliver.</span>
+            {tTestimonials("heading").split(". ")[0]} <br />
+            <span className="italic text-zinc-400">
+              {tTestimonials("heading").split(". ").slice(1).join(". ")}
+            </span>
           </h2>
           <p className="mx-auto max-w-2xl text-xl leading-relaxed text-zinc-500 text-balance">
-            Instead of unverifiable testimonials, the site now focuses on the
-            standards clients should reasonably expect from a boutique
-            immigration practice.
+            {tTestimonials("subtitle")}
           </p>
         </motion.div>
 

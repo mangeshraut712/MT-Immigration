@@ -16,7 +16,7 @@ import clsx from "clsx";
 import { SiteLogo } from "@/components/branding/SiteLogo";
 import { Button } from "@/components/ui/button";
 import { firmConfig } from "@/config/firm";
-import { localizeHref } from "@/i18n/routing";
+import { localizeHref, routing, stripLocalePrefix } from "@/i18n/routing";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 
 const primaryNavItems = [
@@ -49,9 +49,15 @@ const utilityItems: ReadonlyArray<{
 ] as const;
 
 export default function Navbar({ locale = "en" }: { locale?: string }) {
+  const currentLocale = routing.locales.includes(
+    locale as (typeof routing.locales)[number],
+  )
+    ? (locale as (typeof routing.locales)[number])
+    : routing.defaultLocale;
   const tNav = useTranslations("nav");
   const tCommon = useTranslations("common");
   const pathname = usePathname();
+  const normalizedPathname = stripLocalePrefix(pathname || "/");
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
@@ -94,10 +100,10 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
 
   function isActiveNavItem(href: string) {
     if (href === "/insights") {
-      return pathname.startsWith("/insights");
+      return normalizedPathname.startsWith("/insights");
     }
 
-    if (pathname !== "/" || !href.startsWith("/#")) {
+    if (normalizedPathname !== "/" || !href.startsWith("/#")) {
       return false;
     }
 
@@ -190,7 +196,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
             </div>
 
             <div className="hidden items-center lg:flex gap-3">
-              <LanguageSwitcher currentLocale={locale as "en" | "es"} />
+              <LanguageSwitcher currentLocale={currentLocale} />
               <Button
                 asChild
                 size="sm"

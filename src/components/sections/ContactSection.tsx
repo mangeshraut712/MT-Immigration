@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import IntakeForm from "@/components/features/intake/IntakeForm";
 import { Mail, Phone, MapPin, Clock } from "lucide-react";
 import { firmConfig } from "@/config/firm";
@@ -11,36 +12,41 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const contactInfo = [
-  {
-    icon: Phone,
-    label: "Phone / WhatsApp",
-    value: firmConfig.contact.phoneDisplay,
-    tooltip: "Click to call",
-    href: firmConfig.contact.phoneHref,
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    value: firmConfig.contact.email,
-    tooltip: "Click to email",
-    href: firmConfig.contact.emailHref,
-  },
-  {
-    icon: MapPin,
-    label: "Office",
-    value: firmConfig.contact.city,
-    tooltip: firmConfig.contact.regionLabel,
-  },
-  {
-    icon: Clock,
-    label: "Response Time",
-    value: firmConfig.contact.responseTime,
-    tooltip: "Weekdays only",
-  },
-];
+const contactIcons = [Phone, Mail, MapPin, Clock] as const;
+
+type ContactInfo = {
+  label: string;
+  tooltip: string;
+  value: string;
+  href?: string;
+};
+
+type FeeOption = {
+  label: string;
+  price: string;
+};
 
 export function ContactSection() {
+  const tContact = useTranslations("contact");
+  const contactInfo = (tContact.raw("cards") as Omit<ContactInfo, "value" | "href">[])
+    .map((item, index) => ({
+      ...item,
+      value: [
+        firmConfig.contact.phoneDisplay,
+        firmConfig.contact.email,
+        firmConfig.contact.city,
+        firmConfig.contact.responseTime,
+      ][index],
+      href: [
+        firmConfig.contact.phoneHref,
+        firmConfig.contact.emailHref,
+        undefined,
+        undefined,
+      ][index],
+      icon: contactIcons[index],
+    }));
+  const feeOptions = tContact.raw("feeOptions") as FeeOption[];
+
   return (
     <section
       id="contact"
@@ -61,17 +67,18 @@ export function ContactSection() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="h-px w-12 bg-zinc-300"></div>
             <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">
-              Get Started
+              {tContact("title")}
             </span>
             <div className="h-px w-12 bg-zinc-300"></div>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
-            Ready to review <br />
-            <span className="text-zinc-400 italic">your matter?</span>
+            {tContact("heading").split(" ").slice(0, 3).join(" ")} <br />
+            <span className="text-zinc-400 italic">
+              {tContact("heading").split(" ").slice(3).join(" ")}
+            </span>
           </h2>
           <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto">
-            Book a consultation or send a structured intake request. The office
-            responds to new inquiries within {firmConfig.contact.responseTime}.
+            {tContact("subtitle")}
           </p>
         </motion.div>
 
@@ -81,13 +88,13 @@ export function ContactSection() {
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="lg:col-span-1 space-y-6"
+              transition={{ duration: 0.5 }}
+              className="lg:col-span-1 space-y-6"
           >
             {/* Contact Cards */}
             <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-[2rem] border border-zinc-100 shadow-xl hover:shadow-2xl transition-shadow duration-500 space-y-6 md:space-y-8">
               <h3 className="text-lg md:text-xl font-serif font-bold text-zinc-900 border-b border-zinc-100 pb-3 md:pb-4">
-                Contact Information
+                {tContact("contactInfo")}
               </h3>
 
               <TooltipProvider>
@@ -161,20 +168,23 @@ export function ContactSection() {
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_50%)]" />
               <h3 className="text-xl font-serif font-bold mb-6 relative z-10">
-                Consultation Fees
+                {tContact("consultationFees")}
               </h3>
               <div className="space-y-4 relative z-10">
-                <div className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/5 group-hover:bg-white/15 transition-colors">
-                  <span className="font-medium">15 min</span>
-                  <span className="text-2xl font-bold font-serif">$20</span>
-                </div>
-                <div className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/5 group-hover:bg-white/15 transition-colors">
-                  <span className="font-medium">30 min</span>
-                  <span className="text-2xl font-bold font-serif">$40</span>
-                </div>
+                {feeOptions.map((option) => (
+                  <div
+                    key={option.label}
+                    className="flex justify-between items-center p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/5 group-hover:bg-white/15 transition-colors"
+                  >
+                    <span className="font-medium">{option.label}</span>
+                    <span className="text-2xl font-bold font-serif">
+                      {option.price}
+                    </span>
+                  </div>
+                ))}
               </div>
               <p className="text-xs text-zinc-400 mt-6 relative z-10 text-center">
-                Fee credited toward service if retained.
+                {tContact("feeCredit")}
               </p>
             </motion.div>
           </motion.div>

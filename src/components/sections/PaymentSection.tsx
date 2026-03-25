@@ -2,6 +2,7 @@
 
 import { useState, type ComponentType } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { motion } from "framer-motion";
 import {
@@ -29,6 +30,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { fadeUpVariants, slideLeftVariants } from "@/lib/animations";
+import { localizeHref } from "@/i18n/routing";
 
 const iconMap = {
   "stripe-cards": StripeIcon,
@@ -59,6 +61,7 @@ const trustBadges = [
 ] as const;
 
 export function PaymentSection() {
+  const pathname = usePathname();
   const [selectedMethodId, setSelectedMethodId] =
     useState<PaymentMethod["id"]>("stripe-cards");
 
@@ -278,7 +281,9 @@ export function PaymentSection() {
                   variant="outline"
                   className="h-12 rounded-full border-zinc-200 bg-white px-8 text-zinc-900 hover:bg-zinc-50"
                 >
-                  <Link href="/#contact">Need billing help</Link>
+                  <Link href={localizeHref(pathname, "/#contact")}>
+                    Need billing help
+                  </Link>
                 </Button>
               </div>
 

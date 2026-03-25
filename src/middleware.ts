@@ -21,7 +21,7 @@ export default function middleware(request: NextRequest) {
     !process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
     !['GET', 'HEAD'].includes(request.method)
   ) {
-    return NextResponse.next();
+    return i18nResponse;
   }
 
   const canonicalUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL.trim());
@@ -33,14 +33,24 @@ export default function middleware(request: NextRequest) {
     canonicalUrl.protocol === 'https:' && Boolean(forwardedProto && forwardedProto !== 'https');
 
   if (!requiresHostRedirect && !requiresHttpsRedirect) {
-    return NextResponse.next();
+    return i18nResponse;
   }
 
   const redirectUrl = new URL(request.nextUrl.pathname + request.nextUrl.search, canonicalUrl);
-  return NextResponse.redirect(redirectUrl, 301);
+  const redirectResponse = NextResponse.redirect(redirectUrl, 301);
+
+  i18nResponse.headers.forEach((value, key) => {
+    if (key.toLowerCase() === 'location') {
+      return;
+    }
+
+    redirectResponse.headers.set(key, value);
+  });
+
+  return redirectResponse;
 }
 
 export const config = {
   // Match only internationalized pathnames and proxy routes
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|.*\\..*).*)']
+  matcher: ['/((?!api|pay|_next/static|_next/image|favicon.ico|.*\\..*).*)']
 };

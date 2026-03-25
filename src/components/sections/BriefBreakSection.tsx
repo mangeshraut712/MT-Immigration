@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { ArrowRight, Scale, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { localizeHref } from "@/i18n/routing";
 
 const previewCells = [
   [1, 0, 0, 0],
@@ -14,6 +17,9 @@ const previewCells = [
 ];
 
 export function BriefBreakSection() {
+  const pathname = usePathname();
+  const tBriefBreak = useTranslations("briefBreak");
+
   return (
     <section className="border-t border-black/5 bg-zinc-50 py-20">
       <div className="container-wide grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center">
@@ -21,18 +27,16 @@ export function BriefBreakSection() {
           <div className="mb-6 flex items-center gap-3">
             <div className="h-px w-12 bg-zinc-600" />
             <span className="text-sm font-semibold uppercase tracking-[0.25em] text-zinc-600">
-              Brief Break
+              {tBriefBreak("title")}
             </span>
           </div>
           <h2 className="font-serif text-4xl leading-[1.05] tracking-tight text-zinc-950 md:text-5xl">
-            A quiet puzzle room
+            {tBriefBreak("heading").split(",")[0]}
             <br />
-            for the moments between the heavy work.
+            {tBriefBreak("heading").split(",").slice(1).join(",").trim()}
           </h2>
           <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600">
-            The firm site stays serious where it matters. This is the one
-            intentional detour: a small legal-themed puzzle page built for
-            focus, reset, and a little stress relief.
+            {tBriefBreak("subtitle")}
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -40,14 +44,14 @@ export function BriefBreakSection() {
               asChild
               className="rounded-full bg-black text-white hover:bg-zinc-800"
             >
-              <Link href="/brief-break">
-                Enter The Puzzle Room
+              <Link href={localizeHref(pathname, "/brief-break")}>
+                {tBriefBreak("cta")}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-zinc-700">
               <Sparkles className="h-4 w-4 text-zinc-600" />
-              Daily chamber puzzle with streaks, hints, and zero legal pressure
+              {tBriefBreak("pill")}
             </div>
           </div>
         </div>
@@ -61,10 +65,10 @@ export function BriefBreakSection() {
           <div className="mb-6 flex items-center justify-between">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-600">
-                Docket Zip
+                {tBriefBreak("previewTitle")}
               </p>
               <p className="mt-2 text-sm text-zinc-500">
-                Connect the facts. Fill the record.
+                {tBriefBreak("previewSubtitle")}
               </p>
             </div>
             <Scale className="h-6 w-6 text-zinc-900" />
