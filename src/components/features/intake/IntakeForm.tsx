@@ -310,7 +310,7 @@ export default function IntakeForm() {
                   "z-10 mb-3 flex h-10 w-10 items-center justify-center rounded-full border-4 text-sm font-semibold transition-all duration-300",
                   step >= currentStep.id
                     ? "border-foreground bg-foreground text-background shadow-lg"
-                    : "border-zinc-100 bg-white text-zinc-400",
+                    : "border-border bg-card text-muted-foreground",
                 )}
                 animate={{
                   scale: step === currentStep.id ? 1.1 : 1,
@@ -325,7 +325,7 @@ export default function IntakeForm() {
               <span
                 className={cn(
                   "text-xs font-medium uppercase tracking-wider transition-colors duration-300",
-                  step >= currentStep.id ? "text-foreground" : "text-zinc-400",
+                  step >= currentStep.id ? "text-foreground" : "text-muted-foreground",
                 )}
               >
                 {currentStep.title}
@@ -335,7 +335,7 @@ export default function IntakeForm() {
         </div>
       </div>
 
-      <Card className="overflow-hidden border-zinc-100 bg-white/80 shadow-2xl shadow-zinc-200/50 backdrop-blur-md">
+      <Card className="overflow-hidden border-border bg-card shadow-2xl shadow-primary/5 backdrop-blur-md">
         <CardContent className="p-8 md:p-10">
           <form onSubmit={(event) => void handleSubmit(event)}>
             <div className="sr-only" aria-hidden="true">
@@ -391,7 +391,7 @@ export default function IntakeForm() {
                         aria-describedby={
                           errors.name ? getErrorId("name") : undefined
                         }
-                        className="h-12 bg-white"
+                        className="h-12 bg-background"
                       />
                       {renderError("name")}
                     </div>
@@ -413,7 +413,7 @@ export default function IntakeForm() {
                         aria-describedby={
                           errors.email ? getErrorId("email") : undefined
                         }
-                        className="h-12 bg-white"
+                        className="h-12 bg-background"
                       />
                       {renderError("email")}
                     </div>
@@ -435,7 +435,7 @@ export default function IntakeForm() {
                           aria-describedby={
                             errors.phone ? getErrorId("phone") : undefined
                           }
-                          className="h-12 bg-white"
+                          className="h-12 bg-background"
                         />
                         {renderError("phone")}
                       </div>
@@ -457,7 +457,7 @@ export default function IntakeForm() {
                                 ? getErrorId("language")
                                 : undefined
                             }
-                            className="h-12 bg-white"
+                            className="h-12 bg-background"
                           >
                             <SelectValue placeholder="Select" />
                           </SelectTrigger>
@@ -521,7 +521,7 @@ export default function IntakeForm() {
                           aria-describedby={
                             errors.caseType ? getErrorId("caseType") : undefined
                           }
-                          className="h-12 bg-white"
+                          className="h-12 bg-background"
                         >
                           <SelectValue placeholder="Select service type" />
                         </SelectTrigger>
@@ -567,9 +567,9 @@ export default function IntakeForm() {
                         aria-describedby={
                           errors.summary ? getErrorId("summary") : undefined
                         }
-                        className="resize-none bg-white"
+                        className="resize-none bg-background"
                       />
-                      <div className="flex items-center justify-between text-sm text-zinc-500">
+                      <div className="flex items-center justify-between text-sm text-muted-foreground">
                         <span>
                           Include deadlines, prior filings, and any urgent
                           hearing dates.
@@ -661,7 +661,7 @@ export default function IntakeForm() {
                     </p>
                   </div>
 
-                  <div className="space-y-3 rounded-xl border border-zinc-100 bg-zinc-50 p-6 text-sm">
+                  <div className="space-y-3 rounded-xl border border-border bg-muted/50 p-6 text-sm">
                     <div className="flex justify-between border-b border-border/50 py-2">
                       <span className="text-muted-foreground">Name</span>
                       <span className="font-medium">
@@ -694,7 +694,7 @@ export default function IntakeForm() {
                     </div>
                     <div className="py-2">
                       <span className="text-muted-foreground">Summary</span>
-                      <p className="mt-2 rounded-lg bg-white p-4 leading-relaxed text-zinc-700">
+                      <p className="mt-2 rounded-lg bg-background p-4 leading-relaxed text-foreground">
                         {formData.summary || "—"}
                       </p>
                     </div>
@@ -722,7 +722,7 @@ export default function IntakeForm() {
                       the{" "}
                       <Link
                         href={localizeHref(pathname, "/privacy")}
-                        className="font-medium text-zinc-900 underline hover:text-black"
+                        className="font-medium text-foreground underline hover:text-foreground/80"
                       >
                         Privacy Policy
                       </Link>

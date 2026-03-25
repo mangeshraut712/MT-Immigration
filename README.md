@@ -152,7 +152,7 @@ mt-immigration/
 ├── 🛡️ Security & Quality
 │   ├── server/rate-limit.ts   # Upstash Redis rate limiting
 │   ├── server/request-guards.ts # Input validation & sanitization
-│   ├── middleware.ts          # Request processing & CSP
+│   ├── proxy.ts               # Request processing, i18n routing & CSP
 │   ├── lib/sanitize.ts        # XSS protection utilities
 │   └── lib/__tests__/         # Comprehensive test suite
 │
@@ -471,6 +471,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - `/api/chat` keeps model keys off the client
 - Request-size checks, origin checks, rate limiting, and bounded transcript windows
 - Validation and fallback layers keep behavior consistent when model output is inherently non-deterministic
+- Bench review adds a final caution pass when the production reviewer is enabled
 - Fallback response path still returns useful guidance when no provider key is configured
 - Optional FastAPI proxy mode for specialist agents
 
@@ -488,6 +489,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Public-source snapshot fallback when live refresh is unavailable
 - Source-backed article pages instead of generic generated filler
 - Duplicate-entry protection in the live feed pipeline
+- Insights content is schema-validated before it is published or cached
 
 ### 5. Safer Payment Handoff
 
@@ -817,7 +819,7 @@ The website now supports 12 languages to serve diverse client demographics:
 - **Enhanced Input Sanitization**: Added maximum length limits to prevent DoS attacks on all form inputs
 - **CSP Security Improvements**: Removed unsafe-eval directive, restricted image sources, added HTTPS enforcement
 - **Layout Structure Fixes**: Resolved React hydration errors by properly structuring HTML layouts for i18n routing
-- **Route Navigation Fixes**: Moved all localized pages to `[locale]` directory for proper i18n routing
+- **Locale Routing Fixes**: Moved localized pages to `[locale]` and switched request handling to `proxy.ts` for current Next.js conventions
 - **UI Structure Fixes**: Ensured stable React rendering array keys, preventing hydration mismatches and improving list stability
 - **Accessibility Enhancements**: Improved ARIA-label attributes for footer UI elements and contact interactions
 - **Analytics Polish**: Transitioned debug `console.log` trace statements into strict development environment blocks
