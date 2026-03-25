@@ -16,7 +16,7 @@
 
 **🏆 Enterprise-Grade Immigration Platform with AI Legal Intelligence**
 
-[🌐 Live Demo](https://mt-immigration.vercel.app) • [📚 Documentation](https://mt-immigration.vercel.app/docs) • [🛠️ API Reference](https://mt-immigration.vercel.app/openapi.json)
+[🌐 Live Demo](https://mt-immigration.vercel.app/en) • [🌍 Production Domain](https://mt-immigration.vercel.app) • [🛠️ API Reference](https://mt-immigration.vercel.app/openapi.json)
 
 ---
 
@@ -792,6 +792,7 @@ Typical expected results:
 - The Knowledge Hub is now designed to prefer public-source, source-linked entries over generic generated filler.
 - Plain `npm run dev` should keep `USE_FASTAPI_AGENTS=false` unless you are explicitly running FastAPI separately.
 - All 12 locales are fully translated — no Beta badges or partial-locale notices are displayed.
+- Production deploys should keep `NEXT_PUBLIC_SITE_URL=https://mt-immigration.vercel.app` in Vercel for correct canonical URLs, hreflang output, and locale redirects.
 
 ## Recent Updates
 

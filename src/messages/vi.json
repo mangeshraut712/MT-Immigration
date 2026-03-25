@@ -564,7 +564,7 @@
     "siteMap": "Sơ đồ trang web",
     "emailAria": "Gửi email cho chúng tôi theo địa chỉ {email}",
     "phoneAria": "Hãy gọi cho chúng tôi theo số {phone}",
-    "copyright": "Bản quyền © {năm} {name}. Mọi quyền được bảo lưu.",
+    "copyright": "Bản quyền © {year} {name}. Mọi quyền được bảo lưu.",
     "disclaimer": "QUẢNG CÁO LUẬT SƯ. Thông tin trên trang web này chỉ nhằm mục đích thông tin chung. Không có nội dung nào trên trang này được coi là tư vấn pháp lý cho bất kỳ trường hợp hoặc tình huống cá nhân nào. Thông tin này không nhằm mục đích tạo ra và việc nhận hoặc xem không cấu thành mối quan hệ luật sư-khách hàng. Kết quả trước đó không đảm bảo một kết quả tương tự.",
     "links": {
       "services": [

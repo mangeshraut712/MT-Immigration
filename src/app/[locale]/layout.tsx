@@ -11,15 +11,10 @@ import "../globals.css";
 import Providers from "../providers";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { BackToTop } from "@/components/layout/BackToTop";
 import { ErrorBoundary } from "@/components/ui/error-boundary";
-import { ScrollProgress } from "@/components/ui/scroll-progress";
 import { Toaster } from "@/components/ui/sonner";
-import { WebVitals } from "@/components/ui/web-vitals";
-import { Analytics } from "@/components/ui/analytics";
-import { ServiceWorker } from "@/components/ui/service-worker";
 import { SiteStructuredData } from "@/components/seo/SiteStructuredData";
-import { DynamicChatBot } from "@/components/features/chatbot/DynamicChatBot";
+import { ClientEnhancements } from "@/components/ui/client-enhancements";
 
 // SF Pro alternative - Inter is the closest Google Font
 const inter = Inter({
@@ -72,12 +67,6 @@ export default async function LocaleLayout({
         >
             <head>
                 {/* Performance optimizations */}
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link
-                    rel="preconnect"
-                    href="https://fonts.gstatic.com"
-                    crossOrigin="anonymous"
-                />
                 <link rel="dns-prefetch" href="//vitals.vercel-insights.com" />
                 <link rel="dns-prefetch" href="//vitals.vercel-analytics.com" />
 
@@ -102,10 +91,6 @@ export default async function LocaleLayout({
                 <NextIntlClientProvider messages={messages}>
                     <Providers>
                         <SiteStructuredData />
-                        <WebVitals />
-                        <Analytics />
-                        <ServiceWorker />
-                        <ScrollProgress />
                         <a
                             href="#main-content"
                             className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-md focus-ring"
@@ -122,8 +107,7 @@ export default async function LocaleLayout({
                             <ErrorBoundary>{children}</ErrorBoundary>
                         </main>
                         <Footer />
-                        <BackToTop />
-                        <DynamicChatBot />
+                        <ClientEnhancements />
                         <Toaster position="bottom-right" richColors closeButton />
                     </Providers>
                 </NextIntlClientProvider>
