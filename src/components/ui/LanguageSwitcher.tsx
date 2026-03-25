@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronDown, Globe } from "lucide-react";
 
-import { routing } from "@/i18n/routing";
+import { routing, getLocalePrefix } from "@/i18n/routing";
 
 type SupportedLocale = (typeof routing.locales)[number];
 
@@ -64,18 +64,32 @@ export function LanguageSwitcher({
   }, []);
 
   function onSelectChange(nextLocale: SupportedLocale) {
-    const segments = pathname.split("/");
-    let pathWithoutLocale = segments.slice(2).join("/") || "/";
-
-    if (pathWithoutLocale === "" || !pathWithoutLocale.startsWith("/")) {
-      pathWithoutLocale = `/${pathWithoutLocale}`;
+    const prefix = getLocalePrefix(pathname);
+    
+    // Remove the current locale prefix from pathname to get the core path
+    let corePath = pathname;
+    if (prefix && pathname.startsWith(prefix)) {
+        corePath = pathname.slice(prefix.length) || "/";
     }
 
-    const newPath =
-      pathWithoutLocale === "/" ? `/${nextLocale}` : `/${nextLocale}${pathWithoutLocale}`;
+    if (!corePath.startsWith("/")) {
+        corePath = "/" + corePath;
+    }
+
+    // Next-intl prefix default strategy means the defaultLocale can optionally omit its path?
+    // Usually next-intl prefixes all locales in strictly 'always' or 'as-needed' strategy.
+    // So we prefix with nextLocale
+    const nextPrefix = nextLocale === "en" ? "/en" : `/${nextLocale}`;
+    
+    // Construct new path
+    let newPath = `${nextPrefix}${corePath === "/" ? "" : corePath}`;
+    
+    if (newPath === "") newPath = "/";
 
     startTransition(() => {
       router.push(newPath);
+      // We also enforce router.refresh() in some setups to clear RSC payload caching for language,
+      // but standard push works smoothly.
     });
     setIsOpen(false);
   }
