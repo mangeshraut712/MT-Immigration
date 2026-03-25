@@ -68,6 +68,7 @@ export default function Footer() {
               <a
                 href={firmConfig.contact.emailHref}
                 className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
+                aria-label={`Email us at ${firmConfig.contact.email}`}
               >
                 <Mail size={14} />
                 {firmConfig.contact.email}
@@ -75,6 +76,7 @@ export default function Footer() {
               <a
                 href={firmConfig.contact.phoneHref}
                 className="flex items-center gap-2 text-sm text-zinc-400 hover:text-white transition-colors"
+                aria-label={`Call us at ${firmConfig.contact.phoneDisplay}`}
               >
                 <Phone size={14} />
                 {firmConfig.contact.phoneDisplay}

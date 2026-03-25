@@ -32,9 +32,8 @@ export function usePerformanceMonitoring() {
             };
 
             // Send to analytics service
-            if (process.env.NODE_ENV === 'production') {
+            if (process.env.NODE_ENV === 'development') {
                 console.log('Performance Metrics:', metrics);
-                // sendToAnalytics(metrics);
             }
 
             return metrics;
@@ -51,9 +50,8 @@ export function usePerformanceMonitoring() {
             ...metadata
         };
 
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('User Interaction:', event);
-            // sendToAnalytics(event);
         }
     }, []);
 
@@ -106,23 +104,20 @@ export function usePerformanceMonitoring() {
 // Real User Monitoring (RUM)
 export function useRealUserMonitoring() {
     const trackRouteChange = useCallback((from: string, to: string) => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('Route Change:', { from, to, timestamp: Date.now() });
-            // sendToAnalytics({ type: 'route_change', from, to, timestamp: Date.now() });
         }
     }, []);
 
     const trackConversion = useCallback((event: string, value?: number, metadata?: Record<string, unknown>) => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('Conversion:', { event, value, metadata, timestamp: Date.now() });
-            // sendToAnalytics({ type: 'conversion', event, value, metadata, timestamp: Date.now() });
         }
     }, []);
 
     const trackFeatureUsage = useCallback((feature: string, action: string, metadata?: Record<string, unknown>) => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('Feature Usage:', { feature, action, metadata, timestamp: Date.now() });
-            // sendToAnalytics({ type: 'feature_usage', feature, action, metadata, timestamp: Date.now() });
         }
     }, []);
 
@@ -140,9 +135,8 @@ export function useABTesting() {
     }, []);
 
     const trackExperiment = useCallback((experimentId: string, variant: string, event: string, metadata?: Record<string, unknown>) => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('A/B Test Event:', { experimentId, variant, event, metadata });
-            // sendToAnalytics({ type: 'experiment', experimentId, variant, event, metadata });
         }
     }, []);
 
@@ -176,23 +170,20 @@ function simpleHash(str: string): number {
 // Export analytics utilities
 export const analytics = {
     track: (event: string, properties?: Record<string, unknown>) => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('Analytics Event:', { event, properties, timestamp: Date.now() });
-            // sendToAnalytics({ event, properties, timestamp: Date.now() });
         }
     },
 
     identify: (userId: string, traits?: Record<string, unknown>) => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('User Identify:', { userId, traits });
-            // sendToAnalytics({ type: 'identify', userId, traits });
         }
     },
 
     page: (name?: string, properties?: Record<string, unknown>) => {
-        if (process.env.NODE_ENV === 'production') {
+        if (process.env.NODE_ENV === 'development') {
             console.log('Page View:', { name, properties, url: window.location.href });
-            // sendToAnalytics({ type: 'page', name, properties, url: window.location.href });
         }
     }
 };

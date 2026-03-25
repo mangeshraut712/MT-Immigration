@@ -119,7 +119,7 @@ export function ProcessSection() {
 
           {translatedSteps.map((step, index) => (
             <motion.div
-              key={index}
+              key={step.id}
               variants={fadeUpVariants}
               className={`relative flex flex-col md:flex-row gap-8 md:gap-16 mb-16 last:mb-0 ${index % 2 === 0 ? "" : "md:flex-row-reverse"}`}
             >

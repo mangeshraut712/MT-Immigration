@@ -180,7 +180,7 @@ export function PricingSection() {
                 <TableBody>
                   {pricingData.map((item, index) => (
                     <motion.tr
-                      key={index}
+                      key={item.service}
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
