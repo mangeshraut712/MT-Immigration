@@ -55,7 +55,22 @@
         "step2Title": "Preparar y Presentar",
         "step2Desc": "Construya la estrategia de presentación, reúna evidencia de apoyo y prepare la solicitud con cuidado.",
         "step3Title": "Guía Durante el Proceso",
-        "step3Desc": "Manténgase preparado después de la presentación con preparación para entrevistas, estrategia de respuesta y seguimiento directo."
+        "step3Desc": "Manténgase preparado después de la presentación con preparación para entrevistas, estrategia de respuesta y seguimiento directo.",
+        "step1Features": [
+            "Consultation with the attorney",
+            "Initial document review",
+            "Scope and risk discussion"
+        ],
+        "step2Features": [
+            "Form drafting and review",
+            "Evidence checklist",
+            "Final pre-filing quality check"
+        ],
+        "step3Features": [
+            "Interview preparation",
+            "RFE or deadline planning",
+            "Email-based status updates"
+        ]
     },
     "services": {
         "title": "Nuestra Experiencia",
@@ -90,7 +105,29 @@
         "calm": "Guía calma en asuntos urgentes",
         "calmLabel": "Asuntos urgentes priorizados",
         "straight": "Respuestas directas sobre precio y alcance",
-        "straightLabel": "Tarifas transparentes"
+        "straightLabel": "Tarifas transparentes",
+        "items": [
+            {
+                "title": "Direct communication",
+                "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
+                "label": "No handoff model"
+            },
+            {
+                "title": "Prepared submissions",
+                "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
+                "label": "Evidence-first work"
+            },
+            {
+                "title": "Calm guidance in urgent matters",
+                "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
+                "label": "Urgent matters prioritized"
+            },
+            {
+                "title": "Straight answers on price and scope",
+                "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
+                "label": "Transparent fees"
+            }
+        ]
     },
     "about": {
         "title": "Nosotros",
@@ -107,12 +144,75 @@
         "title": "Tarifas Transparentes",
         "heading": "Honorarios legales claros para representación enfocada.",
         "subtitle": "Los rangos varían según la complejidad, la urgencia y la carga de documentos. El objetivo es mostrar bandas de honorarios legales realistas antes de reservar.",
-        "note": "Nota: Estos son solo rangos de servicios legales. Las tarifas de presentación gubernamental, traducciones y costos de terceros son separados a menos que se indique específicamente por escrito.",
+        "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
         "whyChoose": "Por Qué Elegirnos?",
         "cta": "Obtener Cotización Personalizada",
         "service": "Servicio",
         "priceRange": "Rango de Precio",
-        "includes": "Incluye"
+        "includes": "Incluye",
+        "noteLabel": "Note:",
+        "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
+        "items": [
+            {
+                "service": "Visitor Visa (B1/B2)",
+                "price": "$350–$650",
+                "includes": "DS-160, coaching"
+            },
+            {
+                "service": "Student Visa (F-1)",
+                "price": "$450–$900",
+                "includes": "I-20 guidance, prep"
+            },
+            {
+                "service": "Change of Status",
+                "price": "$850–$1,800",
+                "includes": "I-539, risk assessment"
+            },
+            {
+                "service": "Marriage-Based AOS",
+                "price": "$1,800–$3,500",
+                "includes": "Full forms, evidence"
+            },
+            {
+                "service": "Consular Processing",
+                "price": "$1,200–$2,400",
+                "includes": "NVC support"
+            },
+            {
+                "service": "Work Permit (I-765)",
+                "price": "$250–$450",
+                "includes": "Eligibility analysis"
+            },
+            {
+                "service": "Advance Parole (I-131)",
+                "price": "$250–$450",
+                "includes": "Authorization prep"
+            },
+            {
+                "service": "Expedite Request Prep",
+                "price": "$300–$600",
+                "includes": "Drafting, evidence"
+            },
+            {
+                "service": "U Visa",
+                "price": "$1,800–$3,500",
+                "includes": "Full support"
+            },
+            {
+                "service": "Asylum",
+                "price": "$2,500–$6,000",
+                "includes": "Research, prep"
+            }
+        ],
+        "benefits": [
+            "Transparent, upfront pricing",
+            "Scope explained before work begins",
+            "Flexible payment plans when appropriate",
+            "Hosted online payment options",
+            "No hidden administrative fees",
+            "Consultation fees credited when applicable",
+            "Government filing fees billed separately"
+        ]
     },
     "faq": {
         "title": "Preguntas Comunes",
@@ -135,7 +235,35 @@
         "consultationFees": "Tarifas de Consulta",
         "min15": "15 min",
         "min30": "30 min",
-        "feeCredit": "La tarifa se acredita al servicio si es contratado."
+        "feeCredit": "La tarifa se acredita al servicio si es contratado.",
+        "cards": [
+            {
+                "label": "Phone / WhatsApp",
+                "tooltip": "Click to call"
+            },
+            {
+                "label": "Email",
+                "tooltip": "Click to email"
+            },
+            {
+                "label": "Office",
+                "tooltip": "New York, NY"
+            },
+            {
+                "label": "Business Hours",
+                "tooltip": "1-2 business day response"
+            }
+        ],
+        "feeOptions": [
+            {
+                "label": "15 min Initial Sync",
+                "price": "$125"
+            },
+            {
+                "label": "30 min Strategy Session",
+                "price": "$250"
+            }
+        ]
     },
     "cta": {
         "title": "Listo para Comenzar?",
@@ -157,7 +285,89 @@
         "terms": "Términos de Uso",
         "advertising": "Publicidad de Abogado",
         "copyright": "Copyright © {year} {name}. Todos los derechos reservados.",
-        "disclaimer": "PUBLICIDAD DE ABOGADO. La información en este sitio web es solo para propósitos de información general. Nada en este sitio debe tomarse como asesoramiento legal para ningún caso o situación en particular. Esta información no pretende crear, y recibir o ver no constituye, una relación abogado-cliente. Resultados anteriores no garantizan un resultado similar."
+        "disclaimer": "PUBLICIDAD DE ABOGADO. La información en este sitio web es solo para propósitos de información general. Nada en este sitio debe tomarse como asesoramiento legal para ningún caso o situación en particular. Esta información no pretende crear, y recibir o ver no constituye, una relación abogado-cliente. Resultados anteriores no garantizan un resultado similar.",
+        "links": {
+            "services": [
+                {
+                    "name": "Visitor Visas (B1/B2)",
+                    "href": "/#services"
+                },
+                {
+                    "name": "Student Visas (F-1)",
+                    "href": "/#services"
+                },
+                {
+                    "name": "Marriage-Based",
+                    "href": "/#services"
+                },
+                {
+                    "name": "Asylum & U-Visa",
+                    "href": "/#services"
+                },
+                {
+                    "name": "Work Permits (EAD)",
+                    "href": "/#services"
+                }
+            ],
+            "company": [
+                {
+                    "name": "About the Practice",
+                    "href": "/#about"
+                },
+                {
+                    "name": "Our Process",
+                    "href": "/#process"
+                },
+                {
+                    "name": "Client Experience",
+                    "href": "/#testimonials"
+                },
+                {
+                    "name": "Insights",
+                    "href": "/insights"
+                },
+                {
+                    "name": "Contact",
+                    "href": "/#contact"
+                }
+            ],
+            "support": [
+                {
+                    "name": "Pricing & Fees",
+                    "href": "/#pricing"
+                },
+                {
+                    "name": "Secure Payments",
+                    "href": "/#payments"
+                },
+                {
+                    "name": "FAQ",
+                    "href": "/#faq"
+                },
+                {
+                    "name": "Book Consultation",
+                    "href": "/#contact"
+                },
+                {
+                    "name": "Brief Break",
+                    "href": "/brief-break"
+                }
+            ],
+            "legal": [
+                {
+                    "name": "Privacy Policy",
+                    "href": "/privacy"
+                },
+                {
+                    "name": "Terms of Use",
+                    "href": "/terms"
+                },
+                {
+                    "name": "Attorney Advertising",
+                    "href": "/terms"
+                }
+            ]
+        }
     },
     "intake": {
         "step1Title": "Contacto",
