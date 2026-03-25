@@ -24,9 +24,9 @@ export function TestimonialsSection() {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden bg-zinc-50 section-padding"
+      className="relative overflow-hidden bg-muted section-padding"
     >
-      <div className="absolute inset-0 bg-white/50" />
+      <div className="absolute inset-0 bg-background/50" />
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-zinc-100 blur-[100px]" />
 
       <div className="container-wide relative z-10">
@@ -61,8 +61,8 @@ export function TestimonialsSection() {
         >
           {clientExpectations.map((item) => (
             <motion.div key={item.title} variants={scaleVariants}>
-              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-white p-6 md:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-zinc-100 text-zinc-900">
+              <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-100 bg-card p-6 md:p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-full bg-muted text-foreground">
                   <CheckCircle2 className="h-6 w-6" />
                 </div>
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-zinc-600">

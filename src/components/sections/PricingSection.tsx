@@ -120,13 +120,13 @@ export function PricingSection() {
               <Table className="min-w-[42rem]">
                 <TableHeader>
                   <TableRow className="border-b border-border/70 bg-muted/45 hover:bg-muted/45">
-                    <TableHead className="w-[40%] font-serif font-bold text-zinc-900 py-6 text-lg pl-8">
+                    <TableHead className="w-[40%] font-serif font-bold text-foreground py-6 text-lg pl-8">
                       {tPricing("service")}
                     </TableHead>
-                    <TableHead className="w-[25%] font-serif font-bold text-zinc-900 text-lg">
+                    <TableHead className="w-[25%] font-serif font-bold text-foreground text-lg">
                       {tPricing("priceRange")}
                     </TableHead>
-                    <TableHead className="font-serif font-bold text-zinc-900 text-lg pr-8">
+                    <TableHead className="font-serif font-bold text-foreground text-lg pr-8">
                       {tPricing("includes")}
                     </TableHead>
                   </TableRow>

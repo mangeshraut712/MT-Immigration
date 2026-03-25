@@ -573,12 +573,12 @@ export function DocketZipGame() {
 
   return (
     <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_23rem]">
-      <div className="rounded-[2.5rem] border border-black/5 bg-white p-5 shadow-soft md:p-8">
+      <div className="rounded-[2.5rem] border border-border bg-card p-5 shadow-soft md:p-8">
         <div className="mb-6 flex flex-col gap-5 border-b border-zinc-100 pb-6">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="rounded-full border border-black/10 bg-zinc-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-zinc-600">
+                <span className="rounded-full border border-black/10 bg-muted px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
                   {isDailyPuzzle ? "Today’s Docket" : "Practice Docket"}
                 </span>
                 {todaySolved && isDailyPuzzle ? (
@@ -594,19 +594,19 @@ export function DocketZipGame() {
               <h2 className="mt-2 font-serif text-3xl tracking-tight text-zinc-950 md:text-4xl">
                 {model.puzzle.title}
               </h2>
-              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-zinc-600 md:text-base">
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
                 {model.puzzle.matter}
               </p>
             </div>
 
-            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-zinc-50 px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm">
-              <Clock3 className="h-4 w-4 text-zinc-900" />
+            <div className="flex items-center gap-3 rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-secondary-foreground shadow-sm">
+              <Clock3 className="h-4 w-4 text-foreground" />
               {formatTime(elapsedSeconds)}
             </div>
           </div>
 
           <div className="grid gap-3 md:grid-cols-[1.4fr_1fr_1fr]">
-            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-4">
+            <div className="rounded-2xl border border-border bg-muted px-4 py-4">
               <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
                 <span>Progress</span>
                 <span>{progressPercent}%</span>
@@ -617,13 +617,13 @@ export function DocketZipGame() {
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
-              <p className="mt-3 text-sm text-zinc-600">
+              <p className="mt-3 text-sm text-muted-foreground">
                 {path.length} of {model.openCells.length} open cells are
                 connected.
               </p>
             </div>
 
-            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-4">
+            <div className="rounded-2xl border border-border bg-muted px-4 py-4">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
                 Moves
               </p>
@@ -632,7 +632,7 @@ export function DocketZipGame() {
               </p>
             </div>
 
-            <div className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-4">
+            <div className="rounded-2xl border border-border bg-muted px-4 py-4">
               <p className="text-xs font-semibold uppercase tracking-[0.24em] text-zinc-500">
                 Streak
               </p>
@@ -727,7 +727,7 @@ export function DocketZipGame() {
                       extendTrace(openCell.openIndex, event.timeStamp)
                     }
                     className={cn(
-                      "relative aspect-square rounded-2xl border border-black/5 bg-white text-left transition-all",
+                      "relative aspect-square rounded-2xl border border-border bg-card text-left transition-all",
                       active
                         ? "shadow-lg shadow-zinc-500/10 ring-2 ring-zinc-300"
                         : "shadow-sm hover:border-zinc-400",
@@ -819,7 +819,7 @@ export function DocketZipGame() {
             variant="outline"
             onClick={undoMove}
             disabled={path.length <= 1 || isSolved}
-            className="rounded-full border-zinc-200 bg-white"
+            className="rounded-full border-border bg-card"
           >
             <Undo2 className="mr-2 h-4 w-4" />
             Undo
@@ -829,7 +829,7 @@ export function DocketZipGame() {
             variant="outline"
             onClick={showHint}
             disabled={isSolved}
-            className="rounded-full border-zinc-200 bg-white"
+            className="rounded-full border-border bg-card"
           >
             <Sparkles className="mr-2 h-4 w-4" />
             Clerk’s Hint
@@ -838,7 +838,7 @@ export function DocketZipGame() {
             type="button"
             variant="outline"
             onClick={resetPuzzle}
-            className="rounded-full border-zinc-200 bg-white"
+            className="rounded-full border-border bg-card"
           >
             <RotateCcw className="mr-2 h-4 w-4" />
             Reset
@@ -857,7 +857,7 @@ export function DocketZipGame() {
                 ? "border-emerald-200 bg-emerald-50 text-emerald-900"
                 : feedback
                   ? "border-amber-200 bg-amber-50 text-amber-900"
-                  : "border-zinc-200 bg-white text-zinc-600",
+                  : "border-border bg-card text-muted-foreground",
             )}
           >
             {isSolved
@@ -867,23 +867,23 @@ export function DocketZipGame() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-6 rounded-[2rem] border border-black/5 bg-zinc-50 p-5">
+        <div className="mt-6 rounded-[2rem] border border-border bg-muted p-5">
           <div className="flex items-center gap-3">
-            <MoveRight className="h-5 w-5 text-zinc-900" />
+            <MoveRight className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-zinc-950">
               Play it like a court-ready Zip
             </h3>
           </div>
-          <div className="mt-4 grid gap-3 text-sm text-zinc-600 sm:grid-cols-3">
-            <div className="rounded-2xl bg-white p-4">
+          <div className="mt-4 grid gap-3 text-sm text-muted-foreground sm:grid-cols-3">
+            <div className="rounded-2xl bg-card p-4">
               Fact 1 is already selected for you. Start tracing from that
               highlighted cell.
             </div>
-            <div className="rounded-2xl bg-white p-4">
+            <div className="rounded-2xl bg-card p-4">
               Click or press and drag across adjacent cells to build the route
               in one motion.
             </div>
-            <div className="rounded-2xl bg-white p-4">
+            <div className="rounded-2xl bg-card p-4">
               If you trap the path, undo the last turn or ask the clerk for a
               hint.
             </div>
@@ -946,7 +946,7 @@ export function DocketZipGame() {
               <Button
                 type="button"
                 onClick={copyScore}
-                className="rounded-full bg-white text-zinc-950 hover:bg-white/90"
+                className="rounded-full bg-foreground text-background hover:bg-white/90"
               >
                 <Copy className="mr-2 h-4 w-4" />
                 {copied ? "Copied" : "Copy Result"}
@@ -965,9 +965,9 @@ export function DocketZipGame() {
       </div>
 
       <div className="space-y-4">
-        <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft">
+        <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
-            <CalendarDays className="h-5 w-5 text-zinc-900" />
+            <CalendarDays className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-zinc-950">
               Docket Desk
             </h3>
@@ -988,7 +988,7 @@ export function DocketZipGame() {
                     "w-full rounded-2xl border px-4 py-4 text-left transition-all",
                     selected
                       ? "border-zinc-900 bg-zinc-900 text-white shadow-lg"
-                      : "border-zinc-200 bg-zinc-50 text-zinc-900 hover:border-zinc-300 hover:bg-white",
+                      : "border-border bg-muted text-foreground hover:border-zinc-300 hover:bg-white",
                   )}
                 >
                   <div className="flex items-center justify-between gap-3">
@@ -1011,7 +1011,7 @@ export function DocketZipGame() {
                           "rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em]",
                           selected
                             ? "bg-white/10 text-white"
-                            : "border border-zinc-200 bg-white text-zinc-600",
+                            : "border border-border bg-card text-muted-foreground",
                         )}
                       >
                         Daily
@@ -1024,43 +1024,43 @@ export function DocketZipGame() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft">
+        <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
-            <Scale className="h-5 w-5 text-zinc-900" />
+            <Scale className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-zinc-950">
               Chamber Notes
             </h3>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-zinc-600">
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
             The game keeps the site’s quiet editorial language, but swaps
             urgency for focus and recovery. Think of it as a deliberate pause,
             not a gimmick.
           </p>
 
           <div className="mt-5 space-y-3">
-            <div className="rounded-2xl bg-zinc-50 p-4">
+            <div className="rounded-2xl bg-muted p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
                 Best time
               </p>
-              <p className="mt-2 text-lg font-semibold text-zinc-900">
+              <p className="mt-2 text-lg font-semibold text-foreground">
                 {stats.bestTimes[model.puzzle.id] !== undefined
                   ? formatTime(stats.bestTimes[model.puzzle.id])
                   : "—"}
               </p>
             </div>
-            <div className="rounded-2xl bg-zinc-50 p-4">
+            <div className="rounded-2xl bg-muted p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
                 Today’s mode
               </p>
-              <p className="mt-2 text-lg font-semibold text-zinc-900">
+              <p className="mt-2 text-lg font-semibold text-foreground">
                 {isDailyPuzzle ? "Daily chamber puzzle" : "Practice docket"}
               </p>
             </div>
-            <div className="rounded-2xl bg-zinc-50 p-4">
+            <div className="rounded-2xl bg-muted p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-zinc-400">
                 Keyboard
               </p>
-              <p className="mt-2 text-sm font-medium text-zinc-900">
+              <p className="mt-2 text-sm font-medium text-foreground">
                 <span className="inline-flex items-center gap-2">
                   <Keyboard className="h-4 w-4" />
                   `H` hint, `U` undo, `R` reset
@@ -1070,14 +1070,14 @@ export function DocketZipGame() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft">
+        <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
-            <Trophy className="h-5 w-5 text-zinc-900" />
+            <Trophy className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-zinc-950">
               How to play
             </h3>
           </div>
-          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-zinc-600">
+          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
             <li>
               Start at fact 1 and trace one continuous route through every open
               cell.

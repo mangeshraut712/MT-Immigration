@@ -89,7 +89,7 @@ export function ContactSection() {
           >
             {/* Contact Cards */}
             <div className="surface-panel space-y-6 p-6 transition-shadow duration-500 hover:shadow-2xl md:space-y-8 md:p-8">
-              <h3 className="text-lg md:text-xl font-serif font-bold text-zinc-900 border-b border-zinc-100 pb-3 md:pb-4">
+              <h3 className="text-lg md:text-xl font-serif font-bold text-foreground border-b border-border pb-3 md:pb-4">
                 {tContact("contactInfo")}
               </h3>
 
