@@ -1,11 +1,21 @@
 import "server-only";
 import { firmConfig } from "@/config/firm";
+import { routing } from "@/i18n/routing";
 
 const FALLBACK_SITE_URL = "https://mt-immigration.vercel.app";
 
+function isLocalDevelopmentUrl(value: string) {
+  try {
+    const parsed = new URL(value.startsWith("http") ? value : `https://${value}`);
+    return parsed.hostname === "localhost" || parsed.hostname === "127.0.0.1";
+  } catch {
+    return false;
+  }
+}
+
 export function getSiteUrl(): string {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (envUrl) {
+  if (envUrl && !(process.env.VERCEL && isLocalDevelopmentUrl(envUrl))) {
     return envUrl.startsWith("http") ? envUrl : `https://${envUrl}`;
   }
 
@@ -40,11 +50,25 @@ export function buildCanonicalUrl(path = "/") {
 
 export function getLanguageAlternates(path = "/") {
   const canonical = buildCanonicalUrl(path);
+  const defaultLocale = routing.defaultLocale;
+  const localizedPath =
+    path === "/" ? "" : path;
+
+  const languages = Object.fromEntries(
+    routing.locales.map((locale) => {
+      const localePath =
+        locale === defaultLocale
+          ? localizedPath || "/"
+          : `/${locale}${localizedPath}`;
+
+      return [locale, buildCanonicalUrl(localePath)];
+    }),
+  );
 
   return {
     canonical,
     languages: {
-      "en-US": canonical,
+      ...languages,
       "x-default": canonical,
     },
   } as const;
