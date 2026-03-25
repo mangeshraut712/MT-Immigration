@@ -34,13 +34,13 @@ const CHAT_REQUEST_TIMEOUT_MS = 20_000;
 const chatShellClass =
   "fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-border/60 bg-background/95 text-foreground shadow-[0_24px_80px_-30px_rgba(0,0,0,0.35)] backdrop-blur-2xl sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]";
 const chatHeaderClass =
-  "relative flex shrink-0 items-center justify-between overflow-hidden border-b border-border/60 bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-800 p-4 text-white dark:from-zinc-100 dark:via-zinc-200 dark:to-zinc-100 dark:text-zinc-950";
+  "relative flex shrink-0 items-center justify-between overflow-hidden border-b border-border/60 bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-800 p-4 text-white";
 const assistantBubbleClass =
   "rounded-tl-sm border border-border/60 bg-card/95 text-card-foreground shadow-[0_2px_10px_-3px_rgba(0,0,0,0.08)] backdrop-blur-md";
 const userBubbleClass =
-  "rounded-tr-sm bg-zinc-950 text-white shadow-md dark:bg-zinc-100 dark:text-zinc-950";
+  "rounded-tr-sm bg-zinc-950 text-white shadow-md";
 const messageAvatarAssistantClass =
-  "bg-gradient-to-br from-zinc-900 to-zinc-700 text-white shadow-sm ring-1 ring-border/50 dark:from-zinc-200 dark:to-zinc-300 dark:text-zinc-950";
+  "bg-gradient-to-br from-zinc-900 to-zinc-700 text-white shadow-sm ring-1 ring-border/50";
 const messageAvatarUserClass =
   "bg-primary text-primary-foreground";
 const chatOpenButtonClass =
@@ -526,14 +526,14 @@ export function ChatBot() {
               {/* Subtle ambient glow behind header */}
               <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
               <div className="relative z-10 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur-md dark:bg-black/10 dark:ring-black/20">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur-md">
                   <Bot size={22} className="drop-shadow-sm" />
                 </div>
                 <div>
                   <h3 id="mt-chat-title" className="font-semibold tracking-tight">
                     M&amp;T Immigration AI
                   </h3>
-                  <p className="flex items-center gap-1.5 text-[11px] font-medium text-white/80 dark:text-black/70">
+                  <p className="flex items-center gap-1.5 text-[11px] font-medium text-white/80">
                     <span className="relative flex h-2 w-2">
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative inline-flex h-2 w-2 rounded-full bg-green-500"></span>
@@ -544,14 +544,14 @@ export function ChatBot() {
               </div>
               <button
                 onClick={closeChat}
-                className="relative z-10 rounded-full p-2 text-white/70 transition-all hover:bg-white/10 hover:text-white dark:text-black/70 dark:hover:bg-black/10 dark:hover:text-black"
+                className="relative z-10 rounded-full p-2 text-white/70 transition-all hover:bg-white/10 hover:text-white"
                 aria-label="Close chat"
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div className="border-b border-border/40 bg-zinc-100/50 p-2 text-center text-[10px] uppercase font-medium tracking-wide text-zinc-500 dark:bg-zinc-900/50 dark:text-zinc-400">
+            <div className="border-b border-border/40 bg-muted/50 p-2 text-center text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
               <p id="mt-chat-description">
                 General info only • No attorney-client relationship
               </p>
@@ -688,7 +688,7 @@ export function ChatBot() {
                             asChild
                             size="sm"
                             variant="secondary"
-                            className="h-8 w-full bg-zinc-950 text-xs text-white shadow-sm transition-all hover:bg-zinc-800 hover:shadow-md dark:bg-zinc-100 dark:text-zinc-950 dark:hover:bg-white"
+                            className="h-8 w-full bg-zinc-950 text-xs text-white shadow-sm transition-all hover:bg-zinc-800 hover:shadow-md"
                           >
                             <Link
                               href={localizeHref(pathname, message.action.link)}
@@ -725,7 +725,7 @@ export function ChatBot() {
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   className="flex items-end gap-2.5"
                 >
-                  <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 text-white shadow-sm ring-1 ring-border/50 dark:from-zinc-200 dark:to-zinc-400 dark:text-zinc-950">
+                  <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 text-white shadow-sm ring-1 ring-border/50">
                     <Bot size={13} />
                   </div>
                   <div className="rounded-[20px] rounded-bl-sm border border-border/40 bg-card/80 p-3.5 shadow-sm backdrop-blur-md">
@@ -836,7 +836,7 @@ export function ChatBot() {
                     className={cn(
                       "h-8 w-8 rounded-full transition-all duration-300",
                       input.trim()
-                        ? "bg-zinc-950 text-white shadow-md hover:scale-105 dark:bg-zinc-100 dark:text-zinc-950"
+                        ? "bg-zinc-950 text-white shadow-md hover:scale-105"
                         : "bg-muted text-muted-foreground opacity-50"
                     )}
                   >

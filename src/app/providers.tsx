@@ -1,19 +1,8 @@
 "use client";
 
 import { MotionConfig } from "framer-motion";
-import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 
 export default function Providers({ children }: { children: ReactNode }) {
-  return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      enableColorScheme
-      disableTransitionOnChange
-    >
-      <MotionConfig reducedMotion="user">{children}</MotionConfig>
-    </ThemeProvider>
-  );
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

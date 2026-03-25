@@ -32,8 +32,8 @@
 
 ### 🌐 **Global Multilingual Experience**
 - **12 Languages Supported**: English, Spanish, Urdu, Hindi, Bengali, Punjabi, Arabic, Persian, Tagalog, Chinese, Vietnamese, Korean
-- **Neural Translation**: Context-aware legal terminology translation
-- **Cultural Adaptation**: Localized legal practices and requirements
+- **Locale-Aware Routing**: All supported locales are routed through the same App Router flow
+- **Progressive Translation Rollout**: English is the source locale, Spanish is near-complete, and partial locales are clearly marked in the UI
 
 ### 🛡️ **Enterprise Security Architecture**
 - **Zero-Trust Model**: End-to-end encryption with server-side key management
@@ -49,11 +49,10 @@
 - **PWA Ready**: Offline functionality with service worker caching
 - **Advanced Monitoring**: Real-time Core Web Vitals tracking
 
-### 🌙 **Dark Mode & Theming**
-- **System Preference Detection**: Automatic light/dark mode switching
-- **Theme Persistence**: Local storage with user preference memory
-- **Smooth Transitions**: CSS-based theme switching animations
-- **Accessibility Compliant**: WCAG AA contrast ratios maintained
+### 🌙 **Theming**
+- **Light-First Design System**: Unified surface, border, and typography tokens across the primary UI
+- **Consistent Component Styling**: Shared surface utilities reduce one-off palette drift between sections
+- **Accessibility Compliant**: WCAG-aware contrast and focus styling across primary components
 
 ### 📱 **Mobile-First PWA Experience**
 - **Progressive Web App**: Installable on mobile devices
@@ -443,12 +442,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Next.js 16.2** with Turbopack, advanced caching, PWA capabilities, and App Router conventions
 - **React 19.2** runtime with modern rendering semantics, server/client composition, and React Compiler
 - **Progressive Web App (PWA)** with service workers, offline functionality, and install prompts
-- **Dark Mode Support** with next-themes, system preference detection, and smooth transitions
+- **Refined Theming** with a unified light-first design system and consistent surface tokens
 - **Advanced Analytics** with real-time Core Web Vitals tracking and user behavior monitoring
 - **Comprehensive Testing Suite** with Jest, 22 test cases, and 100% critical component coverage
 - **Enhanced Accessibility** with WCAG AA compliance, ARIA labels, and keyboard navigation
 - **OpenAI GPT-4.1 Integration** with intelligent chat agents and legal knowledge bases
-- **12-Language Internationalization** with neural translation and cultural adaptation
+- **12-Language Internationalization** with locale-aware routing, translated message bundles, and partial-locale notices
 - **Enterprise Security** with CSP, rate limiting, input sanitization, and audit logging
 - **Advanced Caching Strategies** with HTTP headers, service worker cache, and CDN optimization
 - **Mobile-First Experience** with touch optimization and responsive PWA features
@@ -460,9 +459,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Solo-practice positioning with direct-attorney framing
 - Monochrome premium UI with motion, editorial spacing, and mobile-first layout
 - Pricing, FAQ, services, process, contact, and payment sections built as reusable page modules
-- **Multilingual Support**: Full i18n with 12 languages including English, Spanish, Urdu, Hindi, Bengali, Punjabi, Arabic, Persian, Tagalog, Chinese, Vietnamese, and Korean
+- **Multilingual Support**: 12 routed locales with English as the source locale, Spanish near-complete, and progressive rollout for the remaining languages
 - **Enhanced Animations**: Smooth, performant animations with `prefers-reduced-motion` accessibility support
-- **Dark Mode**: System preference detection with smooth theme transitions
 - **PWA Capabilities**: Installable web app with offline functionality
 - **Advanced Accessibility**: WCAG AA compliant with full keyboard navigation and screen reader support
 
@@ -545,7 +543,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 | Rate limiting | `@upstash/ratelimit`, `@upstash/redis`        | `2.0.8`, `1.37.0`       |
 | Analytics     | `@vercel/analytics`, `@vercel/speed-insights` | `2.0.1`, `2.0.0`        |
 | Testing       | `jest`, `@testing-library/react`, `@testing-library/jest-dom` | `29.x`, `13.x`, `5.x` |
-| Theming       | `next-themes` | `0.4.x` |
 | PWA           | Service Worker API | Native |
 
 ## Project Structure
@@ -792,6 +789,7 @@ Typical expected results:
 - Local development can run cleanly with no AI key configured; chat and insights will use built-in fallback paths.
 - The Knowledge Hub is now designed to prefer public-source, source-linked entries over generic generated filler.
 - Plain `npm run dev` should keep `USE_FASTAPI_AGENTS=false` unless you are explicitly running FastAPI separately.
+- Partial locales now show an in-app notice instead of silently pretending every section is fully translated.
 
 ## Recent Updates
 
@@ -816,17 +814,18 @@ The website now supports 12 languages to serve diverse client demographics:
 - Respect users who prefer reduced motion
 
 ### Security & Performance Fixes (Latest)
-- **Deterministic AI Safety**: Integrated post-generation interceptors to block PII leaks (SSNs, A-Numbers) and overconfident AI guarantee claims before response delivery.
-- **AI Intent Preservation**: Redesigned context pruning mechanisms so the chatbot memory buffer never drops the original user prompt during long conversations.
-- **Premium UI Overhaul**: Upgraded the ChatBot and Intake Form to a state-of-the-art glassmorphic aesthetic (`backdrop-blur-2xl`) with fluid micro-animations and smooth gradients. 
-- **Dark Mode Architecture**: Purged all generic hardcoded light-mode layout tokens (`bg-white`) across primary components, substituting them with fully dynamic semantic CSS references ensuring 100% theme awareness.
+- **AI Safety Hardening**: Request validation, bounded transcript windows, fallback responses, and optional bench review now stabilize non-deterministic model output.
+- **Context Control**: Chat context is pruned by message count and character budget to keep responses predictable and within route limits.
+- **Frontend System Cleanup**: Primary sections now share common surface tokens and reduced color drift across homepage modules and the chatbot.
+- **Theme Simplification**: Removed stale theme toggling infrastructure and standardized the app on the current light-first design system.
 - **Enhanced Input Sanitization**: Added maximum length limits to prevent DoS attacks on all form inputs
 - **CSP Security Improvements**: Removed unsafe-eval directive, restricted image sources, added HTTPS enforcement
 - **Layout Structure Fixes**: Resolved React hydration errors by properly structuring HTML layouts for i18n routing
 - **Locale Routing Fixes**: Moved localized pages to `[locale]` and switched request handling to `proxy.ts` for current Next.js conventions
+- **Partial Locale Transparency**: Incomplete locales are marked in the language switcher and show a translation notice in the page shell.
 - **UI Structure Fixes**: Ensured stable React rendering array keys, preventing hydration mismatches and improving list stability
 - **Accessibility Enhancements**: Improved ARIA-label attributes for footer UI elements and contact interactions
-- **Analytics Polish**: Transitioned debug `console.log` trace statements into strict development environment blocks
+- **Repository Cleanup**: Removed dead theming code and unused theme dependencies from the project.
 - **Build Optimization**: Zero linting errors, zero TypeScript errors, optimized bundle sizes
 
 ## License

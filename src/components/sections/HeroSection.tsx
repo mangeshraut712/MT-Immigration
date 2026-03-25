@@ -25,12 +25,9 @@ export function HeroSection() {
   const y = useTransform(scrollY, [0, 260], [0, shouldReduceMotion ? 0 : 40]);
 
   return (
-    <section className="relative flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden bg-white md:min-h-[90vh]">
-      {/* Simple, Clean Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.03),transparent_50%)]" />
-
-      {/* Subtle Grid Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.01)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,black_40%,transparent_100%)]" />
+    <section className="relative flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden bg-gradient-subtle md:min-h-[90vh]">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:72px_72px] opacity-70 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,black_40%,transparent_100%)]" />
+      <div className="absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-zinc-200/45 blur-[110px]" />
 
       <motion.div
         style={{ opacity, y }}
@@ -46,9 +43,9 @@ export function HeroSection() {
         >
           <Badge
             variant="secondary"
-            className="px-5 py-2.5 text-sm font-medium glass rounded-full text-zinc-600 border-zinc-200/60 shadow-sm backdrop-blur-xl"
+            className="glass rounded-full border-border/70 px-5 py-2.5 text-sm font-medium text-muted-foreground shadow-sm backdrop-blur-xl"
           >
-            <Sparkles className="w-4 h-4 mr-2 text-zinc-900 fill-zinc-900/20" />
+            <Sparkles className="mr-2 h-4 w-4 text-foreground fill-foreground/15" />
             {tHero("badge")}
           </Badge>
         </motion.div>
@@ -62,14 +59,14 @@ export function HeroSection() {
         >
           <span className="text-foreground drop-shadow-sm">{tHero("title")}</span>
           <br />
-          <span className="text-zinc-400 italic font-light">
-            with{" "}
-            <span className="relative inline-block font-medium text-zinc-900 not-italic">
+            <span className="text-zinc-500 italic font-light">
+              with{" "}
+            <span className="relative inline-block font-medium text-foreground not-italic">
               {tHero("titleHighlight")}
               {/* Simple subtle underline */}
               <motion.span
                 aria-hidden
-                className="absolute -bottom-1 left-0 right-0 h-[2px] bg-zinc-300 origin-left"
+                className="absolute -bottom-1 left-0 right-0 h-[2px] origin-left bg-zinc-300"
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
                 transition={{
@@ -87,7 +84,7 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.25 }}
-          className="mx-auto mb-12 max-w-3xl text-lg leading-relaxed text-zinc-500 text-balance sm:text-xl md:text-2xl"
+          className="mx-auto mb-12 max-w-3xl text-balance text-lg leading-relaxed text-muted-foreground sm:text-xl md:text-2xl"
         >
           {tHero("subtitle")}
         </motion.p>
@@ -102,7 +99,7 @@ export function HeroSection() {
           <Button
             asChild
             size="lg"
-            className="group h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full font-semibold bg-zinc-900 text-white hover:bg-zinc-800 shadow-xl shadow-zinc-900/10 hover:shadow-2xl hover:shadow-zinc-900/20 transition-all hover:scale-[1.02] sm:hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
+            className="group h-12 rounded-full bg-foreground px-6 text-base font-semibold text-background shadow-xl shadow-zinc-900/10 transition-all hover:scale-[1.02] hover:opacity-92 hover:shadow-2xl hover:shadow-zinc-900/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:px-8 sm:text-lg sm:hover:scale-105"
           >
             <Link href="#contact" className="flex items-center justify-center">
               {tHero("cta")}
@@ -113,7 +110,7 @@ export function HeroSection() {
             asChild
             variant="outline"
             size="lg"
-            className="h-12 sm:h-14 px-6 sm:px-8 text-base sm:text-lg rounded-full font-semibold border-zinc-200 text-zinc-800 bg-white/50 backdrop-blur-sm hover:bg-white hover:text-zinc-900 transition-all hover:scale-[1.02] sm:hover:scale-105 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 focus-visible:ring-offset-2"
+            className="h-12 rounded-full border-border/70 bg-background/70 px-6 text-base font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:px-8 sm:text-lg sm:hover:scale-105"
           >
             <Link href="#services" className="flex items-center justify-center">
               {tHero("ctaSecondary")}
@@ -132,30 +129,30 @@ export function HeroSection() {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.55 }}
-            className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-white/40 px-3 sm:px-4 py-1.5 sm:py-2 glass"
+            className="glass flex items-center gap-1.5 rounded-full px-3 py-1.5 sm:gap-2 sm:px-4 sm:py-2"
           >
-            <Phone size={14} className="text-zinc-900 sm:hidden" />
-            <Phone size={16} className="text-zinc-900 hidden sm:block" />
+            <Phone size={14} className="text-foreground sm:hidden" />
+            <Phone size={16} className="hidden text-foreground sm:block" />
             <span>{tHero("directAccess")}</span>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.6 }}
-            className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-white/40 px-3 sm:px-4 py-1.5 sm:py-2 glass"
+            className="glass flex items-center gap-1.5 rounded-full px-3 py-1.5 sm:gap-2 sm:px-4 sm:py-2"
           >
-            <Clock size={14} className="text-zinc-900 sm:hidden" />
-            <Clock size={16} className="text-zinc-900 hidden sm:block" />
+            <Clock size={14} className="text-foreground sm:hidden" />
+            <Clock size={16} className="hidden text-foreground sm:block" />
             <span>{tHero("responseTime")}</span>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.65 }}
-            className="flex items-center gap-1.5 sm:gap-2 rounded-full bg-white/40 px-3 sm:px-4 py-1.5 sm:py-2 glass"
+            className="glass flex items-center gap-1.5 rounded-full px-3 py-1.5 sm:gap-2 sm:px-4 sm:py-2"
           >
-            <FileText size={14} className="text-zinc-900 sm:hidden" />
-            <FileText size={16} className="text-zinc-900 hidden sm:block" />
+            <FileText size={14} className="text-foreground sm:hidden" />
+            <FileText size={16} className="hidden text-foreground sm:block" />
             <span>{tHero("transparentFees")}</span>
           </motion.div>
         </motion.div>

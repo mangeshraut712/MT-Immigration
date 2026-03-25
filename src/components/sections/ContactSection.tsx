@@ -50,10 +50,9 @@ export function ContactSection() {
   return (
     <section
       id="contact"
-      className="section-padding bg-white relative overflow-hidden"
+      className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
-      {/* Solid White Background */}
-      <div className="absolute inset-0 bg-white" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(15,23,42,0.04),transparent_38%)]" />
 
       <div className="container-wide relative z-10">
         {/* Header */}
@@ -89,7 +88,7 @@ export function ContactSection() {
               className="lg:col-span-1 space-y-6"
           >
             {/* Contact Cards */}
-            <div className="bg-white p-6 md:p-8 rounded-2xl md:rounded-[2rem] border border-zinc-100 shadow-xl hover:shadow-2xl transition-shadow duration-500 space-y-6 md:space-y-8">
+            <div className="surface-panel space-y-6 p-6 transition-shadow duration-500 hover:shadow-2xl md:space-y-8 md:p-8">
               <h3 className="text-lg md:text-xl font-serif font-bold text-zinc-900 border-b border-zinc-100 pb-3 md:pb-4">
                 {tContact("contactInfo")}
               </h3>
@@ -110,7 +109,7 @@ export function ContactSection() {
                           >
                             <motion.div
                               whileHover={{ scale: 1.1, rotate: 5 }}
-                              className="p-3 rounded-xl bg-zinc-100 text-zinc-600 group-hover:bg-black group-hover:text-white transition-all duration-300"
+                              className="rounded-xl bg-muted p-3 text-muted-foreground transition-all duration-300 group-hover:bg-foreground group-hover:text-background"
                             >
                               <item.icon size={20} strokeWidth={1.5} />
                             </motion.div>
@@ -118,7 +117,7 @@ export function ContactSection() {
                               <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
                                 {item.label}
                               </p>
-                              <p className="font-medium text-zinc-900 text-lg group-hover:text-black transition-colors">
+                              <p className="text-lg font-medium text-foreground transition-colors">
                                 {item.value}
                               </p>
                             </div>
@@ -137,14 +136,14 @@ export function ContactSection() {
                         transition={{ delay: index * 0.1 }}
                         className="flex items-start gap-4"
                       >
-                        <div className="p-3 rounded-xl bg-zinc-100 text-zinc-600">
+                        <div className="rounded-xl bg-muted p-3 text-muted-foreground">
                           <item.icon size={20} strokeWidth={1.5} />
                         </div>
                         <div>
                           <p className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-1">
                             {item.label}
                           </p>
-                          <p className="font-medium text-zinc-900 text-lg">
+                          <p className="text-lg font-medium text-foreground">
                             {item.value}
                           </p>
                         </div>
@@ -161,7 +160,7 @@ export function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="bg-black text-white p-6 md:p-8 rounded-2xl md:rounded-[2rem] shadow-xl relative overflow-hidden group"
+              className="relative overflow-hidden rounded-2xl bg-zinc-950 p-6 text-white shadow-xl md:rounded-[2rem] md:p-8"
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.2),transparent_50%)]" />
               <h3 className="text-xl font-serif font-bold mb-6 relative z-10">

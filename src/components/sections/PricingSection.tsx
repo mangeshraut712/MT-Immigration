@@ -37,10 +37,9 @@ export function PricingSection() {
   return (
     <section
       id="pricing"
-      className="section-padding bg-zinc-50 relative overflow-hidden"
+      className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.03),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(15,23,42,0.05),transparent_42%)]" />
 
       <div className="container-wide relative z-10">
         <div className="grid lg:grid-cols-3 gap-16">
@@ -66,7 +65,7 @@ export function PricingSection() {
                 <p className="text-zinc-500 leading-relaxed text-lg">
                   {tPricing("subtitle")}
                 </p>
-                <p className="text-sm text-zinc-500 mt-4 p-4 bg-white border border-zinc-200 rounded-xl shadow-sm">
+                <p className="surface-inset mt-4 p-4 text-sm text-muted-foreground shadow-sm">
                   <strong>{tPricing("noteLabel")}</strong> {tPricing("note")}
                 </p>
               </div>
@@ -88,7 +87,7 @@ export function PricingSection() {
                       variants={staggerItemVariants}
                       className="flex items-center gap-3 text-sm text-zinc-600"
                     >
-                      <div className="w-5 h-5 rounded-full bg-zinc-100 text-zinc-900 flex items-center justify-center flex-shrink-0">
+                      <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-muted text-foreground">
                         <Check className="w-3 h-3" />
                       </div>
                       {item}
@@ -100,7 +99,7 @@ export function PricingSection() {
               <Button
                 asChild
                 size="lg"
-                className="w-full rounded-xl bg-black text-white hover:bg-zinc-800 shadow-lg hover:shadow-xl transition-all h-12 text-base"
+                className="h-12 w-full rounded-xl bg-foreground text-base text-background shadow-lg transition-all hover:opacity-92 hover:shadow-xl"
               >
                 <Link href={localizeHref(pathname, "/#contact")}>
                   {tPricing("cta")}
@@ -117,10 +116,10 @@ export function PricingSection() {
             viewport={{ once: true }}
             className="lg:col-span-2"
           >
-            <div className="bg-white rounded-2xl md:rounded-3xl border border-zinc-200 shadow-xl shadow-zinc-200/50 hover:shadow-2xl transition-shadow duration-500 overflow-hidden">
+            <div className="surface-panel overflow-hidden rounded-2xl transition-shadow duration-500 hover:shadow-2xl md:rounded-3xl">
               <Table className="min-w-[42rem]">
                 <TableHeader>
-                  <TableRow className="bg-zinc-50/50 hover:bg-zinc-50/50 border-b border-zinc-100">
+                  <TableRow className="border-b border-border/70 bg-muted/45 hover:bg-muted/45">
                     <TableHead className="w-[40%] font-serif font-bold text-zinc-900 py-6 text-lg pl-8">
                       {tPricing("service")}
                     </TableHead>
@@ -140,15 +139,15 @@ export function PricingSection() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: index * 0.05 }}
-                      className="hover:bg-zinc-50/80 transition-colors duration-200 border-b border-zinc-50 last:border-0 group cursor-default"
+                      className="group cursor-default border-b border-border/40 transition-colors duration-200 hover:bg-muted/40 last:border-0"
                     >
-                      <TableCell className="font-medium py-6 pl-8 text-zinc-700 group-hover:text-black transition-colors">
+                      <TableCell className="py-6 pl-8 font-medium text-foreground transition-colors">
                         {item.service}
                       </TableCell>
-                      <TableCell className="text-zinc-900 font-medium font-sans">
+                      <TableCell className="font-sans font-medium text-foreground">
                         {item.price}
                       </TableCell>
-                      <TableCell className="text-zinc-500 pr-8">
+                      <TableCell className="pr-8 text-muted-foreground">
                         {item.includes}
                       </TableCell>
                     </motion.tr>

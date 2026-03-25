@@ -556,7 +556,7 @@
         "services": "Servicios",
         "company": "Empresa",
         "support": "Apoyo",
-        "legal": "Legal",
+        "legal": "Información Legal",
         "privacy": "Política de Privacidad",
         "terms": "Términos de Uso",
         "advertising": "Publicidad de Abogado",
@@ -686,19 +686,5 @@
     "language": {
         "switch": "English",
         "current": "Español"
-    },
-    "insightsPreview": {
-        "title": "Insights",
-        "heading": "Case studies, news, and practical reads in one place.",
-        "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
-        "caseStudies": "Case Studies",
-        "news": "News",
-        "analysis": "Analysis",
-        "openAll": "Open All Insights",
-        "seeMore": "See More"
-    },
-    "briefBreak": {
-        "previewTitle": "Docket Zip",
-        "previewSubtitle": "Connect the facts. Fill the record."
     }
 }

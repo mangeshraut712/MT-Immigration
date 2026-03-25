@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Accordion,
   AccordionContent,
@@ -9,90 +10,18 @@ import {
 } from "@/components/ui/accordion";
 import { HelpCircle } from "lucide-react";
 
-const faqCategories = [
-  {
-    category: "Getting Started",
-    faqs: [
-      {
-        question: "How do consultations work?",
-        answer:
-          "Consultations are the first step for most matters. They are used to identify the issue, spot deadlines, review available documents, and decide whether the next move is a filing, further evidence gathering, or a more urgent strategy session.",
-      },
-      {
-        question: "Do you offer virtual consultations?",
-        answer:
-          "Yes. The practice is set up for remote consultations by phone or video, which makes it possible to review many immigration matters without an in-person visit.",
-      },
-      {
-        question: "What languages do you support?",
-        answer:
-          "English consultations are supported directly, and interpreter-friendly workflows can be arranged when a client is more comfortable in another language.",
-      },
-    ],
-  },
-  {
-    category: "Pricing & Payments",
-    faqs: [
-      {
-        question: "Are USCIS fees included in your pricing?",
-        answer:
-          "No. Government filing fees are separate from legal fees. Consultations are used to explain the likely legal-fee range, the expected filing fees, and any other costs that may come up for the matter.",
-      },
-      {
-        question: "How do payment plans work?",
-        answer:
-          "Installment options may be available depending on the scope of work and urgency of the matter. Payment structure is discussed during the consultation so the client understands what is due before work begins and what can be spread out.",
-      },
-      {
-        question: "Do you offer sliding-scale pricing?",
-        answer:
-          "Fee flexibility depends on scope, urgency, and the kind of matter involved. If affordability is a concern, raise it early so the office can explain what is realistically available.",
-      },
-    ],
-  },
-  {
-    category: "Process & Timeline",
-    faqs: [
-      {
-        question: "How fast can you file my application?",
-        answer:
-          "Timelines depend on the case type, how quickly documents are collected, and whether there are urgent deadlines. Straightforward matters can often move quickly once the required evidence is in hand.",
-      },
-      {
-        question: "Will you prepare me for my interview?",
-        answer:
-          "Yes. Interview preparation is part of many immigration matters, especially where officer questions, credibility, or document organization can affect the result.",
-      },
-      {
-        question: "How do I track my case status?",
-        answer:
-          "Status updates are typically handled through email and scheduled follow-up. The exact communication cadence depends on the scope of representation, upcoming deadlines, and whether any agency notice requires a faster response.",
-      },
-    ],
-  },
-  {
-    category: "Legal & Results",
-    faqs: [
-      {
-        question: "Do you guarantee results?",
-        answer:
-          "No attorney can guarantee results in immigration matters because the final decision belongs to the government agency or immigration court handling the case. What you should expect is candid advice, disciplined preparation, and honest communication about risk.",
-      },
-      {
-        question: "What if my case is denied?",
-        answer:
-          "If a case is denied, the first step is to review the decision carefully and determine what options are actually available. Depending on the posture, that may include a refiling strategy, a motion, an appeal, or a different pathway altogether.",
-      },
-      {
-        question: "Are you licensed to practice immigration law?",
-        answer:
-          "This website is built around an attorney-led immigration practice. Representation details, licensing status, and engagement terms should always be confirmed during the consultation and in the written engagement agreement.",
-      },
-    ],
-  },
-];
+type FaqCategory = {
+  category: string;
+  faqs: {
+    question: string;
+    answer: string;
+  }[];
+};
 
 export function FAQSection() {
+  const tFaq = useTranslations("faq");
+  const faqCategories = tFaq.raw("categories") as FaqCategory[];
+
   return (
     <section
       id="faq"
@@ -113,17 +42,18 @@ export function FAQSection() {
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="h-px w-12 bg-zinc-300"></div>
             <span className="text-sm font-semibold tracking-widest uppercase text-zinc-500">
-              Common Questions
+              {tFaq("title")}
             </span>
             <div className="h-px w-12 bg-zinc-300"></div>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium tracking-tight text-foreground mb-6 leading-[1.1]">
-            Frequently Asked <br />
-            <span className="text-zinc-400 italic">Questions.</span>
+            {tFaq("heading").split(" ").slice(0, 2).join(" ")} <br />
+            <span className="text-zinc-400 italic">
+              {tFaq("heading").split(" ").slice(2).join(" ")}
+            </span>
           </h2>
           <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl mx-auto">
-            Clear answers about process, pricing, and what to expect before you
-            commit to the next step.
+            {tFaq("subtitle")}
           </p>
         </motion.div>
 

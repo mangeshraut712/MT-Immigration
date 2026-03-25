@@ -74,9 +74,9 @@ export function PaymentSection() {
   return (
     <section
       id="payments"
-      className="relative overflow-hidden border-t border-zinc-100 bg-zinc-50 py-16 md:py-20"
+      className="relative overflow-hidden border-t border-border/60 bg-gradient-subtle py-16 md:py-20"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,0,0,0.025),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(15,23,42,0.04),transparent_50%)]" />
 
       <div className="container-wide relative z-10">
         <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
@@ -108,11 +108,8 @@ export function PaymentSection() {
 
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
               {trustBadges.map(({ icon: Icon, label }) => (
-                <div
-                  key={label}
-                  className="flex items-center gap-3 rounded-2xl border border-zinc-200 bg-white px-4 py-3 shadow-sm"
-                >
-                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-900">
+                <div key={label} className="surface-inset flex items-center gap-3 px-4 py-3 shadow-sm">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/70 bg-muted text-foreground">
                     <Icon className="h-4 w-4" />
                   </div>
                   <span className="text-sm font-medium text-zinc-700">{label}</span>
@@ -120,7 +117,7 @@ export function PaymentSection() {
               ))}
             </div>
 
-            <div className="rounded-[1.75rem] border border-zinc-200 bg-white p-5 shadow-sm">
+            <div className="surface-panel rounded-[1.75rem] p-5 shadow-sm">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-zinc-500">
                 Common Uses
               </p>
@@ -128,7 +125,7 @@ export function PaymentSection() {
                 {paymentUseCases.map((item) => (
                   <div
                     key={item.title}
-                    className="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3"
+                    className="surface-muted rounded-2xl px-4 py-3"
                   >
                     <p className="text-sm font-semibold text-zinc-900">{item.title}</p>
                     <p className="mt-1 text-sm leading-relaxed text-zinc-600">
@@ -145,7 +142,7 @@ export function PaymentSection() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="rounded-[2rem] border border-zinc-200 bg-white p-5 shadow-xl shadow-zinc-200/40 md:p-6"
+            className="surface-panel rounded-[2rem] p-5 shadow-xl shadow-zinc-200/30 md:p-6"
           >
             <div className="flex flex-col gap-4 border-b border-zinc-100 pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -156,7 +153,7 @@ export function PaymentSection() {
                   Select a payment method
                 </h3>
               </div>
-              <div className="inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-600">
+              <div className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-muted/55 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 <ShieldCheck className="h-4 w-4" />
                 Provider checkout
               </div>
@@ -175,14 +172,14 @@ export function PaymentSection() {
                     className={cn(
                       "inline-flex items-center gap-3 rounded-full border px-4 py-3 text-sm transition-all",
                       isActive
-                        ? "border-black bg-black text-white shadow-md"
-                        : "border-zinc-200 bg-zinc-50 text-zinc-700 hover:border-zinc-300 hover:bg-white",
+                        ? "border-foreground bg-foreground text-background shadow-md"
+                        : "border-border/70 bg-muted/50 text-muted-foreground hover:border-border hover:bg-background",
                     )}
                   >
                     <div
                       className={cn(
                         "flex h-8 w-8 items-center justify-center rounded-full",
-                        isActive ? "bg-white/10 text-white" : "bg-white text-zinc-800",
+                        isActive ? "bg-white/10 text-white" : "bg-background text-foreground",
                       )}
                     >
                       <Icon className="h-4 w-4" />
@@ -193,10 +190,10 @@ export function PaymentSection() {
               })}
             </div>
 
-            <div className="mt-5 rounded-[1.75rem] border border-zinc-200 bg-zinc-50 p-5">
+            <div className="surface-muted mt-5 rounded-[1.75rem] p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-zinc-200 bg-white text-zinc-900 shadow-sm">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border/70 bg-background text-foreground shadow-sm">
                     <ActiveIcon className="h-5 w-5" />
                   </div>
                   <div>
@@ -214,7 +211,7 @@ export function PaymentSection() {
                     Ready
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-500">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-border/70 bg-background px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                     Request link
                   </span>
                 )}
@@ -225,7 +222,7 @@ export function PaymentSection() {
               </p>
 
               <div className="mt-5 grid gap-3 md:grid-cols-3">
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="surface-inset rounded-2xl p-4 shadow-sm">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
                     Best for
                   </p>
@@ -233,7 +230,7 @@ export function PaymentSection() {
                     {activeMethod.bestFor}
                   </p>
                 </div>
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="surface-inset rounded-2xl p-4 shadow-sm">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
                     Speed
                   </p>
@@ -241,7 +238,7 @@ export function PaymentSection() {
                     {activeMethod.speed}
                   </p>
                 </div>
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <div className="surface-inset rounded-2xl p-4 shadow-sm">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-500">
                     Availability
                   </p>
@@ -255,7 +252,7 @@ export function PaymentSection() {
                 {activeMethod.details.map((detail) => (
                   <div
                     key={detail}
-                    className="flex items-start gap-3 rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm"
+                    className="surface-inset flex items-start gap-3 rounded-2xl p-4 shadow-sm"
                   >
                     <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-zinc-500" />
                     <p className="text-sm leading-relaxed text-zinc-600">{detail}</p>
@@ -266,7 +263,7 @@ export function PaymentSection() {
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                 <Button
                   asChild
-                  className="h-12 rounded-full bg-black px-8 text-white hover:bg-zinc-800"
+                  className="h-12 rounded-full bg-foreground px-8 text-background hover:opacity-92"
                 >
                   <a
                     href={buttonProps.href}
@@ -279,7 +276,7 @@ export function PaymentSection() {
                 <Button
                   asChild
                   variant="outline"
-                  className="h-12 rounded-full border-zinc-200 bg-white px-8 text-zinc-900 hover:bg-zinc-50"
+                  className="h-12 rounded-full border-border/70 bg-background px-8 text-foreground hover:bg-muted"
                 >
                   <Link href={localizeHref(pathname, "/#contact")}>
                     Need billing help

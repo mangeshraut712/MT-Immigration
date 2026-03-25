@@ -24,7 +24,7 @@ export default function Footer() {
   >;
 
   return (
-    <footer className="bg-black text-white">
+    <footer className="border-t border-border/70 bg-zinc-950 text-zinc-50">
       {/* Main Footer */}
       <div className="container-wide py-12 md:py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-6">
@@ -38,7 +38,7 @@ export default function Footer() {
             <Link href={homeHref} className="flex items-center gap-3 mb-5 group">
               <SiteLogo
                 imageClassName="border-white/10 shadow-md group-hover:scale-105 transition-transform"
-                nameClassName="text-base text-white"
+                nameClassName="text-base text-zinc-50"
               />
             </Link>
             <p className="text-sm text-zinc-400 leading-relaxed mb-5">
@@ -175,7 +175,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar - Apple Style */}
-      <div className="border-t border-zinc-800">
+      <div className="border-t border-white/10">
         <div className="container-wide py-6">
           {/* Disclaimer */}
           <p className="text-xs text-zinc-500 leading-relaxed mb-4">

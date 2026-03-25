@@ -10,13 +10,10 @@ export function AboutSection() {
   return (
     <section
       id="about"
-      className="section-padding bg-white relative overflow-hidden"
+      className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(0,0,0,0.03),transparent_50%)]" />
-
-      {/* Decorative grid */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.01)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black_20%,transparent_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(15,23,42,0.04),transparent_50%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black_20%,transparent_100%)]" />
 
       <div className="container-wide relative z-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-24 items-center">
@@ -29,13 +26,13 @@ export function AboutSection() {
           >
             <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0">
               {/* Decorative background elements */}
-              <div className="absolute -inset-4 bg-zinc-200 rounded-3xl transform rotate-3 opacity-50 blur-xl" />
-              <div className="absolute -inset-2 bg-zinc-100 rounded-3xl transform -rotate-2" />
+              <div className="absolute -inset-4 rotate-3 rounded-3xl bg-zinc-200/60 opacity-50 blur-xl" />
+              <div className="absolute -inset-2 -rotate-2 rounded-3xl bg-muted/70" />
 
               {/* Main image container */}
-              <div className="relative h-full bg-gradient-to-br from-zinc-100 to-zinc-50 rounded-3xl overflow-hidden flex items-center justify-center border border-zinc-200 shadow-2xl shadow-zinc-900/10">
+              <div className="surface-panel relative flex h-full items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-muted to-background">
                 <div className="text-center p-8">
-                  <div className="mx-auto mb-6 w-fit rounded-[1.75rem] border border-zinc-200 bg-white p-5 shadow-lg">
+                  <div className="surface-inset mx-auto mb-6 w-fit p-5 shadow-lg">
                     <SiteLogo
                       imageClassName="shadow-none border-zinc-200"
                       nameClassName="hidden"
@@ -57,7 +54,7 @@ export function AboutSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.3 }}
-                className="absolute -bottom-4 md:-bottom-6 -right-4 md:-right-6 bg-white p-4 md:p-6 rounded-xl md:rounded-2xl shadow-2xl border border-zinc-200"
+                className="surface-panel absolute -bottom-4 -right-4 p-4 md:-bottom-6 md:-right-6 md:p-6"
               >
                 <div className="text-2xl font-bold text-zinc-900">
                   One strategy owner
@@ -117,10 +114,10 @@ export function AboutSection() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.1 * i }}
-                    className="flex items-center gap-3 p-3 rounded-xl bg-zinc-50 border border-zinc-200 hover:border-zinc-300 hover:bg-white transition-all group"
+                    className="surface-inset group flex items-center gap-3 p-3 transition-all hover:border-border hover:bg-card"
                   >
-                    <div className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center group-hover:bg-black transition-colors border border-zinc-200 group-hover:border-black">
-                      <cred.icon className="w-5 h-5 text-zinc-600 group-hover:text-white transition-colors" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-border/70 bg-muted transition-colors group-hover:bg-foreground">
+                      <cred.icon className="h-5 w-5 text-muted-foreground transition-colors group-hover:text-background" />
                     </div>
                     <span className="text-sm font-medium text-zinc-700">
                       {cred.text}

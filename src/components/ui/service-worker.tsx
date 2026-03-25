@@ -7,11 +7,8 @@ export function ServiceWorker() {
         if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
             navigator.serviceWorker
                 .register('/sw.js')
-                .then((registration) => {
-                    console.log('SW registered: ', registration);
-                })
-                .catch((registrationError) => {
-                    console.log('SW registration failed: ', registrationError);
+                .catch(() => {
+                    // Silent failure keeps service worker registration from polluting the console.
                 });
         }
     }, []);

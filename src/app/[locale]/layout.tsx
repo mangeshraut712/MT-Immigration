@@ -5,6 +5,7 @@ import { Inter, DM_Serif_Display } from "next/font/google";
 import clsx from "clsx";
 
 import { routing } from "@/i18n/routing";
+import { getLocaleTranslationNotice } from "@/i18n/locale-status";
 import "../globals.css";
 
 import Providers from "../providers";
@@ -56,6 +57,7 @@ export default async function LocaleLayout({
     if (!validLocale) {
         notFound();
     }
+    const translationNotice = getLocaleTranslationNotice(locale);
 
     // Providing all messages to the client
     // side is the easiest way to get started
@@ -111,6 +113,11 @@ export default async function LocaleLayout({
                             Skip to content
                         </a>
                         <Navbar locale={locale} />
+                        {translationNotice ? (
+                            <div className="border-b border-amber-200 bg-amber-50/90 px-4 py-2 text-center text-sm text-amber-900 backdrop-blur-sm">
+                                {translationNotice}
+                            </div>
+                        ) : null}
                         <main id="main-content" className="min-h-screen">
                             <ErrorBoundary>{children}</ErrorBoundary>
                         </main>

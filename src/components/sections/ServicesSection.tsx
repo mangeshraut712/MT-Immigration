@@ -1,6 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import {
   Heart,
   GraduationCap,
@@ -28,188 +30,46 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import Link from "next/link";
+import { localizeHref } from "@/i18n/routing";
 
-const services = [
-  {
-    id: "visitor",
-    title: "Visitor Visa (B1/B2)",
-    description:
-      "Comprehensive preparation for tourist and business travel visas.",
-    icon: Plane,
-    timeline: "2-4 weeks",
-    price: "From $350",
-    features: [
-      "DS-160 preparation and guidance",
-      "Interview coaching with mock sessions",
-      "Document checklist and strategy",
-    ],
-    requirements: [
-      "Valid passport",
-      "Ties to home country",
-      "Financial ability",
-    ],
-    stat: "Interview preparation built around your actual travel purpose",
-  },
-  {
-    id: "student",
-    title: "Student Visa (F-1)",
-    description:
-      "Guidance for international students pursuing education in the US.",
-    icon: GraduationCap,
-    timeline: "1-3 months",
-    price: "From $450",
-    features: [
-      "Admission pathway guidance",
-      "I-20 + SEVIS I-901 fee guidance",
-      "Comprehensive Interview preparation",
-    ],
-    requirements: [
-      "I-20 Form",
-      "SEVIS receipt",
-      "Financial docs",
-      "Academic records",
-    ],
-    stat: "Support from document review through consular interview prep",
-  },
-  {
-    id: "marriage",
-    title: "Marriage-Based",
-    description:
-      "Green cards for spouses of US Citizens and Permanent Residents.",
-    icon: Heart,
-    timeline: "6-18 months",
-    price: "From $1,800",
-    features: [
-      "Adjustment of Status (I-130, I-485)",
-      "Consular Processing support",
-      "Interview prep & evidence strategy",
-    ],
-    requirements: [
-      "Valid Marriage",
-      "Petitioner Citizenship/LPR",
-      "Financial Support",
-    ],
-    stat: "Evidence-first planning for bona fide marriage cases",
-  },
-  {
-    id: "change-status",
-    title: "Change of Status",
-    description:
-      "Switching from one non-immigrant status to another (e.g., B2 to F1).",
-    icon: RefreshCw,
-    timeline: "3-6 months",
-    price: "From $850",
-    features: [
-      "Eligibility and risk assessment",
-      "I-539 form preparation",
-      "RFE response support",
-    ],
-    requirements: [
-      "Valid current status",
-      "No immigrant intent",
-      "Financial solvency",
-    ],
-    stat: "Risk analysis before filing a status change request",
-  },
-  {
-    id: "work-permit",
-    title: "Work Permit (I-765)",
-    description:
-      "Employment authorization documents (EAD) for eligible applicants.",
-    icon: Briefcase,
-    timeline: "1-3 months",
-    price: "From $250",
-    features: [
-      "Category-specific eligibility analysis",
-      "Application preparation & filing",
-      "Application tracking",
-    ],
-    requirements: ["Underlying petition", "Eligibility category"],
-    stat: "Category review before submission to avoid preventable delays",
-  },
-  {
-    id: "asylum",
-    title: "Asylum (I-589)",
-    description:
-      "Protection for those fearing persecution in their home country.",
-    icon: Shield,
-    timeline: "6-24 months",
-    price: "Consult for Quote",
-    features: [
-      "Application prep and affidavit support",
-      "Country-conditions research",
-      "Interview preparation",
-    ],
-    requirements: ["Fear of persecution", "Physical presence in US"],
-    stat: "Confidential preparation for high-stakes humanitarian matters",
-  },
-  {
-    id: "u-visa",
-    title: "U Visa (Victims)",
-    description:
-      "Status for victims of certain crimes who assist law enforcement.",
-    icon: FileText,
-    timeline: "3-12 months", // Initial processing varies widely
-    price: "Consult for Quote",
-    features: [
-      "I-918 + Supplement B support",
-      "Evidence gathering",
-      "Bona fide determination guidance",
-    ],
-    requirements: ["Victim of qualifying crime", "Helpfulness to police"],
-    stat: "Sensitive handling for survivor-based filings",
-  },
-  {
-    id: "advance-parole",
-    title: "Advance Parole",
-    description:
-      "Travel authorization (I-131) for pending green card applicants.",
-    icon: Globe,
-    timeline: "1-2 months",
-    price: "From $300",
-    features: [
-      "Travel authorization preparation",
-      "Risk counseling & analysis",
-      "Emergency handling if needed",
-    ],
-    requirements: ["Pending I-485", "DACA", "TPS"],
-    stat: "Travel risk review before leaving the United States",
-  },
-  {
-    id: "expedite",
-    title: "Expedite Requests",
-    description:
-      "Accelerating pending cases for humanitarian or financial reasons.",
-    icon: Zap,
-    timeline: "1-4 weeks",
-    price: "From $500",
-    features: [
-      "Compelling request drafting",
-      "Evidence compilation",
-      "Strategy tailored to USCIS criteria",
-    ],
-    requirements: [
-      "Severe financial loss",
-      "Humanitarian emergency",
-      "US Govt interest",
-    ],
-    stat: "Requests built around documented urgency and agency criteria",
-  },
-];
+const serviceIcons = {
+  visitor: Plane,
+  student: GraduationCap,
+  marriage: Heart,
+  "change-status": RefreshCw,
+  "work-permit": Briefcase,
+  asylum: Shield,
+  "u-visa": FileText,
+  "advance-parole": Globe,
+  expedite: Zap,
+} as const;
+
+type ServiceItem = {
+  id: keyof typeof serviceIcons;
+  title: string;
+  description: string;
+  timeline: string;
+  price: string;
+  features: string[];
+  requirements: string[];
+  stat: string;
+};
 
 export function ServicesSection() {
+  const pathname = usePathname();
+  const tServices = useTranslations("services");
   const shouldReduceMotion = useReducedMotion();
+  const services = (tServices.raw("items") as ServiceItem[]).map((service) => ({
+    ...service,
+    icon: serviceIcons[service.id],
+  }));
 
   return (
     <section
       id="services"
-      className="section-padding bg-zinc-50 relative overflow-hidden"
+      className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
-      {/* Subtle Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-subtle" />
-
-      {/* Noise Texture Integration is global, but we add a specific light glow here */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-zinc-100 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-zinc-100/70 blur-[100px] pointer-events-none" />
 
       <div className="container-wide relative z-10">
         {/* Header */}
@@ -223,19 +83,17 @@ export function ServicesSection() {
           <div className="flex items-center gap-3 mb-6">
             <div className="h-px w-12 bg-primary"></div>
             <span className="text-sm font-semibold tracking-widest uppercase text-primary">
-              Our Expertise
+              {tServices("title")}
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-medium text-foreground mb-8 leading-[1.1]">
-            Focused immigration matters, <br />
+            {tServices("heading").split(",")[0]}, <br />
             <span className="text-zinc-400 italic">
-              handled with a clear filing plan.
+              {tServices("heading").split(",").slice(1).join(",").trim()}
             </span>
           </h2>
           <p className="text-xl text-zinc-500 leading-relaxed max-w-2xl text-balance">
-            From straightforward visa filings to urgent court-sensitive issues,
-            the practice centers on preparation, candid risk assessment, and
-            direct communication.
+            {tServices("subtitle")}
           </p>
         </motion.div>
 
@@ -251,9 +109,9 @@ export function ServicesSection() {
                   viewport={{ once: true }}
                   transition={{ delay: shouldReduceMotion ? 0 : index * 0.05, duration: shouldReduceMotion ? 0 : 0.3 }}
                   whileHover={shouldReduceMotion ? {} : { y: -4 }}
-                  className="group relative flex h-full flex-col rounded-2xl border border-zinc-100 bg-white p-6 md:p-8 text-left shadow-sm transition-all duration-300 hover:border-zinc-200 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
+                  className="surface-panel group relative flex h-full flex-col rounded-2xl p-6 text-left transition-all duration-300 hover:border-border hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:p-8"
                 >
-                  <div className="mb-6 inline-flex p-3 rounded-xl bg-zinc-50 text-zinc-900 group-hover:scale-110 group-hover:bg-black group-hover:text-white transition-all duration-300">
+                  <div className="mb-6 inline-flex rounded-xl bg-muted p-3 text-foreground transition-all duration-300 group-hover:scale-110 group-hover:bg-foreground group-hover:text-background">
                     <service.icon size={28} strokeWidth={1.5} />
                   </div>
 
@@ -273,7 +131,8 @@ export function ServicesSection() {
                       {service.timeline}
                     </Badge>
                     <div className="flex items-center text-sm font-semibold text-zinc-900 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                      Details <ChevronRight size={16} className="ml-1" />
+                      {tServices("details")}{" "}
+                      <ChevronRight size={16} className="ml-1" />
                     </div>
                   </div>
                 </motion.button>
@@ -301,7 +160,7 @@ export function ServicesSection() {
                   <div className="space-y-4">
                     <h4 className="font-semibold text-foreground flex items-center gap-2">
                       <CheckCircle2 size={18} className="text-zinc-600" />
-                      What We Handle
+                      {tServices("whatWeHandle")}
                     </h4>
                     <ul className="space-y-3">
                       {service.features.map((feature, i) => (
@@ -321,13 +180,13 @@ export function ServicesSection() {
                     <div>
                       <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
                         <FileText size={18} className="text-zinc-600" />
-                        Key Requirements
+                        {tServices("keyRequirements")}
                       </h4>
                       <ul className="space-y-2">
                         {service.requirements.map((req, i) => (
                           <li
                             key={i}
-                            className="text-sm text-zinc-600 bg-zinc-50 px-3 py-1.5 rounded-md inline-block mr-2 mb-2"
+                            className="mr-2 mb-2 inline-block rounded-md bg-muted px-3 py-1.5 text-sm text-muted-foreground"
                           >
                             {req}
                           </li>
@@ -335,10 +194,10 @@ export function ServicesSection() {
                       </ul>
                     </div>
 
-                    <div className="bg-zinc-50 rounded-xl p-4">
+                    <div className="surface-muted rounded-xl p-4">
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm text-zinc-500 flex items-center gap-2">
-                          <Clock size={14} /> Estimated Timeline
+                          <Clock size={14} /> {tServices("estimatedTimeline")}
                         </span>
                         <span className="font-semibold text-foreground">
                           {service.timeline}
@@ -359,19 +218,21 @@ export function ServicesSection() {
                 <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-zinc-100 mt-4">
                   <Button
                     asChild
-                    className="flex-1 bg-black text-white hover:bg-zinc-800 h-12 rounded-xl text-base"
+                    className="h-12 flex-1 rounded-xl bg-foreground text-base text-background hover:opacity-92"
                   >
-                    <Link href="#contact">
-                      Book Consultation
+                    <Link href={localizeHref(pathname, "/#contact")}>
+                      {tServices("bookConsultation")}
                       <ArrowRight size={16} className="ml-2" />
                     </Link>
                   </Button>
                   <Button
                     variant="outline"
-                    className="flex-1 h-12 rounded-xl text-base border-zinc-200 hover:bg-zinc-50"
+                    className="h-12 flex-1 rounded-xl border-border/70 text-base hover:bg-muted"
                     asChild
                   >
-                    <Link href="#pricing">View Pricing ({service.price})</Link>
+                    <Link href={localizeHref(pathname, "/#pricing")}>
+                      {tServices("viewPricing", { price: service.price })}
+                    </Link>
                   </Button>
                 </div>
               </DialogContent>

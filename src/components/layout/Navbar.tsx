@@ -130,11 +130,11 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
         className={clsx(
           "fixed left-0 right-0 top-0 z-50 transition-all duration-300",
           isScrolled
-            ? "border-b border-black/5 bg-white/90 shadow-sm backdrop-blur-xl"
-            : "bg-white/82 backdrop-blur-lg",
+            ? "border-b border-border/70 bg-background/90 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.28)] backdrop-blur-2xl"
+            : "bg-background/75 backdrop-blur-xl",
         )}
       >
-        <div className="hidden border-b border-black/5 lg:block">
+        <div className="hidden border-b border-border/60 lg:block">
           <div className="container-wide flex h-9 items-center justify-between gap-6 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500">
             <div className="flex min-w-0 items-center gap-6">
               {utilityItems.slice(0, 2).map((item) => (
@@ -174,7 +174,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               </motion.div>
             </Link>
 
-            <div className="hidden items-center gap-1 rounded-full border border-zinc-200 bg-white px-2 py-1.5 shadow-sm lg:flex">
+            <div className="hidden items-center gap-1 rounded-full border border-border/70 bg-background/90 px-2 py-1.5 shadow-[0_16px_36px_-30px_rgba(15,23,42,0.35)] backdrop-blur-xl lg:flex">
               {primaryNavItems.map((item) => {
                 const isActive = isActiveNavItem(item.href);
 
@@ -185,8 +185,8 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                     className={clsx(
                       "rounded-full px-4 py-2 text-sm font-medium transition-all",
                       isActive
-                        ? "bg-black text-white"
-                        : "text-zinc-600 hover:bg-zinc-100 hover:text-black",
+                        ? "bg-foreground text-background shadow-sm"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
                     {tNav(item.name.toLowerCase() as "services" | "reviews" | "about" | "fees" | "insights" | "faq")}
@@ -200,7 +200,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               <Button
                 asChild
                 size="sm"
-                className="h-10 rounded-full bg-black px-6 font-semibold text-white shadow-lg transition-all hover:bg-zinc-800 hover:shadow-xl"
+                className="h-10 rounded-full bg-foreground px-6 font-semibold text-background shadow-lg transition-all hover:opacity-92 hover:shadow-xl"
               >
                 <Link href={consultationHref}>{tCommon("bookConsultation")}</Link>
               </Button>
@@ -215,7 +215,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               aria-label={
                 isOpen ? "Close navigation menu" : "Open navigation menu"
               }
-              className="rounded-xl border border-zinc-200 bg-white p-3 sm:p-3.5 text-foreground shadow-sm transition-colors hover:bg-zinc-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2 lg:hidden min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-border/70 bg-background/90 p-3 text-foreground shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-3.5 lg:hidden"
             >
               <AnimatePresence mode="wait">
                 {isOpen ? (
@@ -254,10 +254,10 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               id="mobile-menu"
               aria-label="Mobile navigation"
               aria-modal="true"
-              className="overflow-hidden border-t border-zinc-200 bg-white lg:hidden"
+              className="overflow-hidden border-t border-border/70 bg-background/96 backdrop-blur-xl lg:hidden"
             >
               <div className="container-wide space-y-6 py-6">
-                <div className="space-y-3 rounded-[1.75rem] border border-zinc-200 bg-zinc-50 p-5">
+                <div className="surface-muted space-y-3 p-5">
                   {utilityItems.map((item) =>
                     item.href ? (
                       <a
@@ -297,8 +297,8 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                           className={clsx(
                             "block rounded-2xl px-5 py-4 text-base font-medium transition-all",
                             isActive
-                              ? "bg-black text-white"
-                              : "bg-white text-zinc-900 hover:bg-zinc-50",
+                              ? "bg-foreground text-background"
+                              : "bg-background text-foreground hover:bg-muted",
                           )}
                         >
                           {tNav(item.name.toLowerCase() as "services" | "reviews" | "about" | "fees" | "insights" | "faq")}
@@ -311,7 +311,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                 <div>
                   <Button
                     asChild
-                    className="h-12 w-full rounded-2xl bg-black text-white hover:bg-zinc-800"
+                    className="h-12 w-full rounded-2xl bg-foreground text-background hover:opacity-92"
                   >
                     <Link href={consultationHref} onClick={closeMenu}>
                       {tCommon("bookConsultation")}

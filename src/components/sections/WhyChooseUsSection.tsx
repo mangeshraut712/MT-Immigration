@@ -1,6 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { staggerContainerVariants } from "@/lib/animations";
 import {
   Briefcase,
@@ -16,6 +18,7 @@ import {
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { localizeHref } from "@/i18n/routing";
 
 const reasons = [
   {
@@ -67,8 +70,28 @@ const practiceFocus = [
   },
 ];
 
+type Reason = {
+  title: string;
+  description: string;
+};
+
+type PracticeArea = {
+  title: string;
+  summary: string;
+};
+
 export function WhyChooseUsSection() {
+  const pathname = usePathname();
+  const tWhyChooseUs = useTranslations("whyChooseUs");
   const shouldReduceMotion = useReducedMotion();
+  const localizedReasons = reasons.map((reason, index) => ({
+    ...reason,
+    ...(tWhyChooseUs.raw("reasons") as Reason[])[index],
+  }));
+  const localizedPracticeFocus = practiceFocus.map((area, index) => ({
+    ...area,
+    ...(tWhyChooseUs.raw("practiceAreas") as PracticeArea[])[index],
+  }));
 
   return (
     <section className="relative overflow-hidden bg-zinc-950 text-zinc-50 section-padding">
@@ -86,13 +109,13 @@ export function WhyChooseUsSection() {
             <div className="mb-6 flex items-center gap-3">
               <div className="h-px w-8 bg-zinc-500" />
               <span className="text-sm font-semibold uppercase tracking-widest text-zinc-400">
-                Why Choose M&amp;T
+                {tWhyChooseUs("title")}
               </span>
             </div>
             <h2 className="mt-4 text-3xl md:text-5xl lg:text-6xl font-serif font-medium leading-[1.1] tracking-tight">
-              Solo-practice attention. <br />
+              {tWhyChooseUs("heading").split(". ")[0]}. <br />
               <span className="italic text-zinc-500">
-                Clear legal judgment.
+                {tWhyChooseUs("heading").split(". ").slice(1).join(". ")}
               </span>
             </h2>
 
@@ -103,7 +126,7 @@ export function WhyChooseUsSection() {
               viewport={{ once: true }}
               className="mt-8 grid gap-6"
             >
-              {reasons.map((reason, index) => (
+              {localizedReasons.map((reason, index) => (
                 <motion.div
                   key={reason.title}
                   initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -20 }}
@@ -140,10 +163,10 @@ export function WhyChooseUsSection() {
                 className="group h-12 md:h-14 w-full rounded-full bg-white text-base md:text-lg font-semibold text-zinc-950 shadow-lg transition-all hover:bg-white/90 hover:shadow-xl"
               >
                 <Link
-                  href="#contact"
+                  href={localizeHref(pathname, "/#contact")}
                   className="flex items-center justify-center"
                 >
-                  Request a Case Review
+                  {tWhyChooseUs("cta")}
                   <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
@@ -159,18 +182,18 @@ export function WhyChooseUsSection() {
             <div className="mb-6 flex items-center gap-3 lg:justify-end">
               <div className="h-px w-8 bg-zinc-500 lg:order-last" />
               <span className="text-sm font-semibold uppercase tracking-widest text-zinc-400">
-                Practice Focus
+                {tWhyChooseUs("practiceFocus")}
               </span>
             </div>
             <h2 className="mt-4 text-3xl md:text-5xl lg:text-6xl font-serif font-medium leading-[1.1] tracking-tight lg:text-right">
-              Built for the matters <br />
+              {tWhyChooseUs("heading2").split(". ")[0]} <br />
               <span className="italic text-zinc-500">
-                people actually lose sleep over.
+                {tWhyChooseUs("heading2").split(". ").slice(1).join(". ")}
               </span>
             </h2>
 
             <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-              {practiceFocus.map((area, index) => (
+              {localizedPracticeFocus.map((area, index) => (
                 <motion.div
                   key={area.title}
                   initial={{ opacity: 0, scale: 0.9 }}
@@ -202,10 +225,11 @@ export function WhyChooseUsSection() {
               className="mt-6 rounded-2xl md:rounded-3xl bg-zinc-900 border border-white/10 p-6 md:p-10 text-white shadow-xl"
             >
               <p className="max-w-xl text-2xl md:text-3xl font-serif font-medium leading-tight text-white">
-                A boutique practice works best when the lawyer stays close to
-                the file, communicates{" "}
-                <span className="text-zinc-400 italic font-light">early</span>,
-                and tells clients the hard parts before the filing goes out.
+                {tWhyChooseUs("quoteBefore")}{" "}
+                <span className="text-zinc-400 italic font-light">
+                  {tWhyChooseUs("quoteEmphasis")}
+                </span>
+                {tWhyChooseUs("quoteAfter")}
               </p>
             </motion.div>
           </motion.div>

@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { ChevronDown, Globe } from "lucide-react";
 
 import { routing, stripLocalePrefix } from "@/i18n/routing";
+import { isLocaleTranslationComplete } from "@/i18n/locale-status";
 
 type SupportedLocale = (typeof routing.locales)[number];
 
@@ -113,6 +114,11 @@ export function LanguageSwitcher({
             >
               <span className="text-lg">{localeFlags[locale]}</span>
               <span>{localeNames[locale]}</span>
+              {!isLocaleTranslationComplete(locale) ? (
+                <span className="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-800">
+                  Beta
+                </span>
+              ) : null}
               {locale === currentLocale ? (
                 <span className="ml-auto text-zinc-400">✓</span>
               ) : null}

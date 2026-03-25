@@ -21,12 +21,12 @@ export function BriefBreakSection() {
   const tBriefBreak = useTranslations("briefBreak");
 
   return (
-    <section className="border-t border-black/5 bg-zinc-50 py-20">
+    <section className="border-t border-border/60 bg-gradient-subtle py-20">
       <div className="container-wide grid gap-12 lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-center">
         <div>
           <div className="mb-6 flex items-center gap-3">
-            <div className="h-px w-12 bg-zinc-600" />
-            <span className="text-sm font-semibold uppercase tracking-[0.25em] text-zinc-600">
+            <div className="h-px w-12 bg-border" />
+            <span className="text-sm font-semibold uppercase tracking-[0.25em] text-muted-foreground">
               {tBriefBreak("title")}
             </span>
           </div>
@@ -40,17 +40,14 @@ export function BriefBreakSection() {
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
-            <Button
-              asChild
-              className="rounded-full bg-black text-white hover:bg-zinc-800"
-            >
+            <Button asChild className="rounded-full bg-foreground text-background hover:opacity-92">
               <Link href={localizeHref(pathname, "/brief-break")}>
                 {tBriefBreak("cta")}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-            <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-zinc-700">
-              <Sparkles className="h-4 w-4 text-zinc-600" />
+            <div className="surface-inset inline-flex items-center gap-2 px-4 py-2 text-sm text-foreground">
+              <Sparkles className="h-4 w-4 text-muted-foreground" />
               {tBriefBreak("pill")}
             </div>
           </div>
@@ -60,7 +57,7 @@ export function BriefBreakSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="rounded-[2rem] border border-black/5 bg-white p-6 shadow-soft"
+          className="surface-panel rounded-[2rem] p-6"
         >
           <div className="mb-6 flex items-center justify-between">
             <div>
@@ -74,7 +71,7 @@ export function BriefBreakSection() {
             <Scale className="h-6 w-6 text-zinc-900" />
           </div>
 
-          <div className="grid grid-cols-4 gap-2 rounded-[1.5rem] bg-zinc-50 p-4">
+          <div className="grid grid-cols-4 gap-2 rounded-[1.5rem] bg-muted/55 p-4">
             {previewCells.flatMap((row, rowIndex) =>
               row.map((cell, colIndex) => {
                 const key = `${rowIndex}-${colIndex}`;
@@ -90,8 +87,8 @@ export function BriefBreakSection() {
                 return (
                   <div
                     key={key}
-                    className="relative aspect-square rounded-2xl border border-black/5 bg-white shadow-sm"
-                  >
+                      className="relative aspect-square rounded-2xl border border-border/70 bg-background shadow-sm"
+                    >
                     {cell > 0 ? (
                       <div className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black text-sm font-bold text-white">
                         {cell}

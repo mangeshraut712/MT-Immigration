@@ -66,9 +66,9 @@ export function InsightsPreviewSection() {
   return (
     <section
       id="insights"
-      className="relative overflow-hidden border-t border-zinc-100 bg-white py-16 md:py-24"
+      className="relative overflow-hidden border-t border-border/60 bg-background py-16 md:py-24"
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(0,0,0,0.03),transparent_48%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(15,23,42,0.04),transparent_48%)]" />
 
       <div className="container-wide relative z-10">
         <motion.div
@@ -97,10 +97,7 @@ export function InsightsPreviewSection() {
             </p>
           </div>
 
-          <Button
-            asChild
-            className="h-12 rounded-full bg-black px-7 text-white hover:bg-zinc-800"
-          >
+          <Button asChild className="h-12 rounded-full bg-foreground px-7 text-background hover:opacity-92">
             <Link href={localizeHref(pathname, "/insights?from=home-insights")}>
               {tInsightsPreview("openAll")}
               <ArrowRight className="ml-2 h-4 w-4" />
@@ -119,10 +116,10 @@ export function InsightsPreviewSection() {
             <motion.article
               key={group.key}
               variants={staggerItemVariants}
-              className="rounded-[2rem] border border-zinc-200 bg-zinc-50 p-6 shadow-sm transition-all duration-300 hover:border-zinc-300 hover:bg-white hover:shadow-xl"
+              className="surface-panel rounded-[2rem] bg-muted/38 p-6 transition-all duration-300 hover:border-border hover:bg-card hover:shadow-xl"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-zinc-200 bg-white text-zinc-900 shadow-sm">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/70 bg-background text-foreground shadow-sm">
                   <group.icon className="h-5 w-5" />
                 </div>
                 <div>
@@ -143,7 +140,7 @@ export function InsightsPreviewSection() {
               <Button
                 asChild
                 variant="outline"
-                className="mt-6 h-11 rounded-full border-zinc-200 bg-white px-6 text-zinc-900 hover:bg-zinc-50"
+                className="mt-6 h-11 rounded-full border-border/70 bg-background px-6 text-foreground hover:bg-muted"
               >
                 <Link href={localizeHref(pathname, group.href)}>
                   {tInsightsPreview("seeMore")}

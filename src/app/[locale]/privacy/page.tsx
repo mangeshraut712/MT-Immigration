@@ -3,17 +3,93 @@ import Link from "next/link";
 import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
 import { localizeHrefForLocale } from "@/i18n/routing";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "Privacy practices for the M&T Immigration website and intake tools.",
-  alternates: getLanguageAlternates("/privacy"),
-  openGraph: {
+const privacyPageCopy = {
+  en: {
     title: "Privacy Policy",
     description:
       "Privacy practices for the M&T Immigration website and intake tools.",
-    url: buildCanonicalUrl("/privacy"),
+    breadcrumbCurrent: "Privacy Policy",
+    badge: "Privacy Policy",
+    heading: "Privacy and intake data",
+    intro:
+      "This website is designed to help prospective clients request a consultation and ask general immigration questions. Information submitted through the site is used only to review your inquiry, respond to you, and improve the website experience.",
+    sections: [
+      {
+        title: "What we collect",
+        body: "We may collect the information you choose to provide, including your name, email address, phone number, preferred language, case type, and summary of your immigration matter.",
+      },
+      {
+        title: "How the AI assistant works",
+        body: "The website chat assistant provides general educational information only. It is not a lawyer and does not create an attorney-client relationship. Chat content may be processed by our AI provider to generate responses. Do not submit passport numbers, A-numbers, Social Security numbers, payment details, or other highly sensitive identifiers through chat.",
+      },
+      {
+        title: "How we use your information",
+        body: "We use submitted information to review potential matters, respond to consultation requests, coordinate follow-up, and maintain site security, including spam and abuse prevention.",
+      },
+      {
+        title: "No attorney-client relationship",
+        body: "Sending information through this website does not make you a client and does not create an attorney-client relationship. Representation begins only after a signed engagement agreement.",
+      },
+      {
+        title: "Contact",
+        body: "If you have questions about this policy or want to update information you submitted through the website, please contact the office directly.",
+      },
+    ],
   },
+  hi: {
+    title: "गोपनीयता नीति",
+    description:
+      "M&T इमिग्रेशन वेबसाइट और इंटेक टूल्स के लिए गोपनीयता प्रथाएँ।",
+    breadcrumbCurrent: "गोपनीयता नीति",
+    badge: "गोपनीयता नीति",
+    heading: "गोपनीयता और इंटेक डेटा",
+    intro:
+      "यह वेबसाइट संभावित क्लाइंट्स को परामर्श का अनुरोध करने और सामान्य इमिग्रेशन प्रश्न पूछने में मदद करने के लिए बनाई गई है। वेबसाइट के माध्यम से भेजी गई जानकारी केवल आपकी पूछताछ की समीक्षा करने, आपको उत्तर देने और वेबसाइट अनुभव सुधारने के लिए उपयोग की जाती है।",
+    sections: [
+      {
+        title: "हम क्या एकत्र करते हैं",
+        body: "हम वह जानकारी एकत्र कर सकते हैं जो आप स्वयं प्रदान करते हैं, जैसे आपका नाम, ईमेल पता, फोन नंबर, पसंदीदा भाषा, मामले का प्रकार और आपके इमिग्रेशन मामले का सार।",
+      },
+      {
+        title: "AI सहायक कैसे काम करता है",
+        body: "वेबसाइट चैट सहायक केवल सामान्य शैक्षिक जानकारी प्रदान करता है। यह वकील नहीं है और वकील-ग्राहक संबंध नहीं बनाता। प्रतिक्रियाएँ तैयार करने के लिए चैट सामग्री हमारे AI प्रदाता द्वारा संसाधित की जा सकती है। कृपया चैट में पासपोर्ट नंबर, A-नंबर, सोशल सिक्योरिटी नंबर, भुगतान विवरण या अन्य अत्यधिक संवेदनशील पहचानकर्ता साझा न करें।",
+      },
+      {
+        title: "हम आपकी जानकारी का उपयोग कैसे करते हैं",
+        body: "हम प्राप्त जानकारी का उपयोग संभावित मामलों की समीक्षा करने, परामर्श अनुरोधों का जवाब देने, फॉलो-अप समन्वय करने और स्पैम तथा दुरुपयोग रोकथाम सहित वेबसाइट सुरक्षा बनाए रखने के लिए करते हैं।",
+      },
+      {
+        title: "कोई वकील-ग्राहक संबंध नहीं",
+        body: "इस वेबसाइट के माध्यम से जानकारी भेजने से आप क्लाइंट नहीं बन जाते और न ही वकील-ग्राहक संबंध बनता है। प्रतिनिधित्व केवल हस्ताक्षरित एंगेजमेंट समझौते के बाद शुरू होता है।",
+      },
+      {
+        title: "संपर्क",
+        body: "यदि इस नीति के बारे में आपके प्रश्न हैं या आप वेबसाइट के माध्यम से भेजी गई जानकारी को अपडेट करना चाहते हैं, तो कृपया सीधे कार्यालय से संपर्क करें।",
+      },
+    ],
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const copy =
+    privacyPageCopy[locale as keyof typeof privacyPageCopy] ??
+    privacyPageCopy.en;
+
+  return {
+    title: copy.title,
+    description: copy.description,
+    alternates: getLanguageAlternates("/privacy"),
+    openGraph: {
+      title: copy.title,
+      description: copy.description,
+      url: buildCanonicalUrl("/privacy"),
+    },
+  };
 };
 
 export default async function PrivacyPage({
@@ -22,6 +98,9 @@ export default async function PrivacyPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const copy =
+    privacyPageCopy[locale as keyof typeof privacyPageCopy] ??
+    privacyPageCopy.en;
 
   return (
     <div className="bg-white">
@@ -44,19 +123,16 @@ export default async function PrivacyPage({
                 Insights
               </Link>
               <span>/</span>
-              <span className="text-zinc-900">Privacy Policy</span>
+              <span className="text-zinc-900">{copy.breadcrumbCurrent}</span>
             </div>
             <div className="inline-flex rounded-full border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-zinc-600 shadow-sm">
-              Privacy Policy
+              {copy.badge}
             </div>
             <h1 className="mt-6 text-4xl font-serif font-medium tracking-tight text-zinc-950 md:text-6xl">
-              Privacy and intake data
+              {copy.heading}
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-relaxed text-zinc-600">
-              This website is designed to help prospective clients request a
-              consultation and ask general immigration questions. Information
-              submitted through the site is used only to review your inquiry,
-              respond to you, and improve the website experience.
+              {copy.intro}
             </p>
           </div>
         </div>
@@ -64,61 +140,14 @@ export default async function PrivacyPage({
 
       <div className="container-wide max-w-4xl py-16 md:py-20">
         <div className="space-y-10 text-zinc-700 leading-relaxed">
-          <section>
-            <h2 className="text-2xl font-serif font-medium mb-3">
-              What we collect
-            </h2>
-            <p>
-              We may collect the information you choose to provide, including
-              your name, email address, phone number, preferred language, case
-              type, and summary of your immigration matter.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-serif font-medium mb-3">
-              How the AI assistant works
-            </h2>
-            <p>
-              The website chat assistant provides general educational
-              information only. It is not a lawyer and does not create an
-              attorney-client relationship. Chat content may be processed by our
-              AI provider to generate responses. Do not submit passport numbers,
-              A-numbers, Social Security numbers, payment details, or other
-              highly sensitive identifiers through chat.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-serif font-medium mb-3">
-              How we use your information
-            </h2>
-            <p>
-              We use submitted information to review potential matters, respond
-              to consultation requests, coordinate follow-up, and maintain site
-              security, including spam and abuse prevention.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-serif font-medium mb-3">
-              No attorney-client relationship
-            </h2>
-            <p>
-              Sending information through this website does not make you a
-              client and does not create an attorney-client relationship.
-              Representation begins only after a signed engagement agreement.
-            </p>
-          </section>
-
-          <section>
-            <h2 className="text-2xl font-serif font-medium mb-3">Contact</h2>
-            <p>
-              If you have questions about this policy or want to update
-              information you submitted through the website, please contact the
-              office directly.
-            </p>
-          </section>
+          {copy.sections.map((section) => (
+            <section key={section.title}>
+              <h2 className="mb-3 text-2xl font-serif font-medium">
+                {section.title}
+              </h2>
+              <p>{section.body}</p>
+            </section>
+          ))}
         </div>
       </div>
     </div>

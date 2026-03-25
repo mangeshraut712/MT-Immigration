@@ -7,17 +7,57 @@ import { Button } from "@/components/ui/button";
 import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
 import { localizeHrefForLocale } from "@/i18n/routing";
 
-export const metadata: Metadata = {
-  title: "Brief Break",
-  description:
-    "A playful law-themed puzzle room for moments of reset between serious immigration work.",
-  alternates: getLanguageAlternates("/brief-break"),
-  openGraph: {
+const briefBreakPageCopy = {
+  en: {
     title: "Brief Break",
     description:
       "A playful law-themed puzzle room for moments of reset between serious immigration work.",
-    url: buildCanonicalUrl("/brief-break"),
+    breadcrumbCurrent: "Brief Break",
+    badge: "Brief Break",
+    headingStart: "Reset your head,",
+    headingEnd: "not your standards.",
+    intro:
+      "A quiet chamber for two or three minutes of focus between filings, drafts, and hard conversations. Same brand language, lower stakes, cleaner breathing room.",
+    cta: "Enter Today's Docket",
+    pill:
+      "Daily puzzle, practice docket selection, keyboard shortcuts, and shareable results",
   },
+  hi: {
+    title: "Brief Break",
+    description:
+      "गंभीर इमिग्रेशन काम के बीच थोड़ी राहत के लिए एक हल्का कानूनी-थीम वाला पहेली कक्ष।",
+    breadcrumbCurrent: "Brief Break",
+    badge: "Brief Break",
+    headingStart: "अपना मन रीसेट करें,",
+    headingEnd: "अपने मानक नहीं।",
+    intro:
+      "फाइलिंग, ड्राफ्ट और कठिन बातचीत के बीच दो-तीन मिनट के ध्यान के लिए एक शांत स्थान। वही ब्रांड भाषा, कम दबाव और थोड़ा साफ़ मानसिक विराम।",
+    cta: "आज का डॉकेट खोलें",
+    pill:
+      "दैनिक पहेली, डॉकेट चयन अभ्यास, कीबोर्ड शॉर्टकट और साझा किए जा सकने वाले परिणाम",
+  },
+} as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const copy =
+    briefBreakPageCopy[locale as keyof typeof briefBreakPageCopy] ??
+    briefBreakPageCopy.en;
+
+  return {
+    title: copy.title,
+    description: copy.description,
+    alternates: getLanguageAlternates("/brief-break"),
+    openGraph: {
+      title: copy.title,
+      description: copy.description,
+      url: buildCanonicalUrl("/brief-break"),
+    },
+  };
 };
 
 export default async function BriefBreakPage({
@@ -26,67 +66,64 @@ export default async function BriefBreakPage({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const copy =
+    briefBreakPageCopy[locale as keyof typeof briefBreakPageCopy] ??
+    briefBreakPageCopy.en;
 
   return (
-    <div className="min-h-screen bg-white">
-      <section className="relative overflow-hidden border-b border-black/5 bg-[#f6efe7]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.05),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.015)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_70%_65%_at_50%_10%,black_35%,transparent_100%)]" />
+    <div className="min-h-screen bg-background">
+      <section className="relative overflow-hidden border-b border-border/60 bg-gradient-subtle">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(15,23,42,0.06),transparent_55%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.018)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_70%_65%_at_50%_10%,black_35%,transparent_100%)]" />
 
         <div className="container-wide relative py-20 md:py-28">
           <div className="mx-auto max-w-5xl">
             <div className="mb-8 flex flex-wrap items-center justify-center gap-3 text-sm text-zinc-500">
-              <Link
-                href={localizeHrefForLocale(locale, "/")}
-                className="transition-colors hover:text-black"
-              >
+              <Link href={localizeHrefForLocale(locale, "/")} className="transition-colors hover:text-foreground">
                 Home
               </Link>
               <span>/</span>
               <Link
                 href={localizeHrefForLocale(locale, "/insights")}
-                className="transition-colors hover:text-black"
+                className="transition-colors hover:text-foreground"
               >
                 Insights
               </Link>
               <span>/</span>
-              <span className="text-zinc-900">Brief Break</span>
+              <span className="text-zinc-900">{copy.breadcrumbCurrent}</span>
             </div>
 
             <div className="mx-auto max-w-4xl text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.28em] text-zinc-600 shadow-sm backdrop-blur-sm">
-                <Sparkles className="h-4 w-4 text-zinc-900" />
-                Brief Break
+              <div className="surface-inset inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground shadow-sm backdrop-blur-sm">
+                <Sparkles className="h-4 w-4 text-foreground" />
+                {copy.badge}
               </div>
 
               <h1 className="mt-8 font-serif text-4xl leading-[0.98] tracking-tight text-zinc-950 md:text-7xl">
-                Reset your head,
+                {copy.headingStart}
                 <br />
                 <span className="text-zinc-400 italic font-light">
-                  not your standards.
+                  {copy.headingEnd}
                 </span>
               </h1>
 
               <p className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-zinc-600 md:text-xl">
-                A quiet chamber for two or three minutes of focus between
-                filings, drafts, and hard conversations. Same brand language,
-                lower stakes, cleaner breathing room.
+                {copy.intro}
               </p>
 
               <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
                 <Button
                   asChild
-                  className="rounded-full bg-black text-white hover:bg-zinc-800"
+                  className="rounded-full bg-foreground text-background hover:opacity-92"
                 >
                   <Link href="#docket-zip">
-                    Enter Today&apos;s Docket
+                    {copy.cta}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <div className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/70 px-4 py-2 text-sm text-zinc-700 backdrop-blur-sm">
-                  <Scale className="h-4 w-4 text-zinc-900" />
-                  Daily puzzle, practice docket selection, keyboard shortcuts,
-                  and shareable results
+                <div className="surface-inset inline-flex items-center gap-2 px-4 py-2 text-sm text-foreground backdrop-blur-sm">
+                  <Scale className="h-4 w-4 text-foreground" />
+                  {copy.pill}
                 </div>
               </div>
             </div>
