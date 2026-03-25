@@ -1,288 +1,690 @@
 {
-    "common": {
-        "siteName": "M&T Công Ty Luật Di Trú",
-        "tagline": "Tư Vấn Di Trú Cá Nhân Với Tiếp Cận Trực Tiếp Luật Sư",
-        "description": "Đại diện di trú Hoa Kỳ boutique cho khách du lịch, sinh viên, gia đình, nhân đạo và các vấn đề tòa án khẩn cấp. Chiến lược rõ ràng, phí minh bạch và giao tiếp trực tiếp với luật sư.",
-        "bookConsultation": "Đặt Tư Vấn",
-        "exploreServices": "Khám Phá Dịch Vụ",
-        "learnMore": "Tìm Hiểu Thêm",
-        "contactUs": "Liên Hệ Chúng Tôi",
-        "getStarted": "Bắt Đầu",
-        "viewAll": "Xem Tất Cả",
-        "submit": "Gửi",
-        "next": "Tiếp Theo",
-        "previous": "Trước",
-        "back": "Quay Lại",
-        "close": "Đóng",
-        "loading": "Đang tải..."
-    },
-    "nav": {
-        "services": "Dịch Vụ",
-        "reviews": "Đánh Giá",
-        "about": "Về Chúng Tôi",
-        "fees": "Phí",
-        "insights": "Thông Tin",
-        "faq": "Câu Hỏi Thường Gặp",
-        "contact": "Liên Hệ"
-    },
-    "hero": {
-        "badge": "Thực hành luật sư cá nhân với quyền sở hữu trực tiếp vụ việc",
-        "title": "Tư vấn di trú tập trung",
-        "titleHighlight": "với chiến lược rõ ràng",
-        "subtitle": "Hỗ trợ boutique cho khách du lịch, sinh viên, gia đình, nhân đạo và các vấn đề trục xuất khẩn cấp, với giao tiếp trực tiếp với luật sư từ tiếp nhận đến nộp hồ sơ.",
-        "cta": "Đặt Tư Vấn",
-        "ctaSecondary": "Khám Phá Dịch Vụ",
-        "directAccess": "Tiếp cận trực tiếp luật sư",
-        "responseTime": "Phản hồi trong 1-2 ngày làm việc",
-        "transparentFees": "Phí tư vấn minh bạch"
-    },
-    "stats": {
-        "directAttorney": "Tiếp Cận Trực Tiếp Luật Sư",
-        "directAttorneyDesc": "Bạn nói chuyện với luật sư chịu trách nhiệm về chiến lược và quyết định nộp hồ sơ.",
-        "caseReady": "Chuẩn Bị Hồ Sơ",
-        "caseReadyDesc": "Tiếp nhận có cấu trúc giúp xác định sớm thời hạn, hồ sơ và vấn đề khẩn cấp.",
-        "security": "Giao Tiếp Ưu Tiên Bảo Mật",
-        "securityDesc": "Biểu mẫu và trò chuyện hiện chạy qua các tuyến phía máy chủ được xác thực.",
-        "virtual": "Tư Vấn Trực Tuyến Toàn Quốc",
-        "virtualDesc": "Tư vấn có thể được xử lý từ xa cho khách hàng trên khắp Hoa Kỳ."
-    },
-    "language": {
-        "switch": "English",
-        "current": "Tiếng Việt"
-    },
-    "pricing": {
-        "noteLabel": "Note:",
-        "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
-        "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
-        "items": [
-            {
-                "service": "Visitor Visa (B1/B2)",
-                "price": "$350–$650",
-                "includes": "DS-160, coaching"
-            },
-            {
-                "service": "Student Visa (F-1)",
-                "price": "$450–$900",
-                "includes": "I-20 guidance, prep"
-            },
-            {
-                "service": "Change of Status",
-                "price": "$850–$1,800",
-                "includes": "I-539, risk assessment"
-            },
-            {
-                "service": "Marriage-Based AOS",
-                "price": "$1,800–$3,500",
-                "includes": "Full forms, evidence"
-            },
-            {
-                "service": "Consular Processing",
-                "price": "$1,200–$2,400",
-                "includes": "NVC support"
-            },
-            {
-                "service": "Work Permit (I-765)",
-                "price": "$250–$450",
-                "includes": "Eligibility analysis"
-            },
-            {
-                "service": "Advance Parole (I-131)",
-                "price": "$250–$450",
-                "includes": "Authorization prep"
-            },
-            {
-                "service": "Expedite Request Prep",
-                "price": "$300–$600",
-                "includes": "Drafting, evidence"
-            },
-            {
-                "service": "U Visa",
-                "price": "$1,800–$3,500",
-                "includes": "Full support"
-            },
-            {
-                "service": "Asylum",
-                "price": "$2,500–$6,000",
-                "includes": "Research, prep"
-            }
-        ],
-        "benefits": [
-            "Transparent, upfront pricing",
-            "Scope explained before work begins",
-            "Flexible payment plans when appropriate",
-            "Hosted online payment options",
-            "No hidden administrative fees",
-            "Consultation fees credited when applicable",
-            "Government filing fees billed separately"
-        ]
-    },
-    "contact": {
-        "cards": [
-            {
-                "label": "Phone / WhatsApp",
-                "tooltip": "Click to call"
-            },
-            {
-                "label": "Email",
-                "tooltip": "Click to email"
-            },
-            {
-                "label": "Office",
-                "tooltip": "New York, NY"
-            },
-            {
-                "label": "Business Hours",
-                "tooltip": "1-2 business day response"
-            }
-        ],
-        "feeOptions": [
-            {
-                "label": "15 min Initial Sync",
-                "price": "$125"
-            },
-            {
-                "label": "30 min Strategy Session",
-                "price": "$250"
-            }
-        ]
-    },
-    "process": {
-        "step1Features": [
-            "Consultation with the attorney",
-            "Initial document review",
-            "Scope and risk discussion"
-        ],
-        "step2Features": [
-            "Form drafting and review",
-            "Evidence checklist",
-            "Final pre-filing quality check"
-        ],
-        "step3Features": [
-            "Interview preparation",
-            "RFE or deadline planning",
-            "Email-based status updates"
-        ]
-    },
-    "testimonials": {
-        "items": [
-            {
-                "title": "Direct communication",
-                "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
-                "label": "No handoff model"
-            },
-            {
-                "title": "Prepared submissions",
-                "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
-                "label": "Evidence-first work"
-            },
-            {
-                "title": "Calm guidance in urgent matters",
-                "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
-                "label": "Urgent matters prioritized"
-            },
-            {
-                "title": "Straight answers on price and scope",
-                "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
-                "label": "Transparent fees"
-            }
-        ]
-    },
-    "footer": {
-        "links": {
-            "services": [
-                {
-                    "name": "Visitor Visas (B1/B2)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Student Visas (F-1)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Marriage-Based",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Asylum & U-Visa",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Work Permits (EAD)",
-                    "href": "/#services"
-                }
-            ],
-            "company": [
-                {
-                    "name": "About the Practice",
-                    "href": "/#about"
-                },
-                {
-                    "name": "Our Process",
-                    "href": "/#process"
-                },
-                {
-                    "name": "Client Experience",
-                    "href": "/#testimonials"
-                },
-                {
-                    "name": "Insights",
-                    "href": "/insights"
-                },
-                {
-                    "name": "Contact",
-                    "href": "/#contact"
-                }
-            ],
-            "support": [
-                {
-                    "name": "Pricing & Fees",
-                    "href": "/#pricing"
-                },
-                {
-                    "name": "Secure Payments",
-                    "href": "/#payments"
-                },
-                {
-                    "name": "FAQ",
-                    "href": "/#faq"
-                },
-                {
-                    "name": "Book Consultation",
-                    "href": "/#contact"
-                },
-                {
-                    "name": "Brief Break",
-                    "href": "/brief-break"
-                }
-            ],
-            "legal": [
-                {
-                    "name": "Privacy Policy",
-                    "href": "/privacy"
-                },
-                {
-                    "name": "Terms of Use",
-                    "href": "/terms"
-                },
-                {
-                    "name": "Attorney Advertising",
-                    "href": "/terms"
-                }
-            ]
+  "common": {
+    "siteName": "M&T Công Ty Luật Di Trú",
+    "tagline": "Tư Vấn Di Trú Cá Nhân Với Tiếp Cận Trực Tiếp Luật Sư",
+    "description": "Đại diện di trú Hoa Kỳ boutique cho khách du lịch, sinh viên, gia đình, nhân đạo và các vấn đề tòa án khẩn cấp. Chiến lược rõ ràng, phí minh bạch và giao tiếp trực tiếp với luật sư.",
+    "bookConsultation": "Đặt Tư Vấn",
+    "exploreServices": "Khám Phá Dịch Vụ",
+    "learnMore": "Tìm Hiểu Thêm",
+    "contactUs": "Liên Hệ Chúng Tôi",
+    "getStarted": "Bắt Đầu",
+    "viewAll": "Xem Tất Cả",
+    "submit": "Gửi",
+    "next": "Tiếp Theo",
+    "previous": "Trước",
+    "back": "Quay Lại",
+    "close": "Đóng",
+    "loading": "Đang tải..."
+  },
+  "nav": {
+    "services": "Dịch Vụ",
+    "reviews": "Đánh Giá",
+    "about": "Về Chúng Tôi",
+    "fees": "Phí",
+    "insights": "Thông Tin",
+    "faq": "Câu Hỏi Thường Gặp",
+    "contact": "Liên Hệ"
+  },
+  "hero": {
+    "badge": "Thực hành luật sư cá nhân với quyền sở hữu trực tiếp vụ việc",
+    "title": "Tư vấn di trú tập trung",
+    "titleHighlight": "với chiến lược rõ ràng",
+    "subtitle": "Hỗ trợ boutique cho khách du lịch, sinh viên, gia đình, nhân đạo và các vấn đề trục xuất khẩn cấp, với giao tiếp trực tiếp với luật sư từ tiếp nhận đến nộp hồ sơ.",
+    "cta": "Đặt Tư Vấn",
+    "ctaSecondary": "Khám Phá Dịch Vụ",
+    "directAccess": "Tiếp cận trực tiếp luật sư",
+    "responseTime": "Phản hồi trong 1-2 ngày làm việc",
+    "transparentFees": "Phí tư vấn minh bạch"
+  },
+  "stats": {
+    "directAttorney": "Tiếp Cận Trực Tiếp Luật Sư",
+    "directAttorneyDesc": "Bạn nói chuyện với luật sư chịu trách nhiệm về chiến lược và quyết định nộp hồ sơ.",
+    "caseReady": "Chuẩn Bị Hồ Sơ",
+    "caseReadyDesc": "Tiếp nhận có cấu trúc giúp xác định sớm thời hạn, hồ sơ và vấn đề khẩn cấp.",
+    "security": "Giao Tiếp Ưu Tiên Bảo Mật",
+    "securityDesc": "Biểu mẫu và trò chuyện hiện chạy qua các tuyến phía máy chủ được xác thực.",
+    "virtual": "Tư Vấn Trực Tuyến Toàn Quốc",
+    "virtualDesc": "Tư vấn có thể được xử lý từ xa cho khách hàng trên khắp Hoa Kỳ."
+  },
+  "insightsPreview": {
+    "title": "Insights",
+    "heading": "Case studies, news, and practical reads in one place.",
+    "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
+    "openAll": "Open All Insights",
+    "seeMore": "See More",
+    "caseStudies": "Case Studies",
+    "news": "News",
+    "analysis": "Analysis"
+  },
+  "language": {
+    "switch": "English",
+    "current": "Tiếng Việt"
+  },
+  "briefBreak": {
+    "previewTitle": "Docket Zip",
+    "previewSubtitle": "Connect the facts. Fill the record.",
+    "subtitle": "Trang web của công ty vẫn nghiêm túc ở những nơi quan trọng. Đây là một con đường vòng có chủ ý: một trang câu đố nhỏ có chủ đề pháp lý được xây dựng để tập trung, thiết lập lại và giảm bớt căng thẳng một chút.",
+    "heading": "Một căn phòng giải đố yên tĩnh, dành cho những giây phút giữa công việc nặng nhọc.",
+    "cta": "Vào phòng giải đố",
+    "pill": "Câu đố trong buồng hàng ngày với các vệt, gợi ý và không có áp lực pháp lý",
+    "title": "Nghỉ giải lao ngắn"
+  },
+  "contact": {
+    "cards": [
+      {
+        "label": "Phone / WhatsApp",
+        "tooltip": "Click to call"
+      },
+      {
+        "label": "Email",
+        "tooltip": "Click to email"
+      },
+      {
+        "label": "Office",
+        "tooltip": "New York, NY"
+      },
+      {
+        "label": "Business Hours",
+        "tooltip": "1-2 business day response"
+      }
+    ],
+    "feeOptions": [
+      {
+        "label": "15 min Initial Sync",
+        "price": "$125"
+      },
+      {
+        "label": "30 min Strategy Session",
+        "price": "$250"
+      }
+    ],
+    "feeCredit": "Phí được ghi có vào dịch vụ nếu được giữ lại.",
+    "title": "Bắt đầu",
+    "phone": "Điện thoại / WhatsApp",
+    "min30": "30 phút",
+    "heading": "Sẵn sàng để xem xét vấn đề của bạn?",
+    "min15": "15 phút",
+    "office": "Văn phòng",
+    "contactInfo": "Thông tin liên hệ",
+    "consultationFees": "Phí tư vấn",
+    "subtitle": "Đăng ký tư vấn hoặc gửi yêu cầu tiếp nhận có cấu trúc. Văn phòng sẽ phản hồi các yêu cầu mới trong vòng 1-2 ngày làm việc.",
+    "email": "E-mail",
+    "responseTime": "Thời gian đáp ứng"
+  },
+  "footer": {
+    "links": {
+      "services": [
+        {
+          "name": "Visitor Visas (B1/B2)",
+          "href": "/#services"
+        },
+        {
+          "name": "Student Visas (F-1)",
+          "href": "/#services"
+        },
+        {
+          "name": "Marriage-Based",
+          "href": "/#services"
+        },
+        {
+          "name": "Asylum & U-Visa",
+          "href": "/#services"
+        },
+        {
+          "name": "Work Permits (EAD)",
+          "href": "/#services"
         }
+      ],
+      "company": [
+        {
+          "name": "About the Practice",
+          "href": "/#about"
+        },
+        {
+          "name": "Our Process",
+          "href": "/#process"
+        },
+        {
+          "name": "Client Experience",
+          "href": "/#testimonials"
+        },
+        {
+          "name": "Insights",
+          "href": "/insights"
+        },
+        {
+          "name": "Contact",
+          "href": "/#contact"
+        }
+      ],
+      "support": [
+        {
+          "name": "Pricing & Fees",
+          "href": "/#pricing"
+        },
+        {
+          "name": "Secure Payments",
+          "href": "/#payments"
+        },
+        {
+          "name": "FAQ",
+          "href": "/#faq"
+        },
+        {
+          "name": "Book Consultation",
+          "href": "/#contact"
+        },
+        {
+          "name": "Brief Break",
+          "href": "/brief-break"
+        }
+      ],
+      "legal": [
+        {
+          "name": "Privacy Policy",
+          "href": "/privacy"
+        },
+        {
+          "name": "Terms of Use",
+          "href": "/terms"
+        },
+        {
+          "name": "Attorney Advertising",
+          "href": "/terms"
+        }
+      ]
     },
-    "insightsPreview": {
-        "title": "Insights",
-        "heading": "Case studies, news, and practical reads in one place.",
-        "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
-        "caseStudies": "Case Studies",
-        "news": "News",
-        "analysis": "Analysis",
-        "openAll": "Open All Insights",
-        "seeMore": "See More"
-    },
-    "briefBreak": {
-        "previewTitle": "Docket Zip",
-        "previewSubtitle": "Connect the facts. Fill the record."
-    }
+    "privacy": "Chính sách bảo mật",
+    "siteMap": "Sơ đồ trang web",
+    "tagline": "Đại diện nhập cư nhỏ, do luật sư chỉ đạo với khả năng liên lạc trực tiếp, phí minh bạch và chiến lược xử lý vụ việc tập trung.",
+    "company": "Công ty",
+    "insights": "Thông tin chi tiết",
+    "services": "Dịch vụ",
+    "phoneAria": "Hãy gọi cho chúng tôi theo số {phone}",
+    "advertising": "Quảng cáo luật sư",
+    "legal": "Hợp pháp",
+    "emailAria": "Gửi email cho chúng tôi theo địa chỉ {email}",
+    "disclaimer": "QUẢNG CÁO LUẬT SƯ. Thông tin trên trang web này chỉ nhằm mục đích thông tin chung. Không có nội dung nào trên trang này được coi là tư vấn pháp lý cho bất kỳ trường hợp hoặc tình huống cá nhân nào. Thông tin này không nhằm mục đích tạo ra và việc nhận hoặc xem không cấu thành mối quan hệ luật sư-khách hàng. Kết quả trước đó không đảm bảo một kết quả tương tự.",
+    "support": "Ủng hộ",
+    "terms": "Điều khoản sử dụng",
+    "copyright": "Bản quyền © {năm} {name}. Mọi quyền được bảo lưu."
+  },
+  "pricing": {
+    "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
+    "noteLabel": "Note:",
+    "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
+    "benefits": [
+      "Transparent, upfront pricing",
+      "Scope explained before work begins",
+      "Flexible payment plans when appropriate",
+      "Hosted online payment options",
+      "No hidden administrative fees",
+      "Consultation fees credited when applicable",
+      "Government filing fees billed separately"
+    ],
+    "items": [
+      {
+        "service": "Visitor Visa (B1/B2)",
+        "price": "$350–$650",
+        "includes": "DS-160, coaching"
+      },
+      {
+        "service": "Student Visa (F-1)",
+        "price": "$450–$900",
+        "includes": "I-20 guidance, prep"
+      },
+      {
+        "service": "Change of Status",
+        "price": "$850–$1,800",
+        "includes": "I-539, risk assessment"
+      },
+      {
+        "service": "Marriage-Based AOS",
+        "price": "$1,800–$3,500",
+        "includes": "Full forms, evidence"
+      },
+      {
+        "service": "Consular Processing",
+        "price": "$1,200–$2,400",
+        "includes": "NVC support"
+      },
+      {
+        "service": "Work Permit (I-765)",
+        "price": "$250–$450",
+        "includes": "Eligibility analysis"
+      },
+      {
+        "service": "Advance Parole (I-131)",
+        "price": "$250–$450",
+        "includes": "Authorization prep"
+      },
+      {
+        "service": "Expedite Request Prep",
+        "price": "$300–$600",
+        "includes": "Drafting, evidence"
+      },
+      {
+        "service": "U Visa",
+        "price": "$1,800–$3,500",
+        "includes": "Full support"
+      },
+      {
+        "service": "Asylum",
+        "price": "$2,500–$6,000",
+        "includes": "Research, prep"
+      }
+    ],
+    "includes": "Bao gồm",
+    "whyChoose": "Tại sao chọn chúng tôi?",
+    "priceRange": "Khoảng giá",
+    "cta": "Nhận báo giá tùy chỉnh",
+    "title": "Phí minh bạch",
+    "subtitle": "Phạm vi khác nhau tùy theo độ phức tạp, mức độ khẩn cấp và tải tài liệu. Mục đích là để hiển thị các mức phí pháp lý thực tế trước khi bạn đặt chỗ.",
+    "heading": "Phí pháp lý rõ ràng cho việc đại diện tập trung.",
+    "service": "Dịch vụ"
+  },
+  "intake": {
+    "name": "Tên đầy đủ",
+    "email": "Địa chỉ email",
+    "successDesc": "Chúng tôi sẽ xem xét thông tin của bạn và theo dõi bằng cách sử dụng chi tiết liên hệ ưa thích của bạn.",
+    "submitting": "Đang gửi...",
+    "step3Title": "Ôn tập",
+    "summary": "Tóm tắt trường hợp",
+    "consent": "Tôi đồng ý với việc thu thập và xử lý thông tin của tôi",
+    "step2Title": "Chi tiết trường hợp",
+    "step1Title": "Liên hệ",
+    "caseType": "Loại vấn đề",
+    "success": "Đã nhận được yêu cầu tư vấn.",
+    "phone": "Số điện thoại",
+    "language": "Ngôn ngữ ưa thích"
+  },
+  "faq": {
+    "subtitle": "Câu trả lời rõ ràng về quy trình, giá cả và những gì mong đợi trước khi bạn cam kết thực hiện bước tiếp theo.",
+    "processTimeline": "Quy trình & Dòng thời gian",
+    "title": "Câu hỏi thường gặp",
+    "pricingPayments": "Giá cả & Thanh toán",
+    "legalResults": "Pháp lý & Kết quả",
+    "heading": "Câu hỏi thường gặp.",
+    "gettingStarted": "Bắt đầu",
+    "categories": [
+      {
+        "category": "Bắt đầu",
+        "faqs": [
+          {
+            "question": "Việc tư vấn diễn ra như thế nào?",
+            "answer": "Tham vấn là bước đầu tiên cho hầu hết các vấn đề. Chúng được sử dụng để xác định vấn đề, xác định thời hạn, xem xét các tài liệu có sẵn và quyết định xem bước tiếp theo là nộp đơn, thu thập thêm bằng chứng hay một phiên họp chiến lược khẩn cấp hơn."
+          },
+          {
+            "answer": "Đúng. Cơ chế này được thiết lập để tư vấn từ xa qua điện thoại hoặc video, giúp bạn có thể xem xét nhiều vấn đề nhập cư mà không cần gặp trực tiếp.",
+            "question": "Bạn có cung cấp tư vấn ảo không?"
+          },
+          {
+            "question": "Bạn hỗ trợ những ngôn ngữ nào?",
+            "answer": "Tư vấn bằng tiếng Anh được hỗ trợ trực tiếp và quy trình làm việc thân thiện với phiên dịch viên có thể được sắp xếp khi khách hàng cảm thấy thoải mái hơn khi sử dụng ngôn ngữ khác."
+          }
+        ]
+      },
+      {
+        "category": "Giá cả & Thanh toán",
+        "faqs": [
+          {
+            "answer": "Không. Phí nộp đơn của chính phủ tách biệt với phí pháp lý. Việc tham vấn được sử dụng để giải thích phạm vi phí pháp lý có thể xảy ra, phí nộp đơn dự kiến ​​và bất kỳ chi phí nào khác có thể phát sinh liên quan đến vấn đề này.",
+            "question": "Phí USCIS có được bao gồm trong giá của bạn không?"
+          },
+          {
+            "answer": "Tùy chọn trả góp có thể có sẵn tùy thuộc vào phạm vi công việc và mức độ khẩn cấp của vấn đề. Cơ cấu thanh toán sẽ được thảo luận trong quá trình tư vấn để khách hàng hiểu những gì phải đến hạn trước khi công việc bắt đầu và những gì có thể được dàn trải.",
+            "question": "Kế hoạch thanh toán hoạt động như thế nào?"
+          },
+          {
+            "question": "Bạn có cung cấp giá theo thang trượt không?",
+            "answer": "Tính linh hoạt của phí phụ thuộc vào phạm vi, mức độ khẩn cấp và loại vấn đề liên quan. Nếu lo ngại về khả năng chi trả, hãy nêu vấn đề này sớm để văn phòng có thể giải thích những gì thực tế có sẵn."
+          }
+        ]
+      },
+      {
+        "faqs": [
+          {
+            "answer": "Thời hạn phụ thuộc vào loại vụ việc, tốc độ thu thập tài liệu và liệu có thời hạn khẩn cấp hay không. Các vấn đề đơn giản thường có thể diễn ra nhanh chóng khi có sẵn bằng chứng cần thiết.",
+            "question": "Bạn có thể nộp đơn đăng ký của tôi nhanh đến mức nào?"
+          },
+          {
+            "answer": "Đúng. Chuẩn bị phỏng vấn là một phần của nhiều vấn đề nhập cư, đặc biệt là khi các câu hỏi của viên chức, độ tin cậy hoặc cách sắp xếp tài liệu có thể ảnh hưởng đến kết quả.",
+            "question": "Bạn sẽ chuẩn bị cho cuộc phỏng vấn của tôi chứ?"
+          },
+          {
+            "answer": "Cập nhật trạng thái thường được xử lý thông qua email và theo dõi theo lịch trình. Nhịp độ giao tiếp chính xác phụ thuộc vào phạm vi đại diện, thời hạn sắp tới và liệu có thông báo nào của cơ quan yêu cầu phản hồi nhanh hơn hay không.",
+            "question": "Làm cách nào để theo dõi tình trạng trường hợp của tôi?"
+          }
+        ],
+        "category": "Quy trình & Dòng thời gian"
+      },
+      {
+        "category": "Pháp lý & Kết quả",
+        "faqs": [
+          {
+            "answer": "Không luật sư nào có thể đảm bảo kết quả trong vấn đề nhập cư vì quyết định cuối cùng thuộc về cơ quan chính phủ hoặc tòa án di trú xử lý vụ việc. Những gì bạn nên mong đợi là lời khuyên thẳng thắn, sự chuẩn bị có kỷ luật và trao đổi trung thực về rủi ro.",
+            "question": "Bạn có đảm bảo kết quả?"
+          },
+          {
+            "answer": "Nếu một trường hợp bị từ chối, bước đầu tiên là xem xét quyết định một cách cẩn thận và xác định những lựa chọn nào thực sự có sẵn. Tùy thuộc vào tư thế, điều đó có thể bao gồm một chiến lược hoàn thiện, một kiến ​​nghị, một lời kêu gọi hoặc một con đường hoàn toàn khác.",
+            "question": "Nếu trường hợp của tôi bị từ chối thì sao?"
+          },
+          {
+            "answer": "Trang web này được xây dựng dựa trên hoạt động nhập cư do luật sư hướng dẫn. Thông tin chi tiết về đại diện, trạng thái cấp phép và điều khoản cam kết phải luôn được xác nhận trong quá trình tham vấn và trong thỏa thuận cam kết bằng văn bản.",
+            "question": "Bạn có được cấp phép hành nghề luật nhập cư không?"
+          }
+        ]
+      }
+    ]
+  },
+  "about": {
+    "virtual": "Tư vấn ảo trên toàn quốc",
+    "boutique": "Lưu ý về tải trọng cửa hàng",
+    "heading": "Một cơ sở thực hành nhập cư nhỏ gọn được xây dựng để giao tiếp trực tiếp",
+    "attorneyLed": "Chiến lược do luật sư dẫn dắt",
+    "quote": "Các trường hợp nhập cư quá quan trọng để biến mất thành một hoạt động số lượng lớn. Bạn nên biết ai là người hướng dẫn chiến lược, hồ sơ tiếp theo là gì và rủi ro ở đâu.",
+    "title": "Về",
+    "credentials": "Thông tin xác thực & chuyên môn",
+    "description": "M&T được định hình là một cơ sở hành nghề cá nhân tập trung dành cho những khách hàng muốn có sự chuẩn bị chu đáo, câu trả lời thẳng thắn và tiếp cận trực tiếp với luật sư xử lý công việc.",
+    "filingRoadmap": "Lộ trình nộp hồ sơ rõ ràng"
+  },
+  "cta": {
+    "feature2": "Phản hồi 1-2 ngày làm việc",
+    "heading": "Chiến lược nhập cư của bạn bắt đầu bằng việc xem xét trường hợp thực tế.",
+    "subtitle": "Đừng giao một vấn đề nhập cư có tính rủi ro cao cho một kênh tiếp nhận chung chung. Bắt đầu bằng buổi tư vấn tập trung và bước tiếp theo rõ ràng từ hoạt động do luật sư hướng dẫn.",
+    "title": "Sẵn sàng để bắt đầu?",
+    "feature3": "Tư vấn ảo toàn quốc",
+    "feature1": "Phí tư vấn minh bạch",
+    "ctaSecondary": "Gọi ngay",
+    "ctaPrimary": "Đặt lịch tư vấn"
+  },
+  "testimonials": {
+    "items": [
+      {
+        "title": "Direct communication",
+        "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
+        "label": "No handoff model"
+      },
+      {
+        "title": "Prepared submissions",
+        "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
+        "label": "Evidence-first work"
+      },
+      {
+        "title": "Calm guidance in urgent matters",
+        "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
+        "label": "Urgent matters prioritized"
+      },
+      {
+        "title": "Straight answers on price and scope",
+        "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
+        "label": "Transparent fees"
+      }
+    ],
+    "straightLabel": "Phí minh bạch",
+    "straight": "Câu trả lời thẳng thắn về giá cả và phạm vi",
+    "directComm": "Giao tiếp trực tiếp",
+    "prepared": "Bài nộp đã chuẩn bị sẵn",
+    "heading": "Thật là một bài tập solo mạnh mẽ sẽ mang lại.",
+    "calmLabel": "Những vấn đề khẩn cấp được ưu tiên",
+    "subtitle": "Thay vì những lời chứng thực không thể xác minh, trang web hiện tập trung vào các tiêu chuẩn mà khách hàng nên mong đợi một cách hợp lý từ hoạt động nhập cư theo cửa hàng.",
+    "title": "Trải nghiệm khách hàng",
+    "calm": "Bình tĩnh hướng dẫn trong những vấn đề cấp bách",
+    "directCommLabel": "Không có mô hình chuyển giao",
+    "preparedLabel": "Công việc đầu tiên có bằng chứng"
+  },
+  "whyChooseUs": {
+    "quoteEmphasis": "sớm",
+    "reason4Desc": "Trang web hiện xác thực các lần gửi, giữ các biểu mẫu công khai phía máy chủ khóa AI và giới hạn tỷ lệ.",
+    "reason3Desc": "Việc tham vấn, nộp hồ sơ và các bước tiếp theo được trình bày bằng ngôn ngữ dễ hiểu trước khi bắt đầu công việc.",
+    "title": "Tại sao chọn M&T",
+    "reason1Desc": "Cùng một luật sư sở hữu chiến lược vụ việc từ khi tham vấn cho đến quyết định nộp đơn tiếp theo.",
+    "quoteAfter": "và cho khách hàng biết những phần khó khăn trước khi nộp hồ sơ.",
+    "reason4Title": "Nhập học có kỷ luật",
+    "heading": "Chú ý thực hành solo. Phán quyết pháp lý rõ ràng.",
+    "reason3Title": "Rõ ràng phạm vi và phí",
+    "cta": "Yêu cầu xem xét trường hợp",
+    "quoteBefore": "Một hoạt động kinh doanh hiệu quả nhất khi luật sư ở gần hồ sơ, giao tiếp",
+    "reason2Title": "Công việc tập trung vào thời hạn",
+    "practiceFocus": "Luyện tập tập trung",
+    "practiceAreas": [
+      {
+        "title": "Vấn đề về công việc và địa vị",
+        "summary": "Chiến lược H-1B, EAD và thay đổi trạng thái."
+      },
+      {
+        "title": "Con đường sinh viên",
+        "summary": "Lập kế hoạch F-1, duy trì trạng thái và chuẩn bị phỏng vấn."
+      },
+      {
+        "summary": "Hồ sơ dựa trên hôn nhân và kế hoạch đoàn tụ gia đình.",
+        "title": "Các trường hợp dựa vào gia đình"
+      },
+      {
+        "summary": "Tị nạn, thị thực U và các vấn đề tập trung vào bảo vệ khẩn cấp.",
+        "title": "cứu trợ nhân đạo"
+      }
+    ],
+    "reason1Title": "Một luật sư, một chiến lược",
+    "heading2": "Được xây dựng cho những vấn đề khiến mọi người thực sự mất ngủ.",
+    "reason2Desc": "Các cuộc phỏng vấn khẩn cấp, ngày ra tòa và thời hạn phản hồi của chính phủ đều được ưu tiên.",
+    "reasons": [
+      {
+        "title": "Một luật sư, một chiến lược",
+        "description": "Cùng một luật sư sở hữu chiến lược vụ việc từ khi tham vấn cho đến quyết định nộp đơn tiếp theo."
+      },
+      {
+        "description": "Các cuộc phỏng vấn khẩn cấp, ngày ra tòa và thời hạn phản hồi của chính phủ đều được ưu tiên.",
+        "title": "Công việc tập trung vào thời hạn"
+      },
+      {
+        "description": "Việc tham vấn, nộp hồ sơ và các bước tiếp theo được trình bày bằng ngôn ngữ dễ hiểu trước khi bắt đầu công việc.",
+        "title": "Rõ ràng phạm vi và phí"
+      },
+      {
+        "description": "Trang web xác thực nội dung gửi, lưu giữ thông tin đăng nhập AI phía máy chủ và các biểu mẫu công khai giới hạn tỷ lệ.",
+        "title": "Nhập học có kỷ luật"
+      }
+    ]
+  },
+  "process": {
+    "step1Features": [
+      "Consultation with the attorney",
+      "Initial document review",
+      "Scope and risk discussion"
+    ],
+    "step2Features": [
+      "Form drafting and review",
+      "Evidence checklist",
+      "Final pre-filing quality check"
+    ],
+    "step3Features": [
+      "Interview preparation",
+      "RFE or deadline planning",
+      "Email-based status updates"
+    ],
+    "title": "Cách chúng tôi làm việc",
+    "step3Desc": "Luôn chuẩn bị sẵn sàng sau khi nộp hồ sơ với việc chuẩn bị phỏng vấn, chiến lược ứng phó và theo dõi trực tiếp.",
+    "step2Desc": "Xây dựng chiến lược nộp hồ sơ, tập hợp các bằng chứng hỗ trợ và chuẩn bị hồ sơ một cách cẩn thận.",
+    "subtitle": "Hoạt động này được xây dựng xung quanh một luật sư sở hữu hồ sơ, chiến lược và thông tin liên lạc từ lần tư vấn đầu tiên cho đến quyết định nộp đơn.",
+    "heading": "Một quy trình pháp lý rõ ràng, không có sự nhầm lẫn về khối lượng và công ty.",
+    "step1Title": "Lắng nghe và đánh giá",
+    "step3Title": "Hướng dẫn bạn thực hiện",
+    "step1Desc": "Bắt đầu với tư vấn trả phí để xác định vấn đề, thời hạn và bước tiếp theo rõ ràng nhất.",
+    "step2Title": "Chuẩn bị & nộp hồ sơ"
+  },
+  "services": {
+    "heading": "Các vấn đề nhập cư tập trung, được xử lý bằng kế hoạch nộp hồ sơ rõ ràng.",
+    "viewPricing": "Xem giá ({price})",
+    "bookConsultation": "Tư vấn sách",
+    "estimatedTimeline": "Dòng thời gian ước tính",
+    "title": "Chuyên môn của chúng tôi",
+    "whatWeHandle": "Những gì chúng tôi xử lý",
+    "price": "Từ",
+    "timeline": "Dòng thời gian",
+    "details": "Chi tiết",
+    "keyRequirements": "Yêu cầu chính",
+    "subtitle": "Từ việc nộp đơn xin thị thực đơn giản đến các vấn đề khẩn cấp nhạy cảm với tòa án, hoạt động này tập trung vào việc chuẩn bị, đánh giá rủi ro một cách thẳng thắn và giao tiếp trực tiếp.",
+    "items": [
+      {
+        "price": "Từ $350",
+        "timeline": "2-4 tuần",
+        "title": "Visa du lịch (B1/B2)",
+        "id": "du khách",
+        "stat": "Chuẩn bị phỏng vấn được xây dựng dựa trên mục đích du lịch thực tế của bạn",
+        "features": [
+          "Hướng dẫn chuẩn bị và hướng dẫn DS-160",
+          "Huấn luyện phỏng vấn bằng các buổi thử nghiệm",
+          "Danh sách kiểm tra tài liệu và chiến lược"
+        ],
+        "description": "Chuẩn bị toàn diện cho thị thực du lịch và kinh doanh.",
+        "requirements": [
+          "Hộ chiếu hợp lệ",
+          "Gắn bó với quê hương",
+          "Khả năng tài chính"
+        ]
+      },
+      {
+        "title": "Visa sinh viên (F-1)",
+        "stat": "Hỗ trợ từ việc xem xét tài liệu thông qua chuẩn bị phỏng vấn lãnh sự",
+        "id": "học sinh",
+        "price": "Từ $450",
+        "description": "Hướng dẫn dành cho sinh viên quốc tế theo học tại Hoa Kỳ.",
+        "timeline": "1-3 tháng",
+        "features": [
+          "Hướng dẫn lộ trình nhập học",
+          "Hướng dẫn về phí I-20 và SEVIS",
+          "Chuẩn bị phỏng vấn toàn diện"
+        ],
+        "requirements": [
+          "Mẫu I-20",
+          "Biên nhận SEVIS",
+          "Tài liệu tài chính",
+          "Hồ sơ học tập"
+        ]
+      },
+      {
+        "id": "kết hôn",
+        "price": "Từ $1,800",
+        "title": "Dựa trên hôn nhân",
+        "requirements": [
+          "Kết hôn hợp lệ",
+          "Quyền công dân của người nộp đơn hoặc tình trạng LPR",
+          "Hỗ trợ tài chính"
+        ],
+        "features": [
+          "Điều chỉnh trạng thái (I-130, I-485)",
+          "Hỗ trợ xử lý lãnh sự",
+          "Chiến lược chuẩn bị phỏng vấn và bằng chứng"
+        ],
+        "stat": "Lập kế hoạch dựa trên bằng chứng đầu tiên cho các trường hợp kết hôn chân chính",
+        "timeline": "6-18 tháng",
+        "description": "Thẻ xanh cho vợ/chồng của công dân Hoa Kỳ và thường trú nhân."
+      },
+      {
+        "stat": "Phân tích rủi ro trước khi gửi yêu cầu thay đổi trạng thái",
+        "price": "Từ $850",
+        "title": "Thay đổi trạng thái",
+        "description": "Chuyển từ tình trạng không di dân này sang tình trạng không di dân khác, chẳng hạn như B-2 sang F-1.",
+        "timeline": "3-6 tháng",
+        "id": "trạng thái thay đổi",
+        "features": [
+          "Tính đủ điều kiện và đánh giá rủi ro",
+          "Chuẩn bị mẫu đơn I-539",
+          "Hỗ trợ phản hồi RFE"
+        ],
+        "requirements": [
+          "Trạng thái hiện tại hợp lệ",
+          "Không có ý định nhập cư",
+          "Khả năng thanh toán tài chính"
+        ]
+      },
+      {
+        "id": "giấy phép lao động",
+        "title": "Giấy phép lao động (I-765)",
+        "timeline": "1-3 tháng",
+        "requirements": [
+          "Kiến nghị cơ bản",
+          "Danh mục đủ điều kiện"
+        ],
+        "stat": "Xem xét danh mục trước khi gửi để tránh sự chậm trễ có thể ngăn ngừa được",
+        "features": [
+          "Phân tích tính đủ điều kiện theo danh mục cụ thể",
+          "Chuẩn bị và nộp hồ sơ",
+          "Theo dõi ứng dụng"
+        ],
+        "price": "Từ $250",
+        "description": "Giấy tờ ủy quyền việc làm cho những người nộp đơn đủ điều kiện."
+      },
+      {
+        "description": "Bảo vệ những người đang lo sợ bị đàn áp ở quê nhà.",
+        "requirements": [
+          "Sợ bị đàn áp",
+          "Sự hiện diện vật lý ở Hoa Kỳ"
+        ],
+        "title": "Tị nạn (I-589)",
+        "features": [
+          "Hỗ trợ chuẩn bị hồ sơ và bản khai",
+          "Nghiên cứu điều kiện đất nước",
+          "Chuẩn bị phỏng vấn"
+        ],
+        "stat": "Chuẩn bị bí mật cho các vấn đề nhân đạo quan trọng",
+        "id": "tị nạn",
+        "timeline": "6-24 tháng",
+        "price": "Tư vấn báo giá"
+      },
+      {
+        "price": "Tư vấn báo giá",
+        "timeline": "3-12 tháng",
+        "id": "thị thực u",
+        "requirements": [
+          "Nạn nhân của tội phạm đủ tiêu chuẩn",
+          "Hữu ích cho cảnh sát"
+        ],
+        "stat": "Xử lý nhạy cảm đối với hồ sơ dựa trên người sống sót",
+        "title": "Visa U (Nạn nhân)",
+        "description": "Tình trạng dành cho nạn nhân của một số tội phạm hỗ trợ thực thi pháp luật.",
+        "features": [
+          "Hỗ trợ I-918 và Phụ lục B",
+          "Thu thập bằng chứng",
+          "Hướng dẫn xác định chính xác"
+        ]
+      },
+      {
+        "stat": "Xem xét rủi ro du lịch trước khi rời Hoa Kỳ",
+        "price": "Từ $300",
+        "requirements": [
+          "I-485 đang chờ xử lý",
+          "Khả năng hội đủ điều kiện của DACA hoặc TPS"
+        ],
+        "title": "Tạm tha trước",
+        "timeline": "1-2 tháng",
+        "id": "tạm tha",
+        "features": [
+          "Chuẩn bị giấy phép du lịch",
+          "Tư vấn và phân tích rủi ro",
+          "Xử lý khẩn cấp nếu cần thiết"
+        ],
+        "description": "Giấy phép du lịch (I-131) dành cho người nộp đơn xin thẻ xanh đang chờ xử lý."
+      },
+      {
+        "stat": "Yêu cầu được xây dựng dựa trên tiêu chí cấp bách và đại lý được ghi lại",
+        "id": "xúc tiến",
+        "timeline": "1-4 tuần",
+        "title": "Đẩy nhanh yêu cầu",
+        "description": "Đẩy nhanh các vụ án đang chờ xử lý vì lý do nhân đạo hoặc tài chính.",
+        "features": [
+          "Soạn thảo yêu cầu hấp dẫn",
+          "Biên soạn bằng chứng",
+          "Chiến lược phù hợp với tiêu chí của USCIS"
+        ],
+        "price": "Từ $500",
+        "requirements": [
+          "Tổn thất tài chính nghiêm trọng",
+          "trường hợp khẩn cấp nhân đạo",
+          "Sự quan tâm của chính phủ Mỹ"
+        ]
+      }
+    ]
+  }
 }

@@ -1,288 +1,690 @@
 {
-    "common": {
-        "siteName": "M&T 이민 법률사무소",
-        "tagline": "변호사에 직접 접근할 수 있는 단독 이민 자문",
-        "description": "방문자, 학생, 가족, 인도주의 및 긴급 재판 관련 사건을 위한 프리미엄 미국 이민 대리. 명확한 전략, 투명한 비용 및 변호사와의 직접적인 소통.",
-        "bookConsultation": "상담 예약",
-        "exploreServices": "서비스 탐색",
-        "learnMore": "자세히 알아보기",
-        "contactUs": "联系我们",
-        "getStarted": "시작하기",
-        "viewAll": "모두 보기",
-        "submit": "제출",
-        "next": "다음",
-        "previous": "이전",
-        "back": "뒤로",
-        "close": "닫기",
-        "loading": "로딩 중..."
-    },
-    "nav": {
-        "services": "서비스",
-        "reviews": "리뷰",
-        "about": "정보",
-        "fees": "비용",
-        "insights": "인사이트",
-        "faq": "자주 묻는 질문",
-        "contact": "연락처"
-    },
-    "hero": {
-        "badge": "직접 사건 소유권을 가진 단독 변호사 실무",
-        "title": "집중된 이민 자문",
-        "titleHighlight": "명확한 전략으로",
-        "subtitle": "방문자, 학생, 가족 기반, 인도주의 및 긴급 체포 사건에 대한 프리미엄 지원, 접수부터 제출까지 변호사와의 직접적인 소통 포함.",
-        "cta": "상담 예약",
-        "ctaSecondary": "서비스 탐색",
-        "directAccess": "변호사 직접 접촉",
-        "responseTime": "1-2 영업일 내 답변",
-        "transparentFees": "투명한 상담 비용"
-    },
-    "stats": {
-        "directAttorney": "변호사 직접 접촉",
-        "directAttorneyDesc": "전략 및 제출 결정에 책임이 있는 변호사와 이야기하게 됩니다.",
-        "caseReady": "사건 준비 접수",
-        "caseReadyDesc": "구조화된 접수가 마감일, 제출 및 긴급 문제를 조기에 파악하는 데 도움이 됩니다.",
-        "security": "보안 우선 통신",
-        "securityDesc": "양식 및 채팅은 이제 검증된 서버 측 경로를 통해 실행됩니다.",
-        "virtual": "전국 가상 상담",
-        "virtualDesc": "미국 전역의 고객을 위한 원격 상담이 가능합니다."
-    },
-    "language": {
-        "switch": "English",
-        "current": "한국어"
-    },
-    "pricing": {
-        "noteLabel": "Note:",
-        "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
-        "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
-        "items": [
-            {
-                "service": "Visitor Visa (B1/B2)",
-                "price": "$350–$650",
-                "includes": "DS-160, coaching"
-            },
-            {
-                "service": "Student Visa (F-1)",
-                "price": "$450–$900",
-                "includes": "I-20 guidance, prep"
-            },
-            {
-                "service": "Change of Status",
-                "price": "$850–$1,800",
-                "includes": "I-539, risk assessment"
-            },
-            {
-                "service": "Marriage-Based AOS",
-                "price": "$1,800–$3,500",
-                "includes": "Full forms, evidence"
-            },
-            {
-                "service": "Consular Processing",
-                "price": "$1,200–$2,400",
-                "includes": "NVC support"
-            },
-            {
-                "service": "Work Permit (I-765)",
-                "price": "$250–$450",
-                "includes": "Eligibility analysis"
-            },
-            {
-                "service": "Advance Parole (I-131)",
-                "price": "$250–$450",
-                "includes": "Authorization prep"
-            },
-            {
-                "service": "Expedite Request Prep",
-                "price": "$300–$600",
-                "includes": "Drafting, evidence"
-            },
-            {
-                "service": "U Visa",
-                "price": "$1,800–$3,500",
-                "includes": "Full support"
-            },
-            {
-                "service": "Asylum",
-                "price": "$2,500–$6,000",
-                "includes": "Research, prep"
-            }
-        ],
-        "benefits": [
-            "Transparent, upfront pricing",
-            "Scope explained before work begins",
-            "Flexible payment plans when appropriate",
-            "Hosted online payment options",
-            "No hidden administrative fees",
-            "Consultation fees credited when applicable",
-            "Government filing fees billed separately"
-        ]
-    },
-    "contact": {
-        "cards": [
-            {
-                "label": "Phone / WhatsApp",
-                "tooltip": "Click to call"
-            },
-            {
-                "label": "Email",
-                "tooltip": "Click to email"
-            },
-            {
-                "label": "Office",
-                "tooltip": "New York, NY"
-            },
-            {
-                "label": "Business Hours",
-                "tooltip": "1-2 business day response"
-            }
-        ],
-        "feeOptions": [
-            {
-                "label": "15 min Initial Sync",
-                "price": "$125"
-            },
-            {
-                "label": "30 min Strategy Session",
-                "price": "$250"
-            }
-        ]
-    },
-    "process": {
-        "step1Features": [
-            "Consultation with the attorney",
-            "Initial document review",
-            "Scope and risk discussion"
-        ],
-        "step2Features": [
-            "Form drafting and review",
-            "Evidence checklist",
-            "Final pre-filing quality check"
-        ],
-        "step3Features": [
-            "Interview preparation",
-            "RFE or deadline planning",
-            "Email-based status updates"
-        ]
-    },
-    "testimonials": {
-        "items": [
-            {
-                "title": "Direct communication",
-                "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
-                "label": "No handoff model"
-            },
-            {
-                "title": "Prepared submissions",
-                "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
-                "label": "Evidence-first work"
-            },
-            {
-                "title": "Calm guidance in urgent matters",
-                "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
-                "label": "Urgent matters prioritized"
-            },
-            {
-                "title": "Straight answers on price and scope",
-                "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
-                "label": "Transparent fees"
-            }
-        ]
-    },
-    "footer": {
-        "links": {
-            "services": [
-                {
-                    "name": "Visitor Visas (B1/B2)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Student Visas (F-1)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Marriage-Based",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Asylum & U-Visa",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Work Permits (EAD)",
-                    "href": "/#services"
-                }
-            ],
-            "company": [
-                {
-                    "name": "About the Practice",
-                    "href": "/#about"
-                },
-                {
-                    "name": "Our Process",
-                    "href": "/#process"
-                },
-                {
-                    "name": "Client Experience",
-                    "href": "/#testimonials"
-                },
-                {
-                    "name": "Insights",
-                    "href": "/insights"
-                },
-                {
-                    "name": "Contact",
-                    "href": "/#contact"
-                }
-            ],
-            "support": [
-                {
-                    "name": "Pricing & Fees",
-                    "href": "/#pricing"
-                },
-                {
-                    "name": "Secure Payments",
-                    "href": "/#payments"
-                },
-                {
-                    "name": "FAQ",
-                    "href": "/#faq"
-                },
-                {
-                    "name": "Book Consultation",
-                    "href": "/#contact"
-                },
-                {
-                    "name": "Brief Break",
-                    "href": "/brief-break"
-                }
-            ],
-            "legal": [
-                {
-                    "name": "Privacy Policy",
-                    "href": "/privacy"
-                },
-                {
-                    "name": "Terms of Use",
-                    "href": "/terms"
-                },
-                {
-                    "name": "Attorney Advertising",
-                    "href": "/terms"
-                }
-            ]
+  "common": {
+    "siteName": "M&T 이민 법률사무소",
+    "tagline": "변호사에 직접 접근할 수 있는 단독 이민 자문",
+    "description": "방문자, 학생, 가족, 인도주의 및 긴급 재판 관련 사건을 위한 프리미엄 미국 이민 대리. 명확한 전략, 투명한 비용 및 변호사와의 직접적인 소통.",
+    "bookConsultation": "상담 예약",
+    "exploreServices": "서비스 탐색",
+    "learnMore": "자세히 알아보기",
+    "contactUs": "联系我们",
+    "getStarted": "시작하기",
+    "viewAll": "모두 보기",
+    "submit": "제출",
+    "next": "다음",
+    "previous": "이전",
+    "back": "뒤로",
+    "close": "닫기",
+    "loading": "로딩 중..."
+  },
+  "nav": {
+    "services": "서비스",
+    "reviews": "리뷰",
+    "about": "정보",
+    "fees": "비용",
+    "insights": "인사이트",
+    "faq": "자주 묻는 질문",
+    "contact": "연락처"
+  },
+  "hero": {
+    "badge": "직접 사건 소유권을 가진 단독 변호사 실무",
+    "title": "집중된 이민 자문",
+    "titleHighlight": "명확한 전략으로",
+    "subtitle": "방문자, 학생, 가족 기반, 인도주의 및 긴급 체포 사건에 대한 프리미엄 지원, 접수부터 제출까지 변호사와의 직접적인 소통 포함.",
+    "cta": "상담 예약",
+    "ctaSecondary": "서비스 탐색",
+    "directAccess": "변호사 직접 접촉",
+    "responseTime": "1-2 영업일 내 답변",
+    "transparentFees": "투명한 상담 비용"
+  },
+  "stats": {
+    "directAttorney": "변호사 직접 접촉",
+    "directAttorneyDesc": "전략 및 제출 결정에 책임이 있는 변호사와 이야기하게 됩니다.",
+    "caseReady": "사건 준비 접수",
+    "caseReadyDesc": "구조화된 접수가 마감일, 제출 및 긴급 문제를 조기에 파악하는 데 도움이 됩니다.",
+    "security": "보안 우선 통신",
+    "securityDesc": "양식 및 채팅은 이제 검증된 서버 측 경로를 통해 실행됩니다.",
+    "virtual": "전국 가상 상담",
+    "virtualDesc": "미국 전역의 고객을 위한 원격 상담이 가능합니다."
+  },
+  "insightsPreview": {
+    "title": "Insights",
+    "heading": "Case studies, news, and practical reads in one place.",
+    "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
+    "openAll": "Open All Insights",
+    "seeMore": "See More",
+    "caseStudies": "Case Studies",
+    "news": "News",
+    "analysis": "Analysis"
+  },
+  "language": {
+    "switch": "English",
+    "current": "한국어"
+  },
+  "briefBreak": {
+    "previewTitle": "Docket Zip",
+    "previewSubtitle": "Connect the facts. Fill the record.",
+    "cta": "퍼즐룸에 입장하세요",
+    "heading": "힘든 작업 사이의 순간을 위한 조용한 퍼즐룸.",
+    "pill": "줄무늬, 힌트, 법적 압박이 전혀 없는 일일 챔버 퍼즐",
+    "subtitle": "회사 사이트는 중요한 부분에 대해 진지한 태도를 유지합니다. 이것은 의도적인 우회로입니다. 집중, 재설정 및 약간의 스트레스 해소를 위해 만들어진 작은 법률 테마 퍼즐 페이지입니다.",
+    "title": "짧은 휴식"
+  },
+  "contact": {
+    "cards": [
+      {
+        "label": "Phone / WhatsApp",
+        "tooltip": "Click to call"
+      },
+      {
+        "label": "Email",
+        "tooltip": "Click to email"
+      },
+      {
+        "label": "Office",
+        "tooltip": "New York, NY"
+      },
+      {
+        "label": "Business Hours",
+        "tooltip": "1-2 business day response"
+      }
+    ],
+    "feeOptions": [
+      {
+        "label": "15 min Initial Sync",
+        "price": "$125"
+      },
+      {
+        "label": "30 min Strategy Session",
+        "price": "$250"
+      }
+    ],
+    "min30": "30분",
+    "contactInfo": "연락처 정보",
+    "heading": "문제를 검토할 준비가 되셨나요?",
+    "subtitle": "상담을 예약하거나 구조화된 접수 요청을 보내세요. 사무실은 영업일 기준 1~2일 이내에 새로운 문의에 응답합니다.",
+    "consultationFees": "상담비용",
+    "responseTime": "응답 시간",
+    "min15": "15분",
+    "phone": "전화/왓츠앱",
+    "email": "이메일",
+    "feeCredit": "유지되는 경우 서비스에 대한 수수료가 적립됩니다.",
+    "office": "사무실",
+    "title": "시작하기"
+  },
+  "process": {
+    "step1Features": [
+      "Consultation with the attorney",
+      "Initial document review",
+      "Scope and risk discussion"
+    ],
+    "step2Features": [
+      "Form drafting and review",
+      "Evidence checklist",
+      "Final pre-filing quality check"
+    ],
+    "step3Features": [
+      "Interview preparation",
+      "RFE or deadline planning",
+      "Email-based status updates"
+    ],
+    "subtitle": "이 관행은 첫 번째 상담부터 제출 결정까지 파일, 전략 및 커뮤니케이션을 소유한 한 명의 변호사를 중심으로 구축되었습니다.",
+    "step3Desc": "인터뷰 준비, 대응 전략, 직접적인 후속 조치를 통해 서류 제출 후 준비 상태를 유지하세요.",
+    "step1Title": "듣고 평가하기",
+    "step2Title": "준비 및 제출",
+    "step2Desc": "제출 전략을 수립하고, 뒷받침하는 증거를 모으고, 제출 서류를 주의 깊게 준비하세요.",
+    "title": "우리가 일하는 방식",
+    "step1Desc": "문제, 기한, 가장 깔끔한 다음 단계를 파악하려면 유료 상담부터 시작하세요.",
+    "heading": "볼륨 회사의 혼란 없이 명확한 법적 절차.",
+    "step3Title": "안내해 드립니다"
+  },
+  "pricing": {
+    "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
+    "noteLabel": "Note:",
+    "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
+    "benefits": [
+      "Transparent, upfront pricing",
+      "Scope explained before work begins",
+      "Flexible payment plans when appropriate",
+      "Hosted online payment options",
+      "No hidden administrative fees",
+      "Consultation fees credited when applicable",
+      "Government filing fees billed separately"
+    ],
+    "items": [
+      {
+        "service": "Visitor Visa (B1/B2)",
+        "price": "$350–$650",
+        "includes": "DS-160, coaching"
+      },
+      {
+        "service": "Student Visa (F-1)",
+        "price": "$450–$900",
+        "includes": "I-20 guidance, prep"
+      },
+      {
+        "service": "Change of Status",
+        "price": "$850–$1,800",
+        "includes": "I-539, risk assessment"
+      },
+      {
+        "service": "Marriage-Based AOS",
+        "price": "$1,800–$3,500",
+        "includes": "Full forms, evidence"
+      },
+      {
+        "service": "Consular Processing",
+        "price": "$1,200–$2,400",
+        "includes": "NVC support"
+      },
+      {
+        "service": "Work Permit (I-765)",
+        "price": "$250–$450",
+        "includes": "Eligibility analysis"
+      },
+      {
+        "service": "Advance Parole (I-131)",
+        "price": "$250–$450",
+        "includes": "Authorization prep"
+      },
+      {
+        "service": "Expedite Request Prep",
+        "price": "$300–$600",
+        "includes": "Drafting, evidence"
+      },
+      {
+        "service": "U Visa",
+        "price": "$1,800–$3,500",
+        "includes": "Full support"
+      },
+      {
+        "service": "Asylum",
+        "price": "$2,500–$6,000",
+        "includes": "Research, prep"
+      }
+    ],
+    "whyChoose": "왜 우리를 선택합니까?",
+    "includes": "포함",
+    "title": "투명한 수수료",
+    "heading": "집중적인 표현을 위한 명확한 법적 비용.",
+    "cta": "맞춤 견적 받기",
+    "subtitle": "범위는 복잡성, 긴급성, 문서 부하에 따라 다릅니다. 목표는 예약하기 전에 현실적인 법적 수수료 범위를 보여주는 것입니다.",
+    "priceRange": "가격대",
+    "service": "서비스"
+  },
+  "intake": {
+    "summary": "사례 요약",
+    "language": "선호하는 언어",
+    "caseType": "물질 유형",
+    "email": "이메일 주소",
+    "success": "상담요청이 접수되었습니다.",
+    "phone": "전화 번호",
+    "step3Title": "검토",
+    "consent": "내 정보 수집 및 처리에 동의합니다.",
+    "step2Title": "사례 세부정보",
+    "name": "성명",
+    "successDesc": "귀하의 정보를 검토한 후 귀하가 선호하는 연락처 정보를 사용하여 후속 조치를 취하겠습니다.",
+    "step1Title": "연락하다",
+    "submitting": "제출 중..."
+  },
+  "cta": {
+    "subtitle": "고위험 이민 문제를 일반적인 유입 경로에 넘기지 마십시오. 집중적인 상담부터 시작해 변호사가 주도하는 업무를 통해 명확한 다음 단계를 밟아보세요.",
+    "feature3": "전국 가상상담",
+    "ctaPrimary": "일정 상담",
+    "feature2": "영업일 기준 1~2일 이내 응답",
+    "title": "시작할 준비가 되셨나요?",
+    "ctaSecondary": "지금 전화하세요",
+    "heading": "귀하의 이민 전략은 실제 사례 검토로 시작됩니다.",
+    "feature1": "투명한 상담비용"
+  },
+  "testimonials": {
+    "items": [
+      {
+        "title": "Direct communication",
+        "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
+        "label": "No handoff model"
+      },
+      {
+        "title": "Prepared submissions",
+        "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
+        "label": "Evidence-first work"
+      },
+      {
+        "title": "Calm guidance in urgent matters",
+        "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
+        "label": "Urgent matters prioritized"
+      },
+      {
+        "title": "Straight answers on price and scope",
+        "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
+        "label": "Transparent fees"
+      }
+    ],
+    "calm": "긴급한 사항에는 차분한 안내",
+    "directComm": "직접적인 의사소통",
+    "subtitle": "검증할 수 없는 사용후기 대신 이제 이 사이트는 고객이 부티크 이민 업무에서 합리적으로 기대해야 하는 표준에 중점을 두고 있습니다.",
+    "preparedLabel": "증거 우선 작업",
+    "straight": "가격과 범위에 대한 직접적인 답변",
+    "heading": "강력한 솔로 연습이 제공해야 하는 것입니다.",
+    "prepared": "준비된 제출물",
+    "straightLabel": "투명한 수수료",
+    "directCommLabel": "핸드오프 모델 없음",
+    "title": "클라이언트 경험",
+    "calmLabel": "긴급한 사항을 우선적으로 처리"
+  },
+  "footer": {
+    "links": {
+      "services": [
+        {
+          "name": "Visitor Visas (B1/B2)",
+          "href": "/#services"
+        },
+        {
+          "name": "Student Visas (F-1)",
+          "href": "/#services"
+        },
+        {
+          "name": "Marriage-Based",
+          "href": "/#services"
+        },
+        {
+          "name": "Asylum & U-Visa",
+          "href": "/#services"
+        },
+        {
+          "name": "Work Permits (EAD)",
+          "href": "/#services"
         }
+      ],
+      "company": [
+        {
+          "name": "About the Practice",
+          "href": "/#about"
+        },
+        {
+          "name": "Our Process",
+          "href": "/#process"
+        },
+        {
+          "name": "Client Experience",
+          "href": "/#testimonials"
+        },
+        {
+          "name": "Insights",
+          "href": "/insights"
+        },
+        {
+          "name": "Contact",
+          "href": "/#contact"
+        }
+      ],
+      "support": [
+        {
+          "name": "Pricing & Fees",
+          "href": "/#pricing"
+        },
+        {
+          "name": "Secure Payments",
+          "href": "/#payments"
+        },
+        {
+          "name": "FAQ",
+          "href": "/#faq"
+        },
+        {
+          "name": "Book Consultation",
+          "href": "/#contact"
+        },
+        {
+          "name": "Brief Break",
+          "href": "/brief-break"
+        }
+      ],
+      "legal": [
+        {
+          "name": "Privacy Policy",
+          "href": "/privacy"
+        },
+        {
+          "name": "Terms of Use",
+          "href": "/terms"
+        },
+        {
+          "name": "Attorney Advertising",
+          "href": "/terms"
+        }
+      ]
     },
-    "insightsPreview": {
-        "title": "Insights",
-        "heading": "Case studies, news, and practical reads in one place.",
-        "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
-        "caseStudies": "Case Studies",
-        "news": "News",
-        "analysis": "Analysis",
-        "openAll": "Open All Insights",
-        "seeMore": "See More"
-    },
-    "briefBreak": {
-        "previewTitle": "Docket Zip",
-        "previewSubtitle": "Connect the facts. Fill the record."
-    }
+    "services": "서비스",
+    "company": "회사",
+    "terms": "이용약관",
+    "copyright": "저작권 © {연도} {이름}. 모든 권리 보유.",
+    "advertising": "변호사 광고",
+    "privacy": "개인 정보 보호 정책",
+    "tagline": "직접적인 의사소통, 투명한 수수료, 집중적인 사건 전략을 갖춘 변호사가 주도하는 부티크 이민 대리 서비스입니다.",
+    "insights": "통찰력",
+    "emailAria": "{email}로 이메일을 보내주세요.",
+    "phoneAria": "{phone}번으로 전화주세요",
+    "support": "지원하다",
+    "siteMap": "사이트 맵",
+    "legal": "합법적인",
+    "disclaimer": "변호사 광고. 본 웹사이트의 정보는 일반적인 정보 제공 목적으로만 제공됩니다. 이 사이트의 어떤 내용도 개별 사례나 상황에 대한 법적 조언으로 간주되어서는 안 됩니다. 이 정보는 변호사-의뢰인 관계를 형성하기 위한 것이 아니며, 수령 또는 보기가 구성되지 않습니다. 이전 결과가 유사한 결과를 보장하지는 않습니다."
+  },
+  "about": {
+    "filingRoadmap": "명확한 서류 제출 로드맵",
+    "description": "M&T는 사려 깊은 준비, 정확한 답변, 업무를 담당하는 변호사와의 직접적인 접근을 원하는 고객을 위한 집중적인 단독 업무로 구성되어 있습니다.",
+    "quote": "이민 사건은 대량 진료로 사라지기에는 너무 중요합니다. 전략을 주도하는 사람이 누구인지, 다음 서류 제출이 무엇인지, 위험이 어디에 있는지 알아야 합니다.",
+    "virtual": "전국 가상상담",
+    "heading": "직접적인 의사소통을 위해 구축된 부티크 이민 업무",
+    "title": "에 대한",
+    "credentials": "자격증 및 전문성",
+    "boutique": "부티크 업무량 주의",
+    "attorneyLed": "변호사 주도 전략"
+  },
+  "whyChooseUs": {
+    "reason3Desc": "상담, 파일링 작업, 다음 단계는 작업이 시작되기 전에 일반 언어로 구성됩니다.",
+    "quoteEmphasis": "일찍",
+    "reason2Title": "마감일 중심 작업",
+    "practiceFocus": "실천중심",
+    "reason3Title": "명확한 범위 및 수수료",
+    "reason4Desc": "이제 사이트는 제출물을 검증하고, AI 키를 서버 측에 유지하며, 공개 양식의 비율을 제한합니다.",
+    "title": "M&T를 선택하는 이유",
+    "cta": "사례 검토 요청",
+    "heading": "혼자 주의 집중을 연습하세요. 명확한 법적 판단.",
+    "reason1Title": "하나의 변호사, 하나의 전략",
+    "quoteBefore": "부티크 업무는 변호사가 파일을 가까이 두고 의사소통할 때 가장 잘 작동합니다.",
+    "reason4Title": "훈련된 섭취",
+    "reasons": [
+      {
+        "title": "하나의 변호사, 하나의 전략",
+        "description": "동일한 변호사가 상담부터 다음 접수 결정까지 사건 전략을 소유합니다."
+      },
+      {
+        "title": "마감일 중심 작업",
+        "description": "긴급 인터뷰, 법원 날짜, 정부 응답 마감일 등이 우선적으로 처리됩니다."
+      },
+      {
+        "title": "명확한 범위 및 수수료",
+        "description": "상담, 파일링 작업, 다음 단계는 작업이 시작되기 전에 일반 언어로 구성됩니다."
+      },
+      {
+        "description": "이 사이트는 제출물을 검증하고, AI 자격 증명을 서버측에 유지하며, 공개 양식의 비율을 제한합니다.",
+        "title": "훈련된 섭취"
+      }
+    ],
+    "practiceAreas": [
+      {
+        "summary": "H-1B, EAD 및 신분 변경 전략.",
+        "title": "일과 지위가 중요하다"
+      },
+      {
+        "summary": "F-1 계획, 상태 유지 및 인터뷰 준비.",
+        "title": "학생 진로"
+      },
+      {
+        "summary": "결혼 기반 서류 제출 및 가족 재결합 계획.",
+        "title": "가족 기반 사례"
+      },
+      {
+        "title": "인도주의적 구호",
+        "summary": "망명, U 비자 및 긴급 보호에 초점을 맞춘 문제."
+      }
+    ],
+    "reason2Desc": "긴급 인터뷰, 법원 날짜, 정부 응답 마감일 등이 우선적으로 처리됩니다.",
+    "reason1Desc": "동일한 변호사가 상담부터 다음 접수 결정까지 사건 전략을 소유합니다.",
+    "heading2": "사람들이 실제로 잠을 이루지 못하는 문제를 위해 만들어졌습니다.",
+    "quoteAfter": ", 서류가 발송되기 전에 고객에게 어려운 부분을 알려줍니다."
+  },
+  "faq": {
+    "title": "일반적인 질문",
+    "heading": "자주 묻는 질문.",
+    "pricingPayments": "가격 및 결제",
+    "legalResults": "법률 및 결과",
+    "processTimeline": "프로세스 및 타임라인",
+    "gettingStarted": "시작하기",
+    "subtitle": "다음 단계를 시작하기 전에 프로세스, 가격, 예상 사항에 대한 명확한 답변을 얻으세요.",
+    "categories": [
+      {
+        "category": "시작하기",
+        "faqs": [
+          {
+            "answer": "상담은 대부분의 문제에 대한 첫 번째 단계입니다. 이는 문제를 식별하고 마감일을 정하고 사용 가능한 문서를 검토하고 다음 조치가 제출인지 추가 증거 수집인지 또는 보다 긴급한 전략 세션인지 결정하는 데 사용됩니다.",
+            "question": "상담은 어떻게 진행되나요?"
+          },
+          {
+            "answer": "예. 전화나 영상을 통한 원격 상담이 가능해 직접 방문하지 않고도 많은 이민 문제를 검토할 수 있다.",
+            "question": "가상 상담을 제공하나요?"
+          },
+          {
+            "question": "어떤 언어를 지원하나요?",
+            "answer": "영어 상담은 직접 지원되며, 고객이 다른 언어에 더 익숙해지면 통역사 친화적인 워크플로우를 마련할 수 있습니다."
+          }
+        ]
+      },
+      {
+        "category": "가격 및 결제",
+        "faqs": [
+          {
+            "answer": "아니요. 정부 제출 수수료는 법적 수수료와 별개입니다. 상담은 예상되는 법적 수수료 범위, 예상 접수 수수료 및 해당 문제로 인해 발생할 수 있는 기타 비용을 설명하는 데 사용됩니다.",
+            "question": "가격에 USCIS 수수료가 포함되어 있나요?"
+          },
+          {
+            "answer": "업무범위 및 사안의 긴급성에 따라 할부 옵션이 제공될 수 있습니다. 지불 구조는 상담 중에 논의되므로 고객은 작업 시작 전에 지불해야 할 금액과 분할할 수 있는 금액을 이해할 수 있습니다.",
+            "question": "지불 계획은 어떻게 이루어지나요?"
+          },
+          {
+            "answer": "수수료 유연성은 범위, 긴급성, 관련된 문제의 종류에 따라 달라집니다. 경제성이 문제라면 일찍 제기하여 사무실에서 현실적으로 가능한 것이 무엇인지 설명할 수 있도록 하십시오.",
+            "question": "차등 가격 책정을 제공합니까?"
+          }
+        ]
+      },
+      {
+        "category": "프로세스 및 타임라인",
+        "faqs": [
+          {
+            "answer": "일정은 케이스 유형, 문서 수집 속도, 긴급 마감 기한 여부에 따라 달라집니다. 간단한 문제는 필요한 증거가 확보되면 빠르게 진행될 수 있습니다.",
+            "question": "신청서를 얼마나 빨리 제출할 수 있나요?"
+          },
+          {
+            "question": "제 면접 준비를 해주시겠어요?",
+            "answer": "예. 인터뷰 준비는 많은 이민 문제의 일부이며, 특히 경찰관의 질문, 신뢰성 또는 문서 구성이 결과에 영향을 미칠 수 있는 경우 더욱 그렇습니다."
+          },
+          {
+            "question": "내 케이스 상태를 어떻게 추적하나요?",
+            "answer": "상태 업데이트는 일반적으로 이메일과 예약된 후속 조치를 통해 처리됩니다. 정확한 의사소통 흐름은 표현 범위, 다가오는 마감일, 기관 통지에 더 빠른 응답이 필요한지 여부에 따라 달라집니다."
+          }
+        ]
+      },
+      {
+        "category": "법률 및 결과",
+        "faqs": [
+          {
+            "answer": "최종 결정은 사건을 처리하는 정부 기관이나 이민 법원에 속하기 때문에 어떤 변호사도 이민 문제의 결과를 보장할 수 없습니다. 여러분이 기대해야 할 것은 솔직한 조언, 규율 있는 준비, 위험에 대한 솔직한 의사소통입니다.",
+            "question": "결과를 보장하나요?"
+          },
+          {
+            "question": "내 사건이 거부되면 어떻게 되나요?",
+            "answer": "케이스가 거부된 경우 첫 번째 단계는 결정을 주의 깊게 검토하고 실제로 어떤 옵션을 사용할 수 있는지 결정하는 것입니다. 자세에 따라 다시 채우기 전략, 동작, 호소 또는 다른 경로가 포함될 수 있습니다."
+          },
+          {
+            "question": "이민법 업무를 수행할 수 있는 자격이 있습니까?",
+            "answer": "이 웹사이트는 변호사가 주도하는 이민 업무를 중심으로 구축되었습니다. 대리 세부 사항, 라이센스 상태 및 계약 조건은 상담 중에 그리고 서면 계약서에서 항상 확인되어야 합니다."
+          }
+        ]
+      }
+    ]
+  },
+  "services": {
+    "subtitle": "간단한 비자 신청부터 법원에 민감한 긴급 문제까지, 업무 준비, 솔직한 위험 평가 및 직접적인 의사소통에 중점을 두고 있습니다.",
+    "whatWeHandle": "우리가 처리하는 것",
+    "price": "에서",
+    "details": "세부",
+    "timeline": "타임라인",
+    "title": "우리의 전문성",
+    "estimatedTimeline": "예상 일정",
+    "viewPricing": "가격 보기({price})",
+    "bookConsultation": "도서상담",
+    "keyRequirements": "주요 요구 사항",
+    "heading": "명확한 서류 제출 계획에 따라 집중적인 이민 문제를 처리합니다.",
+    "items": [
+      {
+        "price": "$350부터",
+        "features": [
+          "DS-160 준비 및 안내",
+          "모의세션을 통한 면접 코칭",
+          "문서 체크리스트 및 전략"
+        ],
+        "id": "방문객",
+        "timeline": "2~4주",
+        "title": "방문 비자(B1/B2)",
+        "stat": "실제 여행 목적을 중심으로 인터뷰 준비",
+        "requirements": [
+          "유효한 여권",
+          "본국과의 관계",
+          "재정능력"
+        ],
+        "description": "관광 및 비즈니스 여행 비자를 위한 종합적인 준비."
+      },
+      {
+        "stat": "서류심사부터 영사면접 준비까지 지원",
+        "id": "학생",
+        "timeline": "1~3개월",
+        "description": "미국에서 교육을 받고자 하는 유학생을 위한 지침입니다.",
+        "title": "학생 비자(F-1)",
+        "features": [
+          "입학 진로 안내",
+          "I-20 및 SEVIS 수수료 안내",
+          "종합적인 면접 준비"
+        ],
+        "price": "$450부터",
+        "requirements": [
+          "I-20 양식",
+          "SEVIS 영수증",
+          "재무 문서",
+          "학업기록"
+        ]
+      },
+      {
+        "price": "$1,800부터",
+        "title": "결혼 기반",
+        "id": "결혼",
+        "description": "미국 시민권자와 영주권자의 배우자를 위한 영주권.",
+        "stat": "선의의 결혼 사건에 대한 증거 우선 계획",
+        "timeline": "6~18개월",
+        "requirements": [
+          "유효한 결혼",
+          "청원인 시민권 또는 LPR 상태",
+          "재정적 지원"
+        ],
+        "features": [
+          "신분 조정(I-130, I-485)",
+          "영사처리 지원",
+          "인터뷰 준비 및 증거 전략"
+        ]
+      },
+      {
+        "price": "$850부터",
+        "timeline": "3~6개월",
+        "id": "상태 변경",
+        "stat": "상태 변경 요청 전 위험 분석",
+        "description": "비이민 신분에서 B-2에서 F-1 등의 다른 비이민 신분으로 전환.",
+        "title": "상태 변경",
+        "requirements": [
+          "유효한 현재 상태",
+          "이민자 의도 없음",
+          "재정적 지급능력"
+        ],
+        "features": [
+          "적격성 및 위험 평가",
+          "I-539 양식 준비",
+          "RFE 응답 지원"
+        ]
+      },
+      {
+        "id": "취업 허가",
+        "stat": "예방 가능한 지연을 방지하기 위해 제출 전 카테고리 검토",
+        "timeline": "1~3개월",
+        "price": "$250부터",
+        "features": [
+          "카테고리별 적격성 분석",
+          "지원서 준비 및 접수",
+          "애플리케이션 추적"
+        ],
+        "description": "자격을 갖춘 지원자의 취업 허가 서류.",
+        "requirements": [
+          "기본 청원",
+          "자격 카테고리"
+        ],
+        "title": "취업 허가(I-765)"
+      },
+      {
+        "id": "보호 시설",
+        "timeline": "6~24개월",
+        "title": "망명 (I-589)",
+        "requirements": [
+          "박해에 대한 두려움",
+          "미국에서의 물리적 존재"
+        ],
+        "price": "견적 상담",
+        "stat": "중대한 인도주의적 문제에 대한 기밀 준비",
+        "description": "고국에서 박해를 두려워하는 사람들을 보호합니다.",
+        "features": [
+          "신청서 준비 및 진술서 지원",
+          "국가 상황 조사",
+          "면접 준비"
+        ]
+      },
+      {
+        "timeline": "3~12개월",
+        "features": [
+          "I-918 및 보충 B 지원",
+          "증거 수집",
+          "선의의 결정 지침"
+        ],
+        "price": "견적 상담",
+        "id": "u-비자",
+        "description": "법 집행을 돕는 특정 범죄 피해자의 지위.",
+        "title": "U 비자(피해자)",
+        "requirements": [
+          "적격 범죄의 피해자",
+          "경찰에 도움이 됨"
+        ],
+        "stat": "생존자 기반 서류 제출에 대한 민감한 처리"
+      },
+      {
+        "description": "보류 중인 영주권 신청자를 위한 여행 허가(I-131).",
+        "stat": "미국을 떠나기 전 여행 위험 검토",
+        "title": "사전 가석방",
+        "id": "사전 가석방",
+        "price": "$300부터",
+        "requirements": [
+          "I-485 계류 중",
+          "DACA 또는 TPS 자격"
+        ],
+        "timeline": "1~2개월",
+        "features": [
+          "여행 허가 준비",
+          "위험 상담 및 분석",
+          "필요한 경우 응급조치"
+        ]
+      },
+      {
+        "price": "$500부터",
+        "features": [
+          "매력적인 요청 초안 작성",
+          "증거 수집",
+          "USCIS 기준에 맞춘 전략"
+        ],
+        "id": "신속하게 처리하다",
+        "title": "신속한 요청",
+        "stat": "문서화된 긴급성 및 기관 기준에 따라 작성된 요청",
+        "description": "인도주의적 또는 재정적 이유로 계류 중인 사건을 가속화합니다.",
+        "timeline": "1~4주",
+        "requirements": [
+          "심각한 금전적 손실",
+          "인도주의적 비상사태",
+          "미국 정부의 관심"
+        ]
+      }
+    ]
+  }
 }

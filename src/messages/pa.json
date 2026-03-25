@@ -1,288 +1,690 @@
 {
-    "common": {
-        "siteName": "M&T ਇਮੀਗ੍ਰੇਸ਼ਨ ਲਾਅ ਫਰਮ",
-        "tagline": "ਸਿੱਖਿਆ ਵਿੱਚ ਸਿੱਧਾ ਵਕੀਲ ਪਹੁੰਚ ਦੇ ਨਾਲ ਇੱਕਲਾ ਇਮੀਗ੍ਰੇਸ਼ਨ ਕਾਂਸਲ",
-        "description": "ਵਿਜ਼ਿਟਰ, ਵਿਦਿਆਰਥੀ, ਪਰਿਵਾਰ, ਮਨੁੱਖਤਾਵਾਦੀ ਅਤੇ ਜਰੂਰੀ ਅਦਾਲਤ ਦੇ ਮਾਮਲਿਆਂ ਲਈ ਬੁਟੀਕ U.S. ਇਮੀਗ੍ਰੇਸ਼ਨ ਪ੍ਰਤੀਨਿਧਤਾ। ਸਪੱਸ਼ਟ ਰਣਨੀਤੀ, ਪਾਰਦਰਸ਼ੀ ਫੀਸ ਅਤੇ ਸਿੱਧਾ ਵਕੀਲ ਸੰਚਾਰ।",
-        "bookConsultation": "ਮੁੱਖ ਮੁੱਢਲਾ ਬੁਕ ਕਰੋ",
-        "exploreServices": "ਸੇਵਾਵਾਂ ਦੀ ਖੋਜ ਕਰੋ",
-        "learnMore": "ਹੋਰ ਜਾਣੋ",
-        "contactUs": "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
-        "getStarted": "ਸ਼ੁਰੂ ਕਰੋ",
-        "viewAll": "ਸਭ ਦੇਖੋ",
-        "submit": "ਜਮ੍ਹਾਂ ਕਰੋ",
-        "next": "ਅਗਲਾ",
-        "previous": "ਪਿਛਲਾ",
-        "back": "ਵਾਪਸ",
-        "close": "ਬੰਦ ਕਰੋ",
-        "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ..."
-    },
-    "nav": {
-        "services": "ਸੇਵਾਵਾਂ",
-        "reviews": "ਸਮੀਖਿਆਵਾਂ",
-        "about": "ਬਾਰੇ",
-        "fees": "ਫੀਸ",
-        "insights": "ਜਾਣਕਾਰੀ",
-        "faq": "ਆਮ ਸਵਾਲ",
-        "contact": "ਸੰਪਰਕ"
-    },
-    "hero": {
-        "badge": "ਸਿੱਧਾ ਮਾਮਲਾ ਮਾਲਕਾਨਾ ਦੇ ਨਾਲ ਇੱਕਲਾ ਵਕੀਲ ਅਭਿਆਸ",
-        "title": "ਫੋਕਸਡ ਇਮੀਗ੍ਰੇਸ਼ਨ ਕਾਂਸਲ",
-        "titleHighlight": "ਸਪੱਸ਼ਟ ਰਣਨੀਤੀ ਦੇ ਨਾਲ",
-        "subtitle": "ਵਿਜ਼ਿਟਰ, ਵਿਦਿਆਰਥੀ, ਪਰਿਵਾਰ-ਅਧਾਰਤ, ਮਨੁੱਖਤਾਵਾਦੀ ਅਤੇ ਜਰੂਰੀ ਹਟਾਉਣ ਦੇ ਮਾਮਲਿਆਂ ਲਈ ਬੁਟੀਕ ਸਹਾਇਤਾ, ਫਾਈਲਿੰਗ ਤੱਕ ਸਿੱਧਾ ਵਕੀਲ ਸੰਚਾਰ ਦੇ ਨਾਲ।",
-        "cta": "ਮੁੱਖ ਮੁੱਢਲਾ ਬੁਕ ਕਰੋ",
-        "ctaSecondary": "ਸੇਵਾਵਾਂ ਦੀ ਖੋਜ ਕਰੋ",
-        "directAccess": "ਸਿੱਧਾ ਵਕੀਲ ਪਹੁੰਚ",
-        "responseTime": "1-2 ਕਾਰੋਬਾਰੀ ਦਿਨ ਜਵਾਬ",
-        "transparentFees": "ਪਾਰਦਰਸ਼ੀ ਮੁੱਖ ਮੁੱਢਲਾ ਫੀਸ"
-    },
-    "stats": {
-        "directAttorney": "ਸਿੱਧਾ ਵਕੀਲ ਪਹੁੰਚ",
-        "directAttorneyDesc": "ਤੁਸੀਂ ਉਸ ਵਕੀਲ ਨਾਲ ਗੱਲ ਕਰਦੇ ਹੋ ਜੋ ਰਣਨੀਤੀ ਅਤੇ ਫਾਈਲਿੰਗ ਫੈਸਲਿਆਂ ਲਈ ਜਵਾਬਦੇਹ ਹੈ।",
-        "caseReady": "ਮਾਮਲਾ-ਰੈਡੀ ਇੰਟੇਕ",
-        "caseReadyDesc": "ਬਣੀ ਬਣਾਈ ਇੰਟੇਕ ਸਮੇਂ ਸੀਮਾ, ਫਾਈਲਿੰਗ ਅਤੇ ਜਰੂਰੀ ਮੁੱਦਿਆਂ ਨੂੰ ਜਲਦੀ ਚੁਣਨ ਵਿੱਚ ਮਦਦ ਕਰਦੀ ਹੈ।",
-        "security": "ਸੁਰੱਖਿਆ-ਪਹਿਲਾ ਸੰਚਾਰ",
-        "securityDesc": "ਫਾਰਮ ਅਤੇ ਚੈਟ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਸਰਵਰ-ਸਾਈਡ ਰੂਟ ਦੇ ਮਾਧਿਅਮ ਨਾਲ ਚਲਦੇ ਹਨ।",
-        "virtual": "ਵਰਚੁਅਲ ਰਾਸ਼ਟਰੀ ਪੱਧਰ 'ਤੇ",
-        "virtualDesc": "ਪੂਰੇ ਅਮਰੀਕਾ ਦੇ ਗਾਹਕਾਂ ਲਈ ਮੁੱਖ ਮੁੱਢਲਾ ਦੂਰ ਤੋਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।"
-    },
-    "language": {
-        "switch": "English",
-        "current": "ਪੰਜਾਬੀ"
-    },
-    "pricing": {
-        "noteLabel": "Note:",
-        "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
-        "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
-        "items": [
-            {
-                "service": "Visitor Visa (B1/B2)",
-                "price": "$350–$650",
-                "includes": "DS-160, coaching"
-            },
-            {
-                "service": "Student Visa (F-1)",
-                "price": "$450–$900",
-                "includes": "I-20 guidance, prep"
-            },
-            {
-                "service": "Change of Status",
-                "price": "$850–$1,800",
-                "includes": "I-539, risk assessment"
-            },
-            {
-                "service": "Marriage-Based AOS",
-                "price": "$1,800–$3,500",
-                "includes": "Full forms, evidence"
-            },
-            {
-                "service": "Consular Processing",
-                "price": "$1,200–$2,400",
-                "includes": "NVC support"
-            },
-            {
-                "service": "Work Permit (I-765)",
-                "price": "$250–$450",
-                "includes": "Eligibility analysis"
-            },
-            {
-                "service": "Advance Parole (I-131)",
-                "price": "$250–$450",
-                "includes": "Authorization prep"
-            },
-            {
-                "service": "Expedite Request Prep",
-                "price": "$300–$600",
-                "includes": "Drafting, evidence"
-            },
-            {
-                "service": "U Visa",
-                "price": "$1,800–$3,500",
-                "includes": "Full support"
-            },
-            {
-                "service": "Asylum",
-                "price": "$2,500–$6,000",
-                "includes": "Research, prep"
-            }
-        ],
-        "benefits": [
-            "Transparent, upfront pricing",
-            "Scope explained before work begins",
-            "Flexible payment plans when appropriate",
-            "Hosted online payment options",
-            "No hidden administrative fees",
-            "Consultation fees credited when applicable",
-            "Government filing fees billed separately"
-        ]
-    },
-    "contact": {
-        "cards": [
-            {
-                "label": "Phone / WhatsApp",
-                "tooltip": "Click to call"
-            },
-            {
-                "label": "Email",
-                "tooltip": "Click to email"
-            },
-            {
-                "label": "Office",
-                "tooltip": "New York, NY"
-            },
-            {
-                "label": "Business Hours",
-                "tooltip": "1-2 business day response"
-            }
-        ],
-        "feeOptions": [
-            {
-                "label": "15 min Initial Sync",
-                "price": "$125"
-            },
-            {
-                "label": "30 min Strategy Session",
-                "price": "$250"
-            }
-        ]
-    },
-    "process": {
-        "step1Features": [
-            "Consultation with the attorney",
-            "Initial document review",
-            "Scope and risk discussion"
-        ],
-        "step2Features": [
-            "Form drafting and review",
-            "Evidence checklist",
-            "Final pre-filing quality check"
-        ],
-        "step3Features": [
-            "Interview preparation",
-            "RFE or deadline planning",
-            "Email-based status updates"
-        ]
-    },
-    "testimonials": {
-        "items": [
-            {
-                "title": "Direct communication",
-                "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
-                "label": "No handoff model"
-            },
-            {
-                "title": "Prepared submissions",
-                "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
-                "label": "Evidence-first work"
-            },
-            {
-                "title": "Calm guidance in urgent matters",
-                "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
-                "label": "Urgent matters prioritized"
-            },
-            {
-                "title": "Straight answers on price and scope",
-                "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
-                "label": "Transparent fees"
-            }
-        ]
-    },
-    "footer": {
-        "links": {
-            "services": [
-                {
-                    "name": "Visitor Visas (B1/B2)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Student Visas (F-1)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Marriage-Based",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Asylum & U-Visa",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Work Permits (EAD)",
-                    "href": "/#services"
-                }
-            ],
-            "company": [
-                {
-                    "name": "About the Practice",
-                    "href": "/#about"
-                },
-                {
-                    "name": "Our Process",
-                    "href": "/#process"
-                },
-                {
-                    "name": "Client Experience",
-                    "href": "/#testimonials"
-                },
-                {
-                    "name": "Insights",
-                    "href": "/insights"
-                },
-                {
-                    "name": "Contact",
-                    "href": "/#contact"
-                }
-            ],
-            "support": [
-                {
-                    "name": "Pricing & Fees",
-                    "href": "/#pricing"
-                },
-                {
-                    "name": "Secure Payments",
-                    "href": "/#payments"
-                },
-                {
-                    "name": "FAQ",
-                    "href": "/#faq"
-                },
-                {
-                    "name": "Book Consultation",
-                    "href": "/#contact"
-                },
-                {
-                    "name": "Brief Break",
-                    "href": "/brief-break"
-                }
-            ],
-            "legal": [
-                {
-                    "name": "Privacy Policy",
-                    "href": "/privacy"
-                },
-                {
-                    "name": "Terms of Use",
-                    "href": "/terms"
-                },
-                {
-                    "name": "Attorney Advertising",
-                    "href": "/terms"
-                }
-            ]
+  "common": {
+    "siteName": "M&T ਇਮੀਗ੍ਰੇਸ਼ਨ ਲਾਅ ਫਰਮ",
+    "tagline": "ਸਿੱਖਿਆ ਵਿੱਚ ਸਿੱਧਾ ਵਕੀਲ ਪਹੁੰਚ ਦੇ ਨਾਲ ਇੱਕਲਾ ਇਮੀਗ੍ਰੇਸ਼ਨ ਕਾਂਸਲ",
+    "description": "ਵਿਜ਼ਿਟਰ, ਵਿਦਿਆਰਥੀ, ਪਰਿਵਾਰ, ਮਨੁੱਖਤਾਵਾਦੀ ਅਤੇ ਜਰੂਰੀ ਅਦਾਲਤ ਦੇ ਮਾਮਲਿਆਂ ਲਈ ਬੁਟੀਕ U.S. ਇਮੀਗ੍ਰੇਸ਼ਨ ਪ੍ਰਤੀਨਿਧਤਾ। ਸਪੱਸ਼ਟ ਰਣਨੀਤੀ, ਪਾਰਦਰਸ਼ੀ ਫੀਸ ਅਤੇ ਸਿੱਧਾ ਵਕੀਲ ਸੰਚਾਰ।",
+    "bookConsultation": "ਮੁੱਖ ਮੁੱਢਲਾ ਬੁਕ ਕਰੋ",
+    "exploreServices": "ਸੇਵਾਵਾਂ ਦੀ ਖੋਜ ਕਰੋ",
+    "learnMore": "ਹੋਰ ਜਾਣੋ",
+    "contactUs": "ਸਾਡੇ ਨਾਲ ਸੰਪਰਕ ਕਰੋ",
+    "getStarted": "ਸ਼ੁਰੂ ਕਰੋ",
+    "viewAll": "ਸਭ ਦੇਖੋ",
+    "submit": "ਜਮ੍ਹਾਂ ਕਰੋ",
+    "next": "ਅਗਲਾ",
+    "previous": "ਪਿਛਲਾ",
+    "back": "ਵਾਪਸ",
+    "close": "ਬੰਦ ਕਰੋ",
+    "loading": "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ..."
+  },
+  "nav": {
+    "services": "ਸੇਵਾਵਾਂ",
+    "reviews": "ਸਮੀਖਿਆਵਾਂ",
+    "about": "ਬਾਰੇ",
+    "fees": "ਫੀਸ",
+    "insights": "ਜਾਣਕਾਰੀ",
+    "faq": "ਆਮ ਸਵਾਲ",
+    "contact": "ਸੰਪਰਕ"
+  },
+  "hero": {
+    "badge": "ਸਿੱਧਾ ਮਾਮਲਾ ਮਾਲਕਾਨਾ ਦੇ ਨਾਲ ਇੱਕਲਾ ਵਕੀਲ ਅਭਿਆਸ",
+    "title": "ਫੋਕਸਡ ਇਮੀਗ੍ਰੇਸ਼ਨ ਕਾਂਸਲ",
+    "titleHighlight": "ਸਪੱਸ਼ਟ ਰਣਨੀਤੀ ਦੇ ਨਾਲ",
+    "subtitle": "ਵਿਜ਼ਿਟਰ, ਵਿਦਿਆਰਥੀ, ਪਰਿਵਾਰ-ਅਧਾਰਤ, ਮਨੁੱਖਤਾਵਾਦੀ ਅਤੇ ਜਰੂਰੀ ਹਟਾਉਣ ਦੇ ਮਾਮਲਿਆਂ ਲਈ ਬੁਟੀਕ ਸਹਾਇਤਾ, ਫਾਈਲਿੰਗ ਤੱਕ ਸਿੱਧਾ ਵਕੀਲ ਸੰਚਾਰ ਦੇ ਨਾਲ।",
+    "cta": "ਮੁੱਖ ਮੁੱਢਲਾ ਬੁਕ ਕਰੋ",
+    "ctaSecondary": "ਸੇਵਾਵਾਂ ਦੀ ਖੋਜ ਕਰੋ",
+    "directAccess": "ਸਿੱਧਾ ਵਕੀਲ ਪਹੁੰਚ",
+    "responseTime": "1-2 ਕਾਰੋਬਾਰੀ ਦਿਨ ਜਵਾਬ",
+    "transparentFees": "ਪਾਰਦਰਸ਼ੀ ਮੁੱਖ ਮੁੱਢਲਾ ਫੀਸ"
+  },
+  "stats": {
+    "directAttorney": "ਸਿੱਧਾ ਵਕੀਲ ਪਹੁੰਚ",
+    "directAttorneyDesc": "ਤੁਸੀਂ ਉਸ ਵਕੀਲ ਨਾਲ ਗੱਲ ਕਰਦੇ ਹੋ ਜੋ ਰਣਨੀਤੀ ਅਤੇ ਫਾਈਲਿੰਗ ਫੈਸਲਿਆਂ ਲਈ ਜਵਾਬਦੇਹ ਹੈ।",
+    "caseReady": "ਮਾਮਲਾ-ਰੈਡੀ ਇੰਟੇਕ",
+    "caseReadyDesc": "ਬਣੀ ਬਣਾਈ ਇੰਟੇਕ ਸਮੇਂ ਸੀਮਾ, ਫਾਈਲਿੰਗ ਅਤੇ ਜਰੂਰੀ ਮੁੱਦਿਆਂ ਨੂੰ ਜਲਦੀ ਚੁਣਨ ਵਿੱਚ ਮਦਦ ਕਰਦੀ ਹੈ।",
+    "security": "ਸੁਰੱਖਿਆ-ਪਹਿਲਾ ਸੰਚਾਰ",
+    "securityDesc": "ਫਾਰਮ ਅਤੇ ਚੈਟ ਹੁਣ ਪ੍ਰਮਾਣਿਤ ਸਰਵਰ-ਸਾਈਡ ਰੂਟ ਦੇ ਮਾਧਿਅਮ ਨਾਲ ਚਲਦੇ ਹਨ।",
+    "virtual": "ਵਰਚੁਅਲ ਰਾਸ਼ਟਰੀ ਪੱਧਰ 'ਤੇ",
+    "virtualDesc": "ਪੂਰੇ ਅਮਰੀਕਾ ਦੇ ਗਾਹਕਾਂ ਲਈ ਮੁੱਖ ਮੁੱਢਲਾ ਦੂਰ ਤੋਂ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ।"
+  },
+  "insightsPreview": {
+    "title": "Insights",
+    "heading": "Case studies, news, and practical reads in one place.",
+    "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
+    "openAll": "Open All Insights",
+    "seeMore": "See More",
+    "caseStudies": "Case Studies",
+    "news": "News",
+    "analysis": "Analysis"
+  },
+  "language": {
+    "switch": "English",
+    "current": "ਪੰਜਾਬੀ"
+  },
+  "contact": {
+    "cards": [
+      {
+        "label": "Phone / WhatsApp",
+        "tooltip": "Click to call"
+      },
+      {
+        "label": "Email",
+        "tooltip": "Click to email"
+      },
+      {
+        "label": "Office",
+        "tooltip": "New York, NY"
+      },
+      {
+        "label": "Business Hours",
+        "tooltip": "1-2 business day response"
+      }
+    ],
+    "feeOptions": [
+      {
+        "label": "15 min Initial Sync",
+        "price": "$125"
+      },
+      {
+        "label": "30 min Strategy Session",
+        "price": "$250"
+      }
+    ],
+    "email": "ਈਮੇਲ",
+    "office": "ਦਫ਼ਤਰ",
+    "subtitle": "ਇੱਕ ਸਲਾਹ ਬੁੱਕ ਕਰੋ ਜਾਂ ਇੱਕ ਢਾਂਚਾਗਤ ਦਾਖਲੇ ਦੀ ਬੇਨਤੀ ਭੇਜੋ। ਦਫ਼ਤਰ 1-2 ਕਾਰੋਬਾਰੀ ਦਿਨਾਂ ਦੇ ਅੰਦਰ ਨਵੀਆਂ ਪੁੱਛਗਿੱਛਾਂ ਦਾ ਜਵਾਬ ਦਿੰਦਾ ਹੈ।",
+    "responseTime": "ਜਵਾਬ ਸਮਾਂ",
+    "contactInfo": "ਸੰਪਰਕ ਜਾਣਕਾਰੀ",
+    "phone": "ਫੋਨ / ਵਟਸਐਪ",
+    "title": "ਸ਼ੁਰੂ ਕਰੋ",
+    "consultationFees": "ਸਲਾਹ ਫੀਸ",
+    "min30": "30 ਮਿੰਟ",
+    "heading": "ਆਪਣੇ ਮਾਮਲੇ ਦੀ ਸਮੀਖਿਆ ਕਰਨ ਲਈ ਤਿਆਰ ਹੋ?",
+    "min15": "15 ਮਿੰਟ",
+    "feeCredit": "ਜੇਕਰ ਬਰਕਰਾਰ ਰੱਖਿਆ ਜਾਂਦਾ ਹੈ ਤਾਂ ਸੇਵਾ ਲਈ ਫ਼ੀਸ ਕ੍ਰੈਡਿਟ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।"
+  },
+  "cta": {
+    "ctaPrimary": "ਤਹਿ ਸਲਾਹ",
+    "feature1": "ਪਾਰਦਰਸ਼ੀ ਸਲਾਹ ਫੀਸ",
+    "heading": "ਤੁਹਾਡੀ ਇਮੀਗ੍ਰੇਸ਼ਨ ਰਣਨੀਤੀ ਅਸਲ ਕੇਸ ਸਮੀਖਿਆ ਨਾਲ ਸ਼ੁਰੂ ਹੁੰਦੀ ਹੈ।",
+    "subtitle": "ਉੱਚ-ਦਾਅ ਵਾਲੇ ਇਮੀਗ੍ਰੇਸ਼ਨ ਮਾਮਲੇ ਨੂੰ ਆਮ ਇਨਟੇਕ ਫਨਲ ਨੂੰ ਨਾ ਸੌਂਪੋ। ਇੱਕ ਫੋਕਸ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ ਅਤੇ ਇੱਕ ਅਟਾਰਨੀ ਦੀ ਅਗਵਾਈ ਵਾਲੇ ਅਭਿਆਸ ਤੋਂ ਇੱਕ ਸਪਸ਼ਟ ਅਗਲਾ ਕਦਮ ਹੈ।",
+    "title": "ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਤਿਆਰ ਹੋ?",
+    "feature3": "ਵਰਚੁਅਲ ਦੇਸ਼ ਵਿਆਪੀ ਸਲਾਹ-ਮਸ਼ਵਰੇ",
+    "feature2": "1-2 ਕਾਰੋਬਾਰੀ ਦਿਨ ਦਾ ਜਵਾਬ",
+    "ctaSecondary": "ਹੁਣੇ ਕਾਲ ਕਰੋ"
+  },
+  "intake": {
+    "name": "ਪੂਰਾ ਨਾਂਮ",
+    "email": "ਈਮੇਲ ਪਤਾ",
+    "step3Title": "ਸਮੀਖਿਆ",
+    "success": "ਸਲਾਹ-ਮਸ਼ਵਰੇ ਦੀ ਬੇਨਤੀ ਪ੍ਰਾਪਤ ਹੋਈ।",
+    "caseType": "ਪਦਾਰਥ ਦੀ ਕਿਸਮ",
+    "language": "ਤਰਜੀਹੀ ਭਾਸ਼ਾ",
+    "summary": "ਕੇਸ ਸੰਖੇਪ",
+    "step1Title": "ਸੰਪਰਕ ਕਰੋ",
+    "phone": "ਫੋਨ ਨੰਬਰ",
+    "consent": "ਮੈਂ ਆਪਣੀ ਜਾਣਕਾਰੀ ਦੇ ਸੰਗ੍ਰਹਿ ਅਤੇ ਪ੍ਰਕਿਰਿਆ ਲਈ ਸਹਿਮਤੀ ਦਿੰਦਾ ਹਾਂ",
+    "step2Title": "ਕੇਸ ਦੇ ਵੇਰਵੇ",
+    "submitting": "ਸਪੁਰਦ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+    "successDesc": "ਅਸੀਂ ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਦੀ ਸਮੀਖਿਆ ਕਰਾਂਗੇ ਅਤੇ ਤੁਹਾਡੇ ਪਸੰਦੀਦਾ ਸੰਪਰਕ ਵੇਰਵਿਆਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਅਨੁਸਰਣ ਕਰਾਂਗੇ।"
+  },
+  "briefBreak": {
+    "previewTitle": "Docket Zip",
+    "previewSubtitle": "Connect the facts. Fill the record.",
+    "pill": "ਸਟ੍ਰੀਕਸ, ਸੰਕੇਤਾਂ ਅਤੇ ਜ਼ੀਰੋ ਕਾਨੂੰਨੀ ਦਬਾਅ ਦੇ ਨਾਲ ਰੋਜ਼ਾਨਾ ਚੈਂਬਰ ਬੁਝਾਰਤ",
+    "heading": "ਇੱਕ ਸ਼ਾਂਤ ਬੁਝਾਰਤ ਕਮਰਾ, ਭਾਰੀ ਕੰਮ ਦੇ ਵਿਚਕਾਰ ਪਲਾਂ ਲਈ।",
+    "cta": "ਬੁਝਾਰਤ ਕਮਰੇ ਵਿੱਚ ਦਾਖਲ ਹੋਵੋ",
+    "title": "ਸੰਖੇਪ ਬ੍ਰੇਕ",
+    "subtitle": "ਫਰਮ ਸਾਈਟ ਗੰਭੀਰ ਰਹਿੰਦੀ ਹੈ ਜਿੱਥੇ ਇਹ ਮਾਇਨੇ ਰੱਖਦਾ ਹੈ। ਇਹ ਇੱਕ ਜਾਣਬੁੱਝ ਕੇ ਚੱਕਰ ਹੈ: ਫੋਕਸ, ਰੀਸੈਟ, ਅਤੇ ਥੋੜ੍ਹੀ ਜਿਹੀ ਤਣਾਅ ਤੋਂ ਰਾਹਤ ਲਈ ਬਣਾਇਆ ਗਿਆ ਇੱਕ ਛੋਟਾ ਕਾਨੂੰਨੀ-ਥੀਮ ਵਾਲਾ ਬੁਝਾਰਤ ਪੰਨਾ।"
+  },
+  "process": {
+    "step1Features": [
+      "Consultation with the attorney",
+      "Initial document review",
+      "Scope and risk discussion"
+    ],
+    "step2Features": [
+      "Form drafting and review",
+      "Evidence checklist",
+      "Final pre-filing quality check"
+    ],
+    "step3Features": [
+      "Interview preparation",
+      "RFE or deadline planning",
+      "Email-based status updates"
+    ],
+    "step1Desc": "ਮੁੱਦੇ, ਸਮਾਂ-ਸੀਮਾਵਾਂ, ਅਤੇ ਸਭ ਤੋਂ ਸਾਫ਼ ਅਗਲੇ ਪੜਾਅ ਦੀ ਪਛਾਣ ਕਰਨ ਲਈ ਭੁਗਤਾਨ ਕੀਤੇ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਨਾਲ ਸ਼ੁਰੂ ਕਰੋ।",
+    "step3Desc": "ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ, ਜਵਾਬ ਰਣਨੀਤੀ, ਅਤੇ ਸਿੱਧੇ ਫਾਲੋ-ਅੱਪ ਦੇ ਨਾਲ ਫਾਈਲ ਕਰਨ ਤੋਂ ਬਾਅਦ ਤਿਆਰ ਰਹੋ।",
+    "heading": "ਇੱਕ ਸਪੱਸ਼ਟ ਕਾਨੂੰਨੀ ਪ੍ਰਕਿਰਿਆ, ਵਾਲੀਅਮ-ਪੱਕੀ ਉਲਝਣ ਤੋਂ ਬਿਨਾਂ।",
+    "title": "ਅਸੀਂ ਕਿਵੇਂ ਕੰਮ ਕਰਦੇ ਹਾਂ",
+    "step1Title": "ਸੁਣੋ ਅਤੇ ਮੁਲਾਂਕਣ ਕਰੋ",
+    "step3Title": "ਤੁਹਾਡੇ ਦੁਆਰਾ ਮਾਰਗਦਰਸ਼ਨ ਕਰੋ",
+    "step2Title": "ਤਿਆਰ ਕਰੋ ਅਤੇ ਫਾਈਲ ਕਰੋ",
+    "subtitle": "ਪ੍ਰੈਕਟਿਸ ਫਾਈਲ, ਰਣਨੀਤੀ, ਅਤੇ ਫਾਈਲਿੰਗ ਫੈਸਲੇ ਦੁਆਰਾ ਪਹਿਲੇ ਸਲਾਹ ਤੋਂ ਸੰਚਾਰ ਦੇ ਮਾਲਕ ਇੱਕ ਵਕੀਲ ਦੇ ਦੁਆਲੇ ਬਣਾਈ ਗਈ ਹੈ।",
+    "step2Desc": "ਫਾਈਲਿੰਗ ਰਣਨੀਤੀ ਬਣਾਓ, ਸਹਾਇਕ ਸਬੂਤ ਇਕੱਠੇ ਕਰੋ, ਅਤੇ ਧਿਆਨ ਨਾਲ ਸਬਮਿਸ਼ਨ ਤਿਆਰ ਕਰੋ।"
+  },
+  "about": {
+    "filingRoadmap": "ਫਾਈਲਿੰਗ ਰੋਡਮੈਪ ਸਾਫ਼ ਕਰੋ",
+    "credentials": "ਪ੍ਰਮਾਣ ਪੱਤਰ ਅਤੇ ਮਹਾਰਤ",
+    "description": "M&T ਉਹਨਾਂ ਗਾਹਕਾਂ ਲਈ ਫੋਕਸਡ ਸੋਲੋ ਅਭਿਆਸ ਵਜੋਂ ਤਿਆਰ ਕੀਤਾ ਗਿਆ ਹੈ ਜੋ ਸੋਚ-ਸਮਝ ਕੇ ਤਿਆਰੀ, ਸਿੱਧੇ ਜਵਾਬ, ਅਤੇ ਕੰਮ ਨੂੰ ਸੰਭਾਲਣ ਵਾਲੇ ਅਟਾਰਨੀ ਤੱਕ ਸਿੱਧੀ ਪਹੁੰਚ ਚਾਹੁੰਦੇ ਹਨ।",
+    "boutique": "ਬੁਟੀਕ ਕੇਸਲੋਡ ਧਿਆਨ",
+    "title": "ਬਾਰੇ",
+    "quote": "ਵੌਲਯੂਮ ਅਭਿਆਸ ਵਿੱਚ ਅਲੋਪ ਹੋਣ ਲਈ ਇਮੀਗ੍ਰੇਸ਼ਨ ਕੇਸ ਬਹੁਤ ਮਹੱਤਵਪੂਰਨ ਹਨ। ਤੁਹਾਨੂੰ ਪਤਾ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ ਕਿ ਰਣਨੀਤੀ ਦੀ ਅਗਵਾਈ ਕੌਣ ਕਰ ਰਿਹਾ ਹੈ, ਅਗਲੀ ਫਾਈਲਿੰਗ ਕੀ ਹੈ, ਅਤੇ ਜੋਖਮ ਕਿੱਥੇ ਹਨ।",
+    "virtual": "ਦੇਸ਼ ਭਰ ਵਿੱਚ ਵਰਚੁਅਲ ਸਲਾਹ-ਮਸ਼ਵਰੇ",
+    "attorneyLed": "ਅਟਾਰਨੀ ਦੀ ਅਗਵਾਈ ਵਾਲੀ ਰਣਨੀਤੀ",
+    "heading": "ਇੱਕ ਬੁਟੀਕ ਇਮੀਗ੍ਰੇਸ਼ਨ ਅਭਿਆਸ ਸਿੱਧੇ ਸੰਚਾਰ ਲਈ ਬਣਾਇਆ ਗਿਆ ਹੈ"
+  },
+  "footer": {
+    "links": {
+      "services": [
+        {
+          "name": "Visitor Visas (B1/B2)",
+          "href": "/#services"
+        },
+        {
+          "name": "Student Visas (F-1)",
+          "href": "/#services"
+        },
+        {
+          "name": "Marriage-Based",
+          "href": "/#services"
+        },
+        {
+          "name": "Asylum & U-Visa",
+          "href": "/#services"
+        },
+        {
+          "name": "Work Permits (EAD)",
+          "href": "/#services"
         }
+      ],
+      "company": [
+        {
+          "name": "About the Practice",
+          "href": "/#about"
+        },
+        {
+          "name": "Our Process",
+          "href": "/#process"
+        },
+        {
+          "name": "Client Experience",
+          "href": "/#testimonials"
+        },
+        {
+          "name": "Insights",
+          "href": "/insights"
+        },
+        {
+          "name": "Contact",
+          "href": "/#contact"
+        }
+      ],
+      "support": [
+        {
+          "name": "Pricing & Fees",
+          "href": "/#pricing"
+        },
+        {
+          "name": "Secure Payments",
+          "href": "/#payments"
+        },
+        {
+          "name": "FAQ",
+          "href": "/#faq"
+        },
+        {
+          "name": "Book Consultation",
+          "href": "/#contact"
+        },
+        {
+          "name": "Brief Break",
+          "href": "/brief-break"
+        }
+      ],
+      "legal": [
+        {
+          "name": "Privacy Policy",
+          "href": "/privacy"
+        },
+        {
+          "name": "Terms of Use",
+          "href": "/terms"
+        },
+        {
+          "name": "Attorney Advertising",
+          "href": "/terms"
+        }
+      ]
     },
-    "insightsPreview": {
-        "title": "Insights",
-        "heading": "Case studies, news, and practical reads in one place.",
-        "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
-        "caseStudies": "Case Studies",
-        "news": "News",
-        "analysis": "Analysis",
-        "openAll": "Open All Insights",
-        "seeMore": "See More"
-    },
-    "briefBreak": {
-        "previewTitle": "Docket Zip",
-        "previewSubtitle": "Connect the facts. Fill the record."
-    }
+    "privacy": "ਪਰਾਈਵੇਟ ਨੀਤੀ",
+    "company": "ਕੰਪਨੀ",
+    "terms": "ਵਰਤੋ ਦੀਆਂ ਸ਼ਰਤਾਂ",
+    "support": "ਸਪੋਰਟ",
+    "insights": "ਇਨਸਾਈਟਸ",
+    "legal": "ਕਾਨੂੰਨੀ",
+    "advertising": "ਅਟਾਰਨੀ ਵਿਗਿਆਪਨ",
+    "copyright": "ਕਾਪੀਰਾਈਟ © {year} {name}। ਸਾਰੇ ਹੱਕ ਰਾਖਵੇਂ ਹਨ.",
+    "emailAria": "ਸਾਨੂੰ {email} 'ਤੇ ਈਮੇਲ ਕਰੋ",
+    "tagline": "ਬੁਟੀਕ, ਸਿੱਧੇ ਸੰਚਾਰ, ਪਾਰਦਰਸ਼ੀ ਫੀਸਾਂ, ਅਤੇ ਫੋਕਸਡ ਕੇਸ ਰਣਨੀਤੀ ਦੇ ਨਾਲ ਅਟਾਰਨੀ ਦੀ ਅਗਵਾਈ ਵਾਲੀ ਇਮੀਗ੍ਰੇਸ਼ਨ ਪ੍ਰਤੀਨਿਧਤਾ।",
+    "services": "ਸੇਵਾਵਾਂ",
+    "siteMap": "ਸਾਈਟ ਦਾ ਨਕਸ਼ਾ",
+    "phoneAria": "ਸਾਨੂੰ {phone} 'ਤੇ ਕਾਲ ਕਰੋ",
+    "disclaimer": "ਅਟਾਰਨੀ ਇਸ਼ਤਿਹਾਰਬਾਜ਼ੀ। ਇਸ ਵੈੱਬਸਾਈਟ 'ਤੇ ਦਿੱਤੀ ਗਈ ਜਾਣਕਾਰੀ ਸਿਰਫ਼ ਆਮ ਜਾਣਕਾਰੀ ਦੇ ਉਦੇਸ਼ਾਂ ਲਈ ਹੈ। ਕਿਸੇ ਵੀ ਵਿਅਕਤੀਗਤ ਕੇਸ ਜਾਂ ਸਥਿਤੀ ਲਈ ਇਸ ਸਾਈਟ 'ਤੇ ਕੁਝ ਵੀ ਕਾਨੂੰਨੀ ਸਲਾਹ ਵਜੋਂ ਨਹੀਂ ਲਿਆ ਜਾਣਾ ਚਾਹੀਦਾ ਹੈ। ਇਹ ਜਾਣਕਾਰੀ ਬਣਾਉਣ ਦਾ ਇਰਾਦਾ ਨਹੀਂ ਹੈ, ਅਤੇ ਰਸੀਦ ਜਾਂ ਦੇਖਣ ਨਾਲ ਅਟਾਰਨੀ-ਕਲਾਇੰਟ ਰਿਸ਼ਤਾ ਨਹੀਂ ਬਣਦਾ ਹੈ। ਪੁਰਾਣੇ ਨਤੀਜੇ ਇੱਕ ਸਮਾਨ ਨਤੀਜੇ ਦੀ ਗਰੰਟੀ ਨਹੀਂ ਦਿੰਦੇ ਹਨ।"
+  },
+  "testimonials": {
+    "items": [
+      {
+        "title": "Direct communication",
+        "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
+        "label": "No handoff model"
+      },
+      {
+        "title": "Prepared submissions",
+        "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
+        "label": "Evidence-first work"
+      },
+      {
+        "title": "Calm guidance in urgent matters",
+        "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
+        "label": "Urgent matters prioritized"
+      },
+      {
+        "title": "Straight answers on price and scope",
+        "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
+        "label": "Transparent fees"
+      }
+    ],
+    "directComm": "ਸਿੱਧਾ ਸੰਚਾਰ",
+    "calmLabel": "ਜ਼ਰੂਰੀ ਮਾਮਲਿਆਂ ਨੂੰ ਪਹਿਲ ਦਿੱਤੀ ਗਈ",
+    "heading": "ਕਿੰਨਾ ਮਜ਼ਬੂਤ ​​ਇਕੱਲਾ ਅਭਿਆਸ ਪੇਸ਼ ਕਰਨਾ ਚਾਹੀਦਾ ਹੈ।",
+    "prepared": "ਤਿਆਰ ਬੇਨਤੀਆਂ",
+    "straightLabel": "ਪਾਰਦਰਸ਼ੀ ਫੀਸ",
+    "directCommLabel": "ਕੋਈ ਹੈਂਡਆਫ ਮਾਡਲ ਨਹੀਂ",
+    "title": "ਗਾਹਕ ਅਨੁਭਵ",
+    "straight": "ਕੀਮਤ ਅਤੇ ਸਕੋਪ 'ਤੇ ਸਿੱਧੇ ਜਵਾਬ",
+    "preparedLabel": "ਸਬੂਤ-ਪਹਿਲਾ ਕੰਮ",
+    "subtitle": "ਅਪ੍ਰਮਾਣਿਤ ਪ੍ਰਸੰਸਾ ਪੱਤਰਾਂ ਦੀ ਬਜਾਏ, ਸਾਈਟ ਹੁਣ ਉਹਨਾਂ ਮਿਆਰਾਂ 'ਤੇ ਕੇਂਦ੍ਰਤ ਕਰਦੀ ਹੈ ਜਿਨ੍ਹਾਂ ਦੀ ਗਾਹਕਾਂ ਨੂੰ ਬੁਟੀਕ ਇਮੀਗ੍ਰੇਸ਼ਨ ਅਭਿਆਸ ਤੋਂ ਉਮੀਦ ਕਰਨੀ ਚਾਹੀਦੀ ਹੈ।",
+    "calm": "ਜ਼ਰੂਰੀ ਮਾਮਲਿਆਂ ਵਿੱਚ ਸ਼ਾਂਤ ਮਾਰਗਦਰਸ਼ਨ"
+  },
+  "whyChooseUs": {
+    "heading2": "ਉਹਨਾਂ ਮਾਮਲਿਆਂ ਲਈ ਬਣਾਇਆ ਗਿਆ ਹੈ ਜੋ ਲੋਕ ਅਸਲ ਵਿੱਚ ਨੀਂਦ ਗੁਆ ਦਿੰਦੇ ਹਨ।",
+    "reason2Title": "ਡੈੱਡਲਾਈਨ-ਕੇਂਦ੍ਰਿਤ ਕੰਮ",
+    "reason1Desc": "ਉਹੀ ਅਟਾਰਨੀ ਅਗਲੇ ਫਾਈਲਿੰਗ ਫੈਸਲੇ ਦੁਆਰਾ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਤੋਂ ਕੇਸ ਦੀ ਰਣਨੀਤੀ ਦਾ ਮਾਲਕ ਹੈ।",
+    "reason1Title": "ਇੱਕ ਵਕੀਲ, ਇੱਕ ਰਣਨੀਤੀ",
+    "practiceFocus": "ਫੋਕਸ ਦਾ ਅਭਿਆਸ ਕਰੋ",
+    "reason3Title": "ਦਾਇਰੇ ਅਤੇ ਫੀਸਾਂ ਨੂੰ ਸਾਫ਼ ਕਰੋ",
+    "reason2Desc": "ਜ਼ਰੂਰੀ ਇੰਟਰਵਿਊਆਂ, ਅਦਾਲਤੀ ਤਾਰੀਖਾਂ, ਅਤੇ ਸਰਕਾਰੀ ਜਵਾਬ ਦੀ ਸਮਾਂ-ਸੀਮਾ ਨੂੰ ਪਹਿਲ ਦੇ ਨਾਲ ਮੰਨਿਆ ਜਾਂਦਾ ਹੈ।",
+    "title": "M&T ਕਿਉਂ ਚੁਣੋ",
+    "cta": "ਕੇਸ ਦੀ ਸਮੀਖਿਆ ਲਈ ਬੇਨਤੀ ਕਰੋ",
+    "heading": "ਇਕੱਲੇ-ਅਭਿਆਸ ਧਿਆਨ. ਸਪੱਸ਼ਟ ਕਾਨੂੰਨੀ ਨਿਰਣਾ.",
+    "reason4Title": "ਅਨੁਸ਼ਾਸਿਤ ਦਾਖਲੇ",
+    "quoteBefore": "ਇੱਕ ਬੁਟੀਕ ਅਭਿਆਸ ਵਧੀਆ ਕੰਮ ਕਰਦਾ ਹੈ ਜਦੋਂ ਵਕੀਲ ਫਾਈਲ ਦੇ ਨੇੜੇ ਰਹਿੰਦਾ ਹੈ, ਸੰਚਾਰ ਕਰਦਾ ਹੈ",
+    "reason3Desc": "ਕੰਮ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਸਲਾਹ-ਮਸ਼ਵਰੇ, ਫਾਈਲ ਕਰਨ ਦਾ ਕੰਮ, ਅਤੇ ਅਗਲੇ ਕਦਮ ਸਾਦੀ ਭਾਸ਼ਾ ਵਿੱਚ ਤਿਆਰ ਕੀਤੇ ਜਾਂਦੇ ਹਨ।",
+    "reason4Desc": "ਸਾਈਟ ਹੁਣ ਸਬਮਿਸ਼ਨਾਂ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਦੀ ਹੈ, AI ਕੁੰਜੀ ਸਰਵਰ-ਸਾਈਡ ਰੱਖਦੀ ਹੈ, ਅਤੇ ਜਨਤਕ ਰੂਪਾਂ ਨੂੰ ਦਰ-ਸੀਮਾਵਾਂ ਦਿੰਦੀ ਹੈ।",
+    "quoteAfter": ", ਅਤੇ ਫਾਈਲਿੰਗ ਦੇ ਬਾਹਰ ਜਾਣ ਤੋਂ ਪਹਿਲਾਂ ਗਾਹਕਾਂ ਨੂੰ ਸਖ਼ਤ ਭਾਗਾਂ ਬਾਰੇ ਦੱਸਦਾ ਹੈ।",
+    "reasons": [
+      {
+        "title": "ਇੱਕ ਵਕੀਲ, ਇੱਕ ਰਣਨੀਤੀ",
+        "description": "ਉਹੀ ਅਟਾਰਨੀ ਅਗਲੇ ਫਾਈਲਿੰਗ ਫੈਸਲੇ ਦੁਆਰਾ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਤੋਂ ਕੇਸ ਦੀ ਰਣਨੀਤੀ ਦਾ ਮਾਲਕ ਹੈ।"
+      },
+      {
+        "title": "ਡੈੱਡਲਾਈਨ-ਕੇਂਦ੍ਰਿਤ ਕੰਮ",
+        "description": "ਜ਼ਰੂਰੀ ਇੰਟਰਵਿਊਆਂ, ਅਦਾਲਤੀ ਤਾਰੀਖਾਂ, ਅਤੇ ਸਰਕਾਰੀ ਜਵਾਬ ਦੀ ਸਮਾਂ-ਸੀਮਾ ਨੂੰ ਪਹਿਲ ਦੇ ਨਾਲ ਮੰਨਿਆ ਜਾਂਦਾ ਹੈ।"
+      },
+      {
+        "title": "ਦਾਇਰੇ ਅਤੇ ਫੀਸਾਂ ਨੂੰ ਸਾਫ਼ ਕਰੋ",
+        "description": "ਕੰਮ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਸਲਾਹ-ਮਸ਼ਵਰੇ, ਫਾਈਲ ਕਰਨ ਦਾ ਕੰਮ, ਅਤੇ ਅਗਲੇ ਕਦਮ ਸਾਦੀ ਭਾਸ਼ਾ ਵਿੱਚ ਤਿਆਰ ਕੀਤੇ ਜਾਂਦੇ ਹਨ।"
+      },
+      {
+        "description": "ਸਾਈਟ ਸਬਮਿਸ਼ਨਾਂ ਨੂੰ ਪ੍ਰਮਾਣਿਤ ਕਰਦੀ ਹੈ, AI ਪ੍ਰਮਾਣ ਪੱਤਰਾਂ ਨੂੰ ਸਰਵਰ-ਸਾਈਡ ਰੱਖਦੀ ਹੈ, ਅਤੇ ਜਨਤਕ ਰੂਪਾਂ ਨੂੰ ਦਰ-ਸੀਮਾਵਾਂ ਦਿੰਦੀ ਹੈ।",
+        "title": "ਅਨੁਸ਼ਾਸਿਤ ਦਾਖਲੇ"
+      }
+    ],
+    "quoteEmphasis": "ਛੇਤੀ",
+    "practiceAreas": [
+      {
+        "title": "ਕੰਮ ਅਤੇ ਸਥਿਤੀ ਮਹੱਤਵਪੂਰਨ ਹੈ",
+        "summary": "H-1B, EAD, ਅਤੇ ਸਥਿਤੀ ਦੀ ਤਬਦੀਲੀ ਦੀ ਰਣਨੀਤੀ।"
+      },
+      {
+        "summary": "F-1 ਯੋਜਨਾਬੰਦੀ, ਸਥਿਤੀ ਰੱਖ-ਰਖਾਅ, ਅਤੇ ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ।",
+        "title": "ਵਿਦਿਆਰਥੀ ਮਾਰਗ"
+      },
+      {
+        "summary": "ਵਿਆਹ-ਆਧਾਰਿਤ ਫਾਈਲਿੰਗ ਅਤੇ ਪਰਿਵਾਰ ਦੇ ਪੁਨਰ-ਮਿਲਣ ਦੀ ਯੋਜਨਾਬੰਦੀ।",
+        "title": "ਪਰਿਵਾਰ ਆਧਾਰਿਤ ਕੇਸ"
+      },
+      {
+        "title": "ਮਾਨਵਤਾਵਾਦੀ ਰਾਹਤ",
+        "summary": "ਸ਼ਰਣ, ਯੂ ਵੀਜ਼ਾ, ਅਤੇ ਜ਼ਰੂਰੀ ਸੁਰੱਖਿਆ-ਕੇਂਦ੍ਰਿਤ ਮਾਮਲੇ।"
+      }
+    ]
+  },
+  "services": {
+    "timeline": "ਸਮਾਂਰੇਖਾ",
+    "price": "ਤੋਂ",
+    "viewPricing": "ਕੀਮਤ ਵੇਖੋ ({price})",
+    "bookConsultation": "ਬੁੱਕ ਸਲਾਹ",
+    "heading": "ਫੋਕਸਡ ਇਮੀਗ੍ਰੇਸ਼ਨ ਮਾਮਲੇ, ਇੱਕ ਸਪਸ਼ਟ ਫਾਈਲਿੰਗ ਯੋਜਨਾ ਨਾਲ ਨਿਪਟਾਏ ਜਾਂਦੇ ਹਨ।",
+    "subtitle": "ਸਿੱਧੇ ਵੀਜ਼ਾ ਫਾਈਲਿੰਗ ਤੋਂ ਲੈ ਕੇ ਜ਼ਰੂਰੀ ਅਦਾਲਤ-ਸੰਵੇਦਨਸ਼ੀਲ ਮੁੱਦਿਆਂ ਤੱਕ, ਅਭਿਆਸ ਕੇਂਦਰ ਤਿਆਰੀ, ਖਤਰੇ ਦੇ ਸਪੱਸ਼ਟ ਮੁਲਾਂਕਣ, ਅਤੇ ਸਿੱਧੇ ਸੰਚਾਰ 'ਤੇ ਕੇਂਦਰਿਤ ਹੈ।",
+    "title": "ਸਾਡੀ ਮੁਹਾਰਤ",
+    "estimatedTimeline": "ਅਨੁਮਾਨਿਤ ਸਮਾਂਰੇਖਾ",
+    "keyRequirements": "ਮੁੱਖ ਲੋੜਾਂ",
+    "whatWeHandle": "ਜੋ ਅਸੀਂ ਸੰਭਾਲਦੇ ਹਾਂ",
+    "details": "ਵੇਰਵੇ",
+    "items": [
+      {
+        "title": "ਵਿਜ਼ਟਰ ਵੀਜ਼ਾ (B1/B2)",
+        "price": "$350 ਤੋਂ",
+        "timeline": "2-4 ਹਫ਼ਤੇ",
+        "id": "ਵਿਜ਼ਟਰ",
+        "requirements": [
+          "ਵੈਧ ਪਾਸਪੋਰਟ",
+          "ਆਪਣੇ ਦੇਸ਼ ਨਾਲ ਸਬੰਧ",
+          "ਵਿੱਤੀ ਯੋਗਤਾ"
+        ],
+        "features": [
+          "DS-160 ਤਿਆਰੀ ਅਤੇ ਮਾਰਗਦਰਸ਼ਨ",
+          "ਮੌਕ ਸੈਸ਼ਨਾਂ ਦੇ ਨਾਲ ਇੰਟਰਵਿਊ ਕੋਚਿੰਗ",
+          "ਦਸਤਾਵੇਜ਼ ਚੈੱਕਲਿਸਟ ਅਤੇ ਰਣਨੀਤੀ"
+        ],
+        "stat": "ਤੁਹਾਡੇ ਅਸਲ ਯਾਤਰਾ ਦੇ ਉਦੇਸ਼ ਦੇ ਦੁਆਲੇ ਬਣਾਈ ਗਈ ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ",
+        "description": "ਟੂਰਿਸਟ ਅਤੇ ਬਿਜ਼ਨਸ ਟਰੈਵਲ ਵੀਜ਼ਾ ਲਈ ਵਿਆਪਕ ਤਿਆਰੀ।"
+      },
+      {
+        "title": "ਵਿਦਿਆਰਥੀ ਵੀਜ਼ਾ (F-1)",
+        "timeline": "1-3 ਮਹੀਨੇ",
+        "description": "ਅਮਰੀਕਾ ਵਿੱਚ ਸਿੱਖਿਆ ਹਾਸਲ ਕਰਨ ਵਾਲੇ ਅੰਤਰਰਾਸ਼ਟਰੀ ਵਿਦਿਆਰਥੀਆਂ ਲਈ ਮਾਰਗਦਰਸ਼ਨ।",
+        "price": "$450 ਤੋਂ",
+        "id": "ਵਿਦਿਆਰਥੀ",
+        "stat": "ਕੌਂਸਲਰ ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ ਰਾਹੀਂ ਦਸਤਾਵੇਜ਼ ਸਮੀਖਿਆ ਤੋਂ ਸਮਰਥਨ",
+        "requirements": [
+          "I-20 ਫਾਰਮ",
+          "SEVIS ਰਸੀਦ",
+          "ਵਿੱਤੀ ਦਸਤਾਵੇਜ਼",
+          "ਅਕਾਦਮਿਕ ਰਿਕਾਰਡ"
+        ],
+        "features": [
+          "ਦਾਖਲਾ ਮਾਰਗ ਮਾਰਗਦਰਸ਼ਨ",
+          "I-20 ਅਤੇ SEVIS ਫੀਸ ਮਾਰਗਦਰਸ਼ਨ",
+          "ਵਿਆਪਕ ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ"
+        ]
+      },
+      {
+        "title": "ਵਿਆਹ-ਆਧਾਰਿਤ",
+        "price": "$1,800 ਤੋਂ",
+        "id": "ਵਿਆਹ",
+        "stat": "ਪ੍ਰਮਾਣ-ਪਹਿਲੀ ਵਿਉਂਤਬੰਦੀ ਸੱਚੇ ਵਿਆਹ ਦੇ ਕੇਸਾਂ ਲਈ",
+        "requirements": [
+          "ਜਾਇਜ਼ ਵਿਆਹ",
+          "ਪਟੀਸ਼ਨਕਰਤਾ ਦੀ ਨਾਗਰਿਕਤਾ ਜਾਂ LPR ਸਥਿਤੀ",
+          "ਵਿੱਤੀ ਸਹਾਇਤਾ"
+        ],
+        "features": [
+          "ਸਥਿਤੀ ਦਾ ਸਮਾਯੋਜਨ (I-130, I-485)",
+          "ਕੌਂਸਲਰ ਪ੍ਰੋਸੈਸਿੰਗ ਸਹਾਇਤਾ",
+          "ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ ਅਤੇ ਸਬੂਤ ਰਣਨੀਤੀ"
+        ],
+        "timeline": "6-18 ਮਹੀਨੇ",
+        "description": "ਅਮਰੀਕੀ ਨਾਗਰਿਕਾਂ ਅਤੇ ਸਥਾਈ ਨਿਵਾਸੀਆਂ ਦੇ ਜੀਵਨ ਸਾਥੀ ਲਈ ਗ੍ਰੀਨ ਕਾਰਡ।"
+      },
+      {
+        "title": "ਸਥਿਤੀ ਦੀ ਤਬਦੀਲੀ",
+        "description": "ਇੱਕ ਗੈਰ-ਪ੍ਰਵਾਸੀ ਸਥਿਤੀ ਤੋਂ ਦੂਜੇ ਵਿੱਚ ਬਦਲਣਾ, ਜਿਵੇਂ ਕਿ B-2 ਤੋਂ F-1।",
+        "price": "$850 ਤੋਂ",
+        "timeline": "3-6 ਮਹੀਨੇ",
+        "stat": "ਸਥਿਤੀ ਬਦਲਣ ਦੀ ਬੇਨਤੀ ਦਾਇਰ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਜੋਖਮ ਵਿਸ਼ਲੇਸ਼ਣ",
+        "id": "ਤਬਦੀਲੀ-ਸਥਿਤੀ",
+        "requirements": [
+          "ਵੈਧ ਮੌਜੂਦਾ ਸਥਿਤੀ",
+          "ਕੋਈ ਪ੍ਰਵਾਸੀ ਇਰਾਦਾ ਨਹੀਂ",
+          "ਵਿੱਤੀ ਘੋਲਤਾ"
+        ],
+        "features": [
+          "ਯੋਗਤਾ ਅਤੇ ਜੋਖਮ ਮੁਲਾਂਕਣ",
+          "I-539 ਫਾਰਮ ਦੀ ਤਿਆਰੀ",
+          "RFE ਜਵਾਬ ਸਹਿਯੋਗ"
+        ]
+      },
+      {
+        "price": "$250 ਤੋਂ",
+        "id": "ਵਰਕ-ਪਰਮਿਟ",
+        "description": "ਯੋਗ ਬਿਨੈਕਾਰਾਂ ਲਈ ਰੁਜ਼ਗਾਰ ਅਧਿਕਾਰ ਦਸਤਾਵੇਜ਼।",
+        "timeline": "1-3 ਮਹੀਨੇ",
+        "requirements": [
+          "ਅੰਡਰਲਾਈੰਗ ਪਟੀਸ਼ਨ",
+          "ਯੋਗਤਾ ਸ਼੍ਰੇਣੀ"
+        ],
+        "title": "ਵਰਕ ਪਰਮਿਟ (I-765)",
+        "features": [
+          "ਸ਼੍ਰੇਣੀ-ਵਿਸ਼ੇਸ਼ ਯੋਗਤਾ ਵਿਸ਼ਲੇਸ਼ਣ",
+          "ਅਰਜ਼ੀ ਦੀ ਤਿਆਰੀ ਅਤੇ ਫਾਈਲਿੰਗ",
+          "ਐਪਲੀਕੇਸ਼ਨ ਟਰੈਕਿੰਗ"
+        ],
+        "stat": "ਰੋਕਣਯੋਗ ਦੇਰੀ ਤੋਂ ਬਚਣ ਲਈ ਸਬਮਿਸ਼ਨ ਤੋਂ ਪਹਿਲਾਂ ਸ਼੍ਰੇਣੀ ਦੀ ਸਮੀਖਿਆ ਕਰੋ"
+      },
+      {
+        "title": "ਸ਼ਰਣ (I-589)",
+        "id": "ਸ਼ਰਣ",
+        "features": [
+          "ਐਪਲੀਕੇਸ਼ਨ ਦੀ ਤਿਆਰੀ ਅਤੇ ਹਲਫੀਆ ਬਿਆਨ ਸਹਾਇਤਾ",
+          "ਦੇਸ਼ ਦੀਆਂ ਸਥਿਤੀਆਂ ਦੀ ਖੋਜ",
+          "ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ"
+        ],
+        "requirements": [
+          "ਜ਼ੁਲਮ ਦਾ ਡਰ",
+          "ਅਮਰੀਕਾ ਵਿੱਚ ਸਰੀਰਕ ਮੌਜੂਦਗੀ"
+        ],
+        "timeline": "6-24 ਮਹੀਨੇ",
+        "description": "ਆਪਣੇ ਦੇਸ਼ ਵਿੱਚ ਅਤਿਆਚਾਰ ਤੋਂ ਡਰਦੇ ਲੋਕਾਂ ਲਈ ਸੁਰੱਖਿਆ।",
+        "price": "ਹਵਾਲੇ ਲਈ ਸਲਾਹ ਕਰੋ",
+        "stat": "ਉੱਚ-ਦਾਅ ਵਾਲੇ ਮਾਨਵਤਾਵਾਦੀ ਮਾਮਲਿਆਂ ਲਈ ਗੁਪਤ ਤਿਆਰੀ"
+      },
+      {
+        "title": "ਯੂ ਵੀਜ਼ਾ (ਪੀੜਤ)",
+        "description": "ਕਾਨੂੰਨ ਲਾਗੂ ਕਰਨ ਵਿੱਚ ਸਹਾਇਤਾ ਕਰਨ ਵਾਲੇ ਕੁਝ ਅਪਰਾਧਾਂ ਦੇ ਪੀੜਤਾਂ ਲਈ ਸਥਿਤੀ।",
+        "price": "ਹਵਾਲੇ ਲਈ ਸਲਾਹ ਕਰੋ",
+        "timeline": "3-12 ਮਹੀਨੇ",
+        "stat": "ਸਰਵਾਈਵਰ-ਆਧਾਰਿਤ ਫਾਈਲਿੰਗ ਲਈ ਸੰਵੇਦਨਸ਼ੀਲ ਹੈਂਡਲਿੰਗ",
+        "features": [
+          "I-918 ਅਤੇ ਸਪਲੀਮੈਂਟ ਬੀ ਸਪੋਰਟ",
+          "ਸਬੂਤ ਇਕੱਠੇ",
+          "ਨਿਰੋਲ ਨਿਸ਼ਚਾ ਮਾਰਗਦਰਸ਼ਨ"
+        ],
+        "id": "ਯੂ-ਵੀਜ਼ਾ",
+        "requirements": [
+          "ਯੋਗ ਅਪਰਾਧ ਦਾ ਸ਼ਿਕਾਰ",
+          "ਪੁਲਿਸ ਲਈ ਮਦਦਗਾਰ"
+        ]
+      },
+      {
+        "title": "ਐਡਵਾਂਸ ਪੈਰੋਲ",
+        "description": "ਲੰਬਿਤ ਗ੍ਰੀਨ ਕਾਰਡ ਬਿਨੈਕਾਰਾਂ ਲਈ ਯਾਤਰਾ ਅਧਿਕਾਰ (I-131)।",
+        "stat": "ਸੰਯੁਕਤ ਰਾਜ ਅਮਰੀਕਾ ਛੱਡਣ ਤੋਂ ਪਹਿਲਾਂ ਯਾਤਰਾ ਦੇ ਜੋਖਮ ਦੀ ਸਮੀਖਿਆ ਕਰੋ",
+        "features": [
+          "ਯਾਤਰਾ ਅਧਿਕਾਰ ਦੀ ਤਿਆਰੀ",
+          "ਜੋਖਮ ਸਲਾਹ ਅਤੇ ਵਿਸ਼ਲੇਸ਼ਣ",
+          "ਜੇ ਲੋੜ ਹੋਵੇ ਤਾਂ ਐਮਰਜੈਂਸੀ ਸੰਭਾਲਣਾ"
+        ],
+        "price": "$300 ਤੋਂ",
+        "timeline": "1-2 ਮਹੀਨੇ",
+        "requirements": [
+          "ਲੰਬਿਤ I-485",
+          "DACA ਜਾਂ TPS ਯੋਗਤਾ"
+        ],
+        "id": "ਪੇਸ਼ਗੀ ਪੈਰੋਲ"
+      },
+      {
+        "timeline": "1-4 ਹਫ਼ਤੇ",
+        "stat": "ਦਸਤਾਵੇਜ਼ੀ ਤਤਕਾਲਤਾ ਅਤੇ ਏਜੰਸੀ ਦੇ ਮਾਪਦੰਡਾਂ ਦੇ ਦੁਆਲੇ ਬਣੀਆਂ ਬੇਨਤੀਆਂ",
+        "id": "ਤੇਜ਼ ਕਰਨਾ",
+        "title": "ਬੇਨਤੀਆਂ ਨੂੰ ਤੇਜ਼ ਕਰੋ",
+        "price": "$500 ਤੋਂ",
+        "requirements": [
+          "ਗੰਭੀਰ ਵਿੱਤੀ ਨੁਕਸਾਨ",
+          "ਮਾਨਵਤਾਵਾਦੀ ਐਮਰਜੈਂਸੀ",
+          "ਅਮਰੀਕੀ ਸਰਕਾਰ ਦੀ ਦਿਲਚਸਪੀ"
+        ],
+        "description": "ਮਾਨਵਤਾਵਾਦੀ ਜਾਂ ਵਿੱਤੀ ਕਾਰਨਾਂ ਕਰਕੇ ਲੰਬਿਤ ਕੇਸਾਂ ਨੂੰ ਤੇਜ਼ ਕਰਨਾ।",
+        "features": [
+          "ਮਜਬੂਰ ਕਰਨ ਵਾਲੀ ਬੇਨਤੀ ਦਾ ਖਰੜਾ ਤਿਆਰ ਕਰਨਾ",
+          "ਸਬੂਤ ਸੰਕਲਨ",
+          "USCIS ਦੇ ਮਾਪਦੰਡਾਂ ਦੇ ਮੁਤਾਬਕ ਰਣਨੀਤੀ"
+        ]
+      }
+    ]
+  },
+  "faq": {
+    "title": "ਆਮ ਸਵਾਲ",
+    "subtitle": "ਅਗਲੇ ਪੜਾਅ 'ਤੇ ਪ੍ਰਤੀਬੱਧ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਪ੍ਰਕਿਰਿਆ, ਕੀਮਤ, ਅਤੇ ਕੀ ਉਮੀਦ ਕਰਨੀ ਹੈ ਬਾਰੇ ਸਪਸ਼ਟ ਜਵਾਬ।",
+    "processTimeline": "ਪ੍ਰਕਿਰਿਆ ਅਤੇ ਸਮਾਂਰੇਖਾ",
+    "gettingStarted": "ਸ਼ੁਰੂ ਕਰਨਾ",
+    "legalResults": "ਕਾਨੂੰਨੀ ਅਤੇ ਨਤੀਜੇ",
+    "pricingPayments": "ਕੀਮਤ ਅਤੇ ਭੁਗਤਾਨ",
+    "heading": "ਅਕਸਰ ਪੁੱਛੇ ਜਾਂਦੇ ਸਵਾਲ।",
+    "categories": [
+      {
+        "faqs": [
+          {
+            "answer": "ਜ਼ਿਆਦਾਤਰ ਮਾਮਲਿਆਂ ਲਈ ਸਲਾਹ-ਮਸ਼ਵਰਾ ਪਹਿਲਾ ਕਦਮ ਹੈ। ਉਹਨਾਂ ਦੀ ਵਰਤੋਂ ਮੁੱਦੇ ਦੀ ਪਛਾਣ ਕਰਨ, ਸਮਾਂ-ਸੀਮਾਵਾਂ ਨੂੰ ਲੱਭਣ, ਉਪਲਬਧ ਦਸਤਾਵੇਜ਼ਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰਨ, ਅਤੇ ਇਹ ਫੈਸਲਾ ਕਰਨ ਲਈ ਕੀਤੀ ਜਾਂਦੀ ਹੈ ਕਿ ਕੀ ਅਗਲਾ ਕਦਮ ਇੱਕ ਫਾਈਲਿੰਗ ਹੈ, ਹੋਰ ਸਬੂਤ ਇਕੱਠੇ ਕਰਨਾ, ਜਾਂ ਇੱਕ ਹੋਰ ਜ਼ਰੂਰੀ ਰਣਨੀਤੀ ਸੈਸ਼ਨ ਹੈ।",
+            "question": "ਸਲਾਹ-ਮਸ਼ਵਰੇ ਕਿਵੇਂ ਕੰਮ ਕਰਦੇ ਹਨ?"
+          },
+          {
+            "question": "ਕੀ ਤੁਸੀਂ ਵਰਚੁਅਲ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਦੀ ਪੇਸ਼ਕਸ਼ ਕਰਦੇ ਹੋ?",
+            "answer": "ਹਾਂ। ਅਭਿਆਸ ਨੂੰ ਫ਼ੋਨ ਜਾਂ ਵੀਡੀਓ ਦੁਆਰਾ ਰਿਮੋਟ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਲਈ ਸਥਾਪਤ ਕੀਤਾ ਗਿਆ ਹੈ, ਜੋ ਵਿਅਕਤੀਗਤ ਮੁਲਾਕਾਤ ਤੋਂ ਬਿਨਾਂ ਬਹੁਤ ਸਾਰੇ ਇਮੀਗ੍ਰੇਸ਼ਨ ਮਾਮਲਿਆਂ ਦੀ ਸਮੀਖਿਆ ਕਰਨਾ ਸੰਭਵ ਬਣਾਉਂਦਾ ਹੈ।"
+          },
+          {
+            "answer": "ਅੰਗਰੇਜ਼ੀ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਸਿੱਧੇ ਤੌਰ 'ਤੇ ਸਮਰਥਿਤ ਹਨ, ਅਤੇ ਦੁਭਾਸ਼ੀਏ-ਅਨੁਕੂਲ ਵਰਕਫਲੋ ਦਾ ਪ੍ਰਬੰਧ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ ਜਦੋਂ ਇੱਕ ਕਲਾਇੰਟ ਕਿਸੇ ਹੋਰ ਭਾਸ਼ਾ ਵਿੱਚ ਵਧੇਰੇ ਆਰਾਮਦਾਇਕ ਹੁੰਦਾ ਹੈ।",
+            "question": "ਤੁਸੀਂ ਕਿਹੜੀਆਂ ਭਾਸ਼ਾਵਾਂ ਦਾ ਸਮਰਥਨ ਕਰਦੇ ਹੋ?"
+          }
+        ],
+        "category": "ਸ਼ੁਰੂ ਕਰਨਾ"
+      },
+      {
+        "category": "ਕੀਮਤ ਅਤੇ ਭੁਗਤਾਨ",
+        "faqs": [
+          {
+            "question": "ਕੀ USCIS ਫੀਸਾਂ ਤੁਹਾਡੀ ਕੀਮਤ ਵਿੱਚ ਸ਼ਾਮਲ ਹਨ?",
+            "answer": "ਨਹੀਂ। ਸਰਕਾਰੀ ਫਾਈਲਿੰਗ ਫੀਸ ਕਾਨੂੰਨੀ ਫੀਸਾਂ ਤੋਂ ਵੱਖਰੀ ਹੈ। ਸਲਾਹ-ਮਸ਼ਵਰੇ ਦੀ ਵਰਤੋਂ ਸੰਭਾਵਿਤ ਕਾਨੂੰਨੀ-ਫ਼ੀਸ ਸੀਮਾ, ਸੰਭਾਵਿਤ ਫਾਈਲਿੰਗ ਫੀਸ, ਅਤੇ ਇਸ ਮਾਮਲੇ ਲਈ ਆਉਣ ਵਾਲੇ ਕਿਸੇ ਵੀ ਹੋਰ ਖਰਚਿਆਂ ਦੀ ਵਿਆਖਿਆ ਕਰਨ ਲਈ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।"
+          },
+          {
+            "answer": "ਕੰਮ ਦੇ ਦਾਇਰੇ ਅਤੇ ਮਾਮਲੇ ਦੀ ਜ਼ਰੂਰੀਤਾ ਦੇ ਆਧਾਰ 'ਤੇ ਕਿਸ਼ਤ ਦੇ ਵਿਕਲਪ ਉਪਲਬਧ ਹੋ ਸਕਦੇ ਹਨ। ਸਲਾਹ-ਮਸ਼ਵਰੇ ਦੌਰਾਨ ਭੁਗਤਾਨ ਢਾਂਚੇ 'ਤੇ ਚਰਚਾ ਕੀਤੀ ਜਾਂਦੀ ਹੈ ਤਾਂ ਜੋ ਗਾਹਕ ਸਮਝ ਸਕੇ ਕਿ ਕੰਮ ਸ਼ੁਰੂ ਹੋਣ ਤੋਂ ਪਹਿਲਾਂ ਕੀ ਬਕਾਇਆ ਹੈ ਅਤੇ ਕੀ ਫੈਲਾਇਆ ਜਾ ਸਕਦਾ ਹੈ।",
+            "question": "ਭੁਗਤਾਨ ਯੋਜਨਾਵਾਂ ਕਿਵੇਂ ਕੰਮ ਕਰਦੀਆਂ ਹਨ?"
+          },
+          {
+            "question": "ਕੀ ਤੁਸੀਂ ਸਲਾਈਡਿੰਗ-ਸਕੇਲ ਕੀਮਤ ਦੀ ਪੇਸ਼ਕਸ਼ ਕਰਦੇ ਹੋ?",
+            "answer": "ਫੀਸ ਦੀ ਲਚਕਤਾ ਦਾਇਰੇ, ਜ਼ਰੂਰੀਤਾ, ਅਤੇ ਇਸ ਵਿੱਚ ਸ਼ਾਮਲ ਮਾਮਲੇ ਦੀ ਕਿਸਮ 'ਤੇ ਨਿਰਭਰ ਕਰਦਾ ਹੈ। ਜੇਕਰ ਸਮਰੱਥਾ ਇੱਕ ਚਿੰਤਾ ਹੈ, ਤਾਂ ਇਸਨੂੰ ਜਲਦੀ ਵਧਾਓ ਤਾਂ ਜੋ ਦਫਤਰ ਇਹ ਦੱਸ ਸਕੇ ਕਿ ਅਸਲ ਵਿੱਚ ਕੀ ਉਪਲਬਧ ਹੈ।"
+          }
+        ]
+      },
+      {
+        "faqs": [
+          {
+            "answer": "ਸਮਾਂ-ਸੀਮਾਵਾਂ ਕੇਸ ਦੀ ਕਿਸਮ 'ਤੇ ਨਿਰਭਰ ਕਰਦੀਆਂ ਹਨ, ਕਿੰਨੀ ਜਲਦੀ ਦਸਤਾਵੇਜ਼ ਇਕੱਠੇ ਕੀਤੇ ਜਾਂਦੇ ਹਨ, ਅਤੇ ਕੀ ਜ਼ਰੂਰੀ ਸਮਾਂ ਸੀਮਾਵਾਂ ਹਨ। ਜਦੋਂ ਲੋੜੀਂਦੇ ਸਬੂਤ ਹੱਥ ਵਿੱਚ ਆ ਜਾਂਦੇ ਹਨ ਤਾਂ ਸਿੱਧੇ ਮਾਮਲੇ ਅਕਸਰ ਤੇਜ਼ੀ ਨਾਲ ਅੱਗੇ ਵਧ ਸਕਦੇ ਹਨ।",
+            "question": "ਤੁਸੀਂ ਮੇਰੀ ਅਰਜ਼ੀ ਕਿੰਨੀ ਤੇਜ਼ੀ ਨਾਲ ਫਾਈਲ ਕਰ ਸਕਦੇ ਹੋ?"
+          },
+          {
+            "answer": "ਹਾਂ। ਇੰਟਰਵਿਊ ਦੀ ਤਿਆਰੀ ਬਹੁਤ ਸਾਰੇ ਇਮੀਗ੍ਰੇਸ਼ਨ ਮਾਮਲਿਆਂ ਦਾ ਹਿੱਸਾ ਹੈ, ਖਾਸ ਤੌਰ 'ਤੇ ਜਿੱਥੇ ਅਫਸਰ ਦੇ ਸਵਾਲ, ਭਰੋਸੇਯੋਗਤਾ, ਜਾਂ ਦਸਤਾਵੇਜ਼ ਸੰਗਠਨ ਨਤੀਜੇ ਨੂੰ ਪ੍ਰਭਾਵਿਤ ਕਰ ਸਕਦੇ ਹਨ।",
+            "question": "ਕੀ ਤੁਸੀਂ ਮੈਨੂੰ ਮੇਰੇ ਇੰਟਰਵਿਊ ਲਈ ਤਿਆਰ ਕਰੋਗੇ?"
+          },
+          {
+            "answer": "ਸਥਿਤੀ ਦੇ ਅੱਪਡੇਟਾਂ ਨੂੰ ਆਮ ਤੌਰ 'ਤੇ ਈਮੇਲ ਅਤੇ ਅਨੁਸੂਚਿਤ ਫਾਲੋ-ਅੱਪ ਰਾਹੀਂ ਸੰਭਾਲਿਆ ਜਾਂਦਾ ਹੈ। ਸਹੀ ਸੰਚਾਰ ਕੈਡੈਂਸ ਨੁਮਾਇੰਦਗੀ ਦੇ ਦਾਇਰੇ, ਆਗਾਮੀ ਸਮਾਂ-ਸੀਮਾਵਾਂ, ਅਤੇ ਕੀ ਕਿਸੇ ਏਜੰਸੀ ਨੋਟਿਸ ਨੂੰ ਤੇਜ਼ ਜਵਾਬ ਦੀ ਲੋੜ ਹੈ, 'ਤੇ ਨਿਰਭਰ ਕਰਦਾ ਹੈ।",
+            "question": "ਮੈਂ ਆਪਣੇ ਕੇਸ ਦੀ ਸਥਿਤੀ ਨੂੰ ਕਿਵੇਂ ਟਰੈਕ ਕਰਾਂ?"
+          }
+        ],
+        "category": "ਪ੍ਰਕਿਰਿਆ ਅਤੇ ਸਮਾਂਰੇਖਾ"
+      },
+      {
+        "category": "ਕਾਨੂੰਨੀ ਅਤੇ ਨਤੀਜੇ",
+        "faqs": [
+          {
+            "question": "ਕੀ ਤੁਸੀਂ ਨਤੀਜਿਆਂ ਦੀ ਗਾਰੰਟੀ ਦਿੰਦੇ ਹੋ?",
+            "answer": "ਕੋਈ ਵੀ ਅਟਾਰਨੀ ਇਮੀਗ੍ਰੇਸ਼ਨ ਮਾਮਲਿਆਂ ਵਿੱਚ ਨਤੀਜਿਆਂ ਦੀ ਗਾਰੰਟੀ ਨਹੀਂ ਦੇ ਸਕਦਾ ਹੈ ਕਿਉਂਕਿ ਅੰਤਿਮ ਫੈਸਲਾ ਸਰਕਾਰੀ ਏਜੰਸੀ ਜਾਂ ਇਮੀਗ੍ਰੇਸ਼ਨ ਅਦਾਲਤ ਦਾ ਹੁੰਦਾ ਹੈ ਜੋ ਕੇਸ ਨੂੰ ਸੰਭਾਲਦਾ ਹੈ। ਤੁਹਾਨੂੰ ਜੋ ਉਮੀਦ ਕਰਨੀ ਚਾਹੀਦੀ ਹੈ ਉਹ ਹੈ ਖਤਰੇ ਬਾਰੇ ਸਪੱਸ਼ਟ ਸਲਾਹ, ਅਨੁਸ਼ਾਸਿਤ ਤਿਆਰੀ, ਅਤੇ ਇਮਾਨਦਾਰ ਸੰਚਾਰ।"
+          },
+          {
+            "question": "ਜੇ ਮੇਰਾ ਕੇਸ ਰੱਦ ਕਰ ਦਿੱਤਾ ਜਾਵੇ ਤਾਂ ਕੀ ਹੋਵੇਗਾ?",
+            "answer": "ਜੇਕਰ ਕੋਈ ਕੇਸ ਅਸਵੀਕਾਰ ਕੀਤਾ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਪਹਿਲਾ ਕਦਮ ਹੈ ਫੈਸਲੇ ਦੀ ਧਿਆਨ ਨਾਲ ਸਮੀਖਿਆ ਕਰਨਾ ਅਤੇ ਇਹ ਨਿਰਧਾਰਤ ਕਰਨਾ ਕਿ ਅਸਲ ਵਿੱਚ ਕਿਹੜੇ ਵਿਕਲਪ ਉਪਲਬਧ ਹਨ। ਆਸਣ 'ਤੇ ਨਿਰਭਰ ਕਰਦਿਆਂ, ਇਸ ਵਿੱਚ ਇੱਕ ਰੀਫਾਈਲਿੰਗ ਰਣਨੀਤੀ, ਇੱਕ ਮੋਸ਼ਨ, ਇੱਕ ਅਪੀਲ, ਜਾਂ ਇੱਕ ਵੱਖਰਾ ਮਾਰਗ ਸ਼ਾਮਲ ਹੋ ਸਕਦਾ ਹੈ।"
+          },
+          {
+            "question": "ਕੀ ਤੁਸੀਂ ਇਮੀਗ੍ਰੇਸ਼ਨ ਕਾਨੂੰਨ ਦਾ ਅਭਿਆਸ ਕਰਨ ਲਈ ਲਾਇਸੰਸਸ਼ੁਦਾ ਹੋ?",
+            "answer": "ਇਹ ਵੈੱਬਸਾਈਟ ਅਟਾਰਨੀ ਦੀ ਅਗਵਾਈ ਵਾਲੀ ਇਮੀਗ੍ਰੇਸ਼ਨ ਅਭਿਆਸ ਦੇ ਆਲੇ-ਦੁਆਲੇ ਬਣਾਈ ਗਈ ਹੈ। ਨੁਮਾਇੰਦਗੀ ਦੇ ਵੇਰਵਿਆਂ, ਲਾਇਸੈਂਸ ਦੀ ਸਥਿਤੀ, ਅਤੇ ਸ਼ਮੂਲੀਅਤ ਦੀਆਂ ਸ਼ਰਤਾਂ ਦੀ ਹਮੇਸ਼ਾ ਸਲਾਹ-ਮਸ਼ਵਰੇ ਦੌਰਾਨ ਅਤੇ ਲਿਖਤੀ ਸ਼ਮੂਲੀਅਤ ਸਮਝੌਤੇ ਵਿੱਚ ਪੁਸ਼ਟੀ ਕੀਤੀ ਜਾਣੀ ਚਾਹੀਦੀ ਹੈ।"
+          }
+        ]
+      }
+    ]
+  },
+  "pricing": {
+    "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
+    "noteLabel": "Note:",
+    "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
+    "benefits": [
+      "Transparent, upfront pricing",
+      "Scope explained before work begins",
+      "Flexible payment plans when appropriate",
+      "Hosted online payment options",
+      "No hidden administrative fees",
+      "Consultation fees credited when applicable",
+      "Government filing fees billed separately"
+    ],
+    "items": [
+      {
+        "service": "Visitor Visa (B1/B2)",
+        "price": "$350–$650",
+        "includes": "DS-160, coaching"
+      },
+      {
+        "service": "Student Visa (F-1)",
+        "price": "$450–$900",
+        "includes": "I-20 guidance, prep"
+      },
+      {
+        "service": "Change of Status",
+        "price": "$850–$1,800",
+        "includes": "I-539, risk assessment"
+      },
+      {
+        "service": "Marriage-Based AOS",
+        "price": "$1,800–$3,500",
+        "includes": "Full forms, evidence"
+      },
+      {
+        "service": "Consular Processing",
+        "price": "$1,200–$2,400",
+        "includes": "NVC support"
+      },
+      {
+        "service": "Work Permit (I-765)",
+        "price": "$250–$450",
+        "includes": "Eligibility analysis"
+      },
+      {
+        "service": "Advance Parole (I-131)",
+        "price": "$250–$450",
+        "includes": "Authorization prep"
+      },
+      {
+        "service": "Expedite Request Prep",
+        "price": "$300–$600",
+        "includes": "Drafting, evidence"
+      },
+      {
+        "service": "U Visa",
+        "price": "$1,800–$3,500",
+        "includes": "Full support"
+      },
+      {
+        "service": "Asylum",
+        "price": "$2,500–$6,000",
+        "includes": "Research, prep"
+      }
+    ],
+    "subtitle": "ਰੇਂਜ ਗੁੰਝਲਦਾਰਤਾ, ਤਤਕਾਲਤਾ, ਅਤੇ ਦਸਤਾਵੇਜ਼ ਲੋਡ ਦੁਆਰਾ ਵੱਖ-ਵੱਖ ਹੁੰਦੀ ਹੈ। ਟੀਚਾ ਤੁਹਾਡੇ ਬੁੱਕ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਯਥਾਰਥਵਾਦੀ ਕਾਨੂੰਨੀ-ਫ਼ੀਸ ਬੈਂਡ ਦਿਖਾਉਣਾ ਹੈ।",
+    "cta": "ਇੱਕ ਕਸਟਮ ਹਵਾਲਾ ਪ੍ਰਾਪਤ ਕਰੋ",
+    "priceRange": "ਕੀਮਤ ਰੇਂਜ",
+    "whyChoose": "ਸਾਨੂੰ ਕਿਉਂ ਚੁਣੋ?",
+    "heading": "ਕੇਂਦਰਿਤ ਪ੍ਰਤੀਨਿਧਤਾ ਲਈ ਕਾਨੂੰਨੀ ਫੀਸਾਂ ਨੂੰ ਸਾਫ਼ ਕਰੋ।",
+    "title": "ਪਾਰਦਰਸ਼ੀ ਫੀਸ",
+    "service": "ਸੇਵਾ",
+    "includes": "ਸ਼ਾਮਲ ਹਨ"
+  }
 }

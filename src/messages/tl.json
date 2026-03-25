@@ -1,288 +1,690 @@
 {
-    "common": {
-        "siteName": "M&T Immigration Law Firm",
-        "tagline": "Solong Immigration Counsel May Direktang Access sa Attorney",
-        "description": "Boutique U.S. immigration representation para sa visitor, student, family, humanitarian, at mga urgent court-related matters. Malinaw na estratehiya, transparent na fees, at direkta pang attorney komunikasyon.",
-        "bookConsultation": "Mag-book ng Konsultasyon",
-        "exploreServices": "Galugarin ang mga Serbisyo",
-        "learnMore": "Matuto Pa",
-        "contactUs": "Makipag-ugnay sa Amin",
-        "getStarted": "Magsimula",
-        "viewAll": "Tingnan Lahat",
-        "submit": "Isumite",
-        "next": "Susunod",
-        "previous": "Nakaraang",
-        "back": "Bumalik",
-        "close": "Isara",
-        "loading": "Naglo-load..."
-    },
-    "nav": {
-        "services": "Mga Serbisyo",
-        "reviews": "Mga Review",
-        "about": "Tungkol",
-        "fees": "Mga Fee",
-        "insights": "Mga Insight",
-        "faq": "Mga Karaniwang Tanong",
-        "contact": "Kontak"
-    },
-    "hero": {
-        "badge": "Solo attorney practice na may direktang case ownership",
-        "title": "Focus na immigration counsel",
-        "titleHighlight": "may malinaw na estratehiya",
-        "subtitle": "Boutique support para sa visitor, student, family-based, humanitarian, at urgent removal matters, with direct attorney communication mula intake hanggang filing.",
-        "cta": "Mag-book ng Konsultasyon",
-        "ctaSecondary": "Galugarin ang mga Serbisyo",
-        "directAccess": "Direktang access sa attorney",
-        "responseTime": "1-2 business day response",
-        "transparentFees": "Transparent na consultation fees"
-    },
-    "stats": {
-        "directAttorney": "Direktang Access sa Attorney",
-        "directAttorneyDesc": "Kausap mo ang lawyer na responsible para sa strategy at filing decisions.",
-        "caseReady": "Case-Ready na Intake",
-        "caseReadyDesc": "Structured intake ay nakakatulong na i-surface ang deadlines, filings, at urgent issues nang maaga.",
-        "security": "Security-First na Komunikasyon",
-        "securityDesc": "Forms at chat ay tumatakbo na sa validated server-side routes.",
-        "virtual": "Virtual Nationwide",
-        "virtualDesc": "Ang mga konsultasyon ay maaaring hawakan nang remote para sa mga kliyente sa buong United States."
-    },
-    "language": {
-        "switch": "English",
-        "current": "Tagalog"
-    },
-    "pricing": {
-        "noteLabel": "Note:",
-        "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
-        "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
-        "items": [
-            {
-                "service": "Visitor Visa (B1/B2)",
-                "price": "$350–$650",
-                "includes": "DS-160, coaching"
-            },
-            {
-                "service": "Student Visa (F-1)",
-                "price": "$450–$900",
-                "includes": "I-20 guidance, prep"
-            },
-            {
-                "service": "Change of Status",
-                "price": "$850–$1,800",
-                "includes": "I-539, risk assessment"
-            },
-            {
-                "service": "Marriage-Based AOS",
-                "price": "$1,800–$3,500",
-                "includes": "Full forms, evidence"
-            },
-            {
-                "service": "Consular Processing",
-                "price": "$1,200–$2,400",
-                "includes": "NVC support"
-            },
-            {
-                "service": "Work Permit (I-765)",
-                "price": "$250–$450",
-                "includes": "Eligibility analysis"
-            },
-            {
-                "service": "Advance Parole (I-131)",
-                "price": "$250–$450",
-                "includes": "Authorization prep"
-            },
-            {
-                "service": "Expedite Request Prep",
-                "price": "$300–$600",
-                "includes": "Drafting, evidence"
-            },
-            {
-                "service": "U Visa",
-                "price": "$1,800–$3,500",
-                "includes": "Full support"
-            },
-            {
-                "service": "Asylum",
-                "price": "$2,500–$6,000",
-                "includes": "Research, prep"
-            }
-        ],
-        "benefits": [
-            "Transparent, upfront pricing",
-            "Scope explained before work begins",
-            "Flexible payment plans when appropriate",
-            "Hosted online payment options",
-            "No hidden administrative fees",
-            "Consultation fees credited when applicable",
-            "Government filing fees billed separately"
-        ]
-    },
-    "contact": {
-        "cards": [
-            {
-                "label": "Phone / WhatsApp",
-                "tooltip": "Click to call"
-            },
-            {
-                "label": "Email",
-                "tooltip": "Click to email"
-            },
-            {
-                "label": "Office",
-                "tooltip": "New York, NY"
-            },
-            {
-                "label": "Business Hours",
-                "tooltip": "1-2 business day response"
-            }
-        ],
-        "feeOptions": [
-            {
-                "label": "15 min Initial Sync",
-                "price": "$125"
-            },
-            {
-                "label": "30 min Strategy Session",
-                "price": "$250"
-            }
-        ]
-    },
-    "process": {
-        "step1Features": [
-            "Consultation with the attorney",
-            "Initial document review",
-            "Scope and risk discussion"
-        ],
-        "step2Features": [
-            "Form drafting and review",
-            "Evidence checklist",
-            "Final pre-filing quality check"
-        ],
-        "step3Features": [
-            "Interview preparation",
-            "RFE or deadline planning",
-            "Email-based status updates"
-        ]
-    },
-    "testimonials": {
-        "items": [
-            {
-                "title": "Direct communication",
-                "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
-                "label": "No handoff model"
-            },
-            {
-                "title": "Prepared submissions",
-                "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
-                "label": "Evidence-first work"
-            },
-            {
-                "title": "Calm guidance in urgent matters",
-                "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
-                "label": "Urgent matters prioritized"
-            },
-            {
-                "title": "Straight answers on price and scope",
-                "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
-                "label": "Transparent fees"
-            }
-        ]
-    },
-    "footer": {
-        "links": {
-            "services": [
-                {
-                    "name": "Visitor Visas (B1/B2)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Student Visas (F-1)",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Marriage-Based",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Asylum & U-Visa",
-                    "href": "/#services"
-                },
-                {
-                    "name": "Work Permits (EAD)",
-                    "href": "/#services"
-                }
-            ],
-            "company": [
-                {
-                    "name": "About the Practice",
-                    "href": "/#about"
-                },
-                {
-                    "name": "Our Process",
-                    "href": "/#process"
-                },
-                {
-                    "name": "Client Experience",
-                    "href": "/#testimonials"
-                },
-                {
-                    "name": "Insights",
-                    "href": "/insights"
-                },
-                {
-                    "name": "Contact",
-                    "href": "/#contact"
-                }
-            ],
-            "support": [
-                {
-                    "name": "Pricing & Fees",
-                    "href": "/#pricing"
-                },
-                {
-                    "name": "Secure Payments",
-                    "href": "/#payments"
-                },
-                {
-                    "name": "FAQ",
-                    "href": "/#faq"
-                },
-                {
-                    "name": "Book Consultation",
-                    "href": "/#contact"
-                },
-                {
-                    "name": "Brief Break",
-                    "href": "/brief-break"
-                }
-            ],
-            "legal": [
-                {
-                    "name": "Privacy Policy",
-                    "href": "/privacy"
-                },
-                {
-                    "name": "Terms of Use",
-                    "href": "/terms"
-                },
-                {
-                    "name": "Attorney Advertising",
-                    "href": "/terms"
-                }
-            ]
+  "common": {
+    "siteName": "M&T Immigration Law Firm",
+    "tagline": "Solong Immigration Counsel May Direktang Access sa Attorney",
+    "description": "Boutique U.S. immigration representation para sa visitor, student, family, humanitarian, at mga urgent court-related matters. Malinaw na estratehiya, transparent na fees, at direkta pang attorney komunikasyon.",
+    "bookConsultation": "Mag-book ng Konsultasyon",
+    "exploreServices": "Galugarin ang mga Serbisyo",
+    "learnMore": "Matuto Pa",
+    "contactUs": "Makipag-ugnay sa Amin",
+    "getStarted": "Magsimula",
+    "viewAll": "Tingnan Lahat",
+    "submit": "Isumite",
+    "next": "Susunod",
+    "previous": "Nakaraang",
+    "back": "Bumalik",
+    "close": "Isara",
+    "loading": "Naglo-load..."
+  },
+  "nav": {
+    "services": "Mga Serbisyo",
+    "reviews": "Mga Review",
+    "about": "Tungkol",
+    "fees": "Mga Fee",
+    "insights": "Mga Insight",
+    "faq": "Mga Karaniwang Tanong",
+    "contact": "Kontak"
+  },
+  "hero": {
+    "badge": "Solo attorney practice na may direktang case ownership",
+    "title": "Focus na immigration counsel",
+    "titleHighlight": "may malinaw na estratehiya",
+    "subtitle": "Boutique support para sa visitor, student, family-based, humanitarian, at urgent removal matters, with direct attorney communication mula intake hanggang filing.",
+    "cta": "Mag-book ng Konsultasyon",
+    "ctaSecondary": "Galugarin ang mga Serbisyo",
+    "directAccess": "Direktang access sa attorney",
+    "responseTime": "1-2 business day response",
+    "transparentFees": "Transparent na consultation fees"
+  },
+  "stats": {
+    "directAttorney": "Direktang Access sa Attorney",
+    "directAttorneyDesc": "Kausap mo ang lawyer na responsible para sa strategy at filing decisions.",
+    "caseReady": "Case-Ready na Intake",
+    "caseReadyDesc": "Structured intake ay nakakatulong na i-surface ang deadlines, filings, at urgent issues nang maaga.",
+    "security": "Security-First na Komunikasyon",
+    "securityDesc": "Forms at chat ay tumatakbo na sa validated server-side routes.",
+    "virtual": "Virtual Nationwide",
+    "virtualDesc": "Ang mga konsultasyon ay maaaring hawakan nang remote para sa mga kliyente sa buong United States."
+  },
+  "insightsPreview": {
+    "title": "Insights",
+    "heading": "Case studies, news, and practical reads in one place.",
+    "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
+    "openAll": "Open All Insights",
+    "seeMore": "See More",
+    "caseStudies": "Case Studies",
+    "news": "News",
+    "analysis": "Analysis"
+  },
+  "language": {
+    "switch": "English",
+    "current": "Tagalog"
+  },
+  "process": {
+    "step1Features": [
+      "Consultation with the attorney",
+      "Initial document review",
+      "Scope and risk discussion"
+    ],
+    "step2Features": [
+      "Form drafting and review",
+      "Evidence checklist",
+      "Final pre-filing quality check"
+    ],
+    "step3Features": [
+      "Interview preparation",
+      "RFE or deadline planning",
+      "Email-based status updates"
+    ],
+    "step3Title": "Gabayan ka",
+    "title": "Paano Kami Nagtatrabaho",
+    "step2Title": "Maghanda at Mag-file",
+    "heading": "Isang malinaw na legal na proseso, nang walang kalituhan ng lakas ng tunog.",
+    "step3Desc": "Manatiling handa pagkatapos mag-file ng paghahanda ng panayam, diskarte sa pagtugon, at direktang pag-follow-up.",
+    "step2Desc": "Buuin ang diskarte sa paghahain, tipunin ang sumusuportang ebidensya, at ihanda ang pagsusumite nang may pag-iingat.",
+    "step1Desc": "Magsimula sa isang bayad na konsultasyon para matukoy ang isyu, mga deadline, at ang pinakamalinis na susunod na hakbang.",
+    "subtitle": "Ang pagsasanay ay binuo sa paligid ng isang abugado na nagmamay-ari ng file, ang diskarte, at ang komunikasyon mula sa unang pagkonsulta hanggang sa desisyon sa paghahain.",
+    "step1Title": "Makinig at Magsuri"
+  },
+  "footer": {
+    "links": {
+      "services": [
+        {
+          "name": "Visitor Visas (B1/B2)",
+          "href": "/#services"
+        },
+        {
+          "name": "Student Visas (F-1)",
+          "href": "/#services"
+        },
+        {
+          "name": "Marriage-Based",
+          "href": "/#services"
+        },
+        {
+          "name": "Asylum & U-Visa",
+          "href": "/#services"
+        },
+        {
+          "name": "Work Permits (EAD)",
+          "href": "/#services"
         }
+      ],
+      "company": [
+        {
+          "name": "About the Practice",
+          "href": "/#about"
+        },
+        {
+          "name": "Our Process",
+          "href": "/#process"
+        },
+        {
+          "name": "Client Experience",
+          "href": "/#testimonials"
+        },
+        {
+          "name": "Insights",
+          "href": "/insights"
+        },
+        {
+          "name": "Contact",
+          "href": "/#contact"
+        }
+      ],
+      "support": [
+        {
+          "name": "Pricing & Fees",
+          "href": "/#pricing"
+        },
+        {
+          "name": "Secure Payments",
+          "href": "/#payments"
+        },
+        {
+          "name": "FAQ",
+          "href": "/#faq"
+        },
+        {
+          "name": "Book Consultation",
+          "href": "/#contact"
+        },
+        {
+          "name": "Brief Break",
+          "href": "/brief-break"
+        }
+      ],
+      "legal": [
+        {
+          "name": "Privacy Policy",
+          "href": "/privacy"
+        },
+        {
+          "name": "Terms of Use",
+          "href": "/terms"
+        },
+        {
+          "name": "Attorney Advertising",
+          "href": "/terms"
+        }
+      ]
     },
-    "insightsPreview": {
-        "title": "Insights",
-        "heading": "Case studies, news, and practical reads in one place.",
-        "subtitle": "A compact view of the latest public-source case studies, current immigration developments, and longer analysis pieces.",
-        "caseStudies": "Case Studies",
-        "news": "News",
-        "analysis": "Analysis",
-        "openAll": "Open All Insights",
-        "seeMore": "See More"
-    },
-    "briefBreak": {
-        "previewTitle": "Docket Zip",
-        "previewSubtitle": "Connect the facts. Fill the record."
-    }
+    "support": "Suporta",
+    "company": "kumpanya",
+    "privacy": "Patakaran sa Privacy",
+    "phoneAria": "Tawagan kami sa {phone}",
+    "advertising": "Advertising ng Abugado",
+    "insights": "Mga Insight",
+    "siteMap": "Site Map",
+    "copyright": "Copyright © {year} {name}. Lahat ng karapatan ay nakalaan.",
+    "tagline": "Boutique, representasyon sa imigrasyon na pinamumunuan ng abogado na may direktang komunikasyon, malinaw na mga bayarin, at nakatutok na diskarte sa kaso.",
+    "legal": "Legal",
+    "emailAria": "Mag-email sa amin sa {email}",
+    "services": "Mga serbisyo",
+    "disclaimer": "ATTORNEY ADVERTISING. Ang impormasyon sa website na ito ay para sa pangkalahatang layunin ng impormasyon lamang. Wala sa site na ito ang dapat kunin bilang legal na payo para sa anumang indibidwal na kaso o sitwasyon. Ang impormasyong ito ay hindi nilayon na lumikha, at ang resibo o pagtingin ay hindi bumubuo, isang relasyon ng abogado-kliyente. Ang mga naunang resulta ay hindi ginagarantiyahan ang isang katulad na resulta.",
+    "terms": "Mga Tuntunin sa Paggamit"
+  },
+  "briefBreak": {
+    "previewTitle": "Docket Zip",
+    "previewSubtitle": "Connect the facts. Fill the record.",
+    "pill": "Pang-araw-araw na chamber puzzle na may mga streak, pahiwatig, at zero legal pressure",
+    "title": "Maikling Break",
+    "cta": "Pumasok sa Puzzle Room",
+    "heading": "Isang tahimik na silid ng palaisipan, para sa mga sandali sa pagitan ng mabibigat na gawain.",
+    "subtitle": "Ang site ng kompanya ay nananatiling seryoso kung saan ito mahalaga. Ito ang isang intentional detour: isang maliit na legal-themed puzzle page na binuo para sa focus, reset, at kaunting stress."
+  },
+  "intake": {
+    "step1Title": "Makipag-ugnayan",
+    "submitting": "Isinusumite...",
+    "summary": "Buod ng Kaso",
+    "step3Title": "Balik-aral",
+    "successDesc": "Susuriin namin ang iyong impormasyon at mag-follow up gamit ang iyong gustong mga detalye sa pakikipag-ugnayan.",
+    "consent": "Sumasang-ayon ako sa pagkolekta at pagproseso ng aking impormasyon",
+    "step2Title": "Mga Detalye ng Kaso",
+    "language": "Ginustong Wika",
+    "caseType": "Uri ng Bagay",
+    "email": "Email Address",
+    "name": "Buong Pangalan",
+    "success": "Natanggap ang kahilingan sa konsultasyon.",
+    "phone": "Numero ng Telepono"
+  },
+  "contact": {
+    "cards": [
+      {
+        "label": "Phone / WhatsApp",
+        "tooltip": "Click to call"
+      },
+      {
+        "label": "Email",
+        "tooltip": "Click to email"
+      },
+      {
+        "label": "Office",
+        "tooltip": "New York, NY"
+      },
+      {
+        "label": "Business Hours",
+        "tooltip": "1-2 business day response"
+      }
+    ],
+    "feeOptions": [
+      {
+        "label": "15 min Initial Sync",
+        "price": "$125"
+      },
+      {
+        "label": "30 min Strategy Session",
+        "price": "$250"
+      }
+    ],
+    "min15": "15 min",
+    "feeCredit": "Bayad na kredito sa serbisyo kung mananatili.",
+    "office": "Opisina",
+    "title": "Magsimula",
+    "consultationFees": "Mga Bayad sa Pagkonsulta",
+    "contactInfo": "Impormasyon sa Pakikipag-ugnayan",
+    "min30": "30 min",
+    "phone": "Telepono / WhatsApp",
+    "subtitle": "Mag-book ng konsultasyon o magpadala ng structured intake request. Tumutugon ang opisina sa mga bagong katanungan sa loob ng 1-2 araw ng negosyo.",
+    "responseTime": "Oras ng Pagtugon",
+    "heading": "Handa nang suriin ang iyong usapin?",
+    "email": "Email"
+  },
+  "about": {
+    "filingRoadmap": "I-clear ang mga roadmap sa pag-file",
+    "attorneyLed": "Diskarte na pinangungunahan ng abogado",
+    "description": "Ang M&T ay nakabalangkas bilang isang nakatutok na solong pagsasanay para sa mga kliyenteng gustong maingat na paghahanda, mga tuwid na sagot, at direktang pag-access sa abogadong humahawak sa trabaho.",
+    "credentials": "Mga kredensyal at kadalubhasaan",
+    "quote": "Ang mga kaso sa imigrasyon ay masyadong mahalaga para mawala sa isang volume practice. Dapat mong malaman kung sino ang gumagabay sa diskarte, kung ano ang susunod na paghaharap, at kung saan ang mga panganib.",
+    "virtual": "Mga virtual na konsultasyon sa buong bansa",
+    "heading": "Isang boutique immigration practice na binuo para sa direktang komunikasyon",
+    "title": "Tungkol sa",
+    "boutique": "Butikong caseload ng atensyon"
+  },
+  "testimonials": {
+    "items": [
+      {
+        "title": "Direct communication",
+        "description": "Clients should know who is reviewing the facts, what the next filing is, and when a deadline changes the strategy.",
+        "label": "No handoff model"
+      },
+      {
+        "title": "Prepared submissions",
+        "description": "A strong filing starts with document discipline, honest risk assessment, and enough time to fix weak spots before submission.",
+        "label": "Evidence-first work"
+      },
+      {
+        "title": "Calm guidance in urgent matters",
+        "description": "Court dates, removal issues, and interview notices need direct legal attention instead of generic intake scripts.",
+        "label": "Urgent matters prioritized"
+      },
+      {
+        "title": "Straight answers on price and scope",
+        "description": "A solo practice should tell people what is included, what is not, and when a consultation is the right first step.",
+        "label": "Transparent fees"
+      }
+    ],
+    "preparedLabel": "Ebidensya-unang gawain",
+    "title": "Karanasan ng Kliyente",
+    "directComm": "Direktang komunikasyon",
+    "heading": "Ano ang dapat ihatid ng isang malakas na pagsasanay sa solo.",
+    "calmLabel": "Ang mga apurahang bagay ay inuuna",
+    "prepared": "Inihanda ang mga pagsusumite",
+    "directCommLabel": "Walang handoff model",
+    "subtitle": "Sa halip na mga hindi nabe-verify na testimonial, nakatutok na ngayon ang site sa mga pamantayang dapat na makatwirang asahan ng mga kliyente mula sa isang boutique immigration practice.",
+    "straightLabel": "Mga transparent na bayarin",
+    "calm": "Kalmadong gabay sa mga kagyat na bagay",
+    "straight": "Mga tuwid na sagot sa presyo at saklaw"
+  },
+  "pricing": {
+    "note": "These are legal service ranges only. Government filing fees, translations, and third-party costs are separate unless specifically stated in writing.",
+    "noteLabel": "Note:",
+    "paymentPlanNote": "Payment plans may be available for qualifying matters. Final scope and billing structure are confirmed during consultation.",
+    "benefits": [
+      "Transparent, upfront pricing",
+      "Scope explained before work begins",
+      "Flexible payment plans when appropriate",
+      "Hosted online payment options",
+      "No hidden administrative fees",
+      "Consultation fees credited when applicable",
+      "Government filing fees billed separately"
+    ],
+    "items": [
+      {
+        "service": "Visitor Visa (B1/B2)",
+        "price": "$350–$650",
+        "includes": "DS-160, coaching"
+      },
+      {
+        "service": "Student Visa (F-1)",
+        "price": "$450–$900",
+        "includes": "I-20 guidance, prep"
+      },
+      {
+        "service": "Change of Status",
+        "price": "$850–$1,800",
+        "includes": "I-539, risk assessment"
+      },
+      {
+        "service": "Marriage-Based AOS",
+        "price": "$1,800–$3,500",
+        "includes": "Full forms, evidence"
+      },
+      {
+        "service": "Consular Processing",
+        "price": "$1,200–$2,400",
+        "includes": "NVC support"
+      },
+      {
+        "service": "Work Permit (I-765)",
+        "price": "$250–$450",
+        "includes": "Eligibility analysis"
+      },
+      {
+        "service": "Advance Parole (I-131)",
+        "price": "$250–$450",
+        "includes": "Authorization prep"
+      },
+      {
+        "service": "Expedite Request Prep",
+        "price": "$300–$600",
+        "includes": "Drafting, evidence"
+      },
+      {
+        "service": "U Visa",
+        "price": "$1,800–$3,500",
+        "includes": "Full support"
+      },
+      {
+        "service": "Asylum",
+        "price": "$2,500–$6,000",
+        "includes": "Research, prep"
+      }
+    ],
+    "service": "Serbisyo",
+    "heading": "I-clear ang mga legal na bayarin para sa nakatutok na representasyon.",
+    "whyChoose": "Bakit Kami Piliin?",
+    "priceRange": "Saklaw ng Presyo",
+    "includes": "Kasama ang",
+    "subtitle": "Nag-iiba ang mga saklaw ayon sa pagiging kumplikado, pagkamadalian, at pag-load ng dokumento. Ang layunin ay magpakita ng makatotohanang mga banda na may legal na bayad bago ka mag-book.",
+    "title": "Mga Transparent na Bayarin",
+    "cta": "Kumuha ng Custom na Quote"
+  },
+  "whyChooseUs": {
+    "cta": "Humiling ng Pagsusuri ng Kaso",
+    "reason4Desc": "Pinapatunayan na ngayon ng site ang mga pagsusumite, pinapanatili ang panig ng server ng AI key, at nililimitahan ng rate ang mga pampublikong form.",
+    "reason3Desc": "Ang mga konsultasyon, gawain sa pag-file, at mga susunod na hakbang ay nakabalangkas sa simpleng wika bago magsimula ang trabaho.",
+    "heading": "Atensiyon ng solong pagsasanay. Malinaw na legal na paghatol.",
+    "title": "Bakit Pumili ng M&T",
+    "reason2Title": "Trabaho na Nakatuon sa Deadline",
+    "quoteEmphasis": "maaga",
+    "reason1Desc": "Ang parehong abogado ang nagmamay-ari ng diskarte sa kaso mula sa konsultasyon hanggang sa susunod na desisyon sa pagsasampa.",
+    "reason1Title": "Isang Abogado, Isang Diskarte",
+    "quoteBefore": "Ang isang boutique practice ay pinakamahusay na gumagana kapag ang abogado ay nananatiling malapit sa file, nakikipag-usap",
+    "reason2Desc": "Ang mga agarang panayam, mga petsa ng korte, at mga deadline ng pagtugon ng gobyerno ay tinatrato nang may priyoridad.",
+    "reason4Title": "Disiplinadong Pag-inom",
+    "heading2": "Itinayo para sa mga bagay na talagang nawawalan ng tulog ang mga tao.",
+    "reason3Title": "Malinaw na Saklaw at Bayarin",
+    "reasons": [
+      {
+        "title": "Isang Abogado, Isang Diskarte",
+        "description": "Ang parehong abogado ang nagmamay-ari ng diskarte sa kaso mula sa konsultasyon hanggang sa susunod na desisyon sa pagsasampa."
+      },
+      {
+        "title": "Trabaho na Nakatuon sa Deadline",
+        "description": "Ang mga agarang panayam, mga petsa ng korte, at mga deadline ng pagtugon ng gobyerno ay tinatrato nang may priyoridad."
+      },
+      {
+        "description": "Ang mga konsultasyon, gawain sa pag-file, at mga susunod na hakbang ay nakabalangkas sa simpleng wika bago magsimula ang trabaho.",
+        "title": "Malinaw na Saklaw at Bayarin"
+      },
+      {
+        "description": "Pinapatunayan ng site ang mga pagsusumite, pinapanatili ang panig ng server ng mga kredensyal ng AI, at nililimitahan ng rate ang mga pampublikong form.",
+        "title": "Disiplinadong Pag-inom"
+      }
+    ],
+    "practiceFocus": "Practice Focus",
+    "practiceAreas": [
+      {
+        "summary": "H-1B, EAD, at diskarte sa pagbabago ng katayuan.",
+        "title": "Ang trabaho at katayuan ay mahalaga"
+      },
+      {
+        "title": "Mga landas ng mag-aaral",
+        "summary": "Pagpaplano ng F-1, pagpapanatili ng katayuan, at paghahanda sa pakikipanayam."
+      },
+      {
+        "title": "Mga kaso ng pamilya",
+        "summary": "Mga paghahain batay sa kasal at pagpaplano ng pagsasama-sama ng pamilya."
+      },
+      {
+        "summary": "Asylum, U visa, at mga apurahang bagay na nakatuon sa proteksyon.",
+        "title": "Makataong kaluwagan"
+      }
+    ],
+    "quoteAfter": ", at sasabihin sa mga kliyente ang mga matitigas na bahagi bago lumabas ang pag-file."
+  },
+  "faq": {
+    "heading": "Mga Madalas Itanong.",
+    "gettingStarted": "Pagsisimula",
+    "processTimeline": "Proseso at Timeline",
+    "legalResults": "Legal at Mga Resulta",
+    "title": "Mga Karaniwang Tanong",
+    "pricingPayments": "Pagpepresyo at Pagbabayad",
+    "categories": [
+      {
+        "category": "Pagsisimula",
+        "faqs": [
+          {
+            "answer": "Ang mga konsultasyon ay ang unang hakbang para sa karamihan ng mga bagay. Ginagamit ang mga ito upang tukuyin ang isyu, makita ang mga deadline, suriin ang mga magagamit na dokumento, at magpasya kung ang susunod na hakbang ay isang paghaharap, karagdagang pangangalap ng ebidensya, o isang mas apurahang sesyon ng diskarte.",
+            "question": "Paano gumagana ang mga konsultasyon?"
+          },
+          {
+            "question": "Nag-aalok ka ba ng mga virtual na konsultasyon?",
+            "answer": "Oo. Ang pagsasanay ay naka-set up para sa malalayong konsultasyon sa pamamagitan ng telepono o video, na ginagawang posible na suriin ang maraming usapin sa imigrasyon nang walang personal na pagbisita."
+          },
+          {
+            "answer": "Direktang sinusuportahan ang mga konsultasyon sa English, at maaaring isaayos ang mga workflow na madaling gamitin sa interpreter kapag mas komportable ang isang kliyente sa ibang wika.",
+            "question": "Anong mga wika ang sinusuportahan mo?"
+          }
+        ]
+      },
+      {
+        "category": "Pagpepresyo at Pagbabayad",
+        "faqs": [
+          {
+            "answer": "Hindi. Ang mga bayarin sa paghahain ng gobyerno ay hiwalay sa mga legal na bayarin. Ginagamit ang mga konsultasyon upang ipaliwanag ang posibleng saklaw ng legal na bayad, ang inaasahang mga bayarin sa paghahain, at anumang iba pang gastos na maaaring lumabas para sa usapin.",
+            "question": "Kasama ba ang mga bayarin sa USCIS sa iyong pagpepresyo?"
+          },
+          {
+            "question": "Paano gumagana ang mga plano sa pagbabayad?",
+            "answer": "Maaaring available ang mga opsyon sa pag-install depende sa saklaw ng trabaho at pagkaapurahan ng usapin. Ang istraktura ng pagbabayad ay tinatalakay sa panahon ng konsultasyon upang maunawaan ng kliyente kung ano ang dapat bayaran bago magsimula ang trabaho at kung ano ang maaaring ikalat."
+          },
+          {
+            "answer": "Ang flexibility ng bayad ay depende sa saklaw, pagkamadalian, at ang uri ng bagay na kasangkot. Kung ang affordability ay isang alalahanin, itaas ito nang maaga upang maipaliwanag ng opisina kung ano ang makatotohanang magagamit.",
+            "question": "Nag-aalok ka ba ng sliding-scale na pagpepresyo?"
+          }
+        ]
+      },
+      {
+        "category": "Proseso at Timeline",
+        "faqs": [
+          {
+            "question": "Gaano kabilis mo maihain ang aking aplikasyon?",
+            "answer": "Nakadepende ang mga timeline sa uri ng kaso, kung gaano kabilis ang pagkolekta ng mga dokumento, at kung may mga agarang deadline. Ang mga direktang bagay ay kadalasang maaaring mabilis na gumalaw kapag ang kinakailangang ebidensya ay nasa kamay na."
+          },
+          {
+            "question": "Ihahanda mo ba ako para sa aking pakikipanayam?",
+            "answer": "Oo. Ang paghahanda sa panayam ay bahagi ng maraming usapin sa imigrasyon, lalo na kung saan ang mga tanong ng opisyal, kredibilidad, o organisasyon ng dokumento ay maaaring makaapekto sa resulta."
+          },
+          {
+            "question": "Paano ko susubaybayan ang katayuan ng aking kaso?",
+            "answer": "Ang mga update sa status ay karaniwang pinangangasiwaan sa pamamagitan ng email at naka-iskedyul na follow-up. Ang eksaktong ritmo ng komunikasyon ay depende sa saklaw ng representasyon, paparating na mga deadline, at kung ang anumang abiso ng ahensya ay nangangailangan ng mas mabilis na pagtugon."
+          }
+        ]
+      },
+      {
+        "category": "Legal at Mga Resulta",
+        "faqs": [
+          {
+            "answer": "Walang abugado ang makakapaggarantiya ng mga resulta sa mga usapin sa imigrasyon dahil ang pinal na desisyon ay pagmamay-ari ng ahensya ng gobyerno o hukuman ng imigrasyon na humahawak sa kaso. Ang dapat mong asahan ay tapat na payo, disiplinadong paghahanda, at tapat na komunikasyon tungkol sa panganib.",
+            "question": "Ginagarantiya mo ba ang mga resulta?"
+          },
+          {
+            "answer": "Kung tinanggihan ang isang kaso, ang unang hakbang ay suriing mabuti ang desisyon at tukuyin kung anong mga opsyon ang aktwal na magagamit. Depende sa pustura, maaaring kabilang doon ang isang diskarte sa pag-refill, isang galaw, isang apela, o ibang pathway sa kabuuan.",
+            "question": "Paano kung ang aking kaso ay tinanggihan?"
+          },
+          {
+            "answer": "Ang website na ito ay binuo sa paligid ng isang pagsasanay sa imigrasyon na pinamumunuan ng abogado. Ang mga detalye ng representasyon, katayuan sa paglilisensya, at mga tuntunin sa pakikipag-ugnayan ay dapat palaging kumpirmahin sa panahon ng konsultasyon at sa nakasulat na kasunduan sa pakikipag-ugnayan.",
+            "question": "Lisensyado ka ba na magsagawa ng batas sa imigrasyon?"
+          }
+        ]
+      }
+    ],
+    "subtitle": "Mga malinaw na sagot tungkol sa proseso, pagpepresyo, at kung ano ang aasahan bago ka gumawa sa susunod na hakbang."
+  },
+  "cta": {
+    "feature2": "1-2 araw ng negosyo na tugon",
+    "ctaPrimary": "Mag-iskedyul ng Konsultasyon",
+    "feature1": "Transparent na bayad sa konsultasyon",
+    "feature3": "Mga virtual na konsultasyon sa buong bansa",
+    "title": "Handa nang Magsimula?",
+    "ctaSecondary": "Tumawag na",
+    "heading": "Ang iyong diskarte sa imigrasyon ay nagsisimula sa isang tunay na pagsusuri ng kaso.",
+    "subtitle": "Huwag ibigay ang isang bagay sa imigrasyon na may mataas na stake sa isang generic na funnel ng paggamit. Magsimula sa isang nakatutok na konsultasyon at isang malinaw na susunod na hakbang mula sa isang pagsasanay na pinangungunahan ng abogado."
+  },
+  "services": {
+    "bookConsultation": "Konsultasyon sa Aklat",
+    "whatWeHandle": "Ang Hinahawakan Namin",
+    "timeline": "Timeline",
+    "title": "Ang aming kadalubhasaan",
+    "details": "Mga Detalye",
+    "heading": "Mga bagay na nakatuon sa imigrasyon, pinangangasiwaan nang may malinaw na plano sa paghahain.",
+    "price": "Mula sa",
+    "keyRequirements": "Mga Pangunahing Kinakailangan",
+    "estimatedTimeline": "Tinantyang Timeline",
+    "viewPricing": "Tingnan ang Pagpepresyo ({price})",
+    "subtitle": "Mula sa diretsong paghahain ng visa hanggang sa mga apurahang isyu na sensitibo sa korte, ang pagsasanay ay nakasentro sa paghahanda, tapat na pagtatasa ng panganib, at direktang komunikasyon.",
+    "items": [
+      {
+        "id": "bisita",
+        "timeline": "2-4 na linggo",
+        "stat": "Ang paghahanda sa pakikipanayam ay binuo sa paligid ng iyong aktwal na layunin sa paglalakbay",
+        "price": "Mula sa $350",
+        "description": "Komprehensibong paghahanda para sa tourist at business travel visa.",
+        "features": [
+          "Paghahanda at gabay ng DS-160",
+          "Pagtuturo sa panayam na may mga mock session",
+          "Checklist ng dokumento at diskarte"
+        ],
+        "title": "Visa ng Bisita (B1/B2)",
+        "requirements": [
+          "Wastong pasaporte",
+          "Mga relasyon sa sariling bansa",
+          "Kakayahang pinansyal"
+        ]
+      },
+      {
+        "id": "estudyante",
+        "price": "Mula sa $450",
+        "title": "Student Visa (F-1)",
+        "description": "Patnubay para sa mga internasyonal na mag-aaral na naghahabol ng edukasyon sa US.",
+        "timeline": "1-3 buwan",
+        "features": [
+          "Patnubay sa daanan ng pagpasok",
+          "Gabay sa bayad sa I-20 at SEVIS",
+          "Komprehensibong paghahanda sa pakikipanayam"
+        ],
+        "requirements": [
+          "I-20 form",
+          "SEVIS na resibo",
+          "Mga dokumento sa pananalapi",
+          "Mga rekord ng akademiko"
+        ],
+        "stat": "Suporta mula sa pagsusuri ng dokumento sa pamamagitan ng consular interview prep"
+      },
+      {
+        "timeline": "6-18 buwan",
+        "title": "Batay sa Kasal",
+        "requirements": [
+          "Wastong kasal",
+          "Pagkamamamayan ng petitioner o LPR status",
+          "Suporta sa pananalapi"
+        ],
+        "price": "Mula sa $1,800",
+        "features": [
+          "Pagsasaayos ng katayuan (I-130, I-485)",
+          "Suporta sa pagproseso ng konsulado",
+          "Paghahanda sa panayam at diskarte sa ebidensya"
+        ],
+        "id": "kasal",
+        "description": "Mga green card para sa mga asawa ng mga mamamayan ng US at permanenteng residente.",
+        "stat": "Ebidensya-unang pagpaplano para sa mga kaso ng bona fide na kasal"
+      },
+      {
+        "price": "Mula sa $850",
+        "features": [
+          "Pagtatasa ng pagiging karapat-dapat at panganib",
+          "Paghahanda ng form ng I-539",
+          "Suporta sa pagtugon ng RFE"
+        ],
+        "title": "Pagbabago ng Katayuan",
+        "id": "pagbabago-katayuan",
+        "stat": "Pagsusuri ng panganib bago maghain ng kahilingan sa pagbabago ng katayuan",
+        "description": "Ang paglipat mula sa isang status na hindi imigrante patungo sa isa pa, tulad ng B-2 hanggang F-1.",
+        "requirements": [
+          "Wastong kasalukuyang katayuan",
+          "Walang immigrant intent",
+          "Ang solvency sa pananalapi"
+        ],
+        "timeline": "3-6 na buwan"
+      },
+      {
+        "id": "work-permit",
+        "price": "Mula sa $250",
+        "description": "Mga dokumento ng awtorisasyon sa pagtatrabaho para sa mga karapat-dapat na aplikante.",
+        "stat": "Pagsusuri ng kategorya bago isumite upang maiwasan ang mga mapipigilan na pagkaantala",
+        "title": "Permit sa Trabaho (I-765)",
+        "timeline": "1-3 buwan",
+        "features": [
+          "Pagsusuri sa pagiging karapat-dapat na partikular sa kategorya",
+          "Paghahanda at pag-file ng aplikasyon",
+          "Pagsubaybay sa aplikasyon"
+        ],
+        "requirements": [
+          "Pinagbabatayan ng petisyon",
+          "Kategorya ng pagiging karapat-dapat"
+        ]
+      },
+      {
+        "title": "Asylum (I-589)",
+        "stat": "Kumpidensyal na paghahanda para sa mga bagay na makataong may mataas na istaka",
+        "price": "Kumonsulta para sa Quote",
+        "id": "asylum",
+        "timeline": "6-24 na buwan",
+        "description": "Proteksyon para sa mga taong natatakot sa pag-uusig sa kanilang sariling bansa.",
+        "requirements": [
+          "Takot sa pag-uusig",
+          "Pisikal na presensya sa US"
+        ],
+        "features": [
+          "Paghahanda ng aplikasyon at suporta sa affidavit",
+          "Pananaliksik sa mga kondisyon ng bansa",
+          "Paghahanda sa panayam"
+        ]
+      },
+      {
+        "id": "u-visa",
+        "price": "Kumonsulta para sa Quote",
+        "stat": "Sensitibong pangangasiwa para sa mga paghahain na nakabatay sa survivor",
+        "timeline": "3-12 buwan",
+        "description": "Status para sa mga biktima ng ilang partikular na krimen na tumutulong sa pagpapatupad ng batas.",
+        "title": "U Visa (Mga Biktima)",
+        "features": [
+          "I-918 at Supplement B na suporta",
+          "Pagtitipon ng ebidensya",
+          "Bona fide determinasyon na gabay"
+        ],
+        "requirements": [
+          "Biktima ng qualifying crime",
+          "Matulungin sa pulis"
+        ]
+      },
+      {
+        "price": "Mula sa $300",
+        "requirements": [
+          "Nakabinbin ang I-485",
+          "Pagiging karapat-dapat sa DACA o TPS"
+        ],
+        "timeline": "1-2 buwan",
+        "stat": "Pagsusuri sa panganib sa paglalakbay bago umalis sa Estados Unidos",
+        "description": "Awtorisasyon sa paglalakbay (I-131) para sa mga nakabinbing green card na aplikante.",
+        "title": "Paunang Parol",
+        "id": "advance-parole",
+        "features": [
+          "Paghahanda ng awtorisasyon sa paglalakbay",
+          "Pagpapayo at pagsusuri sa peligro",
+          "Pang-emergency na pangangasiwa kung kinakailangan"
+        ]
+      },
+      {
+        "id": "pabilisin",
+        "timeline": "1-4 na linggo",
+        "price": "Mula sa $500",
+        "title": "Pabilisin ang mga Kahilingan",
+        "features": [
+          "Nakakahimok na pagbalangkas ng kahilingan",
+          "Pagsasama-sama ng ebidensya",
+          "Diskarte na iniayon sa pamantayan ng USCIS"
+        ],
+        "description": "Pagpapabilis ng mga nakabinbing kaso para sa mga kadahilanang humanitarian o pinansyal.",
+        "requirements": [
+          "Matinding pagkalugi sa pananalapi",
+          "Humanitarian emergency",
+          "interes ng gobyerno ng US"
+        ],
+        "stat": "Ang mga kahilingang binuo ayon sa dokumentadong pagkamadalian at pamantayan ng ahensya"
+      }
+    ]
+  }
 }
