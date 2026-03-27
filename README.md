@@ -834,6 +834,23 @@ Typical expected results:
 - **Run Mechanics Added**: Shared hint budget, per-stage par times, and difficulty tags make the game more strategic without changing the core rules.
 - **Dark Mode Cleanup**: The game board, logo plate, source standards card, and section-level contrast issues were corrected so text remains legible in both light and dark themes.
 
+---
+
+<!-- codex:project-diagram:start -->
+
+## Project Diagram
+
+```mermaid
+flowchart LR
+    A["Browser"] --> B["Frontend App"]
+    B --> C["API / Serverless"]
+    C --> D["Deploy"]
+```
+
+_High-level flow of the deployed web experience and supporting services._
+
+<!-- codex:project-diagram:end -->
+
 ## License
 
 Copyright © M&T Immigration Law Firm.
