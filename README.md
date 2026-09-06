@@ -16,7 +16,19 @@
 
 **🏆 Enterprise-Grade Immigration Platform with AI Legal Intelligence**
 
-[🌐 Live Demo](https://mangeshraut712.github.io/MT-Immigration/en/) • [🌍 Production Domain](https://mangeshraut712.github.io/MT-Immigration/) • [🛠️ API Reference](https://mangeshraut712.github.io/MT-Immigration/openapi.json/)
+[🌐 Live Demo](https://mangeshraut712.github.io/MT-Immigration/en/) • [🌍 GitHub Pages](https://mangeshraut712.github.io/MT-Immigration/) • [🛠️ API Reference](https://mangeshraut712.github.io/MT-Immigration/openapi.json/)
+
+<p align="center">
+  <img src="docs/screenshots/01-home.png" alt="M&amp;T Immigration homepage — hero, consultation CTAs, and trust indicators" width="900">
+  <br>
+  <em>Homepage — focused counsel hero, consultation CTAs, and direct-attorney trust chips</em>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/02-feature.png" alt="M&amp;T Immigration services — visa and filing pathway cards with timelines" width="900">
+  <br>
+  <em>Services — visitor, student, family, humanitarian, and urgent filing pathways</em>
+</p>
 
 ---
 
@@ -133,6 +145,7 @@
 
 ```
 mt-immigration/
+├── 📸 docs/screenshots/       # Live product captures for README
 ├── 🎨 Frontend (Next.js 16.2 + React 19.2)
 │   ├── app/[locale]/          # Internationalized routing (68 pages)
 │   ├── components/             # 50+ Reusable UI components
