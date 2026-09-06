@@ -31,7 +31,6 @@ export function HeroSection() {
           <span className="text-foreground drop-shadow-sm">{tHero("title")}</span>
           <br />
           <span className="text-zinc-500 italic font-light dark:text-zinc-400">
-            with{" "}
             <span className="relative inline-block font-medium text-foreground not-italic">
               {tHero("titleHighlight")}
               <span

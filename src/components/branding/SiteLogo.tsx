@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { firmConfig } from "@/config/firm";
+import { withBasePath } from "@/config/paths";
 import { cn } from "@/lib/utils";
 
 type SiteLogoProps = {
@@ -29,7 +30,7 @@ export function SiteLogo({
         )}
       >
         <Image
-          src={firmConfig.brand.logoSrc}
+          src={withBasePath(firmConfig.brand.logoSrc)}
           alt={firmConfig.brand.logoAlt}
           fill
           sizes="64px"
