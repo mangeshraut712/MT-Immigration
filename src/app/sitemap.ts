@@ -1,8 +1,10 @@
 import { MetadataRoute } from "next";
-import { siteUrl } from "@/config/site";
+import { buildCanonicalUrl } from "@/config/site";
 import { routing } from "@/i18n/routing";
 
 const locales = routing.locales as readonly string[];
+
+export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
@@ -17,15 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const sitemap: MetadataRoute.Sitemap = [];
 
-  // Generate URLs for each locale
   baseUrls.forEach((path) => {
     locales.forEach((locale) => {
-      const url = locale === routing.defaultLocale
-        ? new URL(path, siteUrl).toString()
-        : new URL(`/${locale}${path === "/" ? "" : path}`, siteUrl).toString();
+      const localePath = path === "/" ? `/${locale}` : `/${locale}${path}`;
 
       sitemap.push({
-        url,
+        url: buildCanonicalUrl(localePath),
         lastModified,
         changeFrequency: path === "/" ? "yearly" : "weekly",
         priority: path === "/" ? 1 : 0.6,
@@ -33,16 +32,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     });
   });
 
-  // Add static files
   sitemap.push(
     {
-      url: new URL("/llms.txt", siteUrl).toString(),
+      url: buildCanonicalUrl("/llms.txt"),
       lastModified,
       changeFrequency: "monthly",
       priority: 0.2,
     },
     {
-      url: new URL("/openapi.json", siteUrl).toString(),
+      url: buildCanonicalUrl("/openapi.json"),
       lastModified,
       changeFrequency: "monthly",
       priority: 0.2,

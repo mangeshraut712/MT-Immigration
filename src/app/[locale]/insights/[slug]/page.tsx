@@ -3,7 +3,18 @@ import { notFound } from "next/navigation";
 
 import { ArticlePageClient } from "@/components/features/insights/ArticlePageClient";
 import { buildCanonicalUrl } from "@/config/site";
-import { resolveInsightArticleBySlug } from "@/server/insights";
+import {
+  buildInsightArticle,
+  fallbackInsightDirectory,
+  getFallbackInsightBySlug,
+} from "@/content/legalInsights";
+
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return fallbackInsightDirectory.map((entry) => ({ slug: entry.slug }));
+}
 
 export async function generateMetadata({
   params,
@@ -11,7 +22,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const article = await resolveInsightArticleBySlug(slug);
+  const article = getFallbackInsightBySlug(slug);
 
   if (!article) {
     return {
@@ -42,11 +53,15 @@ export default async function ArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = await resolveInsightArticleBySlug(slug);
+  const article = getFallbackInsightBySlug(slug);
 
   if (!article) {
     notFound();
   }
 
-  return <ArticlePageClient data={article} />;
+  return (
+    <ArticlePageClient
+      data={buildInsightArticle(article, fallbackInsightDirectory)}
+    />
+  );
 }

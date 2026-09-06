@@ -18,25 +18,27 @@ jobs:
 
       - name: Scan for committed secrets
         uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   lint-and-build:
     needs: secrets-scan
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         node-version: [20.x]
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      
+
       - name: Install dependencies
         run: npm install
 
@@ -45,21 +47,30 @@ jobs:
 
       - name: Verify FastAPI syntax
         run: python3 -m py_compile api/agents.py
-      
+
       - name: Run linter
         run: npm run lint
 
       - name: Run typecheck
         run: npm run typecheck
-      
-      - name: Build project
+
+      - name: Build static export
+        env:
+          GITHUB_PAGES: 'true'
+          NEXT_PUBLIC_BASE_PATH: /MT-Immigration
+          NEXT_PUBLIC_SITE_URL: https://mangeshraut712.github.io/MT-Immigration
         run: npm run build
-      
-      - name: Smoke test built app
+
+      - name: Smoke test exported site
         env:
           PORT: 3000
+          GITHUB_PAGES: 'true'
+          SMOKE_STATIC: 'true'
+          SMOKE_PATH_PREFIX: /MT-Immigration
         run: |
-          npm run start > /tmp/mt-immigration-next.log 2>&1 &
+          mkdir -p /tmp/mt-immigration-pages/MT-Immigration
+          cp -a out/. /tmp/mt-immigration-pages/MT-Immigration/
+          npx --yes serve /tmp/mt-immigration-pages -l 3000 > /tmp/mt-immigration-next.log 2>&1 &
           APP_PID=$!
           trap 'kill $APP_PID || true' EXIT
           node scripts/smoke-release.mjs http://127.0.0.1:3000

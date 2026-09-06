@@ -1,6 +1,11 @@
+/**
+ * Locale + canonical host proxy used when this app is hosted on a Node server.
+ * GitHub Pages static export cannot run Next middleware, so this module is not
+ * loaded as `src/proxy.ts`. Restore that filename only if a Node host returns.
+ */
 import createMiddleware from 'next-intl/middleware';
 import { NextResponse, type NextRequest } from 'next/server';
-import { routing } from './i18n/routing';
+import { routing } from './routing';
 
 // Create the i18n middleware
 const i18nMiddleware = createMiddleware(routing);

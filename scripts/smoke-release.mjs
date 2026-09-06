@@ -5,8 +5,25 @@ const baseUrl = (process.argv[2] || process.env.SMOKE_BASE_URL || DEFAULT_BASE_U
   /\/$/,
   '',
 );
+const pathPrefix = (process.env.SMOKE_PATH_PREFIX || '').replace(/\/$/, '');
+const staticMode =
+  process.env.SMOKE_STATIC === '1' ||
+  process.env.SMOKE_STATIC === 'true' ||
+  process.env.GITHUB_PAGES === 'true';
 const fastApiHealthUrl = process.env.SMOKE_FASTAPI_HEALTH_URL?.trim() || '';
 const waitTimeoutMs = 20_000;
+
+function withPrefix(pathname) {
+  if (!pathPrefix) {
+    return pathname;
+  }
+
+  if (pathname === '/') {
+    return `${pathPrefix}/`;
+  }
+
+  return `${pathPrefix}${pathname}`;
+}
 
 async function waitForBaseUrl(url) {
   const startedAt = Date.now();
@@ -14,7 +31,6 @@ async function waitForBaseUrl(url) {
   while (Date.now() - startedAt < waitTimeoutMs) {
     try {
       const response = await fetch(url, { redirect: 'manual' });
-      // Accept 200 (OK), 301/302/307/308 (redirects), or any 2xx/3xx status
       if (response.ok || (response.status >= 200 && response.status < 400)) {
         return;
       }
@@ -34,7 +50,6 @@ async function expectHtml(pathname, expectedText, options = {}) {
   while (redirectsFollowed <= maxRedirects) {
     const response = await fetch(`${baseUrl}${currentPath}`, { redirect: 'manual' });
 
-    // Handle redirects
     if (response.status === 301 || response.status === 302 || response.status === 307 || response.status === 308) {
       if (!allowRedirect) {
         throw new Error(`${pathname} returned HTTP ${response.status} (redirect not allowed)`);
@@ -45,7 +60,6 @@ async function expectHtml(pathname, expectedText, options = {}) {
         throw new Error(`${pathname} returned redirect without Location header`);
       }
 
-      // Handle absolute or relative redirects
       const redirectUrl = new URL(location, baseUrl);
       currentPath = redirectUrl.pathname + redirectUrl.search;
       redirectsFollowed++;
@@ -121,22 +135,27 @@ async function expectFastApiHealth(url) {
   console.log(`OK ${url} -> ${response.status}`);
 }
 
-await waitForBaseUrl(baseUrl);
-await expectHtml('/', 'M&amp;T Immigration', { allowRedirect: true });
-await expectJson('/api/chat', (data) => {
-  if (typeof data.ok !== 'boolean' || typeof data.provider !== 'string') {
-    throw new Error('/api/chat readiness payload is invalid');
-  }
-});
-await expectChatPost();
-await expectJson('/api/intake', (data) => {
-  if (typeof data.ok !== 'boolean' || typeof data.configured !== 'boolean') {
-    throw new Error('/api/intake readiness payload is invalid');
-  }
-});
+const rootPath = withPrefix('/');
+await waitForBaseUrl(`${baseUrl}${rootPath}`);
+await expectHtml(rootPath, 'M&amp;T Immigration', { allowRedirect: true });
+await expectHtml(withPrefix('/en/'), 'M&amp;T Immigration', { allowRedirect: true });
 
-if (fastApiHealthUrl) {
-  await expectFastApiHealth(fastApiHealthUrl);
+if (!staticMode) {
+  await expectJson('/api/chat', (data) => {
+    if (typeof data.ok !== 'boolean' || typeof data.provider !== 'string') {
+      throw new Error('/api/chat readiness payload is invalid');
+    }
+  });
+  await expectChatPost();
+  await expectJson('/api/intake', (data) => {
+    if (typeof data.ok !== 'boolean' || typeof data.configured !== 'boolean') {
+      throw new Error('/api/intake readiness payload is invalid');
+    }
+  });
+
+  if (fastApiHealthUrl) {
+    await expectFastApiHealth(fastApiHealthUrl);
+  }
 }
 
 console.log('Release smoke checks passed.');

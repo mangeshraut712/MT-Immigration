@@ -1,7 +1,8 @@
 import Script from "next/script";
 
 import { firmConfig } from "@/config/firm";
-import { siteUrl } from "@/config/site";
+import { joinSiteUrl } from "@/config/paths";
+import { getSiteUrl, siteUrl } from "@/config/site";
 
 const [addressLocality = "New York", addressRegion = "NY"] =
   firmConfig.contact.city.split(",").map((value) => value.trim());
@@ -19,7 +20,7 @@ export function SiteStructuredData() {
         "@id": organizationId,
         name: firmConfig.name,
         url: siteUrl.toString(),
-        logo: new URL(firmConfig.brand.logoSrc, siteUrl).toString(),
+        logo: joinSiteUrl(getSiteUrl(), firmConfig.brand.logoSrc),
         email: firmConfig.contact.email,
         telephone: firmConfig.contact.phoneDisplay,
       },
@@ -38,7 +39,7 @@ export function SiteStructuredData() {
         "@id": legalServiceId,
         name: firmConfig.name,
         url: siteUrl.toString(),
-        image: new URL(firmConfig.brand.logoSrc, siteUrl).toString(),
+        image: joinSiteUrl(getSiteUrl(), firmConfig.brand.logoSrc),
         areaServed: "US",
         serviceType: [
           "Immigration law",

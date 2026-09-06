@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 import { InsightsPageClient } from "@/components/features/insights/InsightsPageClient";
+import { fallbackInsightsFeed } from "@/content/legalInsights";
 import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
 import { generateLiveInsightsFeed } from "@/server/ai/insights";
+
+export const dynamic = "force-static";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -28,21 +31,13 @@ const insightsStructuredData = {
   inLanguage: "en-US",
 };
 
-export default async function InsightsPage({
-  searchParams,
-}: {
-  searchParams: Promise<Record<string, string | string[] | undefined>>;
-}) {
-  const initialFeed = await generateLiveInsightsFeed();
-  const resolvedSearchParams = await searchParams;
-  const initialView =
-    typeof resolvedSearchParams.view === "string"
-      ? resolvedSearchParams.view
-      : "all";
-  const from =
-    typeof resolvedSearchParams.from === "string"
-      ? resolvedSearchParams.from
-      : "";
+export default async function InsightsPage() {
+  let initialFeed = fallbackInsightsFeed;
+  try {
+    initialFeed = await generateLiveInsightsFeed();
+  } catch {
+    initialFeed = fallbackInsightsFeed;
+  }
 
   return (
     <>
@@ -54,8 +49,8 @@ export default async function InsightsPage({
       />
       <InsightsPageClient
         initialFeed={initialFeed}
-        initialView={initialView}
-        returnHref={from === "home-insights" ? "/#insights" : "/"}
+        initialView="all"
+        returnHref="/"
       />
     </>
   );

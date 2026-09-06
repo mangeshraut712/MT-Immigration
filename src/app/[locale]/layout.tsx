@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Inter, DM_Serif_Display } from "next/font/google";
 import clsx from "clsx";
 
+import { withBasePath } from "@/config/paths";
 import { routing } from "@/i18n/routing";
 import { getLocaleTranslationNotice } from "@/i18n/locale-status";
 import "../globals.css";
@@ -36,6 +37,8 @@ const dmSerif = DM_Serif_Display({
 export function generateStaticParams() {
     return routing.locales.map((locale) => ({ locale }));
 }
+
+export const dynamic = "force-static";
 
 export default async function LocaleLayout({
     children,
@@ -70,18 +73,18 @@ export default async function LocaleLayout({
                 <link rel="dns-prefetch" href="//vitals.vercel-analytics.com" />
 
                 {/* PWA */}
-                <link rel="manifest" href="/manifest.json" />
+                <link rel="manifest" href={withBasePath("/manifest.json")} />
                 <meta name="theme-color" content="#000000" />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
                 <meta name="apple-mobile-web-app-title" content="M&T Immigration" />
-                <link rel="apple-touch-icon" href="/brand/mtlogo.png" />
+                <link rel="apple-touch-icon" href={withBasePath("/brand/mtlogo.png")} />
 
                 {/* Performance meta tags */}
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="mobile-web-app-capable" content="yes" />
                 <meta name="msapplication-TileColor" content="#000000" />
-                <meta name="msapplication-config" content="/browserconfig.xml" />
+                <meta name="msapplication-config" content={withBasePath("/browserconfig.xml")} />
             </head>
             <body
                 className="antialiased bg-background text-foreground font-sans"
