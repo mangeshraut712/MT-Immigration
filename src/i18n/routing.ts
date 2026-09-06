@@ -19,7 +19,9 @@ export const routing = defineRouting({
     ],
 
     // Used when no locale matches
-    defaultLocale: 'en'
+    defaultLocale: 'en',
+    localePrefix: 'always',
+    localeDetection: false
 });
 
 export const { Link, redirect, usePathname, useRouter, getPathname } = createNavigation(routing);

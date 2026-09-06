@@ -16,7 +16,7 @@
 
 **🏆 Enterprise-Grade Immigration Platform with AI Legal Intelligence**
 
-[🌐 Live Demo](https://mt-immigration.vercel.app/en) • [🌍 Production Domain](https://mt-immigration.vercel.app) • [🛠️ API Reference](https://mt-immigration.vercel.app/openapi.json)
+[🌐 Live Demo](https://mangeshraut712.github.io/MT-Immigration/en/) • [🌍 Production Domain](https://mangeshraut712.github.io/MT-Immigration/) • [🛠️ API Reference](https://mangeshraut712.github.io/MT-Immigration/openapi.json/)
 
 ---
 
@@ -225,11 +225,12 @@ python3 -m uvicorn api.agents:app --reload --port 8000
 USE_FASTAPI_AGENTS=true npm run dev
 ```
 
-#### ☁️ **Production Simulation**
+#### 📄 **Static production preview**
 ```bash
-vercel dev
+GITHUB_PAGES=true NEXT_PUBLIC_BASE_PATH=/MT-Immigration NEXT_PUBLIC_SITE_URL=https://mangeshraut712.github.io/MT-Immigration npm run build
+npm start
 ```
-*Full Vercel environment emulation*
+*Exports `out/` and serves it locally. GitHub Pages is the production host.*
 
 ---
 
@@ -239,7 +240,8 @@ vercel dev
 
 ```env
 # Site Configuration
-NEXT_PUBLIC_SITE_URL=https://mt-immigration.vercel.app
+NEXT_PUBLIC_SITE_URL=https://mangeshraut712.github.io/MT-Immigration
+NEXT_PUBLIC_BASE_PATH=/MT-Immigration
 
 # AI Integration
 OPENAI_API_KEY=sk-...
@@ -414,7 +416,7 @@ We welcome contributions to enhance the M&T Immigration platform!
 ### Community
 - **📧 Email**: support@mt-immigration.com
 - **💬 Discord**: [Join our community](https://discord.gg/mt-immigration)
-- **📖 API Reference**: [OpenAPI JSON](https://mt-immigration.vercel.app/openapi.json)
+- **📖 API Reference**: [OpenAPI JSON](https://mangeshraut712.github.io/MT-Immigration/openapi.json/)
 
 ---
 
@@ -788,11 +790,9 @@ npm run smoke:release -- http://127.0.0.1:3000
 
 Typical expected results:
 
-- `/` returns `200`
-- `/api/chat` returns readiness JSON
-- `/api/chat` POST returns a response payload
-- `/api/intake` returns readiness JSON
-- `/insights` renders a source-backed Knowledge Hub page
+- `/` and `/en/` return marketing HTML (`200`, with a locale redirect from `/`)
+- Node API smoke (`/api/chat`, `/api/intake`) is skipped for the GitHub Pages static export
+- `/insights` renders a source-backed Knowledge Hub page from the static fallback feed
 
 ## Notes
 
@@ -800,7 +800,8 @@ Typical expected results:
 - The Knowledge Hub is now designed to prefer public-source, source-linked entries over generic generated filler.
 - Plain `npm run dev` should keep `USE_FASTAPI_AGENTS=false` unless you are explicitly running FastAPI separately.
 - All 12 locales are fully translated — no Beta badges or partial-locale notices are displayed.
-- Production deploys should keep `NEXT_PUBLIC_SITE_URL=https://mt-immigration.vercel.app` in Vercel for correct canonical URLs, hreflang output, and locale redirects.
+- Production is a static GitHub Pages export at `https://mangeshraut712.github.io/MT-Immigration/` with `GITHUB_PAGES=true` and `NEXT_PUBLIC_BASE_PATH=/MT-Immigration`.
+- Chat POST, intake POST, live insights refresh, `/pay/*` redirects, FastAPI agents, Upstash rate limits, and next-intl middleware need a Node server. Those route handlers now live under `src/hosted-routes/` and are not part of the Pages artifact. The marketing site still ships; those features degrade until a Node host is restored.
 
 ## Recent Updates
 

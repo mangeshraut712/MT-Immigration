@@ -1,7 +1,7 @@
 import { getSiteUrl } from "@/config/site";
 import { siteConfig } from "@/config/site";
 
-export const runtime = "nodejs";
+export const dynamic = "force-static";
 
 export function GET() {
   const base = getSiteUrl();

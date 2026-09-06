@@ -1,5 +1,7 @@
 import { MetadataRoute } from "next";
-import { isProductionIndexable, siteUrl } from "@/config/site";
+import { buildCanonicalUrl, isProductionIndexable, siteUrl } from "@/config/site";
+
+export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   const isIndexable = isProductionIndexable();
@@ -13,7 +15,7 @@ export default function robots(): MetadataRoute.Robots {
           userAgent: "*",
           disallow: "/",
         },
-    sitemap: new URL("/sitemap.xml", siteUrl).toString(),
+    sitemap: buildCanonicalUrl("/sitemap.xml"),
     host: siteUrl.toString(),
   };
 }

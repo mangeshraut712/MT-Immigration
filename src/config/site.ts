@@ -1,8 +1,9 @@
 import "server-only";
 import { firmConfig } from "@/config/firm";
+import { joinSiteUrl } from "@/config/paths";
 import { routing } from "@/i18n/routing";
 
-const FALLBACK_SITE_URL = "https://mt-immigration.vercel.app";
+const FALLBACK_SITE_URL = "https://mangeshraut712.github.io/MT-Immigration";
 
 function isLocalDevelopmentUrl(value: string) {
   try {
@@ -13,28 +14,35 @@ function isLocalDevelopmentUrl(value: string) {
   }
 }
 
+function normalizeAbsoluteUrl(value: string) {
+  const withProtocol = value.startsWith("http") ? value : `https://${value}`;
+  return withProtocol.replace(/\/+$/, "");
+}
+
 export function getSiteUrl(): string {
   const envUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
   if (envUrl && !(process.env.VERCEL && isLocalDevelopmentUrl(envUrl))) {
-    return envUrl.startsWith("http") ? envUrl : `https://${envUrl}`;
+    return normalizeAbsoluteUrl(envUrl);
   }
 
   const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim();
   if (productionUrl) {
-    return productionUrl.startsWith("http")
-      ? productionUrl
-      : `https://${productionUrl}`;
+    return normalizeAbsoluteUrl(productionUrl);
   }
 
   const vercelUrl = process.env.VERCEL_URL?.trim();
   if (vercelUrl && process.env.VERCEL_ENV === "production") {
-    return `https://${vercelUrl}`;
+    return normalizeAbsoluteUrl(`https://${vercelUrl}`);
   }
 
   return FALLBACK_SITE_URL;
 }
 
 export function isProductionIndexable() {
+  if (process.env.GITHUB_PAGES === "true") {
+    return process.env.NODE_ENV === "production";
+  }
+
   if (process.env.VERCEL) {
     return process.env.VERCEL_ENV === "production";
   }
@@ -42,25 +50,21 @@ export function isProductionIndexable() {
   return process.env.NODE_ENV === "production";
 }
 
-export const siteUrl = new URL(getSiteUrl());
+export const siteUrl = new URL(joinSiteUrl(getSiteUrl(), "/"));
 
 export function buildCanonicalUrl(path = "/") {
-  return new URL(path, siteUrl).toString();
+  return joinSiteUrl(getSiteUrl(), path);
 }
 
 export function getLanguageAlternates(path = "/") {
-  const canonical = buildCanonicalUrl(path);
-  const defaultLocale = routing.defaultLocale;
-  const localizedPath =
-    path === "/" ? "" : path;
+  const localizedPath = path === "/" ? "" : path;
+  const canonical = buildCanonicalUrl(
+    `/${routing.defaultLocale}${localizedPath}`,
+  );
 
   const languages = Object.fromEntries(
     routing.locales.map((locale) => {
-      const localePath =
-        locale === defaultLocale
-          ? localizedPath || "/"
-          : `/${locale}${localizedPath}`;
-
+      const localePath = `/${locale}${localizedPath}`;
       return [locale, buildCanonicalUrl(localePath)];
     }),
   );
