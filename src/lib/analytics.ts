@@ -149,7 +149,9 @@ function getUserId(): string {
     if (typeof window !== 'undefined') {
         let userId = localStorage.getItem('mt-user-id');
         if (!userId) {
-            userId = 'user_' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+            const bytes = new Uint8Array(16);
+            crypto.getRandomValues(bytes);
+            userId = 'user_' + Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
             localStorage.setItem('mt-user-id', userId);
         }
         return userId;
