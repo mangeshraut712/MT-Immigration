@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored screenshot skill template is not product code.
+    ".agents/**",
   ]),
 ]);
 
