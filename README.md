@@ -18,19 +18,23 @@
 
 [🌐 Live Demo](https://mangeshraut712.github.io/MT-Immigration/en/) • [🌍 GitHub Pages](https://mangeshraut712.github.io/MT-Immigration/) • [🛠️ API Reference](https://mangeshraut712.github.io/MT-Immigration/openapi.json/)
 
-<p align="center">
-  <img src="docs/screenshots/01-home.png" alt="M&amp;T Immigration homepage — hero, consultation CTAs, and trust indicators" width="900">
-  <br>
-  <em>Homepage — focused counsel hero, consultation CTAs, and direct-attorney trust chips</em>
-</p>
-
-<p align="center">
-  <img src="docs/screenshots/02-feature.png" alt="M&amp;T Immigration services — visa and filing pathway cards with timelines" width="900">
-  <br>
-  <em>Services — visitor, student, family, humanitarian, and urgent filing pathways</em>
-</p>
-
 ---
+
+</div>
+
+## Screenshots
+
+Framed captures of the live site (current UI).
+
+<div align="center">
+
+<img src="docs/screenshots/01-home.webp" alt="M&amp;T Immigration homepage in a Mac frame — focused immigration counsel with clear strategy" width="720" />
+
+<img src="docs/screenshots/02-services.webp" alt="M&amp;T Immigration services in a Mac frame — visa pathway cards" width="720" />
+
+<img src="docs/screenshots/03-process.webp" alt="M&amp;T Immigration process in a Mac frame — listen, prepare, and guide steps" width="720" />
+
+<img src="docs/screenshots/04-insights.webp" alt="M&amp;T Immigration insights in a Mac frame — source-backed legal reads" width="720" />
 
 </div>
 
