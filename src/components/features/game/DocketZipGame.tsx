@@ -753,7 +753,7 @@ export function DocketZipGame() {
               ) : null}
             </div>
 
-            <div className="flex items-center gap-3 rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-secondary-foreground shadow-sm">
+            <div className="flex items-center gap-3 rounded-full border border-border bg-muted px-4 py-2 text-sm font-medium text-secondary-foreground shadow-xs">
               <Clock3 className="h-4 w-4 text-foreground" />
               {formatTime(gameMode === "challenge" ? runElapsedSeconds : elapsedSeconds)}
             </div>
@@ -813,9 +813,9 @@ export function DocketZipGame() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-border/70 bg-[#f6efe7] p-4 dark:bg-zinc-950/70 md:p-6">
+        <div className="rounded-4xl border border-border/70 bg-[#f6efe7] p-4 dark:bg-zinc-950/70 md:p-6">
           <div
-            className="relative mx-auto grid w-full max-w-[34rem] gap-2 touch-none select-none"
+            className="relative mx-auto grid w-full max-w-136 gap-2 touch-none select-none"
             style={{
               gridTemplateColumns: `repeat(${model.puzzle.size}, minmax(0, 1fr))`,
             }}
@@ -900,7 +900,7 @@ export function DocketZipGame() {
                       "relative aspect-square rounded-2xl border border-border bg-card text-left transition-all",
                       active
                         ? "shadow-lg shadow-zinc-500/10 ring-2 ring-foreground/35"
-                        : "shadow-sm hover:border-foreground/40",
+                        : "shadow-xs hover:border-foreground/40",
                     )}
                     aria-label={cellLabel}
                     aria-pressed={active}
@@ -1055,7 +1055,7 @@ export function DocketZipGame() {
           </motion.div>
         </AnimatePresence>
 
-        <div className="mt-6 rounded-[2rem] border border-border bg-muted p-5">
+        <div className="mt-6 rounded-4xl border border-border bg-muted p-5">
           <div className="flex items-center gap-3">
             <MoveRight className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-foreground">
@@ -1083,7 +1083,7 @@ export function DocketZipGame() {
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-6 rounded-[2rem] bg-zinc-950 p-6 text-white"
+            className="mt-6 rounded-4xl bg-zinc-950 p-6 text-white"
           >
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -1181,7 +1181,7 @@ export function DocketZipGame() {
       </div>
 
       <div className="space-y-4">
-        <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
+        <div className="rounded-4xl border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
             <CalendarDays className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-foreground">
@@ -1300,7 +1300,7 @@ export function DocketZipGame() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
+        <div className="rounded-4xl border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
             <Scale className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-foreground">
@@ -1364,7 +1364,7 @@ export function DocketZipGame() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-border bg-card p-6 shadow-soft">
+        <div className="rounded-4xl border border-border bg-card p-6 shadow-soft">
           <div className="flex items-center gap-3">
             <Trophy className="h-5 w-5 text-foreground" />
             <h3 className="font-serif text-xl tracking-tight text-foreground">

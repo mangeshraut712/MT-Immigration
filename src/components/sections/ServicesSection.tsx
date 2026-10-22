@@ -109,7 +109,7 @@ export function ServicesSection() {
                   viewport={{ once: true }}
                   transition={{ delay: shouldReduceMotion ? 0 : index * 0.05, duration: shouldReduceMotion ? 0 : 0.3 }}
                   whileHover={shouldReduceMotion ? {} : { y: -4 }}
-                  className="surface-panel group relative flex h-full flex-col rounded-2xl p-6 text-left transition-all duration-300 hover:border-border hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:p-8"
+                  className="surface-panel group relative flex h-full flex-col rounded-2xl p-6 text-left transition-all duration-300 hover:border-border hover:shadow-xl focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 md:p-8"
                 >
                   <div className="mb-6 inline-flex rounded-xl bg-muted p-3 text-foreground transition-all duration-300 group-hover:scale-110 group-hover:bg-foreground group-hover:text-background">
                     <service.icon size={28} strokeWidth={1.5} />
@@ -119,7 +119,7 @@ export function ServicesSection() {
                     {service.title}
                   </h3>
 
-                  <p className="mb-6 flex-grow leading-relaxed text-muted-foreground">
+                  <p className="mb-6 grow leading-relaxed text-muted-foreground">
                     {service.description}
                   </p>
 

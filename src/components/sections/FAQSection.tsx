@@ -88,9 +88,9 @@ export function FAQSection() {
                   >
                     <AccordionItem
                       value={`${categoryIndex}-${faqIndex}`}
-                      className="surface-panel rounded-2xl px-4 shadow-sm transition-all duration-300 hover:border-border md:px-6 data-[state=open]:border-border data-[state=open]:shadow-md data-[state=open]:bg-muted/35"
+                      className="surface-panel rounded-2xl px-4 shadow-xs transition-all duration-300 hover:border-border md:px-6 data-[state=open]:border-border data-[state=open]:shadow-md data-[state=open]:bg-muted/35"
                     >
-                      <AccordionTrigger className="rounded-lg py-5 text-left text-base font-semibold text-foreground transition-colors hover:text-foreground hover:no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset md:py-6 md:text-lg">
+                      <AccordionTrigger className="rounded-lg py-5 text-left text-base font-semibold text-foreground transition-colors hover:text-foreground hover:no-underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset md:py-6 md:text-lg">
                         {faq.question}
                       </AccordionTrigger>
                       <AccordionContent className="text-muted-foreground leading-relaxed pb-5 md:pb-6 text-base px-4 md:px-0">

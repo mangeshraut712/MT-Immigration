@@ -21,7 +21,7 @@ export default function Error({
     <div className="min-h-screen bg-background">
       <div className="container-wide flex min-h-[70vh] items-center justify-center py-24">
         <div className="surface-panel w-full max-w-3xl p-10 text-center md:p-14">
-          <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full border border-border/70 bg-background/90 shadow-sm">
+          <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full border border-border/70 bg-background/90 shadow-xs">
             <AlertTriangle className="h-10 w-10 text-red-500" />
           </div>
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground">

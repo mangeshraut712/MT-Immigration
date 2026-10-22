@@ -104,7 +104,7 @@ export function ArticlePageClient({ data }: { data: ArticleData }) {
               </ul>
             </div>
 
-            <div className="rounded-[2rem] border border-border/70 bg-foreground p-6 text-background shadow-xl shadow-black/20">
+            <div className="rounded-4xl border border-border/70 bg-foreground p-6 text-background shadow-xl shadow-black/20">
               <h3 className="font-serif text-2xl tracking-tight">
                 {copy.needCounsel}
               </h3>

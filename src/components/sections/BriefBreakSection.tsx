@@ -57,7 +57,7 @@ export function BriefBreakSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="surface-panel rounded-[2rem] p-6"
+          className="surface-panel rounded-4xl p-6"
         >
           <div className="mb-6 flex items-center justify-between">
             <div>
@@ -71,7 +71,7 @@ export function BriefBreakSection() {
             <Scale className="h-6 w-6 text-foreground" />
           </div>
 
-          <div className="grid grid-cols-4 gap-2 rounded-[1.5rem] bg-muted/55 p-4">
+          <div className="grid grid-cols-4 gap-2 rounded-3xl bg-muted/55 p-4">
             {previewCells.flatMap((row, rowIndex) =>
               row.map((cell, colIndex) => {
                 const key = `${rowIndex}-${colIndex}`;
@@ -87,7 +87,7 @@ export function BriefBreakSection() {
                 return (
                   <div
                     key={key}
-                      className="relative aspect-square rounded-2xl border border-border/70 bg-background shadow-sm"
+                      className="relative aspect-square rounded-2xl border border-border/70 bg-background shadow-xs"
                     >
                     {cell > 0 ? (
                       <div className="absolute left-1/2 top-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-foreground text-sm font-bold text-background">

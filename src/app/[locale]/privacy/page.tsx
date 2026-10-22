@@ -106,7 +106,7 @@ export default async function PrivacyPage({
     <div className="bg-background text-foreground">
       <section className="bg-gradient-subtle relative overflow-hidden border-b border-border/70">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(0,0,0,0.03),transparent_55%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(248,250,252,0.08),transparent_55%)]" />
-        <div className="container-wide max-w-4xl py-24 md:py-28">
+        <div className="container-wide py-24 md:py-28">
           <div className="relative">
             <div className="mb-6 flex flex-wrap gap-3 text-sm text-muted-foreground">
               <Link
@@ -125,7 +125,7 @@ export default async function PrivacyPage({
               <span>/</span>
               <span className="text-foreground">{copy.breadcrumbCurrent}</span>
             </div>
-            <div className="inline-flex rounded-full border border-border/70 bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-sm">
+            <div className="inline-flex rounded-full border border-border/70 bg-card px-4 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-muted-foreground shadow-xs">
               {copy.badge}
             </div>
             <h1 className="mt-6 text-4xl font-serif font-medium tracking-tight text-foreground md:text-6xl">
@@ -138,7 +138,7 @@ export default async function PrivacyPage({
         </div>
       </section>
 
-      <div className="container-wide max-w-4xl py-16 md:py-20">
+      <div className="container-wide py-16 md:py-20">
         <div className="space-y-10 leading-relaxed text-muted-foreground">
           {copy.sections.map((section) => (
             <section key={section.title}>

@@ -160,7 +160,7 @@ export function ContactSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.4 }}
-              className="relative overflow-hidden rounded-2xl border border-border/70 bg-foreground p-6 text-background shadow-xl shadow-black/20 md:rounded-[2rem] md:p-8"
+              className="relative overflow-hidden rounded-2xl border border-border/70 bg-foreground p-6 text-background shadow-xl shadow-black/20 md:rounded-4xl md:p-8"
             >
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_50%)]" />
               <h3 className="relative z-10 mb-6 text-xl font-serif font-bold">

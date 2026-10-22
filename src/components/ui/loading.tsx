@@ -64,7 +64,7 @@ export function Loading({
     return (
       <div
         aria-busy="true"
-        className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-xs"
       >
         {content}
       </div>

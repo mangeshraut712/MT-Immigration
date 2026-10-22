@@ -116,10 +116,10 @@ export function InsightsPreviewSection() {
             <motion.article
               key={group.key}
               variants={staggerItemVariants}
-              className="surface-panel rounded-[2rem] bg-muted/38 p-6 transition-all duration-300 hover:border-border hover:bg-card hover:shadow-xl"
+              className="surface-panel rounded-4xl bg-muted/38 p-6 transition-all duration-300 hover:border-border hover:bg-card hover:shadow-xl"
             >
               <div className="flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/70 bg-background text-foreground shadow-sm">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/70 bg-background text-foreground shadow-xs">
                   <group.icon className="h-5 w-5" />
                 </div>
                 <div>

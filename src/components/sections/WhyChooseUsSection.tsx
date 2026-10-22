@@ -133,9 +133,9 @@ export function WhyChooseUsSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: shouldReduceMotion ? 0 : index * 0.08, duration: shouldReduceMotion ? 0 : 0.3 }}
-                  className="group flex gap-4 md:gap-5 rounded-xl md:rounded-2xl border border-white/5 bg-zinc-900/50 p-5 md:p-6 backdrop-blur-sm transition-colors hover:border-white/10 hover:bg-zinc-900"
+                  className="group flex gap-4 md:gap-5 rounded-xl md:rounded-2xl border border-white/5 bg-zinc-900/50 p-5 md:p-6 backdrop-blur-xs transition-colors hover:border-white/10 hover:bg-zinc-900"
                 >
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-zinc-50 text-black shadow-lg shadow-white/10 transition-transform group-hover:scale-110">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-zinc-50 text-black shadow-lg shadow-white/10 transition-transform group-hover:scale-110">
                     <reason.icon size={22} />
                   </div>
                   <div>
@@ -200,7 +200,7 @@ export function WhyChooseUsSection() {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.08 }}
-                  className="flex h-full flex-col justify-between rounded-xl md:rounded-2xl border border-white/5 bg-zinc-900/50 p-6 md:p-8 backdrop-blur-sm transition-all duration-300 hover:border-white/10 hover:bg-zinc-900"
+                  className="flex h-full flex-col justify-between rounded-xl md:rounded-2xl border border-white/5 bg-zinc-900/50 p-6 md:p-8 backdrop-blur-xs transition-all duration-300 hover:border-white/10 hover:bg-zinc-900"
                 >
                   <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-zinc-800 text-white shadow-inner transition-colors">
                     <area.icon size={24} />

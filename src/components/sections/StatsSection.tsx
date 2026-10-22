@@ -38,8 +38,8 @@ export function StatsSection() {
 
   return (
     <section className="relative overflow-hidden bg-zinc-950 py-12 md:py-20 text-white">
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/20 to-transparent" />
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] [background-size:24px_24px] opacity-20" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-b from-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff15_1px,transparent_1px)] bg-size-[24px_24px] opacity-20" />
 
       <div className="container-wide relative z-10">
         <motion.div
@@ -59,7 +59,7 @@ export function StatsSection() {
                 duration: shouldReduceMotion ? 0 : 0.3,
                 ease: "easeOut"
               }}
-              className="rounded-xl md:rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 backdrop-blur-sm hover:bg-white/10 transition-colors duration-300"
+              className="rounded-xl md:rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 backdrop-blur-xs hover:bg-white/10 transition-colors duration-300"
             >
               <div className="mb-4 inline-flex rounded-2xl bg-white/10 p-4">
                 <highlight.icon className="h-6 w-6 text-white" />

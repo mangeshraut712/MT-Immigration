@@ -125,7 +125,7 @@ function NewsCard({ story }: { story: InsightStory }) {
   return (
     <motion.article
       variants={staggerItemVariants}
-      className="group relative rounded-[2rem] border border-border bg-card p-7 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/50"
+      className="group relative rounded-4xl border border-border bg-card p-7 shadow-xs transition-all duration-300 hover:shadow-xl hover:shadow-zinc-200/50"
     >
       <StoryMeta
         category={story.category}
@@ -175,7 +175,7 @@ function HeadlineList({
           className="group py-4 first:pt-0 last:pb-0"
         >
           <div className="flex gap-4">
-            <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-muted border border-border font-serif text-lg font-medium text-muted-foreground">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted border border-border font-serif text-lg font-medium text-muted-foreground">
               0{index + 1}
             </span>
             <div className="min-w-0">
@@ -389,7 +389,7 @@ export function InsightsPageClient({
             className="mx-auto max-w-4xl text-center"
           >
             <div className="inline-flex items-center gap-3 mb-8">
-              <div className="px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground bg-card border-border rounded-full shadow-sm flex items-center gap-2">
+              <div className="px-5 py-2.5 text-xs font-semibold uppercase tracking-widest text-muted-foreground bg-card border-border rounded-full shadow-xs flex items-center gap-2">
                 <Newspaper className="h-4 w-4 text-muted-foreground" />
                 {copy.heroBadge}
                 {isLive ? (
@@ -513,7 +513,7 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="group relative rounded-[2rem] border border-border bg-card shadow-xl shadow-black/5 p-8 sm:p-10 flex flex-col justify-between"
+                className="group relative rounded-4xl border border-border bg-card shadow-xl shadow-black/5 p-8 sm:p-10 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center gap-3">
@@ -572,7 +572,7 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="rounded-[2rem] border border-border bg-card p-6 shadow-sm"
+                className="rounded-4xl border border-border bg-card p-6 shadow-xs"
               >
                 <div className="flex items-center gap-3">
                   <Sparkles className="h-5 w-5 text-foreground" />
@@ -606,7 +606,7 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="rounded-[2rem] border border-border bg-card p-6 shadow-sm"
+                className="rounded-4xl border border-border bg-card p-6 shadow-xs"
               >
                 <div className="flex items-center justify-between">
                   <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
@@ -630,7 +630,7 @@ export function InsightsPageClient({
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="rounded-[2rem] bg-foreground p-6 text-background shadow-xl shadow-zinc-900/10"
+                className="rounded-4xl bg-foreground p-6 text-background shadow-xl shadow-zinc-900/10"
               >
                 <p className="text-xs font-semibold uppercase tracking-widest text-background/55">
                   {copy.sourceStandards}
@@ -646,10 +646,10 @@ export function InsightsPageClient({
                     <motion.div
                       key={announcement.title}
                       variants={staggerItemVariants}
-                      className="group rounded-[1.5rem] border border-white/10 bg-white/5 p-4 transition-all duration-200 hover:bg-white/10"
+                      className="group rounded-3xl border border-white/10 bg-white/5 p-4 transition-all duration-200 hover:bg-white/10"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center shrink-0 mt-0.5">
                           <ArrowRight className="h-3 w-3 text-background/70 transition-transform group-hover:translate-x-0.5" />
                         </div>
                         <div>
@@ -684,8 +684,8 @@ export function InsightsPageClient({
             </div>
             <h2 className="text-3xl font-serif tracking-tight">{copy.caseStudies}</h2>
           </div>
-          <div className="mb-8 flex max-w-3xl items-start gap-3 rounded-[1.5rem] border border-white/10 bg-white/5 p-5">
-            <Briefcase className="mt-0.5 h-5 w-5 flex-shrink-0 text-muted-foreground" />
+          <div className="mb-8 flex max-w-3xl items-start gap-3 rounded-3xl border border-white/10 bg-white/5 p-5">
+            <Briefcase className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
             <p className="text-sm leading-relaxed text-zinc-300">
               {copy.caseStudiesDesc}
             </p>

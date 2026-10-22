@@ -13,7 +13,7 @@ export function AboutSection() {
       className="section-padding relative overflow-hidden bg-gradient-subtle"
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(15,23,42,0.04),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_20%,rgba(248,250,252,0.08),transparent_50%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black_20%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.04)_1px,transparent_1px)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.02)_1px,transparent_1px)] bg-size-[64px_64px] mask-[radial-gradient(ellipse_60%_60%_at_50%_50%,black_20%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.04)_1px,transparent_1px)]" />
 
       <div className="container-wide relative z-10">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-24 items-center">
@@ -24,13 +24,13 @@ export function AboutSection() {
             transition={{ type: "spring", stiffness: 50, damping: 20 }}
             className="relative order-2 lg:order-1"
           >
-            <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0">
+            <div className="relative aspect-4/5 max-w-md mx-auto lg:mx-0">
               {/* Decorative background elements */}
               <div className="absolute -inset-4 rotate-3 rounded-3xl bg-zinc-200/60 opacity-50 blur-xl dark:bg-zinc-800/60" />
               <div className="absolute -inset-2 -rotate-2 rounded-3xl bg-muted/70" />
 
               {/* Main image container */}
-              <div className="surface-panel relative flex h-full items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-br from-muted to-background">
+              <div className="surface-panel relative flex h-full items-center justify-center overflow-hidden rounded-3xl bg-linear-to-br from-muted to-background">
                 <div className="text-center p-8">
                   <div className="surface-inset mx-auto mb-6 w-fit p-5 shadow-lg">
                     <SiteLogo

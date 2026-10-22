@@ -65,7 +65,7 @@ export function PricingSection() {
                 <p className="text-zinc-500 leading-relaxed text-lg">
                   {tPricing("subtitle")}
                 </p>
-                <p className="surface-inset mt-4 p-4 text-sm text-muted-foreground shadow-sm">
+                <p className="surface-inset mt-4 p-4 text-sm text-muted-foreground shadow-xs">
                   <strong>{tPricing("noteLabel")}</strong> {tPricing("note")}
                 </p>
               </div>
@@ -87,7 +87,7 @@ export function PricingSection() {
                       variants={staggerItemVariants}
                       className="flex items-center gap-3 text-sm text-zinc-600"
                     >
-                      <div className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-muted text-foreground">
+                      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-muted text-foreground">
                         <Check className="w-3 h-3" />
                       </div>
                       {item}
@@ -117,7 +117,7 @@ export function PricingSection() {
             className="lg:col-span-2"
           >
             <div className="surface-panel overflow-hidden rounded-2xl transition-shadow duration-500 hover:shadow-2xl md:rounded-3xl">
-              <Table className="min-w-[42rem]">
+              <Table className="min-w-2xl">
                 <TableHeader>
                   <TableRow className="border-b border-border/70 bg-muted/45 hover:bg-muted/45">
                     <TableHead className="w-[40%] font-serif font-bold text-foreground py-6 text-lg pl-8">

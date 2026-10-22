@@ -143,7 +143,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                   key={item.text}
                   className="flex min-w-0 items-center gap-2 truncate"
                 >
-                  <item.icon className="h-3.5 w-3.5 flex-shrink-0 text-zinc-400" />
+                  <item.icon className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
                   <span className="truncate">{item.text}</span>
                 </div>
               ))}
@@ -160,7 +160,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
         </div>
 
         <div className="container-wide">
-          <div className="flex h-[4.5rem] items-center justify-between gap-5">
+          <div className="flex h-18 items-center justify-between gap-5">
             <Link href={homeHref} className="group flex items-center gap-3">
               <motion.div
                 whileHover={{ scale: 1.01 }}
@@ -186,7 +186,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                     className={clsx(
                       "rounded-full px-4 py-2 text-sm font-medium transition-all",
                       isActive
-                        ? "bg-foreground text-background shadow-sm"
+                        ? "bg-foreground text-background shadow-xs"
                         : "text-muted-foreground hover:bg-muted hover:text-foreground",
                     )}
                   >
@@ -217,7 +217,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               aria-label={
                 isOpen ? "Close navigation menu" : "Open navigation menu"
               }
-              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-border/70 bg-background/90 p-3 text-foreground shadow-sm transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-3.5 lg:hidden"
+              className="flex min-h-[44px] min-w-[44px] items-center justify-center rounded-xl border border-border/70 bg-background/90 p-3 text-foreground shadow-xs transition-colors hover:bg-muted focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:p-3.5 lg:hidden"
             >
               <AnimatePresence mode="wait">
                 {isOpen ? (
@@ -275,7 +275,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                         key={item.text}
                         className="flex items-start gap-3 text-sm text-muted-foreground"
                       >
-                        <item.icon className="mt-0.5 h-4 w-4 flex-shrink-0 text-zinc-400" />
+                        <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" />
                         <span>{item.text}</span>
                       </div>
                     ),
