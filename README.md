@@ -1,3 +1,5 @@
+> **Redesign concept.** This is an independent, unofficial redesign of a website for M&T Immigration, built as a portfolio project. It is not the official M&T Immigration site and is not affiliated with or endorsed by the firm. Nothing here is legal advice.
+
 <div align="center">
 
 # 🚀 M&T Immigration Law Firm
