@@ -67,3 +67,6 @@ Thumbs.db
 
 #Ignore cursor AI rules
 .cursor/rules/codacy.mdc
+# Local agent tooling
+.agents/
+skills-lock.json
