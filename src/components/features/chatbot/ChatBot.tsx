@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MessageCircle,
@@ -190,6 +190,38 @@ function renderMessageContent(content: string) {
   ));
 }
 
+
+function subscribeToNothing() {
+  return () => {};
+}
+
+function getSpeechSupportedSnapshot() {
+  return Boolean(window.SpeechRecognition || window.webkitSpeechRecognition);
+}
+
+function getSpeechSupportedServerSnapshot() {
+  return false;
+}
+
+function createWelcomeMessage(): Message {
+  const greeting = getFallbackAssistantReply("hello");
+  return {
+    id: "welcome",
+    role: "assistant",
+    content: greeting.content,
+    agent: {
+      key: greeting.agent,
+      title: greeting.agentCard.title,
+      description: greeting.agentCard.description,
+    },
+    reviewedBy: benchReviewer.title,
+    suggestions: greeting.suggestions,
+    source: "fallback",
+    degraded: true,
+    timestamp: new Date(),
+  };
+}
+
 export function ChatBot() {
   const locale = useLocale();
   const uiLocale = getRuntimeUiLocale(locale);
@@ -201,7 +233,11 @@ export function ChatBot() {
   const [isTyping, setIsTyping] = useState(false);
   const [activeAgent, setActiveAgent] = useState<AgentMode>("auto");
   const [chatError, setChatError] = useState<string | null>(null);
-  const [speechSupported, setSpeechSupported] = useState(false);
+  const speechSupported = useSyncExternalStore(
+    subscribeToNothing,
+    getSpeechSupportedSnapshot,
+    getSpeechSupportedServerSnapshot,
+  );
   const [isDictating, setIsDictating] = useState(false);
   const [dictationStatus, setDictationStatus] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -217,45 +253,22 @@ export function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  useEffect(() => {
-    const recognitionCtor =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-    setSpeechSupported(Boolean(recognitionCtor));
-  }, []);
+  function openChat() {
+    setMessages((current) => (current.length === 0 ? [createWelcomeMessage()] : current));
+    setIsOpen(true);
+  }
 
   useEffect(() => {
-    const handleOpenChat = () => setIsOpen(true);
+    const handleOpenChat = () => {
+      setMessages((current) => (current.length === 0 ? [createWelcomeMessage()] : current));
+      setIsOpen(true);
+    };
     window.addEventListener("open-chat", handleOpenChat);
     return () => window.removeEventListener("open-chat", handleOpenChat);
   }, []);
 
   useEffect(() => {
-    if (isOpen && messages.length === 0) {
-      const greeting = getFallbackAssistantReply("hello");
-      setMessages([
-        {
-          id: "welcome",
-          role: "assistant",
-          content: greeting.content,
-          agent: {
-            key: greeting.agent,
-            title: greeting.agentCard.title,
-            description: greeting.agentCard.description,
-          },
-          reviewedBy: benchReviewer.title,
-          suggestions: greeting.suggestions,
-          source: "fallback",
-          degraded: true,
-          timestamp: new Date(),
-        },
-      ]);
-    }
-  }, [isOpen, messages.length]);
-
-  useEffect(() => {
     if (!isOpen) {
-      setIsDictating(false);
-      setDictationStatus(null);
       recognitionRef.current?.stop();
       recognitionRef.current = null;
       lastFocusedElementRef.current?.focus?.();
@@ -273,6 +286,8 @@ export function ChatBot() {
 
   function closeChat() {
     setIsOpen(false);
+    setIsDictating(false);
+    setDictationStatus(null);
   }
 
   function handleDialogKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
@@ -498,7 +513,7 @@ export function ChatBot() {
             exit={{ scale: 0, opacity: 0 }}
             whileHover={{ scale: 1.08 }}
             whileTap={{ scale: 0.96 }}
-            onClick={() => setIsOpen(true)}
+            onClick={openChat}
             className={chatOpenButtonClass}
             aria-label={copy.openChat}
             aria-haspopup="dialog"
@@ -697,7 +712,7 @@ export function ChatBot() {
                           >
                             <Link
                               href={localizeHref(pathname, message.action.link)}
-                              onClick={() => setIsOpen(false)}
+                              onClick={closeChat}
                             >
                               {message.action.label}{" "}
                               <ExternalLink size={10} className="ml-2 opacity-70" />
