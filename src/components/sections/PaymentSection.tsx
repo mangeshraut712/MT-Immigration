@@ -108,7 +108,7 @@ export function PaymentSection() {
 
             <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
               {trustBadges.map(({ icon: Icon, label }) => (
-                <div key={label} className="surface-inset flex items-center gap-3 px-4 py-3 shadow-sm">
+                <div key={label} className="surface-inset flex items-center gap-3 px-4 py-3 shadow-xs">
                   <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-border/70 bg-muted text-foreground">
                     <Icon className="h-4 w-4" />
                   </div>
@@ -117,7 +117,7 @@ export function PaymentSection() {
               ))}
             </div>
 
-            <div className="surface-panel rounded-[1.75rem] p-5 shadow-sm">
+            <div className="surface-panel rounded-[1.75rem] p-5 shadow-xs">
               <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
                 Common Uses
               </p>
@@ -142,7 +142,7 @@ export function PaymentSection() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="surface-panel rounded-[2rem] p-5 shadow-xl shadow-zinc-200/30 dark:shadow-black/30 md:p-6"
+            className="surface-panel rounded-4xl p-5 shadow-xl shadow-zinc-200/30 dark:shadow-black/30 md:p-6"
           >
             <div className="flex flex-col gap-4 border-b border-border/70 pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
@@ -193,7 +193,7 @@ export function PaymentSection() {
             <div className="surface-muted mt-5 rounded-[1.75rem] p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border/70 bg-background text-foreground shadow-sm">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-border/70 bg-background text-foreground shadow-xs">
                     <ActiveIcon className="h-5 w-5" />
                   </div>
                   <div>
@@ -222,7 +222,7 @@ export function PaymentSection() {
               </p>
 
               <div className="mt-5 grid gap-3 md:grid-cols-3">
-                <div className="surface-inset rounded-2xl p-4 shadow-sm">
+                <div className="surface-inset rounded-2xl p-4 shadow-xs">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Best for
                   </p>
@@ -230,7 +230,7 @@ export function PaymentSection() {
                     {activeMethod.bestFor}
                   </p>
                 </div>
-                <div className="surface-inset rounded-2xl p-4 shadow-sm">
+                <div className="surface-inset rounded-2xl p-4 shadow-xs">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Speed
                   </p>
@@ -238,7 +238,7 @@ export function PaymentSection() {
                     {activeMethod.speed}
                   </p>
                 </div>
-                <div className="surface-inset rounded-2xl p-4 shadow-sm">
+                <div className="surface-inset rounded-2xl p-4 shadow-xs">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                     Availability
                   </p>
@@ -252,9 +252,9 @@ export function PaymentSection() {
                 {activeMethod.details.map((detail) => (
                   <div
                     key={detail}
-                    className="surface-inset flex items-start gap-3 rounded-2xl p-4 shadow-sm"
+                    className="surface-inset flex items-start gap-3 rounded-2xl p-4 shadow-xs"
                   >
-                    <Check className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted-foreground" />
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                     <p className="text-sm leading-relaxed text-muted-foreground">{detail}</p>
                   </div>
                 ))}

@@ -36,13 +36,13 @@ const CHAT_REQUEST_TIMEOUT_MS = 20_000;
 const chatShellClass =
   "fixed inset-x-3 bottom-5 z-50 flex h-[min(640px,calc(100vh-6.5rem))] flex-col overflow-hidden rounded-2xl border border-border/60 bg-background/95 text-foreground shadow-[0_24px_80px_-30px_rgba(0,0,0,0.35)] backdrop-blur-2xl sm:inset-x-auto sm:bottom-24 sm:right-6 sm:h-[600px] sm:w-[380px] sm:max-w-[calc(100vw-2rem)]";
 const chatHeaderClass =
-  "relative flex shrink-0 items-center justify-between overflow-hidden border-b border-border/60 bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-800 p-4 text-white";
+  "relative flex shrink-0 items-center justify-between overflow-hidden border-b border-border/60 bg-linear-to-r from-zinc-950 via-zinc-900 to-zinc-800 p-4 text-white";
 const assistantBubbleClass =
   "rounded-tl-sm border border-border/60 bg-card/95 text-card-foreground shadow-[0_2px_10px_-3px_rgba(0,0,0,0.08)] backdrop-blur-md";
 const userBubbleClass =
   "rounded-tr-sm bg-zinc-950 text-white shadow-md";
 const messageAvatarAssistantClass =
-  "bg-gradient-to-br from-zinc-900 to-zinc-700 text-white shadow-sm ring-1 ring-border/50";
+  "bg-linear-to-br from-zinc-900 to-zinc-700 text-white shadow-xs ring-1 ring-border/50";
 const messageAvatarUserClass =
   "bg-primary text-primary-foreground";
 const chatOpenButtonClass =
@@ -529,10 +529,10 @@ export function ChatBot() {
           >
             <div className={chatHeaderClass}>
               {/* Subtle ambient glow behind header */}
-              <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-b from-white/10 to-transparent pointer-events-none" />
               <div className="relative z-10 flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20 backdrop-blur-md">
-                  <Bot size={22} className="drop-shadow-sm" />
+                  <Bot size={22} className="drop-shadow-xs" />
                 </div>
                 <div>
                   <h3 id="mt-chat-title" className="font-semibold tracking-tight">
@@ -605,7 +605,7 @@ export function ChatBot() {
             </div>
 
             <div
-              className="scrollbar-hide flex-1 space-y-5 overflow-y-auto bg-gradient-to-b from-transparent to-muted/20 p-3 sm:space-y-6 sm:p-4"
+              className="scrollbar-hide flex-1 space-y-5 overflow-y-auto bg-linear-to-b from-transparent to-muted/20 p-3 sm:space-y-6 sm:p-4"
               role="log"
               aria-live="polite"
               aria-relevant="additions text"
@@ -630,7 +630,7 @@ export function ChatBot() {
                   >
                     <div
                       className={cn(
-                        "mt-1 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full shadow-sm ring-1 ring-border/50",
+                        "mt-1 flex h-7 w-7 shrink-0 items-center justify-center rounded-full shadow-xs ring-1 ring-border/50",
                         message.role === "assistant"
                           ? messageAvatarAssistantClass
                           : messageAvatarUserClass,
@@ -645,7 +645,7 @@ export function ChatBot() {
 
                     <div
                       className={cn(
-                        "rounded-[20px] p-3.5 text-[13.5px] leading-relaxed shadow-sm",
+                        "rounded-[20px] p-3.5 text-[13.5px] leading-relaxed shadow-xs",
                         message.role === "user"
                           ? userBubbleClass
                           : assistantBubbleClass,
@@ -693,7 +693,7 @@ export function ChatBot() {
                             asChild
                             size="sm"
                             variant="secondary"
-                            className="h-8 w-full bg-zinc-950 text-xs text-white shadow-sm transition-all hover:bg-zinc-800 hover:shadow-md"
+                            className="h-8 w-full bg-zinc-950 text-xs text-white shadow-xs transition-all hover:bg-zinc-800 hover:shadow-md"
                           >
                             <Link
                               href={localizeHref(pathname, message.action.link)}
@@ -714,7 +714,7 @@ export function ChatBot() {
                         <button
                           key={`${message.id}-${suggestion}`}
                           onClick={() => sendMessage(suggestion)}
-                          className="rounded-full border border-border/50 bg-card/60 px-3 py-1.5 text-[11px] font-medium text-muted-foreground shadow-sm backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-background hover:text-foreground hover:shadow-md active:translate-y-0"
+                          className="rounded-full border border-border/50 bg-card/60 px-3 py-1.5 text-[11px] font-medium text-muted-foreground shadow-xs backdrop-blur-xs transition-all hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-background hover:text-foreground hover:shadow-md active:translate-y-0"
                         >
                           {suggestion}
                         </button>
@@ -730,10 +730,10 @@ export function ChatBot() {
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   className="flex items-end gap-2.5"
                 >
-                  <div className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-zinc-800 to-zinc-950 text-white shadow-sm ring-1 ring-border/50">
+                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-linear-to-br from-zinc-800 to-zinc-950 text-white shadow-xs ring-1 ring-border/50">
                     <Bot size={13} />
                   </div>
-                  <div className="rounded-[20px] rounded-bl-sm border border-border/40 bg-card/80 p-3.5 shadow-sm backdrop-blur-md">
+                  <div className="rounded-[20px] rounded-bl-sm border border-border/40 bg-card/80 p-3.5 shadow-xs backdrop-blur-md">
                     <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
                       {activeAgent === "auto"
                         ? copy.routingAndReviewing
@@ -775,7 +775,7 @@ export function ChatBot() {
               ) : null}
               {dictationStatus ? (
                 <div
-                  className="mb-3 rounded-xl border border-muted bg-muted/30 px-3 py-2 text-sm text-foreground backdrop-blur-sm"
+                  className="mb-3 rounded-xl border border-muted bg-muted/30 px-3 py-2 text-sm text-foreground backdrop-blur-xs"
                   role="status"
                   aria-live="polite"
                 >
@@ -787,7 +787,7 @@ export function ChatBot() {
                   event.preventDefault();
                   void sendMessage();
                 }}
-                className="relative flex items-end gap-2 rounded-2xl border border-border/60 bg-background/50 p-1.5 shadow-sm ring-1 ring-transparent transition-all focus-within:ring-border/80 hover:border-border/80"
+                className="relative flex items-end gap-2 rounded-2xl border border-border/60 bg-background/50 p-1.5 shadow-xs ring-1 ring-transparent transition-all focus-within:ring-border/80 hover:border-border/80"
               >
                 <label htmlFor="chat-composer" className="sr-only">
                   {copy.askQuestion}
@@ -848,7 +848,7 @@ export function ChatBot() {
                     {isTyping ? (
                       <Loader2 size={15} className="animate-spin" />
                     ) : (
-                      <Send size={14} className={cn(input.trim() && "translate-x-[1px]")} />
+                      <Send size={14} className={cn(input.trim() && "translate-x-px")} />
                     )}
                   </Button>
                 </div>

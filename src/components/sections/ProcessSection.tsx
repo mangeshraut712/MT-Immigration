@@ -115,7 +115,7 @@ export function ProcessSection() {
               className={`relative flex flex-col md:flex-row gap-8 md:gap-16 mb-16 last:mb-0 ${index % 2 === 0 ? "" : "md:flex-row-reverse"}`}
             >
               {/* Marker */}
-              <div className="absolute left-0 md:left-1/2 w-14 h-14 -translate-x-0 md:-translate-x-1/2 flex items-center justify-center bg-background z-10 rounded-full border-4 border-border shadow-sm group hover:scale-110 transition-transform duration-300">
+              <div className="absolute left-0 md:left-1/2 w-14 h-14 translate-x-0 md:-translate-x-1/2 flex items-center justify-center bg-background z-10 rounded-full border-4 border-border shadow-xs group hover:scale-110 transition-transform duration-300">
                 <div className="w-8 h-8 bg-muted text-foreground rounded-full flex items-center justify-center">
                   <step.icon size={16} />
                 </div>
@@ -126,7 +126,7 @@ export function ProcessSection() {
                 className={`pl-20 md:pl-0 md:w-1/2 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}
               >
                 <div
-                  className={`p-6 md:p-8 bg-card rounded-2xl border border-border shadow-sm hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 relative`}
+                  className={`p-6 md:p-8 bg-card rounded-2xl border border-border shadow-xs hover:shadow-xl transition-all duration-300 group hover:-translate-y-1 relative`}
                 >
                   {/* Connecting Line (Mobile) */}
                   <div className="md:hidden absolute top-7 -left-6 w-6 h-px bg-border" />

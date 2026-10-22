@@ -18,7 +18,7 @@ import { DeferredAppChrome } from "@/components/ui/deferred-app-chrome";
 
 // SF Pro alternative - Inter is the closest Google Font
 const inter = Inter({
-    variable: "--font-sans",
+    variable: "--font-sans-loaded",
     subsets: ["latin"],
     display: "swap",
     preload: true,
@@ -26,7 +26,7 @@ const inter = Inter({
 
 // Elegant Serif for headings - Apple-like premium feel
 const dmSerif = DM_Serif_Display({
-    variable: "--font-serif",
+    variable: "--font-serif-loaded",
     weight: ["400"],
     subsets: ["latin"],
     display: "optional",
@@ -95,13 +95,13 @@ export default async function LocaleLayout({
                         <SiteStructuredData />
                         <a
                             href="#main-content"
-                            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-md focus-ring"
+                            className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-100 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:shadow-md focus-ring"
                         >
                             Skip to content
                         </a>
                         <Navbar locale={locale} />
                         {translationNotice ? (
-                            <div className="border-b border-amber-200 bg-amber-50/90 px-4 py-2 text-center text-sm text-amber-900 backdrop-blur-sm">
+                            <div className="border-b border-amber-200 bg-amber-50/90 px-4 py-2 text-center text-sm text-amber-900 backdrop-blur-xs">
                                 {translationNotice}
                             </div>
                         ) : null}

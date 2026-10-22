@@ -11,15 +11,15 @@ export function HeroSection() {
 
   return (
     <section className="relative flex min-h-[calc(100svh-4rem)] items-center justify-center overflow-hidden bg-gradient-subtle md:min-h-[90vh]">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-[size:72px_72px] opacity-70 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,black_40%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.06)_1px,transparent_1px)]" />
-      <div className="absolute left-1/2 top-0 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-zinc-200/45 blur-[110px] dark:bg-zinc-700/35" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.03)_1px,transparent_1px)] bg-size-[72px_72px] opacity-70 mask-[radial-gradient(ellipse_60%_60%_at_50%_0%,black_40%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.06)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.06)_1px,transparent_1px)]" />
+      <div className="absolute left-1/2 top-0 h-112 w-md -translate-x-1/2 rounded-full bg-zinc-200/45 blur-[110px] dark:bg-zinc-700/35" />
 
       <div className="container-wide relative z-10 py-20 text-center sm:py-24 md:pt-32 md:pb-20">
         {/* Badge */}
         <div className="mb-8 inline-flex">
           <Badge
             variant="secondary"
-            className="glass rounded-full border-border/70 px-5 py-2.5 text-sm font-medium text-muted-foreground shadow-sm backdrop-blur-xl"
+            className="glass rounded-full border-border/70 px-5 py-2.5 text-sm font-medium text-muted-foreground shadow-xs backdrop-blur-xl"
           >
             <Sparkles className="mr-2 h-4 w-4 text-foreground fill-foreground/15" />
             {tHero("badge")}
@@ -28,7 +28,7 @@ export function HeroSection() {
 
         {/* Main headline */}
         <h1 className="mb-8 text-4xl font-serif font-medium leading-[1.02] tracking-tight sm:text-5xl md:text-7xl lg:text-8xl">
-          <span className="text-foreground drop-shadow-sm">{tHero("title")}</span>
+          <span className="text-foreground drop-shadow-xs">{tHero("title")}</span>
           <br />
           <span className="text-zinc-500 italic font-light dark:text-zinc-400">
             <span className="relative inline-block font-medium text-foreground not-italic">
@@ -51,7 +51,7 @@ export function HeroSection() {
           <Button
             asChild
             size="lg"
-            className="group h-12 rounded-full bg-foreground px-6 text-base font-semibold text-background shadow-xl shadow-zinc-900/10 transition-all hover:scale-[1.02] hover:opacity-92 hover:shadow-2xl hover:shadow-zinc-900/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:px-8 sm:text-lg sm:hover:scale-105"
+            className="group h-12 rounded-full bg-foreground px-6 text-base font-semibold text-background shadow-xl shadow-zinc-900/10 transition-all hover:scale-[1.02] hover:opacity-92 hover:shadow-2xl hover:shadow-zinc-900/20 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:px-8 sm:text-lg sm:hover:scale-105"
           >
             <Link href="#contact" className="flex items-center justify-center">
               {tHero("cta")}
@@ -62,7 +62,7 @@ export function HeroSection() {
             asChild
             variant="outline"
             size="lg"
-            className="h-12 rounded-full border-border/70 bg-background/70 px-6 text-base font-semibold text-foreground shadow-sm backdrop-blur-sm transition-all hover:scale-[1.02] hover:bg-background hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:px-8 sm:text-lg sm:hover:scale-105"
+            className="h-12 rounded-full border-border/70 bg-background/70 px-6 text-base font-semibold text-foreground shadow-xs backdrop-blur-xs transition-all hover:scale-[1.02] hover:bg-background hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:h-14 sm:px-8 sm:text-lg sm:hover:scale-105"
           >
             <Link href="#services" className="flex items-center justify-center">
               {tHero("ctaSecondary")}

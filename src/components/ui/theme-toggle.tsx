@@ -26,7 +26,7 @@ export function ThemeToggle() {
       size="icon"
       onClick={toggleTheme}
       aria-label={ariaLabel}
-      className="h-9 w-9 rounded-full border-border/70 bg-background/90 text-foreground shadow-sm hover:bg-muted"
+      className="h-9 w-9 rounded-full border-border/70 bg-background/90 text-foreground shadow-xs hover:bg-muted"
     >
       {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </Button>

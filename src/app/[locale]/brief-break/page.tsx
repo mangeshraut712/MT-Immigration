@@ -74,7 +74,7 @@ export default async function BriefBreakPage({
     <div className="min-h-screen bg-background">
       <section className="relative overflow-hidden border-b border-border/60 bg-gradient-subtle">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(15,23,42,0.06),transparent_55%)] dark:bg-[radial-gradient(circle_at_50%_0%,rgba(248,250,252,0.08),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.018)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_70%_65%_at_50%_10%,black_35%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.04)_1px,transparent_1px)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(15,23,42,0.018)_1px,transparent_1px),linear-gradient(90deg,rgba(15,23,42,0.018)_1px,transparent_1px)] bg-size-[72px_72px] mask-[radial-gradient(ellipse_70%_65%_at_50%_10%,black_35%,transparent_100%)] dark:bg-[linear-gradient(rgba(248,250,252,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(248,250,252,0.04)_1px,transparent_1px)]" />
 
         <div className="container-wide relative py-20 md:py-28">
           <div className="mx-auto max-w-5xl">
@@ -94,7 +94,7 @@ export default async function BriefBreakPage({
             </div>
 
             <div className="mx-auto max-w-4xl text-center">
-              <div className="surface-inset inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground shadow-sm backdrop-blur-sm">
+              <div className="surface-inset inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground shadow-xs backdrop-blur-xs">
                 <Sparkles className="h-4 w-4 text-foreground" />
                 {copy.badge}
               </div>
@@ -121,7 +121,7 @@ export default async function BriefBreakPage({
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <div className="surface-inset inline-flex items-center gap-2 px-4 py-2 text-sm text-foreground backdrop-blur-sm">
+                <div className="surface-inset inline-flex items-center gap-2 px-4 py-2 text-sm text-foreground backdrop-blur-xs">
                   <Scale className="h-4 w-4 text-foreground" />
                   {copy.pill}
                 </div>

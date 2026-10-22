@@ -85,7 +85,7 @@ export function LanguageSwitcher({
         type="button"
         onClick={() => setIsOpen((currentValue) => !currentValue)}
         disabled={isPending}
-        className="flex h-9 items-center gap-2 rounded-full px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+        className="flex h-9 items-center gap-2 rounded-full px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         aria-label={`Current language: ${localeNames[currentLocale]}. Click to change language.`}
         aria-expanded={isOpen}
       >
