@@ -24,8 +24,13 @@ export default async function Footer({ locale }: { locale: string }) {
       <div className="container-wide py-12 md:py-16">
         <div className="grid grid-cols-2 gap-6 md:grid-cols-5 md:gap-6">
           <div className="col-span-2 md:col-span-1">
-            <Link href={homeHref} className="group mb-5 flex items-center gap-3">
+            <Link
+              href={homeHref}
+              aria-label={firmConfig.shortName}
+              className="group mb-5 flex items-center gap-3"
+            >
               <SiteLogo
+                decorative
                 imageClassName="border-white/10 shadow-md transition-transform group-hover:scale-105"
                 nameClassName="text-base text-foreground"
               />

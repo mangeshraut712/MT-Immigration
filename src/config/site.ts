@@ -53,7 +53,12 @@ export function isProductionIndexable() {
 export const siteUrl = new URL(joinSiteUrl(getSiteUrl(), "/"));
 
 export function buildCanonicalUrl(path = "/") {
-  return joinSiteUrl(getSiteUrl(), path);
+  const joined = joinSiteUrl(getSiteUrl(), path);
+  if (joined.endsWith("/") || /\.[a-z0-9]+$/i.test(new URL(joined).pathname)) {
+    return joined;
+  }
+
+  return `${joined}/`;
 }
 
 export function getLanguageAlternates(path = "/") {

@@ -1,38 +1,37 @@
 // Service Worker for PWA functionality
-const CACHE_VERSION = 'v1.1.0';
+const CACHE_VERSION = 'v1.2.0';
 const STATIC_CACHE = `mt-immigration-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `mt-immigration-dynamic-${CACHE_VERSION}`;
+const CACHEABLE_DESTINATIONS = new Set(['style', 'script', 'image', 'font', 'manifest']);
 
-// Resources to cache immediately (only truly static assets — never cache
-// navigation routes that next-intl may redirect, since Safari rejects
-// redirect responses served from a service worker).
-const STATIC_ASSETS = [
-    '/manifest.json',
-    '/brand/mtlogo.png',
-    '/favicon.ico'
-];
+function scopedUrl(path) {
+    return new URL(path, self.registration.scope).toString();
+}
 
-// Install event - cache static assets
 self.addEventListener('install', (event) => {
     event.waitUntil(
         (async () => {
             const cache = await caches.open(STATIC_CACHE);
-            await cache.addAll(STATIC_ASSETS);
+            await cache.addAll([
+                scopedUrl('manifest.json'),
+                scopedUrl('brand/mtlogo.png'),
+                scopedUrl('favicon.ico'),
+            ]);
             self.skipWaiting();
         })()
     );
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         (async () => {
             const cacheNames = await caches.keys();
             await Promise.all(
-                cacheNames.map(cacheName => {
+                cacheNames.map((cacheName) => {
                     if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
                         return caches.delete(cacheName);
                     }
+                    return undefined;
                 })
             );
             self.clients.claim();
@@ -40,107 +39,53 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Fetch event - serve from cache or network
 self.addEventListener('fetch', (event) => {
-    // Skip non-GET requests and chrome-extension requests
     if (event.request.method !== 'GET' || event.request.url.startsWith('chrome-extension://')) {
         return;
     }
 
-    // Skip API requests for real-time functionality
-    if (event.request.url.includes('/api/')) {
+    const requestUrl = new URL(event.request.url);
+    if (requestUrl.origin !== self.location.origin || requestUrl.pathname.includes('/api/')) {
+        return;
+    }
+
+    if (event.request.mode === 'navigate' || event.request.destination === 'document') {
+        event.respondWith(
+            fetch(event.request).catch(
+                () =>
+                    new Response('Offline - Please check your connection', {
+                        status: 503,
+                        statusText: 'Service Unavailable',
+                        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+                    }),
+            ),
+        );
+        return;
+    }
+
+    if (!CACHEABLE_DESTINATIONS.has(event.request.destination)) {
         return;
     }
 
     event.respondWith(
         (async () => {
-            // Try cache first for static assets
             const cachedResponse = await caches.match(event.request);
             if (cachedResponse) {
                 return cachedResponse;
             }
 
-            try {
-                // Fetch from network
-                const networkResponse = await fetch(event.request);
-
-                // Only cache successful, non-redirect responses.
-                // Safari throws "Response served by service worker has redirections"
-                // if a cached response is a 3xx redirect.
-                if (networkResponse.ok && !networkResponse.redirected && networkResponse.status < 300) {
-                    const cache = await caches.open(DYNAMIC_CACHE);
-                    cache.put(event.request, networkResponse.clone());
-                }
-
-                return networkResponse;
-            } catch (error) {
-                // Return offline fallback for navigation requests
-                if (event.request.destination === 'document') {
-                    return new Response('Offline - Please check your connection', {
-                        status: 503,
-                        statusText: 'Service Unavailable',
-                        headers: { 'Content-Type': 'text/html' }
-                    });
-                }
-
-                throw error;
+            const networkResponse = await fetch(event.request);
+            if (networkResponse.ok && !networkResponse.redirected && networkResponse.status < 300) {
+                const cache = await caches.open(DYNAMIC_CACHE);
+                cache.put(event.request, networkResponse.clone());
             }
+
+            return networkResponse;
         })()
     );
 });
 
-// Background sync for offline form submissions
-self.addEventListener('sync', (event) => {
-    if (event.tag === 'background-sync') {
-        event.waitUntil(doBackgroundSync());
-    }
-});
-
-async function doBackgroundSync() {
-    // Handle offline form submissions
-    try {
-        const cache = await caches.open('form-submissions');
-        const keys = await cache.keys();
-
-        for (const request of keys) {
-            try {
-                await fetch(request);
-                await cache.delete(request);
-            } catch (error) {
-                console.error('Background sync failed:', error);
-            }
-        }
-    } catch (error) {
-        console.error('Background sync error:', error);
-    }
-}
-
-// Push notifications (for future use)
-self.addEventListener('push', (event) => {
-    if (event.data) {
-        const data = event.data.json();
-        const options = {
-            body: data.body,
-            icon: '/brand/mtlogo.png',
-            badge: '/brand/mtlogo.png',
-            vibrate: [100, 50, 100],
-            data: {
-                dateOfArrival: Date.now(),
-                primaryKey: data.primaryKey
-            }
-        };
-
-        event.waitUntil(
-            self.registration.showNotification(data.title, options)
-        );
-    }
-});
-
-// Notification click handler
 self.addEventListener('notificationclick', (event) => {
     event.notification.close();
-
-    event.waitUntil(
-        clients.openWindow('/')
-    );
+    event.waitUntil(self.clients.openWindow(scopedUrl('')));
 });

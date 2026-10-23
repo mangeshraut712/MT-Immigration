@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 
+import { withApiHeaders } from "@/lib/security";
 import {
   getClientKey,
   parseSearchParams,
+  readLimitedJson,
   rejectLargeRequest,
   rejectNonJsonRequest,
   rejectUntrustedOrigin,
@@ -29,10 +31,10 @@ function jsonNoStore(
 ) {
   return NextResponse.json(body, {
     ...init,
-    headers: {
+    headers: withApiHeaders({
       "Cache-Control": "no-store",
       ...(init?.headers ?? {}),
-    },
+    }),
   });
 }
 
@@ -103,12 +105,9 @@ export async function POST(request: Request) {
     return originError;
   }
 
-  let payload: unknown;
-
-  try {
-    payload = await request.json();
-  } catch {
-    return jsonNoStore({ error: "Invalid request body." }, { status: 400 });
+  const payload = await readLimitedJson(request, INTAKE_REQUEST_MAX_BYTES);
+  if (payload instanceof NextResponse) {
+    return payload;
   }
 
   const parsed = intakeSchema.safeParse(payload);

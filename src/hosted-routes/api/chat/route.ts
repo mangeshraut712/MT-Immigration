@@ -13,8 +13,14 @@ import {
   getOpenAIReasoningEffort,
 } from "@/server/ai/openai";
 import {
+  safeAssistantText,
+  sanitizeChatAction,
+  withApiHeaders,
+} from "@/lib/security";
+import {
   getClientKey,
   parseSearchParams,
+  readLimitedJson,
   rejectLargeRequest,
   rejectNonJsonRequest,
   rejectUntrustedOrigin,
@@ -55,10 +61,10 @@ function jsonNoStore(
 ) {
   return NextResponse.json(body, {
     ...init,
-    headers: {
+    headers: withApiHeaders({
       "Cache-Control": "no-store",
       ...(init?.headers ?? {}),
-    },
+    }),
   });
 }
 
@@ -95,15 +101,6 @@ function isAuthenticationFailure(error: unknown) {
     maybeError.code === 401 ||
     maybeError.message?.toLowerCase().includes("authentication") === true
   );
-}
-
-function containsRestrictedContent(text: string) {
-  const restrictedPatterns = [
-    /\b(A-\d{9})\b/i,          // A-Number
-    /\b\d{3}[-.\s]?\d{2}[-.\s]?\d{4}\b/, // SSN
-    /\b(100% success|guarantee|promise you|will definitely win)\b/i, // Overconfident claims
-  ];
-  return restrictedPatterns.some((pattern) => pattern.test(text));
 }
 
 function pruneChatContext(messages: ChatMessageInput[]) {
@@ -204,12 +201,9 @@ export async function POST(request: Request) {
     return originError;
   }
 
-  let payload: unknown;
-
-  try {
-    payload = await request.json();
-  } catch {
-    return jsonNoStore({ error: "Invalid request body." }, { status: 400 });
+  const payload = await readLimitedJson(request, CHAT_REQUEST_MAX_BYTES);
+  if (payload instanceof NextResponse) {
+    return payload;
   }
 
   const parsed = chatRequestSchema.safeParse(payload);
@@ -314,12 +308,19 @@ export async function POST(request: Request) {
           };
 
           if (!data.degraded) {
+            const reviewed = safeAssistantText(
+              data.content || fallback.content,
+              fallback.content,
+            );
             return jsonNoStore({
-              content: data.content || fallback.content,
+              content: reviewed.content,
               suggestions: data.suggestions || fallback.suggestions,
-              action: data.action || fallback.action,
+              action: sanitizeChatAction(
+                data.action,
+                fallback.action ?? { label: "Request Case Review", link: "/#contact" },
+              ),
               source: data.source || "fastapi",
-              degraded: false,
+              degraded: reviewed.blocked,
               agent: data.agent || fallback.agent,
               agentTitle: data.agentTitle || fallback.agentCard.title,
               agentDescription:
@@ -333,10 +334,8 @@ export async function POST(request: Request) {
             "FastAPI agent returned degraded fallback; using direct AI path.",
           );
         } else {
-          const responseSnippet = (await fastApiResponse.text()).slice(0, 240);
           console.error("FastAPI agent proxy returned non-OK response:", {
             status: fastApiResponse.status,
-            body: responseSnippet,
           });
         }
       } catch (error) {
@@ -380,15 +379,17 @@ export async function POST(request: Request) {
       store: false,
     });
 
-    const specialistDraft =
-      specialistResponse.output_text.trim() || fallback.content;
-    if (!BENCH_REVIEW_ENABLED) {
+    const specialistDraft = safeAssistantText(
+      specialistResponse.output_text.trim() || fallback.content,
+      fallback.content,
+    );
+    if (!BENCH_REVIEW_ENABLED || specialistDraft.blocked) {
       return jsonNoStore({
-        content: specialistDraft,
+        content: specialistDraft.content,
         suggestions: fallback.suggestions,
         action: fallback.action,
-        source: getAIProvider() || "openai",
-        degraded: false,
+        source: specialistDraft.blocked ? "fallback" : getAIProvider() || "openai",
+        degraded: specialistDraft.blocked,
         agent: fallback.agent,
         agentTitle: fallback.agentCard.title,
         agentDescription: fallback.agentCard.description,
@@ -400,7 +401,7 @@ export async function POST(request: Request) {
       const benchReview = await client.responses.create({
         model: getOpenAIModel(),
         instructions: buildBenchReviewInstructions(fallback.agent),
-        input: specialistDraft,
+        input: specialistDraft.content,
         max_output_tokens: 500,
         reasoning: {
           effort: "minimal",
@@ -408,28 +409,17 @@ export async function POST(request: Request) {
         store: false,
       });
 
-      const content = benchReview.output_text.trim() || specialistDraft;
-
-      if (containsRestrictedContent(content)) {
-        return jsonNoStore({
-          content: fallback.content,
-          suggestions: fallback.suggestions,
-          action: fallback.action,
-          source: "fallback",
-          degraded: true,
-          agent: fallback.agent,
-          agentTitle: fallback.agentCard.title,
-          agentDescription: fallback.agentCard.description,
-          reviewedBy: benchReviewer.title,
-        });
-      }
+      const reviewed = safeAssistantText(
+        benchReview.output_text.trim() || specialistDraft.content,
+        fallback.content,
+      );
 
       return jsonNoStore({
-        content,
+        content: reviewed.content,
         suggestions: fallback.suggestions,
         action: fallback.action,
-        source: getAIProvider() || "openai",
-        degraded: false,
+        source: reviewed.blocked ? "fallback" : getAIProvider() || "openai",
+        degraded: reviewed.blocked,
         agent: fallback.agent,
         agentTitle: fallback.agentCard.title,
         agentDescription: fallback.agentCard.description,
@@ -440,11 +430,13 @@ export async function POST(request: Request) {
       console.error("Bench review error:", error);
 
       return jsonNoStore({
-        content: specialistDraft,
+        content: specialistDraft.content,
         suggestions: fallback.suggestions,
         action: fallback.action,
-        source: getAIProvider() || "openai",
-        degraded: false,
+        source: specialistDraft.blocked
+          ? "fallback"
+          : getAIProvider() || "openai",
+        degraded: specialistDraft.blocked,
         agent: fallback.agent,
         agentTitle: fallback.agentCard.title,
         agentDescription: fallback.agentCard.description,

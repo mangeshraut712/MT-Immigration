@@ -43,13 +43,21 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Check AI configuration wiring
         run: npm run check:ai-config
 
       - name: Verify FastAPI syntax
         run: python3 -m py_compile api/agents.py
+
+      - name: Test FastAPI agents
+        run: |
+          python3 -m pip install -r requirements.txt
+          python3 -m unittest api.test_agents
+
+      - name: Run unit tests
+        run: npm test -- --ci
 
       - name: Run linter
         run: npm run lint
@@ -64,12 +72,19 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://mangeshraut712.github.io/MT-Immigration
         run: npm run build
 
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
       - name: Smoke test exported site
         env:
           PORT: 3000
+          CI: 'true'
           GITHUB_PAGES: 'true'
           SMOKE_STATIC: 'true'
           SMOKE_PATH_PREFIX: /MT-Immigration
+          PLAYWRIGHT_BASE_URL: http://127.0.0.1:3000
+          PLAYWRIGHT_PATH_PREFIX: /MT-Immigration
+          PLAYWRIGHT_SKIP_WEBSERVER: '1'
         run: |
           mkdir -p /tmp/mt-immigration-pages/MT-Immigration
           cp -a out/. /tmp/mt-immigration-pages/MT-Immigration/
@@ -77,3 +92,4 @@ jobs:
           APP_PID=$!
           trap 'kill $APP_PID || true' EXIT
           node scripts/smoke-release.mjs http://127.0.0.1:3000
+          npx playwright test

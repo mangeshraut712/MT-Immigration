@@ -1,6 +1,7 @@
 import Script from "next/script";
 
 import { firmConfig } from "@/config/firm";
+import { serializeJsonLd } from "@/lib/security";
 import { joinSiteUrl } from "@/config/paths";
 import { getSiteUrl, siteUrl } from "@/config/site";
 
@@ -65,7 +66,7 @@ export function SiteStructuredData() {
       id="site-structured-data"
       type="application/ld+json"
       strategy="afterInteractive"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
     />
   );
 }

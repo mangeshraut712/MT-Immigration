@@ -3,6 +3,8 @@ import "server-only";
 import { Ratelimit, type Duration } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
+import { productionRateLimitBlock } from "@/lib/security";
+
 type RateLimitResult = {
   ok: boolean;
   remaining: number;
@@ -168,12 +170,36 @@ export async function takeRateLimitHit({
   const mode = getRateLimitMode();
 
   if (mode === "memory") {
+    const reason = productionRateLimitBlock({
+      hasSharedConfig: false,
+      backendFailed: false,
+    });
+    if (reason) {
+      return {
+        ok: false,
+        remaining: 0,
+        resetAt: Date.now() + windowMs,
+        reason,
+      };
+    }
     return takeLocalRateLimitHit({ scope, key, limit, windowMs });
   }
 
   try {
     const ratelimit = getSharedRatelimiter(scope, limit, windowMs);
     if (!ratelimit) {
+      const reason = productionRateLimitBlock({
+        hasSharedConfig: false,
+        backendFailed: false,
+      });
+      if (reason) {
+        return {
+          ok: false,
+          remaining: 0,
+          resetAt: Date.now() + windowMs,
+          reason,
+        };
+      }
       return takeLocalRateLimitHit({ scope, key, limit, windowMs });
     }
 
@@ -185,6 +211,18 @@ export async function takeRateLimitHit({
     };
   } catch (error) {
     console.error("Shared rate-limit backend error:", error);
+    const reason = productionRateLimitBlock({
+      hasSharedConfig: true,
+      backendFailed: true,
+    });
+    if (reason) {
+      return {
+        ok: false,
+        remaining: 0,
+        resetAt: Date.now() + windowMs,
+        reason,
+      };
+    }
     return takeLocalRateLimitHit({ scope, key, limit, windowMs });
   }
 }

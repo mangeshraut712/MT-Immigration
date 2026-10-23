@@ -44,7 +44,10 @@
     "security": "보안 우선 통신",
     "securityDesc": "양식 및 채팅은 이제 검증된 서버 측 경로를 통해 실행됩니다.",
     "virtual": "전국 가상 상담",
-    "virtualDesc": "미국 전역의 고객을 위한 원격 상담이 가능합니다."
+    "virtualDesc": "미국 전역의 고객을 위한 원격 상담이 가능합니다.",
+    "featureFees": "투명한 상담 비용",
+    "featureInterpreter": "통역에 편리한 지원",
+    "featureUrgent": "긴급 사안 우선 처리"
   },
   "process": {
     "title": "우리가 일하는 방식",

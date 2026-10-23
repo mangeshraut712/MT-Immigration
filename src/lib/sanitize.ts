@@ -46,7 +46,7 @@ const DEFAULT_MAX_LENGTHS = {
   singleLine: 200,
   multiline: 2000,
   email: 254, // RFC 5321
-  phone: 20,
+  phone: 40,
 } as const;
 
 export function sanitizeSingleLineText(
@@ -73,11 +73,33 @@ export function sanitizeEmail(
   return sanitizeText(value, { ...options, multiline: false, lowercase: true, maxLength });
 }
 
+export const PHONE_MIN_DIGITS = 7;
+export const PHONE_MAX_DIGITS = 15;
+
+export function countPhoneDigits(value: string) {
+  return value.replace(/\D/g, '').length;
+}
+
+export function hasReachablePhone(value: string) {
+  const digits = countPhoneDigits(value);
+  return digits >= PHONE_MIN_DIGITS && digits <= PHONE_MAX_DIGITS;
+}
+
 export function sanitizePhone(
   value: string,
   options?: Omit<SanitizeOptions, 'multiline' | 'lowercase'> & { maxLength?: number }
 ) {
   const maxLength = options?.maxLength ?? DEFAULT_MAX_LENGTHS.phone;
-  const sanitized = sanitizeText(value, { ...options, multiline: false, lowercase: false, maxLength });
-  return sanitized.replace(PHONE_ALLOWED_PATTERN, '');
+  if (!value || typeof value !== 'string') {
+    return '';
+  }
+
+  const cleaned = value
+    .replace(/\r\n?/g, ' ')
+    .replace(CONTROL_CHAR_PATTERN, '')
+    .replace(PHONE_ALLOWED_PATTERN, '')
+    .replace(MULTISPACE_PATTERN, ' ')
+    .trim();
+
+  return cleaned.slice(0, maxLength);
 }

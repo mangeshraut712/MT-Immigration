@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import {
+  hasReachablePhone,
   sanitizeEmail,
   sanitizeMultilineText,
   sanitizePhone,
@@ -32,7 +33,13 @@ export const intakeSchema = z.object({
   ),
   phone: z.preprocess(
     (value) => (typeof value === "string" ? sanitizePhone(value) : value),
-    z.string().min(7).max(40),
+    z
+      .string()
+      .min(7)
+      .max(40)
+      .refine(hasReachablePhone, {
+        message: "Enter a phone number we can reach.",
+      }),
   ),
   language: z.preprocess(
     (value) =>
@@ -56,8 +63,10 @@ export const intakeSchema = z.object({
   }),
   website: z.preprocess(
     (value) =>
-      typeof value === "string" ? sanitizeSingleLineText(value) : value,
-    z.string().max(0).optional().default(""),
+      typeof value === "string"
+        ? sanitizeSingleLineText(value, { maxLength: 200 })
+        : value,
+    z.string().max(200).optional().default(""),
   ),
 });
 

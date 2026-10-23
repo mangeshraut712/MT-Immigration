@@ -11,6 +11,7 @@ const customJestConfig = {
     moduleNameMapper: {
         // Handle module aliases (this will be automatically configured for you based on your tsconfig.json paths)
         '^@/(.*)$': '<rootDir>/src/$1',
+        '^server-only$': '<rootDir>/src/test/empty-module.cjs',
     },
     testEnvironment: 'jest-environment-jsdom',
     collectCoverageFrom: [

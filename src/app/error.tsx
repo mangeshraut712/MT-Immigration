@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AlertTriangle, RefreshCw } from "lucide-react";
+import { routing } from "@/i18n/routing";
 
 export default function Error({
   error,
@@ -17,8 +18,12 @@ export default function Error({
     console.error(error);
   }, [error]);
 
+  const contactHref = `/${routing.defaultLocale}/#contact`;
+
   return (
-    <div className="min-h-screen bg-background">
+    <html lang="en">
+    <body className="antialiased bg-background text-foreground font-sans">
+    <div className="min-h-screen bg-background" role="alert">
       <div className="container-wide flex min-h-[70vh] items-center justify-center py-24">
         <div className="surface-panel w-full max-w-3xl p-10 text-center md:p-14">
           <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full border border-border/70 bg-background/90 shadow-xs">
@@ -40,11 +45,13 @@ export default function Error({
               Try Again
             </Button>
             <Button asChild size="lg" variant="outline" className="rounded-full">
-              <Link href="/#contact">Contact Office</Link>
+              <Link href={contactHref}>Contact Office</Link>
             </Button>
           </div>
         </div>
       </div>
     </div>
+    </body>
+    </html>
   );
 }

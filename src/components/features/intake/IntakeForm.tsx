@@ -28,6 +28,7 @@ import {
   type IntakeFormData,
 } from "@/server/schemas/intake";
 import {
+  hasReachablePhone,
   sanitizeEmail,
   sanitizeMultilineText,
   sanitizePhone,
@@ -39,6 +40,14 @@ import { getRuntimeUiLocale, runtimeUiCopy } from "@/i18n/runtime-ui";
 type IntakeField = keyof IntakeFormData;
 type IntakeErrors = Partial<Record<IntakeField, string>>;
 type IntakeCopy = (typeof runtimeUiCopy)[keyof typeof runtimeUiCopy]["intake"];
+
+const INTAKE_LANGUAGE_VALUES = [
+  "English",
+  "Spanish",
+  "Urdu",
+  "Punjabi",
+  "French",
+] as const;
 
 const variants = {
   enter: (direction: number) => ({
@@ -77,7 +86,7 @@ function getStepErrors(
       errors.email = copy.errors.email;
     }
 
-    if (normalizedPhone.length < 7) {
+    if (!hasReachablePhone(normalizedPhone)) {
       errors.phone = copy.errors.phone;
     }
 
@@ -284,7 +293,7 @@ export default function IntakeForm() {
     }
 
     return (
-      <p id={getErrorId(field)} role="alert" className="text-sm text-red-600">
+      <p id={getErrorId(field)} role="alert" className="text-sm text-red-700 dark:text-red-300">
         {error}
       </p>
     );
@@ -301,13 +310,17 @@ export default function IntakeForm() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         />
 
-        <div className="flex justify-between">
+        <ol
+          className="flex list-none justify-between p-0"
+          aria-label={steps.join(", ")}
+        >
           {copy.steps.map((title, index) => {
             const currentStep = { id: index + 1, title };
             return (
-              <div
+              <li
                 key={currentStep.id}
                 className="group flex cursor-default flex-col items-center"
+                aria-current={step === currentStep.id ? "step" : undefined}
               >
                 <motion.div
                   className={cn(
@@ -321,7 +334,7 @@ export default function IntakeForm() {
                   }}
                 >
                   {step > currentStep.id ? (
-                    <Check className="h-5 w-5" />
+                    <Check className="h-5 w-5" aria-hidden="true" />
                   ) : (
                     currentStep.id
                   )}
@@ -334,10 +347,10 @@ export default function IntakeForm() {
                 >
                   {currentStep.title}
                 </span>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ol>
       </div>
 
       <Card className="overflow-hidden border-border bg-card shadow-2xl shadow-primary/5 backdrop-blur-md">
@@ -350,7 +363,7 @@ export default function IntakeForm() {
                 name="website"
                 autoComplete="off"
                 tabIndex={-1}
-                maxLength={0}
+                maxLength={200}
                 value={formData.website}
                 onChange={(event) =>
                   handleChange("website", event.target.value)
@@ -465,11 +478,18 @@ export default function IntakeForm() {
                             <SelectValue placeholder={copy.select} />
                           </SelectTrigger>
                           <SelectContent>
-                            {copy.languages.map((language, index) => (
-                              <SelectItem key={language} value={["English","Spanish","Urdu","Punjabi","French"][index]}>
-                                {language}
-                              </SelectItem>
-                            ))}
+                            {copy.languages.map((language, index) => {
+                              const value = INTAKE_LANGUAGE_VALUES[index];
+                              if (!value) {
+                                return null;
+                              }
+
+                              return (
+                                <SelectItem key={value} value={value}>
+                                  {language}
+                                </SelectItem>
+                              );
+                            })}
                           </SelectContent>
                         </Select>
                         {renderError("language")}
@@ -567,8 +587,10 @@ export default function IntakeForm() {
                       {renderError("summary")}
                     </div>
 
-                    <div className="space-y-3">
-                      <Label>{copy.documentsAvailable}</Label>
+                    <fieldset className="space-y-3">
+                      <legend className="text-sm font-medium leading-none">
+                        {copy.documentsAvailable}
+                      </legend>
                       <div className="flex flex-wrap gap-6">
                         <div className="flex items-center space-x-3">
                           <Checkbox
@@ -603,7 +625,7 @@ export default function IntakeForm() {
                           </Label>
                         </div>
                       </div>
-                    </div>
+                    </fieldset>
                   </div>
 
                   <div className="flex gap-4 pt-4">

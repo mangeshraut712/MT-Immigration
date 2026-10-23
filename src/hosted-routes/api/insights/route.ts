@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { withApiHeaders } from "@/lib/security";
 import { getClientKey, parseSearchParams } from "@/server/request-guards";
 import { takeRateLimitHit } from "@/server/rate-limit";
 import { emptySearchParamsSchema } from "@/server/schemas/request";
@@ -11,10 +12,10 @@ export const maxDuration = 20;
 const INSIGHTS_LIMIT = 12;
 const INSIGHTS_WINDOW_MS = 60_000;
 function getResponseHeaders() {
-  return {
+  return withApiHeaders({
     "Cache-Control":
       "public, max-age=0, s-maxage=1200, stale-while-revalidate=3600",
-  };
+  });
 }
 
 export async function GET(request: Request) {
@@ -35,21 +36,21 @@ export async function GET(request: Request) {
       {
         error: "Insights are temporarily unavailable. Please try again later.",
       },
-      { status: 503 },
+      { status: 503, headers: withApiHeaders() },
     );
   }
 
   if (!rateLimit.ok) {
+    const headers = getResponseHeaders();
+    headers.set(
+      "Retry-After",
+      String(Math.max(Math.ceil((rateLimit.resetAt - Date.now()) / 1_000), 1)),
+    );
     return NextResponse.json(
       { error: "Too many refreshes. Please wait a minute and try again." },
       {
         status: 429,
-        headers: {
-          ...getResponseHeaders(),
-          "Retry-After": String(
-            Math.max(Math.ceil((rateLimit.resetAt - Date.now()) / 1_000), 1),
-          ),
-        },
+        headers,
       },
     );
   }

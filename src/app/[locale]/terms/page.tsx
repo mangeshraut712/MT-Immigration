@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
+import { getLanguageAlternates } from "@/config/site";
 import { localizeHrefForLocale } from "@/i18n/routing";
 
 const termsPageCopy = {
@@ -77,14 +77,16 @@ export async function generateMetadata({
   const copy =
     termsPageCopy[locale as keyof typeof termsPageCopy] ?? termsPageCopy.en;
 
+  const alternates = getLanguageAlternates("/terms");
+
   return {
     title: copy.title,
     description: copy.description,
-    alternates: getLanguageAlternates("/terms"),
+    alternates,
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: buildCanonicalUrl("/terms"),
+      url: alternates.canonical,
     },
   };
 };

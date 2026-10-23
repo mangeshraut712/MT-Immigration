@@ -18,6 +18,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 import { localizeHref } from "@/i18n/routing";
+import { speechRecognitionLang } from "@/i18n/speech-lang";
+import { sanitizeChatAction } from "@/lib/security";
 import {
   CHAT_MESSAGE_MAX_LENGTH,
   chatMessageSchema,
@@ -344,8 +346,7 @@ export function ChatBot() {
     const recognition = new RecognitionCtor();
     recognition.continuous = false;
     recognition.interimResults = true;
-    recognition.lang =
-      uiLocale === "hi" ? "hi-IN" : uiLocale === "ur" ? "ur-PK" : "en-US";
+    recognition.lang = speechRecognitionLang(uiLocale);
 
     recognition.onresult = (event) => {
       const transcript = Array.from(event.results)
@@ -443,11 +444,10 @@ export function ChatBot() {
 
       if (!response.ok) {
         const retryAfter = response.headers.get("Retry-After");
-        const message =
-          data?.error || `Chat request failed with status ${response.status}.`;
+        const message = data?.error || copy.requestFailed;
         throw new Error(
           retryAfter
-            ? `${message} Please wait about ${retryAfter} seconds and try again.`
+            ? `${message} ${copy.retryAfter.replace("{seconds}", retryAfter)}`
             : message,
         );
       }
@@ -471,7 +471,12 @@ export function ChatBot() {
                 }
               : undefined,
           reviewedBy: data.reviewedBy,
-          action: data.action,
+          action: data.action
+            ? sanitizeChatAction(data.action, {
+                label: data.action.label,
+                link: "/#contact",
+              })
+            : undefined,
           suggestions: data.suggestions,
           source: data.source,
           model: data.model,
@@ -551,7 +556,7 @@ export function ChatBot() {
                 </div>
                 <div>
                   <h3 id="mt-chat-title" className="font-semibold tracking-tight">
-                    M&amp;T Immigration AI
+                    {copy.title}
                   </h3>
                   <p className="flex items-center gap-1.5 text-[11px] font-medium text-white/80">
                     <span className="relative flex h-2 w-2">
@@ -563,15 +568,16 @@ export function ChatBot() {
                 </div>
               </div>
               <button
+                type="button"
                 onClick={closeChat}
-                className="relative z-10 rounded-full p-2 text-white/70 transition-all hover:bg-white/10 hover:text-white"
+                className="relative z-10 rounded-full p-2 text-white/80 transition-all hover:bg-white/10 hover:text-white focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-900"
                 aria-label={copy.closeChat}
               >
                 <X size={18} />
               </button>
             </div>
 
-            <div className="border-b border-border/40 bg-muted/50 p-2 text-center text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
+            <div className="border-b border-border/40 bg-muted/50 p-2 text-center text-xs font-medium uppercase tracking-wide text-muted-foreground">
               <p id="mt-chat-description">
                 {copy.generalInfoOnly}
               </p>
@@ -749,7 +755,7 @@ export function ChatBot() {
                     <Bot size={13} />
                   </div>
                   <div className="rounded-[20px] rounded-bl-sm border border-border/40 bg-card/80 p-3.5 shadow-xs backdrop-blur-md">
-                    <div className="mb-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
+                    <div className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                       {activeAgent === "auto"
                         ? copy.routingAndReviewing
                         : `${chatAgentCards[activeAgent].title} ${copy.respondingSuffix}`}
@@ -870,7 +876,7 @@ export function ChatBot() {
               </form>
               <div
                 id="chat-composer-meta"
-                className="mt-2.5 flex items-center justify-between gap-3 px-1 text-[10px] text-muted-foreground/70 tracking-wide"
+                className="mt-2.5 flex items-center justify-between gap-3 px-1 text-xs tracking-wide text-muted-foreground"
               >
                 <span>
                   {copy.enterToSend}

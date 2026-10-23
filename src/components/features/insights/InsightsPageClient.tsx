@@ -30,6 +30,7 @@ import {
 } from "@/content/legalInsights";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { sanitizePublicHttpsUrl } from "@/lib/security";
 import { cn } from "@/lib/utils";
 import {
   fadeUpVariants,
@@ -80,17 +81,21 @@ function SourceLink({
   compact?: boolean;
   tone?: "dark" | "light";
 }) {
-  const isExternal =
-    sourceUrl.startsWith("http://") || sourceUrl.startsWith("https://");
+  const safeUrl = sanitizePublicHttpsUrl(sourceUrl);
+  const isExternal = Boolean(safeUrl && safeUrl.startsWith("https://"));
   const toneClasses =
     tone === "light"
       ? "text-zinc-300 hover:text-white"
       : "text-foreground hover:text-foreground/80";
 
+  if (!safeUrl) {
+    return <span className={cn(compact ? "text-xs" : "text-sm")}>{sourceName}</span>;
+  }
+
   if (isExternal) {
     return (
       <a
-        href={sourceUrl}
+        href={safeUrl}
         target="_blank"
         rel="noreferrer noopener"
         className={cn(
@@ -107,7 +112,7 @@ function SourceLink({
 
   return (
     <Link
-      href={sourceUrl}
+      href={safeUrl}
       className={cn(
         "inline-flex items-center gap-1.5 font-medium transition-colors",
         toneClasses,

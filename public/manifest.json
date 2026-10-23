@@ -15,7 +15,7 @@
     "lang": "en-US",
     "icons": [
         {
-            "src": "/brand/mtlogo.png",
+            "src": "brand/mtlogo.png",
             "sizes": "any",
             "type": "image/png",
             "purpose": "any maskable"
@@ -23,7 +23,7 @@
     ],
     "screenshots": [
         {
-            "src": "/brand/mtlogo.png",
+            "src": "brand/mtlogo.png",
             "sizes": "1280x720",
             "type": "image/png",
             "form_factor": "wide"

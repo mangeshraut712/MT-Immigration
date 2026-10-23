@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 import { getSiteUrl } from "@/config/site";
 import { siteConfig } from "@/config/site";
+import { withApiHeaders } from "@/lib/security";
 
 export const dynamic = "force-static";
 
@@ -145,9 +146,9 @@ export function GET() {
   };
 
   return NextResponse.json(spec, {
-    headers: {
+    headers: withApiHeaders({
       "Cache-Control":
         "public, max-age=0, s-maxage=86400, stale-while-revalidate=43200",
-    },
+    }),
   });
 }
