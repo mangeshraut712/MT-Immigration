@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 import { ArticlePageClient } from "@/components/features/insights/ArticlePageClient";
-import { buildCanonicalUrl } from "@/config/site";
+import { getLanguageAlternates } from "@/config/site";
 import {
   buildInsightArticle,
   fallbackInsightDirectory,
@@ -32,16 +32,16 @@ export async function generateMetadata({
     };
   }
 
+  const alternates = getLanguageAlternates(`/insights/${slug}`);
+
   return {
     title: article.title,
     description: `${article.category} from ${article.sourceName}. ${article.publishedOn}.`,
-    alternates: {
-      canonical: buildCanonicalUrl(`/insights/${slug}`),
-    },
+    alternates,
     openGraph: {
       title: article.title,
       description: `${article.category} from ${article.sourceName}. ${article.publishedOn}.`,
-      url: buildCanonicalUrl(`/insights/${slug}`),
+      url: alternates.canonical,
       type: "article",
     },
   };

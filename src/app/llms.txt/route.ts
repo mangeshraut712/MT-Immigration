@@ -1,30 +1,33 @@
-import { getSiteUrl } from "@/config/site";
-import { siteConfig } from "@/config/site";
+import { buildCanonicalUrl, siteConfig } from "@/config/site";
+import { routing } from "@/i18n/routing";
+import { withApiHeaders } from "@/lib/security";
 
 export const dynamic = "force-static";
 
 export function GET() {
-  const base = getSiteUrl();
-
+  const home = buildCanonicalUrl(`/${routing.defaultLocale}`);
+  const insights = buildCanonicalUrl(`/${routing.defaultLocale}/insights`);
+  const privacy = buildCanonicalUrl(`/${routing.defaultLocale}/privacy`);
+  const terms = buildCanonicalUrl(`/${routing.defaultLocale}/terms`);
   const body = [
     `# ${siteConfig.name}`,
     "",
     `> ${siteConfig.description}`,
     "",
     "## Preferred URLs",
-    `- ${base}/`,
-    `- ${base}/insights`,
-    `- ${base}/privacy`,
-    `- ${base}/terms`,
+    `- ${home}`,
+    `- ${insights}`,
+    `- ${privacy}`,
+    `- ${terms}`,
     "",
     "## Machine-Readable Resources",
-    `- ${base}/openapi.json`,
-    `- ${base}/sitemap.xml`,
-    `- ${base}/robots.txt`,
+    `- ${buildCanonicalUrl("/openapi.json")}`,
+    `- ${buildCanonicalUrl("/sitemap.xml")}`,
+    `- ${buildCanonicalUrl("/robots.txt")}`,
     "",
     "## Primary User Actions",
-    `- ${base}/#contact`,
-    `- ${base}/#payments`,
+    `- ${home}#contact`,
+    `- ${home}#payments`,
     "",
     "## Notes",
     "- Chat and intake routes are server-side and rate limited.",
@@ -33,10 +36,10 @@ export function GET() {
   ].join("\n");
 
   return new Response(body, {
-    headers: {
+    headers: withApiHeaders({
       "Content-Type": "text/plain; charset=utf-8",
       "Cache-Control":
         "public, max-age=0, s-maxage=86400, stale-while-revalidate=43200",
-    },
+    }),
   });
 }

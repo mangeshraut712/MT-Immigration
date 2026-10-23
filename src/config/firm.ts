@@ -1,3 +1,5 @@
+import { isSafeContactHref } from "@/lib/security";
+
 function readPublicValue(value: string | undefined, fallback: string) {
   const trimmedValue = value?.trim();
   return trimmedValue || fallback;
@@ -5,7 +7,7 @@ function readPublicValue(value: string | undefined, fallback: string) {
 
 function normalizePhoneHref(phoneDisplay: string, configuredHref?: string) {
   const trimmedHref = configuredHref?.trim();
-  if (trimmedHref) {
+  if (trimmedHref && isSafeContactHref(trimmedHref, "tel")) {
     return trimmedHref;
   }
 
@@ -15,11 +17,14 @@ function normalizePhoneHref(phoneDisplay: string, configuredHref?: string) {
 
 function normalizeEmailHref(email: string, configuredHref?: string) {
   const trimmedHref = configuredHref?.trim();
-  if (trimmedHref) {
+  if (trimmedHref && isSafeContactHref(trimmedHref, "mailto")) {
     return trimmedHref;
   }
 
-  return `mailto:${email}`;
+  const generated = `mailto:${email}`;
+  return isSafeContactHref(generated, "mailto")
+    ? generated
+    : "mailto:help@mtimmigration.com";
 }
 
 const phoneDisplay = readPublicValue(

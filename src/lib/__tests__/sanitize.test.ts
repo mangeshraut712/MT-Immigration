@@ -75,13 +75,19 @@ describe('sanitizeEmail', () => {
 });
 
 describe('sanitizePhone', () => {
-    it('should remove non-phone characters', () => {
-        expect(sanitizePhone('+1 (555) 123-4567 ext 123')).toBe('+1 (555) 123-4567 x');
+    it('strips invalid characters before applying the length limit', () => {
+        expect(sanitizePhone('+1 (555) 123-4567 ext 123')).toBe('+1 (555) 123-4567 x 123');
     });
 
-    it('should limit to phone max length (20)', () => {
-        const longPhone = '+123456789012345678901234567890';
+    it('keeps a formatted international number that is longer than 20 characters', () => {
+        const formatted = '+44 (20) 7946 0958 x 12';
+        expect(sanitizePhone(formatted)).toBe(formatted);
+        expect(formatted.length).toBeGreaterThan(20);
+    });
+
+    it('should limit to phone max length (40)', () => {
+        const longPhone = `+${'1'.repeat(80)}`;
         const result = sanitizePhone(longPhone);
-        expect(result.length).toBeLessThanOrEqual(20);
+        expect(result.length).toBe(40);
     });
 });

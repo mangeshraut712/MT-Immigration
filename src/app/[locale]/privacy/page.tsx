@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
+import { getLanguageAlternates } from "@/config/site";
 import { localizeHrefForLocale } from "@/i18n/routing";
 
 const privacyPageCopy = {
@@ -80,14 +80,16 @@ export async function generateMetadata({
     privacyPageCopy[locale as keyof typeof privacyPageCopy] ??
     privacyPageCopy.en;
 
+  const alternates = getLanguageAlternates("/privacy");
+
   return {
     title: copy.title,
     description: copy.description,
-    alternates: getLanguageAlternates("/privacy"),
+    alternates,
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: buildCanonicalUrl("/privacy"),
+      url: alternates.canonical,
     },
   };
 };

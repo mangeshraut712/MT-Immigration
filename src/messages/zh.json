@@ -44,7 +44,10 @@
     "security": "安全优先沟通",
     "securityDesc": "表格和聊天现在通过验证的服务器端路由运行。",
     "virtual": "全国虚拟服务",
-    "virtualDesc": "可为全国各地的客户进行远程咨询。"
+    "virtualDesc": "可为全国各地的客户进行远程咨询。",
+    "featureFees": "透明的咨询费用",
+    "featureInterpreter": "便于口译的支持",
+    "featureUrgent": "优先处理紧急事项"
   },
   "process": {
     "title": "我们如何工作",

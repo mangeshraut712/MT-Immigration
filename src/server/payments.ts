@@ -56,7 +56,17 @@ export function resolvePaymentRedirect(methodId: PaymentMethodId) {
 
   try {
     const url = new URL(rawUrl);
-    if (url.protocol !== "https:") {
+    if (url.protocol !== "https:" || url.username || url.password) {
+      return null;
+    }
+
+    const hostname = url.hostname.toLowerCase();
+    if (
+      hostname === "localhost" ||
+      hostname === "127.0.0.1" ||
+      hostname === "0.0.0.0" ||
+      hostname === "::1"
+    ) {
       return null;
     }
 

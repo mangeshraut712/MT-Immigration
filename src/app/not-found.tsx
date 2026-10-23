@@ -3,9 +3,15 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { FileQuestion, ArrowLeft } from "lucide-react";
+import { routing } from "@/i18n/routing";
 
 export default function NotFound() {
+  const homeHref = `/${routing.defaultLocale}/`;
+  const insightsHref = `/${routing.defaultLocale}/insights/`;
+
   return (
+    <html lang="en">
+    <body className="antialiased bg-background text-foreground font-sans">
     <div className="min-h-screen bg-background">
       <div className="container-wide flex min-h-[70vh] items-center justify-center py-24">
         <div className="surface-panel w-full max-w-3xl p-10 text-center md:p-14">
@@ -24,17 +30,19 @@ export default function NotFound() {
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild size="lg" className="rounded-full">
-              <Link href="/">
+              <Link href={homeHref}>
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 Back to Home
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="rounded-full">
-              <Link href="/insights">Open Insights</Link>
+              <Link href={insightsHref}>Open Insights</Link>
             </Button>
           </div>
         </div>
       </div>
     </div>
+    </body>
+    </html>
   );
 }

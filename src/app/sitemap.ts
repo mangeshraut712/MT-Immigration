@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { buildCanonicalUrl } from "@/config/site";
+import { fallbackInsightDirectory } from "@/content/legalInsights";
 import { routing } from "@/i18n/routing";
 
 const locales = routing.locales as readonly string[];
@@ -28,6 +29,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
         lastModified,
         changeFrequency: path === "/" ? "yearly" : "weekly",
         priority: path === "/" ? 1 : 0.6,
+      });
+    });
+  });
+
+  fallbackInsightDirectory.forEach((entry) => {
+    locales.forEach((locale) => {
+      sitemap.push({
+        url: buildCanonicalUrl(`/${locale}/insights/${entry.slug}`),
+        lastModified,
+        changeFrequency: "weekly",
+        priority: 0.5,
       });
     });
   });

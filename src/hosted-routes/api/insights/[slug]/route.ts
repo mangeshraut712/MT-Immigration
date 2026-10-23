@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { withApiHeaders } from "@/lib/security";
 import { parseRouteParams, parseSearchParams } from "@/server/request-guards";
 import { resolveInsightArticleBySlug } from "@/server/insights";
 import {
@@ -30,13 +31,13 @@ export async function GET(
   if (!article) {
     return NextResponse.json(
       { error: "Knowledge Hub entry not found." },
-      { status: 404 },
+      { status: 404, headers: withApiHeaders() },
     );
   }
 
   return NextResponse.json(article, {
-    headers: {
+    headers: withApiHeaders({
       "Cache-Control": "no-store",
-    },
+    }),
   });
 }

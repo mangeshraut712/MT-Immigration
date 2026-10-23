@@ -44,7 +44,10 @@
     "security": "Security-First na Komunikasyon",
     "securityDesc": "Forms at chat ay tumatakbo na sa validated server-side routes.",
     "virtual": "Virtual sa Buong Bansa",
-    "virtualDesc": "Ang mga konsultasyon ay maaaring hawakan nang remote para sa mga kliyente sa buong United States."
+    "virtualDesc": "Ang mga konsultasyon ay maaaring hawakan nang remote para sa mga kliyente sa buong United States.",
+    "featureFees": "Transparent na bayad sa konsultasyon",
+    "featureInterpreter": "Suportang angkop sa interpreter",
+    "featureUrgent": "Inuuna ang mga agarang usapin"
   },
   "process": {
     "title": "Paano Kami Nagtatrabaho",

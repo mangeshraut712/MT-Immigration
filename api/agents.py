@@ -380,6 +380,7 @@ def root() -> dict[str, object]:
 def health() -> dict[str, object]:
     return {
         "ok": True,
+        "ready": is_chat_ready(),
         "service": "agents",
     }
 

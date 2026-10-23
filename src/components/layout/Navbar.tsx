@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
@@ -60,6 +60,9 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
   const pathname = usePathname();
   const normalizedPathname = stripLocalePrefix(pathname || "/");
   const [isOpen, setIsOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuWasOpenRef = useRef(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [currentHash, setCurrentHash] = useState("");
   const { scrollY } = useScroll();
@@ -70,18 +73,56 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
     }
 
     const previousOverflow = document.body.style.overflow;
+    const menuButton = menuButtonRef.current;
     document.body.style.overflow = "hidden";
+    menuWasOpenRef.current = true;
 
-    const handleEscape = (event: KeyboardEvent) => {
+    const focusable = () =>
+      Array.from(
+        menuRef.current?.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      );
+
+    const focusTimer = window.setTimeout(() => {
+      focusable()[0]?.focus();
+    }, 0);
+
+    const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsOpen(false);
+        return;
+      }
+
+      if (event.key !== "Tab") {
+        return;
+      }
+
+      const items = focusable();
+      if (items.length === 0) {
+        return;
+      }
+
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
       }
     };
 
-    window.addEventListener("keydown", handleEscape);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleEscape);
+      window.removeEventListener("keydown", handleKeyDown);
+      window.clearTimeout(focusTimer);
+      if (menuWasOpenRef.current) {
+        menuButton?.focus();
+        menuWasOpenRef.current = false;
+      }
     };
   }, [isOpen]);
 
@@ -136,14 +177,14 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
         )}
       >
         <div className="hidden border-b border-border/60 lg:block">
-          <div className="container-wide flex h-9 items-center justify-between gap-6 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
+          <div className="container-wide flex h-9 items-center justify-between gap-6 text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-700 dark:text-zinc-300">
             <div className="flex min-w-0 items-center gap-6">
               {utilityItems.slice(0, 2).map((item) => (
                 <div
                   key={item.text}
                   className="flex min-w-0 items-center gap-2 truncate"
                 >
-                  <item.icon className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
+                  <item.icon className="h-3.5 w-3.5 shrink-0 text-zinc-600 dark:text-zinc-300" />
                   <span className="truncate">{item.text}</span>
                 </div>
               ))}
@@ -153,7 +194,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               href={firmConfig.contact.phoneHref}
               className="flex items-center gap-2 whitespace-nowrap transition-colors hover:text-foreground"
             >
-              <Phone className="h-3.5 w-3.5 text-zinc-400" />
+              <Phone className="h-3.5 w-3.5 text-zinc-600 dark:text-zinc-300" />
               {firmConfig.contact.phoneDisplay}
             </a>
           </div>
@@ -161,7 +202,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
 
         <div className="container-wide">
           <div className="flex h-18 items-center justify-between gap-5">
-            <Link href={homeHref} className="group flex items-center gap-3">
+            <Link href={homeHref} aria-label={firmConfig.shortName} className="group flex items-center gap-3">
               <motion.div
                 whileHover={{ scale: 1.01 }}
                 transition={{ type: "spring", stiffness: 280, damping: 22 }}
@@ -171,6 +212,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                   imageClassName="border-black/5 dark:border-white/10"
                   nameClassName="hidden text-[1.65rem] leading-none text-foreground sm:block"
                   priority
+                  decorative
                 />
               </motion.div>
             </Link>
@@ -209,6 +251,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
             </div>
 
             <motion.button
+              ref={menuButtonRef}
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen((currentValue) => !currentValue)}
               type="button"
@@ -254,6 +297,8 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.28, ease: "easeInOut" }}
               id="mobile-menu"
+              ref={menuRef}
+              role="dialog"
               aria-label="Mobile navigation"
               aria-modal="true"
               className="overflow-hidden border-t border-border/70 bg-background/96 backdrop-blur-xl lg:hidden"
@@ -267,7 +312,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                         href={item.href}
                         className="flex items-center gap-3 text-sm text-muted-foreground transition-colors hover:text-foreground"
                       >
-                        <item.icon className="h-4 w-4 text-zinc-400" />
+                        <item.icon className="h-4 w-4 text-zinc-600 dark:text-zinc-300" />
                         <span>{item.text}</span>
                       </a>
                     ) : (
@@ -275,7 +320,7 @@ export default function Navbar({ locale = "en" }: { locale?: string }) {
                         key={item.text}
                         className="flex items-start gap-3 text-sm text-muted-foreground"
                       >
-                        <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400" />
+                        <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-zinc-600 dark:text-zinc-300" />
                         <span>{item.text}</span>
                       </div>
                     ),

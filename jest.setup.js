@@ -33,6 +33,30 @@ jest.mock('next-intl', () => ({
     },
 }));
 
+jest.mock('next-intl/routing', () => ({
+    defineRouting(config) {
+        return config;
+    },
+}));
+
+jest.mock('next-intl/navigation', () => ({
+    createNavigation() {
+        return {
+            Link: () => null,
+            redirect() {},
+            usePathname() {
+                return '/en';
+            },
+            useRouter() {
+                return { push: jest.fn() };
+            },
+            getPathname(href) {
+                return href;
+            },
+        };
+    },
+}));
+
 // Mock IntersectionObserver
 global.IntersectionObserver = jest.fn().mockImplementation(() => ({
     observe: jest.fn(),
@@ -77,6 +101,7 @@ Object.defineProperty(window, 'performance', {
     writable: true,
     value: {
         ...window.performance,
+        now: () => Date.now(),
         mark: jest.fn(),
         measure: jest.fn(),
         getEntriesByName: jest.fn(() => []),

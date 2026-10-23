@@ -4,7 +4,7 @@ import { ArrowRight, Scale, Sparkles } from "lucide-react";
 
 import { DocketZipGame } from "@/components/features/game/DocketZipGame";
 import { Button } from "@/components/ui/button";
-import { buildCanonicalUrl, getLanguageAlternates } from "@/config/site";
+import { getLanguageAlternates } from "@/config/site";
 import { localizeHrefForLocale } from "@/i18n/routing";
 
 const briefBreakPageCopy = {
@@ -48,14 +48,16 @@ export async function generateMetadata({
     briefBreakPageCopy[locale as keyof typeof briefBreakPageCopy] ??
     briefBreakPageCopy.en;
 
+  const alternates = getLanguageAlternates("/brief-break");
+
   return {
     title: copy.title,
     description: copy.description,
-    alternates: getLanguageAlternates("/brief-break"),
+    alternates,
     openGraph: {
       title: copy.title,
       description: copy.description,
-      url: buildCanonicalUrl("/brief-break"),
+      url: alternates.canonical,
     },
   };
 };

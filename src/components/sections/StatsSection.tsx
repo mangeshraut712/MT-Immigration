@@ -4,11 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { FileCheck, Shield, Gavel, Globe, Check } from "lucide-react";
 
-const features = [
-  "Transparent consultation fees",
-  "Interpreter-friendly support",
-  "Urgent matters prioritized",
-];
+const featureKeys = ["featureFees", "featureInterpreter", "featureUrgent"] as const;
 
 export function StatsSection() {
   const tStats = useTranslations("stats");
@@ -83,13 +79,13 @@ export function StatsSection() {
           transition={{ delay: 0.3 }}
           className="flex flex-wrap items-center justify-center gap-4 md:gap-10"
         >
-          {features.map((feature) => (
+          {featureKeys.map((featureKey) => (
             <div
-              key={feature}
-              className="flex items-center gap-2 text-white/80"
+              key={featureKey}
+              className="flex items-center gap-2 text-white/90"
             >
-              <Check className="h-5 w-5 text-green-400" />
-              <span className="text-sm font-medium">{feature}</span>
+              <Check className="h-5 w-5 text-green-300" aria-hidden="true" />
+              <span className="text-sm font-medium">{tStats(featureKey)}</span>
             </div>
           ))}
         </motion.div>

@@ -44,7 +44,10 @@
     "security": "Giao Tiếp Ưu Tiên Bảo Mật",
     "securityDesc": "Biểu mẫu và trò chuyện hiện chạy qua các tuyến phía máy chủ được xác thực.",
     "virtual": "Tư Vấn Trực Tuyến Toàn Quốc",
-    "virtualDesc": "Tư vấn có thể được xử lý từ xa cho khách hàng trên khắp Hoa Kỳ."
+    "virtualDesc": "Tư vấn có thể được xử lý từ xa cho khách hàng trên khắp Hoa Kỳ.",
+    "featureFees": "Phí tư vấn minh bạch",
+    "featureInterpreter": "Hỗ trợ thân thiện với thông dịch",
+    "featureUrgent": "Ưu tiên việc khẩn cấp"
   },
   "process": {
     "title": "Cách chúng tôi làm việc",

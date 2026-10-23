@@ -1,3 +1,5 @@
+import { sanitizePublicHttpsUrl } from "@/lib/security";
+
 export type InsightHeadline = {
   category: string;
   title: string;
@@ -39,6 +41,10 @@ export type InsightArticlePayload = {
   readTime: string;
   sourceName: string;
   sourceUrl: string;
+  safeSourceUrl: string | null;
+  overview: string;
+  kindLabel: string;
+  practicalFocus: string;
   content: string;
   recommendations: { title: string; slug: string }[];
 };
@@ -329,6 +335,21 @@ export function getInsightBySlug(feed: InsightsFeedData, slug: string) {
   );
 }
 
+function getInsightNarrative(entry: InsightDirectoryEntry) {
+  const overview =
+    entry.summary ||
+    "This Knowledge Hub entry points directly to a public-source immigration update that the desk has already verified and linked.";
+  const practicalFocus =
+    entry.topic ||
+    (entry.kind === "headline"
+      ? "Current immigration developments"
+      : "Immigration strategy");
+  const kindLabel = entry.kind.replace("-", " ");
+  const safeSourceUrl = sanitizePublicHttpsUrl(entry.sourceUrl);
+
+  return { overview, practicalFocus, kindLabel, safeSourceUrl };
+}
+
 export function buildInsightArticle(
   entry: InsightDirectoryEntry,
   directory: readonly InsightDirectoryEntry[],
@@ -347,14 +368,10 @@ export function buildInsightArticle(
       slug: candidate.slug,
     }));
 
-  const overview =
-    entry.summary ||
-    "This Knowledge Hub entry points directly to a public-source immigration update that the desk has already verified and linked.";
-  const practicalFocus =
-    entry.topic ||
-    (entry.kind === "headline"
-      ? "Current immigration developments"
-      : "Immigration strategy");
+  const narrative = getInsightNarrative(entry);
+  const sourceMarkup = narrative.safeSourceUrl
+    ? `<a href="${escapeHtml(narrative.safeSourceUrl)}" target="_blank" rel="noreferrer noopener">${escapeHtml(entry.sourceName)}</a>`
+    : escapeHtml(entry.sourceName);
 
   return {
     title: entry.title,
@@ -362,15 +379,19 @@ export function buildInsightArticle(
     publishedOn: entry.publishedOn,
     readTime: entry.readTime || "4 min read",
     sourceName: entry.sourceName,
-    sourceUrl: entry.sourceUrl,
+    sourceUrl: narrative.safeSourceUrl ?? "",
+    safeSourceUrl: narrative.safeSourceUrl,
+    overview: narrative.overview,
+    kindLabel: narrative.kindLabel,
+    practicalFocus: narrative.practicalFocus,
     content: `
-      <p>${escapeHtml(overview)}</p>
+      <p>${escapeHtml(narrative.overview)}</p>
       <h2>What changed</h2>
-      <p>This entry comes from the Knowledge Hub's ${escapeHtml(entry.kind.replace("-", " "))} stream and is framed around <strong>${escapeHtml(practicalFocus)}</strong>. It is intentionally tied to a real public source rather than a generic AI-generated article.</p>
+      <p>This entry comes from the Knowledge Hub's ${escapeHtml(narrative.kindLabel)} stream and is framed around <strong>${escapeHtml(narrative.practicalFocus)}</strong>. It is intentionally tied to a real public source rather than a generic AI-generated article.</p>
       <h2>Why it matters in practice</h2>
       <p>Immigration strategy usually turns on timing, evidentiary posture, and which agency or tribunal controls the next step. Readers should compare this update against their current filing stage, interview schedule, travel plans, or court calendar before acting on it.</p>
       <h2>Source to review</h2>
-      <p>The underlying source for this entry is <a href="${escapeHtml(entry.sourceUrl)}" target="_blank" rel="noreferrer noopener">${escapeHtml(entry.sourceName)}</a>. For case-specific action, the source should be reviewed together with the client’s notices, filing history, and present eligibility posture.</p>
+      <p>The underlying source for this entry is ${sourceMarkup}. For case-specific action, the source should be reviewed together with the client’s notices, filing history, and present eligibility posture.</p>
       <h2>Suggested next move</h2>
       <ul>
         <li>Confirm whether the update affects a live filing, hearing, interview, or deadline.</li>

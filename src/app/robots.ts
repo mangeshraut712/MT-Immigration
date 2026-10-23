@@ -16,6 +16,6 @@ export default function robots(): MetadataRoute.Robots {
           disallow: "/",
         },
     sitemap: buildCanonicalUrl("/sitemap.xml"),
-    host: siteUrl.toString(),
+    host: siteUrl.host,
   };
 }

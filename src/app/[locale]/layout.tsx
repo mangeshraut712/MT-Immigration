@@ -5,6 +5,7 @@ import { Inter, DM_Serif_Display } from "next/font/google";
 import clsx from "clsx";
 
 import { withBasePath } from "@/config/paths";
+import { getTextDirection } from "@/i18n/text-direction";
 import { routing } from "@/i18n/routing";
 import { getLocaleTranslationNotice } from "@/i18n/locale-status";
 import "../globals.css";
@@ -63,6 +64,7 @@ export default async function LocaleLayout({
     return (
         <html
             lang={locale}
+            dir={getTextDirection(locale)}
             className={clsx(inter.variable, dmSerif.variable, "scroll-smooth")}
             data-scroll-behavior="smooth"
             suppressHydrationWarning
@@ -81,6 +83,7 @@ export default async function LocaleLayout({
                 <link rel="apple-touch-icon" href={withBasePath("/brand/mtlogo.png")} />
 
                 {/* Performance meta tags */}
+                <meta name="referrer" content="strict-origin-when-cross-origin" />
                 <meta name="format-detection" content="telephone=no" />
                 <meta name="mobile-web-app-capable" content="yes" />
                 <meta name="msapplication-TileColor" content="#000000" />
@@ -105,7 +108,7 @@ export default async function LocaleLayout({
                                 {translationNotice}
                             </div>
                         ) : null}
-                        <main id="main-content" className="min-h-screen">
+                        <main id="main-content" tabIndex={-1} className="min-h-screen">
                             <ErrorBoundary>{children}</ErrorBoundary>
                         </main>
                         <Footer locale={locale} />

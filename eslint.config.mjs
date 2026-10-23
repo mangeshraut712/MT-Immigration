@@ -12,6 +12,9 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    "playwright-report/**",
+    "test-results/**",
+    "blob-report/**",
     // Vendored screenshot skill template is not product code.
     ".agents/**",
   ]),

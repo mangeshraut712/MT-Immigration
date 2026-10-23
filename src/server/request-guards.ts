@@ -2,6 +2,18 @@ import { NextResponse } from "next/server";
 import { type ZodType } from "zod";
 
 import { getSiteUrl } from "@/config/site";
+import {
+  clientKeyFromHeaders,
+  readLimitedBody,
+  withApiHeaders,
+} from "@/lib/security";
+
+function jsonError(body: unknown, status: number, extra?: HeadersInit) {
+  return NextResponse.json(body, {
+    status,
+    headers: withApiHeaders(extra),
+  });
+}
 
 function getTrustedOrigins() {
   const origins = new Set<string>([
@@ -54,12 +66,7 @@ function getTrustedOrigins() {
 }
 
 export function getClientKey(request: Request) {
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    return forwardedFor.split(",")[0]?.trim() || "unknown";
-  }
-
-  return request.headers.get("x-real-ip") || "unknown";
+  return clientKeyFromHeaders((name) => request.headers.get(name));
 }
 
 function searchParamsToRecord(searchParams: URLSearchParams) {
@@ -88,10 +95,7 @@ export function parseSearchParams<T>(request: Request, schema: ZodType<T>) {
   const parsed = schema.safeParse(rawSearchParams);
 
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: "Invalid query parameters." },
-      { status: 400 },
-    );
+    return jsonError({ error: "Invalid query parameters." }, 400);
   }
 
   return parsed.data;
@@ -104,10 +108,7 @@ export function parseRouteParams<T>(
   const parsed = schema.safeParse(params);
 
   if (!parsed.success) {
-    return NextResponse.json(
-      { error: "Invalid route parameters." },
-      { status: 400 },
-    );
+    return jsonError({ error: "Invalid route parameters." }, 400);
   }
 
   return parsed.data;
@@ -117,9 +118,9 @@ export function rejectNonJsonRequest(request: Request) {
   const contentType = request.headers.get("content-type");
 
   if (!contentType) {
-    return NextResponse.json(
+    return jsonError(
       { error: "Content-Type must be application/json." },
-      { status: 415 },
+      415,
     );
   }
 
@@ -131,23 +132,34 @@ export function rejectNonJsonRequest(request: Request) {
     return null;
   }
 
-  return NextResponse.json(
-    { error: "Content-Type must be application/json." },
-    { status: 415 },
-  );
+  return jsonError({ error: "Content-Type must be application/json." }, 415);
 }
 
 export function rejectLargeRequest(request: Request, maxBytes: number) {
   const contentLength = Number(request.headers.get("content-length") ?? "0");
 
   if (Number.isFinite(contentLength) && contentLength > maxBytes) {
-    return NextResponse.json(
+    return jsonError(
       { error: `Request body is too large. Limit is ${maxBytes} bytes.` },
-      { status: 413 },
+      413,
     );
   }
 
   return null;
+}
+
+export async function readLimitedJson(request: Request, maxBytes: number) {
+  const advertisedTooLarge = rejectLargeRequest(request, maxBytes);
+  if (advertisedTooLarge) {
+    return advertisedTooLarge;
+  }
+
+  const payload = await readLimitedBody(request.body, maxBytes);
+  if (!payload.ok) {
+    return jsonError({ error: payload.error }, payload.status);
+  }
+
+  return payload.data;
 }
 
 export function rejectUntrustedOrigin(request: Request) {
@@ -163,10 +175,7 @@ export function rejectUntrustedOrigin(request: Request) {
     if (trustedOrigins.has(origin) || origin === requestOrigin) {
       return null;
     }
-    return NextResponse.json(
-      { error: "Untrusted request origin." },
-      { status: 403 },
-    );
+    return jsonError({ error: "Untrusted request origin." }, 403);
   }
 
   if (referer) {
@@ -176,16 +185,10 @@ export function rejectUntrustedOrigin(request: Request) {
         !trustedOrigins.has(refererOrigin) &&
         refererOrigin !== requestOrigin
       ) {
-        return NextResponse.json(
-          { error: "Untrusted request origin." },
-          { status: 403 },
-        );
+        return jsonError({ error: "Untrusted request origin." }, 403);
       }
     } catch {
-      return NextResponse.json(
-        { error: "Untrusted request origin." },
-        { status: 403 },
-      );
+      return jsonError({ error: "Untrusted request origin." }, 403);
     }
   }
 

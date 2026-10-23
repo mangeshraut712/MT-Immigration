@@ -44,7 +44,10 @@
         "security": "Security-First Communication",
         "securityDesc": "Forms and chat now run through validated server-side routes with rate limiting.",
         "virtual": "Virtual Nationwide",
-        "virtualDesc": "Consultations can be handled remotely for clients across the United States."
+        "virtualDesc": "Consultations can be handled remotely for clients across the United States.",
+        "featureFees": "Transparent consultation fees",
+        "featureInterpreter": "Interpreter-friendly support",
+        "featureUrgent": "Urgent matters prioritized"
     },
     "process": {
         "title": "How We Work",

@@ -44,7 +44,10 @@
     "security": "Comunicación Segura",
     "securityDesc": "Los formularios y el chat ahora funcionan a través de rutas validadas del lado del servidor con limitación de tasa.",
     "virtual": "Consultas Virtuales Nacionales",
-    "virtualDesc": "Las consultas pueden manejarse de forma remota para clientes en todo Estados Unidos."
+    "virtualDesc": "Las consultas pueden manejarse de forma remota para clientes en todo Estados Unidos.",
+    "featureFees": "Tarifas de consulta transparentes",
+    "featureInterpreter": "Apoyo con intérprete",
+    "featureUrgent": "Los asuntos urgentes tienen prioridad"
   },
   "process": {
     "title": "Cómo Trabajamos",

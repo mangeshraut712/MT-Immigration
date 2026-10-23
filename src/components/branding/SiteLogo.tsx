@@ -11,6 +11,7 @@ type SiteLogoProps = {
   nameClassName?: string;
   priority?: boolean;
   loading?: "eager" | "lazy";
+  decorative?: boolean;
 };
 
 export function SiteLogo({
@@ -20,6 +21,7 @@ export function SiteLogo({
   nameClassName,
   priority = false,
   loading = "lazy",
+  decorative = false,
 }: SiteLogoProps) {
   return (
     <div className={cn("flex items-center gap-3", className)}>
@@ -31,11 +33,10 @@ export function SiteLogo({
       >
         <Image
           src={withBasePath(firmConfig.brand.logoSrc)}
-          alt={firmConfig.brand.logoAlt}
+          alt={decorative ? "" : firmConfig.brand.logoAlt}
           fill
           sizes="64px"
-          priority={priority}
-          loading={priority ? "eager" : loading}
+          {...(priority ? { priority: true } : { loading })}
           className="object-contain p-0.5"
         />
       </div>

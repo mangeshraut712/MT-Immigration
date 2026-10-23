@@ -1,15 +1,14 @@
 import { z } from "zod";
 
+import { sanitizePublicHttpsUrl } from "@/lib/security";
+
 const sourceUrlSchema = z
   .string()
   .trim()
   .min(1)
   .refine(
-    (value) =>
-      value.startsWith("http://") ||
-      value.startsWith("https://") ||
-      value.startsWith("/"),
-    "Source URL must be absolute or root-relative.",
+    (value) => sanitizePublicHttpsUrl(value) !== null,
+    "Source URL must be an https URL or a root-relative path.",
   );
 
 export const insightHeadlineSchema = z.object({
