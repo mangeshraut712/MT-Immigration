@@ -492,16 +492,42 @@ export function ChatBot() {
       }
     } catch (error) {
       console.error("Chat widget error:", error);
+      const fallback = getFallbackAssistantReply(
+        sanitizedText,
+        activeAgent === "auto" ? undefined : activeAgent,
+      );
+
+      setMessages((currentMessages) => [
+        ...currentMessages,
+        {
+          id: createMessageId(),
+          role: "assistant",
+          content: fallback.content,
+          agent: {
+            key: fallback.agent,
+            title: fallback.agentCard.title,
+            description: fallback.agentCard.description,
+          },
+          reviewedBy: benchReviewer.title,
+          action: fallback.action
+            ? sanitizeChatAction(fallback.action, {
+                label: fallback.action.label,
+                link: "/#contact",
+              })
+            : undefined,
+          suggestions: fallback.suggestions,
+          source: "fallback",
+          degraded: true,
+          timestamp: new Date(),
+        },
+      ]);
+
       if (error instanceof DOMException && error.name === "AbortError") {
         setChatError(
-          copy.timeoutError,
+          `${copy.timeoutError} ${copy.aiUnavailable}`,
         );
       } else {
-        setChatError(
-          error instanceof Error
-            ? error.message
-            : copy.requestFailed,
-        );
+        setChatError(copy.aiUnavailable);
       }
     } finally {
       setIsTyping(false);
