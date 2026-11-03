@@ -103,6 +103,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "Please confirm the disclosure before submitting.",
         reviewFields: "Please review the highlighted intake fields and try again.",
         submitError: "We could not submit your request.",
+        staticHostUnavailable: "This static site cannot accept intake submissions. Please contact the office directly.",
         success: "Consultation request received.",
         successSent: "We sent a confirmation email and will follow up using your preferred contact details.",
         successDefault: "We will review your information and follow up using your preferred contact details."
@@ -295,6 +296,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "सबमिट करने से पहले घोषणा की पुष्टि करें।",
         reviewFields: "हाइलाइट किए गए इंटेक फ़ील्ड की समीक्षा करें और फिर प्रयास करें।",
         submitError: "हम आपका अनुरोध जमा नहीं कर सके।",
+        staticHostUnavailable: "यह स्थिर साइट इंटेक अनुरोध स्वीकार नहीं कर सकती। कृपया सीधे कार्यालय से संपर्क करें।",
         success: "परामर्श अनुरोध प्राप्त हो गया।",
         successSent: "हमने एक पुष्टि ईमेल भेजा है और आपकी पसंदीदा संपर्क जानकारी के अनुसार आपसे संपर्क करेंगे।",
         successDefault: "हम आपकी जानकारी की समीक्षा करेंगे और आपकी पसंदीदा संपर्क जानकारी के अनुसार आपसे संपर्क करेंगे।"
@@ -479,6 +481,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "جمع کرانے سے پہلے اعلان کی تصدیق کریں۔",
         reviewFields: "نمایاں کردہ انٹیک فیلڈز کا جائزہ لیں اور دوبارہ کوشش کریں۔",
         submitError: "ہم آپ کی درخواست جمع نہیں کر سکے۔",
+        staticHostUnavailable: "یہ جامد سائٹ انٹیک درخواستیں قبول نہیں کر سکتی۔ براہِ کرم براہِ راست دفتر سے رابطہ کریں۔",
         success: "مشاورت کی درخواست موصول ہو گئی۔",
         successSent: "ہم نے تصدیقی ای میل بھیج دی ہے اور آپ کی پسندیدہ رابطہ معلومات کے مطابق رابطہ کریں گے۔",
         successDefault: "ہم آپ کی معلومات کا جائزہ لے کر آپ کی پسندیدہ رابطہ معلومات کے مطابق رابطہ کریں گے۔"
@@ -663,6 +666,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "Por favor, confirme la declaración antes de enviar.",
         reviewFields: "Por favor, revise los campos resaltados e intente de nuevo.",
         submitError: "No pudimos enviar su solicitud.",
+        staticHostUnavailable: "Este sitio estático no puede aceptar solicitudes iniciales. Comuníquese directamente con la oficina.",
         success: "Solicitud de consulta recibida.",
         successSent: "Hemos enviado un correo electrónico de confirmación y nos pondremos en contacto con los detalles proporcionados.",
         successDefault: "Revisaremos su información y nos comunicaremos utilizando sus datos de contacto preferidos."
@@ -847,6 +851,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "يرجى تأكيد الإفصاح قبل الإرسال.",
         reviewFields: "يرجى مراجعة حقول الإدخال المميزة والمحاولة مرة أخرى.",
         submitError: "لم نتمكن من تقديم طلبك.",
+        staticHostUnavailable: "لا يمكن لهذا الموقع الثابت قبول طلبات الاستقبال. يرجى التواصل مع المكتب مباشرة.",
         success: "تم استلام طلب الاستشارة.",
         successSent: "لقد أرسلنا رسالة تأكيد بالبريد الإلكتروني وسنقوم بالمتابعة باستخدام تفاصيل الاتصال المفضلة لديك.",
         successDefault: "سنقوم بمراجعة معلوماتك والمتابعة باستخدام تفاصيل الاتصال المفضلة لديك."
@@ -1036,6 +1041,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "জমা দেওয়ার আগে প্রকাশ নিশ্চিত করুন.",
         reviewFields: "অনুগ্রহ করে হাইলাইট করা খাওয়ার ক্ষেত্রগুলি পর্যালোচনা করুন এবং আবার চেষ্টা করুন।",
         submitError: "আমরা আপনার অনুরোধ জমা দিতে পারিনি.",
+        staticHostUnavailable: "এই স্ট্যাটিক সাইট ইনটেক অনুরোধ গ্রহণ করতে পারে না। অনুগ্রহ করে সরাসরি অফিসে যোগাযোগ করুন।",
         success: "পরামর্শ অনুরোধ গৃহীত.",
         successSent: "আমরা একটি নিশ্চিতকরণ ইমেল পাঠিয়েছি এবং আপনার পছন্দের যোগাযোগের বিবরণ ব্যবহার করে অনুসরণ করব।",
         successDefault: "আমরা আপনার তথ্য পর্যালোচনা করব এবং আপনার পছন্দের যোগাযোগের বিবরণ ব্যবহার করে অনুসরণ করব।"
@@ -1213,6 +1219,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "لطفاً قبل از ارسال، افشا را تأیید کنید.",
         reviewFields: "لطفاً فیلدهای دریافت مشخص شده را مرور کنید و دوباره امتحان کنید.",
         submitError: "ما نتوانستیم درخواست شما را ارسال کنیم.",
+        staticHostUnavailable: "این سایت ایستا نمی‌تواند درخواست‌های پذیرش اولیه را دریافت کند. لطفاً مستقیماً با دفتر تماس بگیرید.",
         success: "درخواست مشاوره دریافت شد",
         successSent: "ما یک ایمیل تأیید ارسال کردیم و با استفاده از اطلاعات تماس دلخواه شما را پیگیری خواهیم کرد.",
         successDefault: "ما اطلاعات شما را بررسی می کنیم و با استفاده از اطلاعات تماس دلخواه شما را پیگیری می کنیم."
@@ -1386,6 +1393,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "제출하기 전에 공개 내용을 확인하시기 바랍니다.",
         reviewFields: "강조 표시된 접수 필드를 검토하고 다시 시도하십시오.",
         submitError: "귀하의 요청을 제출할 수 없습니다.",
+        staticHostUnavailable: "이 정적 사이트에서는 접수 요청을 받을 수 없습니다. 사무실에 직접 문의해 주세요.",
         success: "상담요청이 접수되었습니다.",
         successSent: "확인 이메일을 보냈으며 귀하가 선호하는 연락처 정보를 사용하여 후속 조치를 취하겠습니다.",
         successDefault: "귀하의 정보를 검토한 후 귀하가 선호하는 연락처 정보를 사용하여 후속 조치를 취하겠습니다."
@@ -1567,6 +1575,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "ਕਿਰਪਾ ਕਰਕੇ ਸਪੁਰਦ ਕਰਨ ਤੋਂ ਪਹਿਲਾਂ ਖੁਲਾਸੇ ਦੀ ਪੁਸ਼ਟੀ ਕਰੋ।",
         reviewFields: "ਕਿਰਪਾ ਕਰਕੇ ਹਾਈਲਾਈਟ ਕੀਤੇ ਇਨਟੇਕ ਖੇਤਰਾਂ ਦੀ ਸਮੀਖਿਆ ਕਰੋ ਅਤੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।",
         submitError: "ਅਸੀਂ ਤੁਹਾਡੀ ਬੇਨਤੀ ਦਰਜ ਨਹੀਂ ਕਰ ਸਕੇ।",
+        staticHostUnavailable: "ਇਹ ਸਟੈਟਿਕ ਸਾਈਟ ਇੰਟੇਕ ਬੇਨਤੀਆਂ ਸਵੀਕਾਰ ਨਹੀਂ ਕਰ ਸਕਦੀ। ਕਿਰਪਾ ਕਰਕੇ ਦਫ਼ਤਰ ਨਾਲ ਸਿੱਧਾ ਸੰਪਰਕ ਕਰੋ।",
         success: "ਸਲਾਹ-ਮਸ਼ਵਰੇ ਦੀ ਬੇਨਤੀ ਪ੍ਰਾਪਤ ਹੋਈ।",
         successSent: "ਅਸੀਂ ਇੱਕ ਪੁਸ਼ਟੀਕਰਨ ਈਮੇਲ ਭੇਜੀ ਹੈ ਅਤੇ ਤੁਹਾਡੇ ਪਸੰਦੀਦਾ ਸੰਪਰਕ ਵੇਰਵਿਆਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਪਾਲਣਾ ਕਰਾਂਗੇ।",
         successDefault: "ਅਸੀਂ ਤੁਹਾਡੀ ਜਾਣਕਾਰੀ ਦੀ ਸਮੀਖਿਆ ਕਰਾਂਗੇ ਅਤੇ ਤੁਹਾਡੇ ਪਸੰਦੀਦਾ ਸੰਪਰਕ ਵੇਰਵਿਆਂ ਦੀ ਵਰਤੋਂ ਕਰਕੇ ਅਨੁਸਰਣ ਕਰਾਂਗੇ।"
@@ -1752,6 +1761,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "Mangyaring kumpirmahin ang pagbubunyag bago isumite.",
         reviewFields: "Pakisuri ang naka-highlight na mga field ng paggamit at subukang muli.",
         submitError: "Hindi namin maisumite ang iyong kahilingan.",
+        staticHostUnavailable: "Hindi makatanggap ang static na site na ito ng mga kahilingan sa intake. Mangyaring direktang makipag-ugnayan sa opisina.",
         success: "Natanggap ang kahilingan sa konsultasyon.",
         successSent: "Nagpadala kami ng email ng kumpirmasyon at mag-follow up gamit ang iyong gustong mga detalye sa pakikipag-ugnayan.",
         successDefault: "Susuriin namin ang iyong impormasyon at mag-follow up gamit ang iyong gustong mga detalye sa pakikipag-ugnayan."
@@ -1945,6 +1955,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "Vui lòng xác nhận tiết lộ trước khi gửi.",
         reviewFields: "Vui lòng xem lại các trường tiếp nhận được đánh dấu và thử lại.",
         submitError: "Chúng tôi không thể gửi yêu cầu của bạn.",
+        staticHostUnavailable: "Trang tĩnh này không thể nhận yêu cầu tiếp nhận. Vui lòng liên hệ trực tiếp với văn phòng.",
         success: "Đã nhận được yêu cầu tư vấn.",
         successSent: "Chúng tôi đã gửi email xác nhận và sẽ theo dõi bằng cách sử dụng chi tiết liên hệ ưa thích của bạn.",
         successDefault: "Chúng tôi sẽ xem xét thông tin của bạn và theo dõi bằng cách sử dụng chi tiết liên hệ ưa thích của bạn."
@@ -2126,6 +2137,7 @@ export const runtimeUiCopy = {
         confirmDisclosure: "请在提交前确认披露内容。",
         reviewFields: "请检查突出显示的摄入字段并重试。",
         submitError: "我们无法提交您的请求。",
+        staticHostUnavailable: "此静态网站无法接收咨询请求。请直接联系办公室。",
         success: "收到咨询请求。",
         successSent: "我们发送了一封确认电子邮件，并将使用您首选的联系方式进行跟进。",
         successDefault: "我们将审核您的信息并使用您首选的联系方式进行跟进。"
