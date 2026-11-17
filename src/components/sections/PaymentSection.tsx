@@ -43,11 +43,14 @@ const iconMap = {
   ComponentType<{ className?: string }>
 >;
 
-function getButtonProps(method: PaymentMethod) {
-  const isExternal = method.href.startsWith("http");
+function getButtonProps(method: PaymentMethod, fallbackHref: string) {
+  const useContactFallback = !method.configured;
+  const href = useContactFallback ? fallbackHref : method.href;
+  const isExternal = href.startsWith("http");
 
   return {
-    href: method.href,
+    href,
+    useContactFallback,
     label: method.configured ? method.ctaLabel : method.ctaFallbackLabel,
     target: isExternal ? "_blank" : undefined,
     rel: isExternal ? "noreferrer noopener" : undefined,
@@ -69,7 +72,10 @@ export function PaymentSection() {
     paymentMethods.find((method) => method.id === selectedMethodId) ??
     paymentMethods[0];
   const ActiveIcon = iconMap[activeMethod.id];
-  const buttonProps = getButtonProps(activeMethod);
+  const buttonProps = getButtonProps(
+    activeMethod,
+    localizeHref(pathname, "/#contact"),
+  );
 
   return (
     <section
@@ -221,6 +227,15 @@ export function PaymentSection() {
                 {activeMethod.summary}
               </p>
 
+              {!activeMethod.configured ? (
+                <p
+                  role="note"
+                  className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm leading-relaxed text-amber-950 dark:border-amber-900/70 dark:bg-amber-950/30 dark:text-amber-100"
+                >
+                  Online checkout is unavailable on this site. Contact billing to request a provider-hosted payment link; no payment is collected on this site.
+                </p>
+              ) : null}
+
               <div className="mt-5 grid gap-3 md:grid-cols-3">
                 <div className="surface-inset rounded-2xl p-4 shadow-xs">
                   <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
@@ -265,13 +280,17 @@ export function PaymentSection() {
                   asChild
                   className="h-12 rounded-full bg-foreground px-8 text-background hover:opacity-92"
                 >
-                  <a
-                    href={buttonProps.href}
-                    target={buttonProps.target}
-                    rel={buttonProps.rel}
-                  >
-                    {buttonProps.label}
-                  </a>
+                  {buttonProps.useContactFallback ? (
+                    <Link href={buttonProps.href}>{buttonProps.label}</Link>
+                  ) : (
+                    <a
+                      href={buttonProps.href}
+                      target={buttonProps.target}
+                      rel={buttonProps.rel}
+                    >
+                      {buttonProps.label}
+                    </a>
+                  )}
                 </Button>
                 <Button
                   asChild

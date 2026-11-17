@@ -241,10 +241,10 @@ export default function IntakeForm() {
         body: JSON.stringify(parsedPayload.data),
       });
 
-      const data = (await response.json()) as {
+      const data = (await response.json().catch(() => null)) as {
         error?: string;
         confirmationSent?: boolean;
-      };
+      } | null;
 
       if (!response.ok) {
         const retryAfter = Number(response.headers.get("Retry-After") ?? "0");
@@ -256,14 +256,17 @@ export default function IntakeForm() {
           setRetryAfterSeconds(retryAfter);
         }
 
-        const message = data.error || copy.toasts.submitError;
+        const message =
+          response.status === 404 && data === null
+            ? copy.toasts.staticHostUnavailable
+            : data?.error || copy.toasts.submitError;
         setServerError(message);
         toast.error(message);
         return;
       }
 
       toast.success(copy.toasts.success, {
-        description: data.confirmationSent
+        description: data?.confirmationSent
           ? copy.toasts.successSent
           : copy.toasts.successDefault,
       });
@@ -274,11 +277,8 @@ export default function IntakeForm() {
       setServerError(null);
       setRetryAfterSeconds(0);
       setFormData({ ...defaultIntakeFormData });
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : copy.toasts.submitError;
+    } catch {
+      const message = copy.toasts.submitError;
       setServerError(message);
       toast.error(message);
     } finally {
