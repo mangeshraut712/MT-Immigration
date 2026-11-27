@@ -73,5 +73,8 @@
     "postcss": "^8.5.23",
     "tailwindcss": "^4.3.3",
     "typescript": "^5"
+  },
+  "overrides": {
+    "glob": "^14.0.6"
   }
 }
