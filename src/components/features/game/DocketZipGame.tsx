@@ -74,7 +74,7 @@ const initialStats: GameStats = {
   bestTimes: {},
 };
 
-const puzzleModels = docketZipPuzzles.map((puzzle) => {
+export const puzzleModels = docketZipPuzzles.map((puzzle) => {
   const blockedKeys = new Set(
     puzzle.blocked.map((cell) => `${cell.row}:${cell.col}`),
   );
@@ -169,14 +169,14 @@ function getTodayPuzzleIndex() {
   return day % puzzleModels.length;
 }
 
-function getLocalDateKey(date = new Date()) {
+export function getLocalDateKey(date = new Date()) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   return `${year}-${month}-${day}`;
 }
 
-function getPreviousLocalDateKey(dateKey: string) {
+export function getPreviousLocalDateKey(dateKey: string) {
   const [year, month, day] = dateKey.split("-").map(Number);
   if (!year || !month || !day) {
     return null;
@@ -201,7 +201,7 @@ function getNextClue(currentNextClue: number, clueValue?: number) {
   return clueValue === currentNextClue ? currentNextClue + 1 : currentNextClue;
 }
 
-function findCompletion(
+export function findCompletion(
   model: PuzzleModel,
   currentIndex: number,
   visitedMask: number,
