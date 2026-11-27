@@ -73,5 +73,13 @@
     "postcss": "^8.5.23",
     "tailwindcss": "^4.3.3",
     "typescript": "^5"
+  },
+  "overrides": {
+    "babel-plugin-istanbul": "^8.0.0",
+    "test-exclude": {
+      ".": "^8.0.0",
+      "minimatch": "^11.0.9"
+    },
+    "glob": "^14.0.6"
   }
 }
