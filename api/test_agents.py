@@ -36,6 +36,23 @@ class AgentHealthTests(unittest.TestCase):
             else:
                 os.environ["FASTAPI_AGENT_SHARED_SECRET"] = previous
 
+    def test_non_ascii_secrets_are_compared_not_crashed_on(self) -> None:
+        # Starlette decodes headers as latin-1, so a client can send "\u00e9".
+        previous = os.environ.get("FASTAPI_AGENT_SHARED_SECRET")
+        os.environ["FASTAPI_AGENT_SHARED_SECRET"] = "expected-secret-value"
+        try:
+            with self.assertRaises(HTTPException) as raised:
+                require_agent_secret("s\u00e9cret")
+            self.assertEqual(raised.exception.status_code, 401)
+
+            os.environ["FASTAPI_AGENT_SHARED_SECRET"] = "cl\u00e9-secr\u00e8te"
+            require_agent_secret("cl\u00e9-secr\u00e8te")
+        finally:
+            if previous is None:
+                os.environ.pop("FASTAPI_AGENT_SHARED_SECRET", None)
+            else:
+                os.environ["FASTAPI_AGENT_SHARED_SECRET"] = previous
+
 
 if __name__ == "__main__":
     unittest.main()

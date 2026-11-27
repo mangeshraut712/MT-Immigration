@@ -144,7 +144,10 @@ def require_agent_secret(provided_secret: str | None) -> None:
             detail="Agents service unavailable: shared secret not configured.",
         )
 
-    if not provided_secret or not hmac.compare_digest(provided_secret, expected_secret):
+    # compare_digest rejects non-ASCII str, so compare the UTF-8 bytes instead.
+    if not provided_secret or not hmac.compare_digest(
+        provided_secret.encode("utf-8"), expected_secret.encode("utf-8")
+    ):
         raise HTTPException(status_code=401, detail="Unauthorized agent request.")
 
 
